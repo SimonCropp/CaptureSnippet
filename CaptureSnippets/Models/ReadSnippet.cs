@@ -1,6 +1,6 @@
 namespace CaptureSnippets
 {
-    public class Snippet
+    public class ReadSnippet
     {
         public int StartRow;
         public int EndRow;
@@ -8,6 +8,6 @@ namespace CaptureSnippets
         public string Key;
         public string Language;
         public string File;
-        public bool IsUnclosed;
+        public string Version;
     }
 }

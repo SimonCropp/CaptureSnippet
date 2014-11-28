@@ -1,0 +1,23 @@
+﻿{
+    "Snippets": [
+        {
+            "StartRow": 3,
+            "EndRow": 4,
+            "Value": "<configSections/>",
+            "Key": "codekey",
+            "Language": "",
+            "File": null,
+            "Version": "4"
+        },
+        {
+            "StartRow": 6,
+            "EndRow": 7,
+            "Value": "The Code",
+            "Key": "codekey",
+            "Language": "",
+            "File": null,
+            "Version": "5"
+        }
+    ],
+    "Errors": []
+}

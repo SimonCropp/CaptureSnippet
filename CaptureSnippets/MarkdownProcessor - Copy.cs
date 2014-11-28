@@ -1,12 +1,12 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace CaptureSnippets
 {
     public class MarkdownProcessor
     {
-        public ProcessResult Apply(List<SnippetGroup> snippets, string inputFile)
+        public ProcessResult Apply(List<ReadSnippet> snippets, string inputFile)
         {
             using (var reader = IndexReader.FromFile(inputFile))
             {
@@ -14,7 +14,7 @@ namespace CaptureSnippets
             }
         }
 
-        public ProcessResult ApplyToText(List<SnippetGroup> availableSnippets, string markdownContent)
+        public ProcessResult ApplyToText(List<ReadSnippet> availableSnippets, string markdownContent)
         {
             using (var reader = IndexReader.FromString(markdownContent))
             {
@@ -22,9 +22,14 @@ namespace CaptureSnippets
             }
         }
 
-        ProcessResult Apply(List<SnippetGroup> availableSnippets, IndexReader reader)
+        ProcessResult Apply(List<ReadSnippet> availableSnippets, IndexReader reader)
         {
             var stringBuilder = new StringBuilder();
+            var lookup = new Dictionary<string, ReadSnippet>(StringComparer.OrdinalIgnoreCase);
+            foreach (var snippet in availableSnippets)
+            {
+                lookup[snippet.Key] = snippet;
+            }
             var result = new ProcessResult();
 
             string line;
@@ -37,9 +42,8 @@ namespace CaptureSnippets
                 {
                     continue;
                 }
-
-                var snippetGroup = availableSnippets.FirstOrDefault(x=>x.Key == key);
-                if (snippetGroup == null)
+                ReadSnippet codeSnippet;
+                if (!lookup.TryGetValue(key, out codeSnippet))
                 {
                     var missingSnippet = new MissingSnippet
                     {
@@ -51,27 +55,14 @@ namespace CaptureSnippets
                     continue;
                 }
 
-                foreach (var versionGroup in snippetGroup.Versions)
-                {
-                    if (versionGroup.Version != null)
-                    {
-                        stringBuilder.AppendLine("#### Version " + versionGroup.Version);
-                    }
-                    foreach (var snippet in versionGroup.Snippets)
-                    {
-                        AppendSnippet(snippet, stringBuilder);
-                    }
-                }
-                if (result.UsedSnippets.All(x => x != snippetGroup.Key))
-                {
-                    result.UsedSnippets.Add(snippetGroup.Key);
-                }
+                AppendSnippet(codeSnippet, stringBuilder);
+                result.UsedSnippets.Add(codeSnippet);
             }
             result.Text = stringBuilder.ToString().TrimTrailingNewLine();
             return result;
         }
 
-        static void AppendSnippet(Snippet codeSnippet, StringBuilder stringBuilder)
+        static void AppendSnippet(ReadSnippet codeSnippet, StringBuilder stringBuilder)
         {
             stringBuilder.AppendLine("```" + codeSnippet.Language);
             stringBuilder.AppendLine(codeSnippet.Value);

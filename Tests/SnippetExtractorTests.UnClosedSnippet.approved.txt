@@ -1,11 +1,6 @@
-﻿[
-    {
-        "StartRow": 2,
-        "EndRow": 0,
-        "Value": "SNIPPET WAS NOT CLOSED",
-        "Key": "codekey",
-        "Language": "",
-        "File": null,
-        "IsUnclosed": true
-    }
-]
+﻿{
+    "Snippets": [],
+    "Errors": [
+        "Snippet was not closed. File:`unknown`. Line:3. Key:`codekey`"
+    ]
+}

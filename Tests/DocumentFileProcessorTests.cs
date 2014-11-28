@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CaptureSnippets;
 using NUnit.Framework;
 using ObjectApproval;
@@ -9,36 +10,38 @@ public class DocumentFileProcessorTests
     [Test]
     public void MissingKey()
     {
-        var snippets = new List<Snippet>
+        var snippets = new List<ReadSnippet>
         {
-                new Snippet
+                new ReadSnippet
                     {
                         Key = "FoundKey1"
                     },
-                new Snippet
+                new ReadSnippet
                     {
                         Key = "FoundKey2"
                     },
             };
-            var result = MarkdownProcessor.ApplyToText(snippets, "<!-- import MissingKey -->");
+        var snippetGroups = SnippetGrouper.Group(snippets).ToList();
+        var result = new MarkdownProcessor().ApplyToText(snippetGroups, "<!-- import MissingKey -->");
             ObjectApprover.VerifyWithJson(result);
     }
 
     [Test]
     public void MissingMultipleKeys()
     {
-        var snippets = new List<Snippet>
+        var snippets = new List<ReadSnippet>
             {
-                new Snippet
+                new ReadSnippet
                     {
                         Key = "FoundKey1"
                     },
-                new Snippet
+                new ReadSnippet
                     {
                         Key = "FoundKey2"
                     },
             };
-        var result = MarkdownProcessor.ApplyToText(snippets, "<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->");
+        var snippetGroups = SnippetGrouper.Group(snippets).ToList();
+        var result = new MarkdownProcessor().ApplyToText(snippetGroups, "<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->");
         ObjectApprover.VerifyWithJson(result);
     }
 
@@ -46,26 +49,31 @@ public class DocumentFileProcessorTests
     [Test]
     public void LotsOfText()
     {
-        var snippets = new List<Snippet>
+        var snippets = new List<ReadSnippet>
             {
-                new Snippet
+                new ReadSnippet
                     {
-                        Key = "FoundKey1"
+                        Key = "FoundKey1",
+                        Value = "Value1"
                     },
-                new Snippet
+                new ReadSnippet
                     {
-                        Key = "FoundKey2"
+                        Key = "FoundKey2",
+                        Value = "Value2"
                     },
-                new Snippet
+                new ReadSnippet
                     {
-                        Key = "FoundKey3"
+                        Key = "FoundKey3",
+                        Value = "Value3"
                     },
-                new Snippet
+                new ReadSnippet
                     {
-                        Key = "FoundKey4"
+                        Key = "FoundKey4",
+                        Value = "Value4"
                     },
             };
-        var result = MarkdownProcessor.ApplyToText(snippets, @"
+        var snippetGroups = SnippetGrouper.Group(snippets).ToList();
+        var result = new MarkdownProcessor().ApplyToText(snippetGroups, @"
 <!-- import FoundKey2 -->\r\b\n<!-- import FoundKey1 -->
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg

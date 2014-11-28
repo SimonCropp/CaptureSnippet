@@ -6,7 +6,7 @@ namespace CaptureSnippets
     {
         public string Text;
 
-        public List<Snippet> UsedSnippets = new List<Snippet>();
+        public List<string> UsedSnippets = new List<string>();
         public List<MissingSnippet> MissingSnippet = new List<MissingSnippet>();
 
     }

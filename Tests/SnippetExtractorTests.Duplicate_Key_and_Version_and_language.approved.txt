@@ -1,0 +1,16 @@
+﻿{
+    "Snippets": [
+        {
+            "StartRow": 3,
+            "EndRow": 4,
+            "Value": "<configSections/>",
+            "Key": "codekey",
+            "Language": "",
+            "File": null,
+            "Version": "2"
+        }
+    ],
+    "Errors": [
+        "Duplicate key detected. File:`unknown`. Line:6. Key:`codekey`"
+    ]
+}

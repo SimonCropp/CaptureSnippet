@@ -6,13 +6,77 @@ using ObjectApproval;
 public class SnippetExtractorTests
 {
     [Test]
+    public void Duplicate_Key()
+    {
+        var input = @"
+  <!-- startcode CodeKey -->
+  <configSections/>
+  <!-- endcode -->
+  <!-- startcode CodeKey -->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void Duplicate_Key_and_Version_and_language()
+    {
+        var input = @"
+  <!-- startcode CodeKey 2-->
+  <configSections/>
+  <!-- endcode -->
+  <!-- startcode CodeKey 2-->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void CanExtractMultipleWithDifferentVersions()
+    {
+        var input = @"
+  <!-- startcode CodeKey 4 -->
+  <configSections/>
+  <!-- endcode -->
+  #region CodeKey 5
+  The Code
+  #endregion";
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
     public void CanExtractFromXml()
     {
         var input = @"
   <!-- startcode CodeKey -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = SnippetExtractor.FromText(input);
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void CanExtractVersionFromFile()
+    {
+        var input = @"
+  <!-- startcode CodeKey -->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = new SnippetExtractor(s => "TheVersion").FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void CanExtractFromXmlWithVersion()
+    {
+        var input = @"
+  <!-- startcode CodeKey 5 -->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = new SnippetExtractor().FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -22,16 +86,37 @@ public class SnippetExtractorTests
         var input = @"
   <!-- startcode CodeKey -->
   <configSections/>";
-        var snippets = SnippetExtractor.FromText(input);
+        var snippets = new SnippetExtractor().FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
+
+    [Test]
+    public void UnClosedSnippetWithVersion()
+    {
+        var input = @"
+  <!-- startcode CodeKey 5 -->
+  <configSections/>";
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
     [Test]
     public void UnClosedRegion()
     {
         var input = @"
   #region CodeKey
   <configSections/>";
-        var snippets = SnippetExtractor.FromText(input);
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void UnClosedRegionWithVersion()
+    {
+        var input = @"
+  #region CodeKey 5
+  <configSections/>";
+        var snippets = new SnippetExtractor().FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -42,11 +127,20 @@ public class SnippetExtractorTests
   #region CodeKey
   The Code
   #endregion";
-        var snippets = SnippetExtractor.FromText(input);
+        var snippets = new SnippetExtractor().FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-
+    [Test]
+    public void CanExtractFromRegionWithVersion()
+    {
+        var input = @"
+  #region CodeKey 5
+  The Code
+  #endregion";
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
 
     [Test]
     public void CanExtractWithNoTrailingCharacters()
@@ -55,7 +149,18 @@ public class SnippetExtractorTests
   // startcode CodeKey
   the code
   // endcode ";
-        var snippets = SnippetExtractor.FromText(input);
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void CanExtractWithNoTrailingCharactersWithVersion()
+    {
+        var input = @"
+  // startcode CodeKey 6
+  the code
+  // endcode ";
+        var snippets = new SnippetExtractor().FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -66,9 +171,21 @@ public class SnippetExtractorTests
   <!--startcode CodeKey-->
   <configSections/>
   <!--endcode-->";
-        var snippets = SnippetExtractor.FromText(input);
+        var snippets = new SnippetExtractor().FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
+
+    [Test]
+    public void CanExtractWithMissingSpacesWithVersion()
+    {
+        var input = @"
+  <!--startcode CodeKey 6-->
+  <configSections/>
+  <!--endcode-->";
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
     [Test]
     public void CanExtractWithTrailingWhitespace()
     {
@@ -76,7 +193,18 @@ public class SnippetExtractorTests
   // startcode CodeKey
   the code
   // endcode   ";
-        var snippets = SnippetExtractor.FromText(input);
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void CanExtractWithTrailingWhitespaceWithVersion()
+    {
+        var input = @"
+  // startcode CodeKey 4
+  the code
+  // endcode   ";
+        var snippets = new SnippetExtractor().FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 }

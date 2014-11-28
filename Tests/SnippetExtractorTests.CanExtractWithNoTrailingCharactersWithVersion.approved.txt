@@ -1,0 +1,14 @@
+﻿{
+    "Snippets": [
+        {
+            "StartRow": 3,
+            "EndRow": 4,
+            "Value": "the code",
+            "Key": "codekey",
+            "Language": "",
+            "File": null,
+            "Version": "6"
+        }
+    ],
+    "Errors": []
+}

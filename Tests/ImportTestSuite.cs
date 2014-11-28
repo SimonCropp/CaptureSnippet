@@ -20,9 +20,11 @@ public class ImportTestSuite
 
     void Run(string folder, string input, string expectedOutput)
     {
-        var snippets = SnippetExtractor.FromFiles(Directory.EnumerateFiles(folder, "code.cs")).ToList();
 
-        var result = MarkdownProcessor.ApplyToText(snippets, File.ReadAllText(input));
+        var snippets = new SnippetExtractor().FromFiles(Directory.EnumerateFiles(folder, "code.cs"));
+
+        var snippetGroups = SnippetGrouper.Group(snippets.Snippets).ToList();
+        var result = new MarkdownProcessor().ApplyToText(snippetGroups, File.ReadAllText(input));
 
         var expected = File.ReadAllText(expectedOutput).FixNewLines();
         var fixNewLines = result.Text.FixNewLines();

@@ -4,45 +4,45 @@ using System.IO;
 using System.Linq;
 using MethodTimer;
 
+
 namespace CaptureSnippets
 {
-    public static class SnippetExtractor
+    public class SnippetExtractor
     {
+        Func<string, string> versionFromFilePathExtractor;
         const string LineEnding = "\r\n";
 
-        [Time]
-        public static IEnumerable<Snippet> FromFiles(IEnumerable<string> files)
+        public SnippetExtractor():this(s => null)
         {
+            
+        }
+        public SnippetExtractor(Func<string,string> versionFromFilePathExtractor)
+        {
+            this.versionFromFilePathExtractor = versionFromFilePathExtractor;
+        }
+
+        [Time]
+        public ReadSnippets FromFiles(IEnumerable<string> files)
+        {
+            var readSnippets = new ReadSnippets();
             foreach (var file in files)
             {
-                using (var stringReader = File.OpenText(file))
+                using (var stringReader = IndexReader.FromFile(file))
                 {
-                    foreach (var snippet in GetSnippetsFromTextReader(stringReader, file))
-                    {
-                        yield return snippet;
-                    }
+                    GetSnippetsFromFile(readSnippets, stringReader, file);
                 }
             }
+            return readSnippets;
         }
 
-        public static IEnumerable<Snippet> FromText(string contents, string file = null)
+        public ReadSnippets FromText(string contents, string file = null)
         {
-            using (var reader = new StringReader(contents))
+            var readSnippets = new ReadSnippets();
+            using (var reader = IndexReader.FromString(contents))
             {
-                return GetSnippetsFromTextReader(reader, file);
+                GetSnippetsFromFile(readSnippets, reader, file);
             }
-        }
-
-        static IEnumerable<Snippet> GetSnippetsFromTextReader(TextReader stringReader, string file)
-        {
-            var innerList = GetSnippetsFromFile(stringReader).ToList();
-
-            foreach (var snippet in innerList)
-            {
-                snippet.File = file;
-                snippet.Language = GetLanguageFromFile(file);
-            }
-            return innerList;
+            return readSnippets;
         }
 
         static string GetLanguageFromFile(string file)
@@ -55,14 +55,15 @@ namespace CaptureSnippets
             return String.Empty;
         }
 
-        static IEnumerable<Snippet> GetSnippetsFromFile(TextReader stringReader)
+        void GetSnippetsFromFile(ReadSnippets readSnippets,IndexReader stringReader, string file)
         {
+            var language = GetLanguageFromFile(file);
             string currentKey = null;
             var startLine = 0;
             var isInSnippet = false;
+            string version = null;
             List<string> snippetLines = null;
             Func<string, bool> endFunc = null;
-            var lineNumber = 0;
             while (true)
             {
                 var line = stringReader.ReadLine();
@@ -70,13 +71,8 @@ namespace CaptureSnippets
                 {
                     if (isInSnippet)
                     {
-                        yield return new Snippet
-                        {
-                            StartRow = startLine + 1,
-                            Key = currentKey,
-                            Value = "SNIPPET WAS NOT CLOSED",
-                            IsUnclosed = true
-                        };
+                        var error = string.Format("Snippet was not closed. File:`{0}`. Line:{1}. Key:`{2}`", file ?? "unknown", startLine + 1, currentKey);
+                        readSnippets.Errors.Add(error);
                     }
                     break;
                 }
@@ -84,100 +80,128 @@ namespace CaptureSnippets
                 var trimmedLine = line.Trim().Replace("  ", " ").ToLowerInvariant();
                 if (isInSnippet)
                 {
-                    if (endFunc(trimmedLine))
+                    if (!endFunc(trimmedLine))
                     {
-                        isInSnippet = false;
-                        var snippetValue = snippetLines
-                            .ExcludeEmptyPaddingLines()
-                            .TrimIndentation();
-                        yield return new Snippet
-                        {
-                            StartRow = startLine+1,
-                            EndRow = lineNumber+2,
-                            Key = currentKey,
-                            Value = string.Join(LineEnding, snippetValue)
-                        };
-                        snippetLines = null;
-                        currentKey = null;
+                        snippetLines.Add(line);
                         continue;
                     }
-                    snippetLines.Add(line);
+                    isInSnippet = false;
+
+                    if (readSnippets.Snippets.Any(x => x.Key == currentKey && x.Version == version && x.Language == language))
+                    {
+                        var error = string.Format("Duplicate key detected. File:`{0}`. Line:{1}. Key:`{2}`", file ?? "unknown", startLine + 1, currentKey);
+                        readSnippets.Errors.Add(error);
+                    }
+                    else
+                    {
+                        var snippet = new ReadSnippet
+                                      {
+                                          StartRow = startLine + 1,
+                                          EndRow = stringReader.Index,
+                                          Key = currentKey,
+                                          Version = CheckVersionConvention(file,version),
+                                          Value = ConvertLinesToValue(snippetLines),
+                                          File = file,
+                                          Language = language,
+                                      };
+                        readSnippets.Snippets.Add(snippet);
+                    }
+                    snippetLines = null;
+                    currentKey = null;
+                    version = null;
+                    continue;
                 }
-                else
+                if (IsStartCode(trimmedLine, out currentKey, out version))
                 {
-                    if (IsStartCode(trimmedLine, out currentKey))
-                    {
-                        endFunc = IsEndCode;
-                        isInSnippet = true;
-                        startLine = lineNumber;
-                        snippetLines = new List<string>();
-                        continue;
-                    }
-                    if (IsStartRegion(trimmedLine, out currentKey))
-                    {
-                        endFunc = IsEndRegion;
-                        isInSnippet = true;
-                        startLine = lineNumber;
-                        snippetLines = new List<string>();
-                    }
+                    endFunc = IsEndCode;
+                    isInSnippet = true;
+                    startLine = stringReader.Index;
+                    snippetLines = new List<string>();
+                   continue;
                 }
-                lineNumber++;
+                if (IsStartRegion(trimmedLine, out currentKey, out version))
+                {
+                    endFunc = IsEndRegion;
+                    isInSnippet = true;
+                    startLine = stringReader.Index;
+                    snippetLines = new List<string>();
+                }
             }
         }
 
+        string CheckVersionConvention(string filePath, string version)
+        {
+            if (version == null)
+            {
+                return versionFromFilePathExtractor(filePath);
+            }
 
-        private static bool IsEndRegion(string line)
+                return version;
+        }
+
+        static string ConvertLinesToValue(List<string> snippetLines)
+        {
+            var snippetValue = snippetLines
+                .ExcludeEmptyPaddingLines()
+                .TrimIndentation();
+            return string.Join(LineEnding, snippetValue);
+        }
+
+        static bool IsEndRegion(string line)
         {
             return line.IndexOf("#endregion", StringComparison.Ordinal) >= 0;
         }
 
-        private static bool IsEndCode(string line)
+        static bool IsEndCode(string line)
         {
             return line.IndexOf("endcode", StringComparison.Ordinal) >= 0;
         }
 
-        public static bool IsStartCode(string line, out string key)
+        public static bool IsStartRegion(string line, out string key, out string version)
         {
-            var startCodeIndex = line.IndexOf("startcode ", StringComparison.Ordinal);
+            return Extract(line, out key, out version, "#region");
+        }
+
+        public static bool IsStartCode(string line, out string key, out string version)
+        {
+            return Extract(line.Replace("-->",""), out key, out version, "startcode");
+        }
+
+        static bool Extract(string line, out string key, out string version, string prefix)
+        {
+            var startCodeIndex = line.IndexOf(prefix + " ", StringComparison.Ordinal);
             if (startCodeIndex != -1)
             {
-                var startIndex = startCodeIndex + 10;
-                var splitBySpace = line.Substring(startIndex)
-                    .Split(new[]{' '},StringSplitOptions.RemoveEmptyEntries);
+                var startIndex = startCodeIndex + prefix.Length +1;
+
+                var substring = line.Substring(startIndex);
+                var splitBySpace = substring
+                    .Split(new[]
+                           {
+                               ' '
+                           }, StringSplitOptions.RemoveEmptyEntries);
                 if (splitBySpace.Any())
                 {
-                    key = splitBySpace
-                        .First()
+                    key = splitBySpace[0]
                         .TrimNonCharacters();
+                    if (splitBySpace.Length > 1)
+                    {
+                        version = splitBySpace[1];
+                    }
+                    else
+                    {
+                        version = null;
+                    }
                     if (!string.IsNullOrWhiteSpace(key))
                     {
                         return true;
                     }
                 }
+                throw new Exception("No Key could be derived.");
             }
+            version = null;
             key = null;
             return false;
         }
-
-        static bool IsStartRegion(string line, out string key)
-        {
-            var startCodeIndex = line.IndexOf("#region ", StringComparison.Ordinal);
-            if (startCodeIndex != -1)
-            {
-                var startIndex = startCodeIndex + 8;
-                key = line.Substring(startIndex)
-                    .Trim();
-                if (string.IsNullOrWhiteSpace(key))
-                {
-                    key = null;
-                    return false;
-                }
-                return true;
-            }
-            key = null;
-            return false;
-        }
-
-
     }
 }

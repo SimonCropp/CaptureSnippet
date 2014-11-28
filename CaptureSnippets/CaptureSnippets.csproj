@@ -49,13 +49,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImportKeyReader.cs" />
+    <Compile Include="IndexReader.cs" />
+    <Compile Include="Models\ReadSnippet.cs" />
+    <Compile Include="Models\SnippetGroup.cs" />
+    <Compile Include="Models\VersionGroup.cs" />
+    <Compile Include="ReadSnippets.cs" />
     <Compile Include="SnippetExtractor.cs" />
     <Compile Include="MarkdownProcessor.cs" />
     <Compile Include="MethodTimeLogger.cs" />
-    <Compile Include="Models\CodeSnippet.cs" />
+    <Compile Include="Models\Snippet.cs" />
     <Compile Include="Models\ProcessResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="RegexParser.cs" />
+    <Compile Include="SnippetGrouper.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

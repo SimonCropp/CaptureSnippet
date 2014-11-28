@@ -1,11 +1,14 @@
-﻿[
-    {
-        "StartRow": 2,
-        "EndRow": 4,
-        "Value": "<configSections/>",
-        "Key": "codekey",
-        "Language": "",
-        "File": null,
-        "IsUnclosed": false
-    }
-]
+﻿{
+    "Snippets": [
+        {
+            "StartRow": 3,
+            "EndRow": 4,
+            "Value": "<configSections/>",
+            "Key": "codekey",
+            "Language": "",
+            "File": null,
+            "Version": null
+        }
+    ],
+    "Errors": []
+}

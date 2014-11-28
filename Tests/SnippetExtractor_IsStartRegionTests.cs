@@ -3,7 +3,7 @@ using CaptureSnippets;
 using NUnit.Framework;
 
 [TestFixture]
-public class SnippetExtractor_IsStartCodeTests
+public class SnippetExtractor_IsStartRegionTests
 {
 
     [Test]
@@ -11,16 +11,16 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode CodeKey -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region CodeKey", out key, out version);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
 
     [Test]
-    public void SkouldThrowForNoKey()
+    public void SkouldIgnoreForNoKey()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartCode("<!-- startcode -->", out fake, out fake));
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region ", out fake, out fake));
         Assert.AreEqual("No Key could be derived.", exception.Message);
     }
 
@@ -29,28 +29,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode CodeKey 5 -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region CodeKey 5", out key, out version);
         Assert.AreEqual("CodeKey",key);
-        Assert.AreEqual("5", version);
-    }
-
-    [Test]
-    public void CanExtractFromXmlWithMissingSpaces()
-    {
-        string key;
-        string version;
-        SnippetExtractor.IsStartCode("<!--startcode CodeKey-->", out key, out version);
-        Assert.AreEqual("CodeKey",key);
-        Assert.IsNull(version);
-    }
-
-    [Test]
-    public void CanExtractFromXmlWithMissingSpacesWithVersion()
-    {
-        string key;
-        string version;
-        SnippetExtractor.IsStartCode("<!--startcode CodeKey 5-->", out key, out version);
-        Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", version);
     }
 
@@ -59,7 +39,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!--  startcode  CodeKey  -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region  CodeKey   ", out key, out version);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
@@ -69,7 +49,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!--  startcode  CodeKey  v5  -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region  CodeKey  v5    ", out key, out version);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("v5", version);
     }
@@ -79,27 +59,18 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode CodeKey", out key, out version);
+        SnippetExtractor.IsStartRegion("#region CodeKey", out key, out version);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
 
-    [Test]
-    public void CanExtractWithNoTrailingCharactersWithVersion()
-    {
-        string key;
-        string version;
-        SnippetExtractor.IsStartCode("<!-- startcode CodeKey 5", out key, out version);
-        Assert.AreEqual("CodeKey", key);
-        Assert.AreEqual("5", version);
-    }
 
     [Test]
     public void CanExtractWithUnderScores()
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode Code_Key -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region Code_Key", out key, out version);
         Assert.AreEqual("Code_Key", key);
         Assert.IsNull(version);
     }
@@ -109,7 +80,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode Code_Key 5 -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region Code_Key 5", out key, out version);
         Assert.AreEqual("Code_Key", key);
         Assert.AreEqual("5", version);
     }
@@ -119,7 +90,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode _CodeKey_ -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region _CodeKey_", out key, out version);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
@@ -129,9 +100,9 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode _CodeKey_ 5 -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region _CodeKey_ v5", out key, out version);
         Assert.AreEqual("CodeKey", key);
-        Assert.AreEqual("5", version);
+        Assert.AreEqual("v5", version);
     }
 
     [Test]
@@ -139,7 +110,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode Code-Key -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region Code-Key", out key, out version);
         Assert.AreEqual("Code-Key", key);
         Assert.IsNull(version);
     }
@@ -149,7 +120,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode Code-Key 5 -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region Code-Key 5", out key, out version);
         Assert.AreEqual("Code-Key", key);
         Assert.AreEqual("5", version);
     }
@@ -159,7 +130,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode -CodeKey- -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region -CodeKey-", out key, out version);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
@@ -169,9 +140,9 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode -CodeKey- 5 -->", out key, out version);
+        SnippetExtractor.IsStartRegion("#region -CodeKey- v5", out key, out version);
         Assert.AreEqual("CodeKey", key);
-        Assert.AreEqual("5", version);
+        Assert.AreEqual("v5", version);
     }
 
 }
