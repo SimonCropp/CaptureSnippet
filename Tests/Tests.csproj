@@ -92,6 +92,7 @@
     <Compile Include="SnippetExtractorTests.cs" />
     <Compile Include="SnippetExtractor_IsStartRegionTests.cs" />
     <Compile Include="SnippetExtractor_IsStartCodeTests.cs" />
+    <Compile Include="SnippetGrouperTests.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="StringExtensionTests.cs" />
     <None Include="scenarios\06-IgnoreCase\input.md">

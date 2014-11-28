@@ -1,4 +1,5 @@
-﻿using CaptureSnippets;
+﻿using System;
+using CaptureSnippets;
 using NUnit.Framework;
 using ObjectApproval;
 
@@ -65,7 +66,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = new SnippetExtractor(s => "TheVersion").FromText(input);
+        var snippets = new SnippetExtractor(s => new Version(1,1)).FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 

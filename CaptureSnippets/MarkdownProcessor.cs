@@ -71,7 +71,7 @@ namespace CaptureSnippets
             return result;
         }
 
-        static void AppendSnippet(Snippet codeSnippet, StringBuilder stringBuilder)
+        public static void AppendSnippet(Snippet codeSnippet, StringBuilder stringBuilder)
         {
             stringBuilder.AppendLine("```" + codeSnippet.Language);
             stringBuilder.AppendLine(codeSnippet.Value);

@@ -7,10 +7,17 @@
             "Key": "codekey",
             "Language": "",
             "File": null,
-            "Version": "2"
+            "Version": {
+                "Major": 2,
+                "Minor": 0,
+                "Build": -1,
+                "Revision": -1,
+                "MajorRevision": -1,
+                "MinorRevision": -1
+            }
         }
     ],
     "Errors": [
-        "Duplicate key detected. File:`unknown`. Line:6. Key:`codekey`"
+        "Duplicate key detected. File:`unknown`. Line:6. Key:`codekey`. Version:`2.0`"
     ]
 }

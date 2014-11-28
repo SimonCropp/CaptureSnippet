@@ -11,6 +11,6 @@
         }
     ],
     "Errors": [
-        "Duplicate key detected. File:`unknown`. Line:6. Key:`codekey`"
+        "Duplicate key detected. File:`unknown`. Line:6. Key:`codekey`. Version:``"
     ]
 }

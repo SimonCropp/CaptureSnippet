@@ -4,19 +4,18 @@ using System.IO;
 using System.Linq;
 using MethodTimer;
 
-
 namespace CaptureSnippets
 {
     public class SnippetExtractor
     {
-        Func<string, string> versionFromFilePathExtractor;
+        Func<string, Version> versionFromFilePathExtractor;
         const string LineEnding = "\r\n";
 
         public SnippetExtractor():this(s => null)
         {
             
         }
-        public SnippetExtractor(Func<string,string> versionFromFilePathExtractor)
+        public SnippetExtractor(Func<string, Version> versionFromFilePathExtractor)
         {
             this.versionFromFilePathExtractor = versionFromFilePathExtractor;
         }
@@ -55,89 +54,125 @@ namespace CaptureSnippets
             return String.Empty;
         }
 
+        class LoopState
+        {
+            public void Reset()
+            {
+
+                SnippetLines = null;
+                CurrentKey = null;
+                Version = null;
+                EndFunc = null;
+                StartLine = null;
+                IsInSnippet = false;
+            }
+
+            public List<string> SnippetLines;
+            public string CurrentKey { get; set; }
+
+            public string Version { get; set; }
+            public Func<string, bool> EndFunc;
+            public int? StartLine;
+            public bool IsInSnippet;
+        }
+
         void GetSnippetsFromFile(ReadSnippets readSnippets,IndexReader stringReader, string file)
         {
             var language = GetLanguageFromFile(file);
-            string currentKey = null;
-            var startLine = 0;
-            var isInSnippet = false;
-            string version = null;
-            List<string> snippetLines = null;
-            Func<string, bool> endFunc = null;
+            var loopState = new LoopState();
             while (true)
             {
                 var line = stringReader.ReadLine();
                 if (line == null)
                 {
-                    if (isInSnippet)
+                    if (loopState.IsInSnippet)
                     {
-                        var error = string.Format("Snippet was not closed. File:`{0}`. Line:{1}. Key:`{2}`", file ?? "unknown", startLine + 1, currentKey);
+                        var error = string.Format("Snippet was not closed. File:`{0}`. Line:{1}. Key:`{2}`", file ?? "unknown", loopState.StartLine.Value+1, loopState.CurrentKey);
                         readSnippets.Errors.Add(error);
                     }
                     break;
                 }
 
                 var trimmedLine = line.Trim().Replace("  ", " ").ToLowerInvariant();
-                if (isInSnippet)
+                if (loopState.IsInSnippet)
                 {
-                    if (!endFunc(trimmedLine))
+                    if (!loopState.EndFunc(trimmedLine))
                     {
-                        snippetLines.Add(line);
+                        loopState.SnippetLines.Add(line);
                         continue;
                     }
-                    isInSnippet = false;
-
-                    if (readSnippets.Snippets.Any(x => x.Key == currentKey && x.Version == version && x.Language == language))
-                    {
-                        var error = string.Format("Duplicate key detected. File:`{0}`. Line:{1}. Key:`{2}`", file ?? "unknown", startLine + 1, currentKey);
-                        readSnippets.Errors.Add(error);
-                    }
-                    else
-                    {
-                        var snippet = new ReadSnippet
-                                      {
-                                          StartRow = startLine + 1,
-                                          EndRow = stringReader.Index,
-                                          Key = currentKey,
-                                          Version = CheckVersionConvention(file,version),
-                                          Value = ConvertLinesToValue(snippetLines),
-                                          File = file,
-                                          Language = language,
-                                      };
-                        readSnippets.Snippets.Add(snippet);
-                    }
-                    snippetLines = null;
-                    currentKey = null;
-                    version = null;
+                    
+                    TryAddSnippet(readSnippets, stringReader, file, loopState, language);
+                    loopState.Reset();
                     continue;
                 }
-                if (IsStartCode(trimmedLine, out currentKey, out version))
-                {
-                    endFunc = IsEndCode;
-                    isInSnippet = true;
-                    startLine = stringReader.Index;
-                    snippetLines = new List<string>();
-                   continue;
-                }
-                if (IsStartRegion(trimmedLine, out currentKey, out version))
-                {
-                    endFunc = IsEndRegion;
-                    isInSnippet = true;
-                    startLine = stringReader.Index;
-                    snippetLines = new List<string>();
-                }
+                IsStart(stringReader, trimmedLine, loopState);
             }
         }
 
-        string CheckVersionConvention(string filePath, string version)
+        static void IsStart(IndexReader stringReader, string trimmedLine, LoopState loopState)
         {
-            if (version == null)
+            string version;
+            string currentKey;
+            if (IsStartCode(trimmedLine, out currentKey, out version))
             {
-                return versionFromFilePathExtractor(filePath);
+                loopState.EndFunc = IsEndCode;
+                loopState.CurrentKey = currentKey;
+                loopState.IsInSnippet = true;
+                loopState.Version = version;
+                loopState.StartLine = stringReader.Index;
+                loopState.SnippetLines = new List<string>();
             }
-
-                return version;
+            else if (IsStartRegion(trimmedLine, out currentKey, out version))
+            {
+                loopState.EndFunc = IsEndRegion;
+                loopState.CurrentKey = currentKey;
+                loopState.IsInSnippet = true;
+                loopState.Version = version;
+                loopState.StartLine = stringReader.Index;
+                loopState.SnippetLines = new List<string>();
+            }
         }
+
+        void TryAddSnippet(ReadSnippets readSnippets, IndexReader stringReader, string file, LoopState loopState, string language)
+        {
+            Version parsedVersion;
+            if (!TryParseVersion(file, loopState, out parsedVersion))
+            {
+                var error = string.Format("Could not extract version from {0}. File:`{1}`. Line:{2}. Key:`{3}`", loopState.Version, file ?? "unknown", loopState.StartLine.Value + 1, loopState.CurrentKey);
+                readSnippets.Errors.Add(error);
+                return;
+            }
+            if (readSnippets.Snippets.Any(x => x.Key == loopState.CurrentKey && x.Version == parsedVersion && x.Language == language))
+            {
+                var error = string.Format("Duplicate key detected. File:`{0}`. Line:{1}. Key:`{2}`. Version:`{3}`", file ?? "unknown", loopState.StartLine.Value + 1, loopState.CurrentKey,parsedVersion);
+                readSnippets.Errors.Add(error);
+                return;
+            }
+            var snippet = new ReadSnippet
+                          {
+                              StartRow = loopState.StartLine.Value + 1,
+                              EndRow = stringReader.Index,
+                              Key = loopState.CurrentKey,
+                              Version = parsedVersion,
+                              Value = ConvertLinesToValue(loopState.SnippetLines),
+                              File = file,
+                              Language = language,
+                          };
+            readSnippets.Snippets.Add(snippet);
+        }
+
+        bool TryParseVersion(string file, LoopState loopState, out Version parsedVersion)
+        {
+            var stringVersion = loopState.Version;
+            if (stringVersion == null)
+            {
+                parsedVersion = versionFromFilePathExtractor(file);
+                return true;
+            }
+            return VersionParser.TryParseVersion(stringVersion, out parsedVersion);
+        }
+
 
         static string ConvertLinesToValue(List<string> snippetLines)
         {

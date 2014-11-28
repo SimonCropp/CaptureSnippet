@@ -1,0 +1,96 @@
+﻿[
+    {
+        "Key": "FoundKey1",
+        "Versions": [
+            {
+                "Version": {
+                    "Major": 1,
+                    "Minor": 4,
+                    "Build": -1,
+                    "Revision": -1,
+                    "MajorRevision": -1,
+                    "MinorRevision": -1
+                },
+                "Snippets": [
+                    {
+                        "Language": null,
+                        "Value": "2"
+                    }
+                ]
+            },
+            {
+                "Version": {
+                    "Major": 1,
+                    "Minor": 2,
+                    "Build": -1,
+                    "Revision": -1,
+                    "MajorRevision": -1,
+                    "MinorRevision": -1
+                },
+                "Snippets": [
+                    {
+                        "Language": null,
+                        "Value": "1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Key": "FoundKey2",
+        "Versions": [
+            {
+                "Version": {
+                    "Major": 1,
+                    "Minor": 6,
+                    "Build": -1,
+                    "Revision": -1,
+                    "MajorRevision": -1,
+                    "MinorRevision": -1
+                },
+                "Snippets": [
+                    {
+                        "Language": "cs",
+                        "Value": "5"
+                    }
+                ]
+            },
+            {
+                "Version": {
+                    "Major": 1,
+                    "Minor": 4,
+                    "Build": -1,
+                    "Revision": -1,
+                    "MajorRevision": -1,
+                    "MinorRevision": -1
+                },
+                "Snippets": [
+                    {
+                        "Language": "cs",
+                        "Value": "4"
+                    },
+                    {
+                        "Language": "vb",
+                        "Value": "4"
+                    }
+                ]
+            },
+            {
+                "Version": {
+                    "Major": 1,
+                    "Minor": 3,
+                    "Build": -1,
+                    "Revision": -1,
+                    "MajorRevision": -1,
+                    "MinorRevision": -1
+                },
+                "Snippets": [
+                    {
+                        "Language": null,
+                        "Value": "3"
+                    }
+                ]
+            }
+        ]
+    }
+]

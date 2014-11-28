@@ -1,3 +1,5 @@
+using System;
+
 namespace CaptureSnippets
 {
     public class ReadSnippet
@@ -8,6 +10,6 @@ namespace CaptureSnippets
         public string Key;
         public string Language;
         public string File;
-        public string Version;
+        public Version Version;
     }
 }
