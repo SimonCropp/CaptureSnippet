@@ -22,7 +22,7 @@ namespace CaptureSnippets
             }
         }
 
-        ProcessResult Apply(List<SnippetGroup> availableSnippets, IndexReader reader)
+        public ProcessResult Apply(List<SnippetGroup> availableSnippets, IndexReader reader)
         {
             var stringBuilder = new StringBuilder();
             var result = new ProcessResult();
@@ -51,17 +51,7 @@ namespace CaptureSnippets
                     continue;
                 }
 
-                foreach (var versionGroup in snippetGroup.Versions)
-                {
-                    if (versionGroup.Version != null)
-                    {
-                        stringBuilder.AppendLine("#### Version " + versionGroup.Version);
-                    }
-                    foreach (var snippet in versionGroup.Snippets)
-                    {
-                        AppendSnippet(snippet, stringBuilder);
-                    }
-                }
+                AppendGroup(snippetGroup, stringBuilder);
                 if (result.UsedSnippets.All(x => x != snippetGroup.Key))
                 {
                     result.UsedSnippets.Add(snippetGroup.Key);
@@ -71,7 +61,22 @@ namespace CaptureSnippets
             return result;
         }
 
-        public static void AppendSnippet(Snippet codeSnippet, StringBuilder stringBuilder)
+        public void AppendGroup(SnippetGroup snippetGroup, StringBuilder stringBuilder)
+        {
+            foreach (var versionGroup in snippetGroup.Versions)
+            {
+                if (versionGroup.Version != null)
+                {
+                    stringBuilder.AppendLine("#### Version " + versionGroup.Version);
+                }
+                foreach (var snippet in versionGroup.Snippets)
+                {
+                    AppendSnippet(snippet, stringBuilder);
+                }
+            }
+        }
+
+        public void AppendSnippet(Snippet codeSnippet, StringBuilder stringBuilder)
         {
             stringBuilder.AppendLine("```" + codeSnippet.Language);
             stringBuilder.AppendLine(codeSnippet.Value);
