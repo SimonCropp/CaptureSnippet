@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApprovalTestConfig.cs" />
-    <Compile Include="DocumentFileProcessorTests.cs" />
+    <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <None Include="scenarios\08-Duplicates\input.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -82,7 +82,7 @@
     <None Include="scenarios\06-IgnoreCase\code.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="MarkdownProcessorTests.cs" />
+    <Compile Include="MarkdownProcessor_TryExtractKeyFromTests.cs" />
     <None Include="scenarios\07-WeirdCharacters\code.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

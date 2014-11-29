@@ -1,0 +1,47 @@
+﻿{
+    "Text": "
+<!-- import versionedSnippet1 -->
+#### Version 5.0
+```cs
+Snippet_v5
+```
+#### Version 4.0
+```cs
+Snippet_v4
+```
+
+some text
+
+<!-- import versionedSnippet2 -->
+#### Version 3.0
+```cs
+Snippet_v3
+```
+#### Version 2.0
+```cs
+Snippet_v2
+```
+
+some other text
+
+<!-- import nonVersionedSnippet1 -->
+#### Version 5.0
+```cs
+Snippet_v5
+```
+
+even more text
+
+<!-- import nonVersionedSnippet2 -->
+#### Version 5.0
+```cs
+Snippet_v5
+```",
+    "UsedSnippets": [
+        "versionedSnippet1",
+        "versionedSnippet2",
+        "nonVersionedSnippet1",
+        "nonVersionedSnippet2"
+    ],
+    "MissingSnippet": []
+}
