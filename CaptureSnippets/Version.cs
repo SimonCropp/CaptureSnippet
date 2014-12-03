@@ -145,7 +145,7 @@ namespace CaptureSnippets
                     return Major + ".x";
                 }
 
-                return Major + "." + Minor;
+                return Major + "." + Minor + ".x";
             }
 
             return Major + "." + Minor+ "." + Patch;
