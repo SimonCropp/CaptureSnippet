@@ -137,25 +137,33 @@ namespace CaptureSnippets
         void TryAddSnippet(ReadSnippets readSnippets, IndexReader stringReader, string file, LoopState loopState, string language)
         {
             Version parsedVersion;
+            var startRow = loopState.StartLine.Value + 1;
             if (!TryParseVersion(file, loopState, out parsedVersion))
             {
-                var error = string.Format("Could not extract version from {0}. File:`{1}`. Line:{2}. Key:`{3}`", loopState.Version, file ?? "unknown", loopState.StartLine.Value + 1, loopState.CurrentKey);
+                var error = string.Format("Could not extract version from {0}. File:`{1}`. Line:{2}. Key:`{3}`", loopState.Version, file ?? "unknown", startRow, loopState.CurrentKey);
                 readSnippets.Errors.Add(error);
                 return;
             }
             if (readSnippets.Snippets.Any(x => x.Key == loopState.CurrentKey && x.Version == parsedVersion && x.Language == language))
             {
-                var error = string.Format("Duplicate key detected. File:`{0}`. Line:{1}. Key:`{2}`. Version:`{3}`", file ?? "unknown", loopState.StartLine.Value + 1, loopState.CurrentKey,parsedVersion);
+                var error = string.Format("Duplicate key detected. File:`{0}`. Line:{1}. Key:`{2}`. Version:`{3}`", file ?? "unknown", startRow, loopState.CurrentKey,parsedVersion);
+                readSnippets.Errors.Add(error);
+                return;
+            }
+            var value = ConvertLinesToValue(loopState.SnippetLines);
+            if (value.Contains('`'))
+            {
+                var error = string.Format("Sippet contains a code quote character. File:`{0}`. Line:{1}. Key:`{2}`. Version:`{3}`", file ?? "unknown", startRow, loopState.CurrentKey, parsedVersion);
                 readSnippets.Errors.Add(error);
                 return;
             }
             var snippet = new ReadSnippet
                           {
-                              StartRow = loopState.StartLine.Value + 1,
+                              StartRow = startRow,
                               EndRow = stringReader.Index,
                               Key = loopState.CurrentKey,
                               Version = parsedVersion,
-                              Value = ConvertLinesToValue(loopState.SnippetLines),
+                              Value = value,
                               File = file,
                               Language = language,
                           };

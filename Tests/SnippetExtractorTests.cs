@@ -35,6 +35,17 @@ public class SnippetExtractorTests
     }
 
     [Test]
+    public void SingleCodeQuoteDetected()
+    {
+        var input = @"
+  <!-- startcode CodeKey-->
+  sjfnskdjnf`knjknjkn`
+  <!-- endcode -->";
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
     public void CanExtractMultipleWithDifferentVersions()
     {
         var input = @"

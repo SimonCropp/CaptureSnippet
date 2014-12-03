@@ -1,0 +1,6 @@
+﻿{
+    "Snippets": [],
+    "Errors": [
+        "Sippet contains a code quote character. File:`unknown`. Line:3. Key:`codekey`. Version:``"
+    ]
+}
