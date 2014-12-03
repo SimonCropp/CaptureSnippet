@@ -1,11 +1,11 @@
 ﻿{
     "Text": "
 <!-- import versionedSnippet1 -->
-#### Version 5.0
+#### Version 5.0.x
 ```cs
 Snippet_v5
 ```
-#### Version 4.0
+#### Version 4.0.x
 ```cs
 Snippet_v4
 ```
@@ -13,11 +13,11 @@ Snippet_v4
 some text
 
 <!-- import versionedSnippet2 -->
-#### Version 3.0
+#### Version 3.0.x
 ```cs
 Snippet_v3
 ```
-#### Version 2.0
+#### Version 2.0.x
 ```cs
 Snippet_v2
 ```
@@ -25,7 +25,7 @@ Snippet_v2
 some other text
 
 <!-- import nonVersionedSnippet1 -->
-#### Version 5.0
+#### Version 5.0.x
 ```cs
 Snippet_v5
 ```
@@ -33,7 +33,7 @@ Snippet_v5
 even more text
 
 <!-- import nonVersionedSnippet2 -->
-#### Version 5.0
+#### Version 5.0.x
 ```cs
 Snippet_v5
 ```",
