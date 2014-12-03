@@ -1,5 +1,3 @@
-using System;
-
 namespace CaptureSnippets
 {
     public class VersionParser
@@ -7,13 +5,54 @@ namespace CaptureSnippets
 
         public static bool TryParseVersion(string stringVersion, out Version parsedVersion)
         {
-            int intVersion;
-            if (int.TryParse(stringVersion, out intVersion))
+            parsedVersion = null;
+            var split = stringVersion.Split('.');
+            if (split.Length == 1)
             {
-                parsedVersion = new Version(intVersion, 0);
+                int major;
+                if (!int.TryParse(split[0], out major))
+                {
+                    return false;
+                }
+                parsedVersion= new Version(major);
                 return true;
             }
-            return Version.TryParse(stringVersion, out parsedVersion);
+            if (split.Length == 2)
+            {
+                int major;
+                if (!int.TryParse(split[0], out major))
+                {
+                    return false;
+                }
+                int minor;
+                if (!int.TryParse(split[1], out minor))
+                {
+                    return false;
+                }
+                parsedVersion= new Version(major,minor);
+                return true;
+            }
+            if (split.Length == 3)
+            {
+                int major;
+                if (!int.TryParse(split[0], out major))
+                {
+                    return false;
+                }
+                int minor;
+                if (!int.TryParse(split[1], out minor))
+                {
+                    return false;
+                }
+                int patch;
+                if (!int.TryParse(split[2], out patch))
+                {
+                    return false;
+                }
+                parsedVersion= new Version(major,minor,patch);
+                return true;
+            }
+            return false;
         }
     }
 }

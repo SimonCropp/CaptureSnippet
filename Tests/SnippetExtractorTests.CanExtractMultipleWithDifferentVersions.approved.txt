@@ -9,11 +9,8 @@
             "File": null,
             "Version": {
                 "Major": 4,
-                "Minor": 0,
-                "Build": -1,
-                "Revision": -1,
-                "MajorRevision": -1,
-                "MinorRevision": -1
+                "Minor": null,
+                "Patch": null
             }
         },
         {
@@ -25,11 +22,8 @@
             "File": null,
             "Version": {
                 "Major": 5,
-                "Minor": 0,
-                "Build": -1,
-                "Revision": -1,
-                "MajorRevision": -1,
-                "MinorRevision": -1
+                "Minor": null,
+                "Patch": null
             }
         }
     ],

@@ -1,5 +1,4 @@
-﻿using System;
-using CaptureSnippets;
+﻿using CaptureSnippets;
 using NUnit.Framework;
 using ObjectApproval;
 
@@ -28,6 +27,19 @@ public class SnippetExtractorTests
   <configSections/>
   <!-- endcode -->
   <!-- startcode CodeKey 2-->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = new SnippetExtractor().FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+    [Test]
+    public void Differ_by_version_missing_suffix()
+    {
+        var input = @"
+  <!-- startcode CodeKey 2-->
+  <configSections/>
+  <!-- endcode -->
+  <!-- startcode CodeKey 2.0-->
   <configSections/>
   <!-- endcode -->";
         var snippets = new SnippetExtractor().FromText(input);

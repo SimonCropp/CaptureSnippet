@@ -6,10 +6,7 @@
                 "Version": {
                     "Major": 1,
                     "Minor": 4,
-                    "Build": -1,
-                    "Revision": -1,
-                    "MajorRevision": -1,
-                    "MinorRevision": -1
+                    "Patch": null
                 },
                 "Snippets": [
                     {
@@ -22,10 +19,7 @@
                 "Version": {
                     "Major": 1,
                     "Minor": 2,
-                    "Build": -1,
-                    "Revision": -1,
-                    "MajorRevision": -1,
-                    "MinorRevision": -1
+                    "Patch": null
                 },
                 "Snippets": [
                     {
@@ -43,10 +37,7 @@
                 "Version": {
                     "Major": 1,
                     "Minor": 6,
-                    "Build": -1,
-                    "Revision": -1,
-                    "MajorRevision": -1,
-                    "MinorRevision": -1
+                    "Patch": null
                 },
                 "Snippets": [
                     {
@@ -59,10 +50,7 @@
                 "Version": {
                     "Major": 1,
                     "Minor": 4,
-                    "Build": -1,
-                    "Revision": -1,
-                    "MajorRevision": -1,
-                    "MinorRevision": -1
+                    "Patch": null
                 },
                 "Snippets": [
                     {
@@ -79,10 +67,7 @@
                 "Version": {
                     "Major": 1,
                     "Minor": 3,
-                    "Build": -1,
-                    "Revision": -1,
-                    "MajorRevision": -1,
-                    "MinorRevision": -1
+                    "Patch": null
                 },
                 "Snippets": [
                     {

@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Version.cs" />
     <Compile Include="ImportKeyReader.cs" />
     <Compile Include="IndexReader.cs" />
     <Compile Include="Models\ReadSnippet.cs" />

@@ -1,5 +1,3 @@
-using System;
-
 namespace CaptureSnippets
 {
     public class ReadSnippet
