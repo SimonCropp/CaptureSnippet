@@ -142,10 +142,10 @@ namespace CaptureSnippets
             {
                 if (Minor == null)
                 {
-                    return Major + ".x";
+                    return Major.ToString();
                 }
 
-                return Major + "." + Minor + ".x";
+                return Major + "." + Minor;
             }
 
             return Major + "." + Minor+ "." + Patch;
