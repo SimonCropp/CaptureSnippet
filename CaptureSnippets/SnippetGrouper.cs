@@ -15,7 +15,7 @@ namespace CaptureSnippets
                 {
                     snippetGroup = new SnippetGroup
                               {
-                                  Key = readSnippet.Key
+                                  Key = readSnippet.Key,
                               };
                     snippetGroups.Add(snippetGroup);
                 }
@@ -24,7 +24,7 @@ namespace CaptureSnippets
                 {
                     version = new VersionGroup
                                {
-                                   Version = readSnippet.Version
+                                   Version = readSnippet.Version,
                                };
                     snippetGroup.Versions.Add(version);
                 }
@@ -32,6 +32,7 @@ namespace CaptureSnippets
                               {
                                   Value = readSnippet.Value,
                                   Language = readSnippet.Language,
+                                  Source = readSnippet
                               };
                 version.Snippets.Add(snippet);
             }

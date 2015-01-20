@@ -4,5 +4,6 @@ namespace CaptureSnippets
     {
         public string Language;
         public string Value;
+        public ReadSnippet Source;
     }
 }

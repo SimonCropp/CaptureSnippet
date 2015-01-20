@@ -11,7 +11,20 @@
                 "Snippets": [
                     {
                         "Language": null,
-                        "Value": "2"
+                        "Value": "2",
+                        "Source": {
+                            "StartRow": 0,
+                            "EndRow": 0,
+                            "Value": "2",
+                            "Key": "FoundKey1",
+                            "Language": null,
+                            "File": null,
+                            "Version": {
+                                "Major": 1,
+                                "Minor": 4,
+                                "Patch": null
+                            }
+                        }
                     }
                 ]
             },
@@ -24,7 +37,20 @@
                 "Snippets": [
                     {
                         "Language": null,
-                        "Value": "1"
+                        "Value": "1",
+                        "Source": {
+                            "StartRow": 0,
+                            "EndRow": 0,
+                            "Value": "1",
+                            "Key": "FoundKey1",
+                            "Language": null,
+                            "File": null,
+                            "Version": {
+                                "Major": 1,
+                                "Minor": 2,
+                                "Patch": null
+                            }
+                        }
                     }
                 ]
             }
@@ -42,7 +68,20 @@
                 "Snippets": [
                     {
                         "Language": "cs",
-                        "Value": "5"
+                        "Value": "5",
+                        "Source": {
+                            "StartRow": 0,
+                            "EndRow": 0,
+                            "Value": "5",
+                            "Key": "FoundKey2",
+                            "Language": "cs",
+                            "File": null,
+                            "Version": {
+                                "Major": 1,
+                                "Minor": 6,
+                                "Patch": null
+                            }
+                        }
                     }
                 ]
             },
@@ -55,11 +94,37 @@
                 "Snippets": [
                     {
                         "Language": "cs",
-                        "Value": "4"
+                        "Value": "4",
+                        "Source": {
+                            "StartRow": 0,
+                            "EndRow": 0,
+                            "Value": "4",
+                            "Key": "FoundKey2",
+                            "Language": "cs",
+                            "File": null,
+                            "Version": {
+                                "Major": 1,
+                                "Minor": 4,
+                                "Patch": null
+                            }
+                        }
                     },
                     {
                         "Language": "vb",
-                        "Value": "4"
+                        "Value": "4",
+                        "Source": {
+                            "StartRow": 0,
+                            "EndRow": 0,
+                            "Value": "4",
+                            "Key": "FoundKey2",
+                            "Language": "vb",
+                            "File": null,
+                            "Version": {
+                                "Major": 1,
+                                "Minor": 4,
+                                "Patch": null
+                            }
+                        }
                     }
                 ]
             },
@@ -72,7 +137,20 @@
                 "Snippets": [
                     {
                         "Language": null,
-                        "Value": "3"
+                        "Value": "3",
+                        "Source": {
+                            "StartRow": 0,
+                            "EndRow": 0,
+                            "Value": "3",
+                            "Key": "FoundKey2",
+                            "Language": null,
+                            "File": null,
+                            "Version": {
+                                "Major": 1,
+                                "Minor": 3,
+                                "Patch": null
+                            }
+                        }
                     }
                 ]
             }
