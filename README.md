@@ -7,11 +7,11 @@ CaptureSnippet
 Branched from https://github.com/shiftkey/scribble
 
 
-## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/CaptureSnippet.svg?style=flat)](https://www.nuget.org/packages/CaptureSnippet/)
+## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/CaptureSnippets.svg?style=flat)](https://www.nuget.org/packages/CaptureSnippets/)
 
-https://nuget.org/packages/CaptureSnippet/
+https://nuget.org/packages/CaptureSnippets/
 
-    PM> Install-Package CaptureSnippet
+    PM> Install-Package CaptureSnippets
 
 ## Icon
 
