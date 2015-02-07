@@ -17,7 +17,7 @@ public class SnippetExtractor_IsStartCodeTests
     }
 
     [Test]
-    public void SkouldThrowForNoKey()
+    public void ShouldThrowForNoKey()
     {
         string fake;
         var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartCode("<!-- startcode -->", out fake, out fake));

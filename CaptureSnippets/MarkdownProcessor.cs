@@ -52,9 +52,9 @@ namespace CaptureSnippets
                 }
 
                 AppendGroup(snippetGroup, stringBuilder);
-                if (result.UsedSnippets.All(x => x != snippetGroup.Key))
+                if (result.UsedSnippets.All(x => x.Key != snippetGroup.Key))
                 {
-                    result.UsedSnippets.Add(snippetGroup.Key);
+                    result.UsedSnippets.Add(snippetGroup);
                 }
             }
             result.Text = stringBuilder.ToString().TrimTrailingNewLine();

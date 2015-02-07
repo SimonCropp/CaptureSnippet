@@ -15,6 +15,7 @@ namespace CaptureSnippets
         {
             
         }
+
         public SnippetExtractor(Func<string, Version> versionFromFilePathExtractor)
         {
             this.versionFromFilePathExtractor = versionFromFilePathExtractor;

@@ -17,7 +17,7 @@ public class SnippetExtractor_IsStartRegionTests
     }
 
     [Test]
-    public void SkouldIgnoreForNoKey()
+    public void ShouldIgnoreForNoKey()
     {
         string fake;
         var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region ", out fake, out fake));

@@ -38,10 +38,110 @@ even more text
 Snippet_v5
 ```",
     "UsedSnippets": [
-        "versionedSnippet1",
-        "versionedSnippet2",
-        "nonVersionedSnippet1",
-        "nonVersionedSnippet2"
+        {
+            "Key": "versionedSnippet1",
+            "Versions": [
+                {
+                    "Version": {
+                        "Major": 5,
+                        "Minor": 0,
+                        "Patch": null
+                    },
+                    "Snippets": [
+                        {
+                            "Language": "cs",
+                            "Value": "Snippet_v5",
+                            "Source": null
+                        }
+                    ]
+                },
+                {
+                    "Version": {
+                        "Major": 4,
+                        "Minor": 0,
+                        "Patch": null
+                    },
+                    "Snippets": [
+                        {
+                            "Language": "cs",
+                            "Value": "Snippet_v4",
+                            "Source": null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Key": "versionedSnippet2",
+            "Versions": [
+                {
+                    "Version": {
+                        "Major": 3,
+                        "Minor": 0,
+                        "Patch": null
+                    },
+                    "Snippets": [
+                        {
+                            "Language": "cs",
+                            "Value": "Snippet_v3",
+                            "Source": null
+                        }
+                    ]
+                },
+                {
+                    "Version": {
+                        "Major": 2,
+                        "Minor": 0,
+                        "Patch": null
+                    },
+                    "Snippets": [
+                        {
+                            "Language": "cs",
+                            "Value": "Snippet_v2",
+                            "Source": null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Key": "nonVersionedSnippet1",
+            "Versions": [
+                {
+                    "Version": {
+                        "Major": 5,
+                        "Minor": 0,
+                        "Patch": null
+                    },
+                    "Snippets": [
+                        {
+                            "Language": "cs",
+                            "Value": "Snippet_v5",
+                            "Source": null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Key": "nonVersionedSnippet2",
+            "Versions": [
+                {
+                    "Version": {
+                        "Major": 5,
+                        "Minor": 0,
+                        "Patch": null
+                    },
+                    "Snippets": [
+                        {
+                            "Language": "cs",
+                            "Value": "Snippet_v5",
+                            "Source": null
+                        }
+                    ]
+                }
+            ]
+        }
     ],
     "MissingSnippet": []
 }
