@@ -2,13 +2,15 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using MethodTimer;
 
 namespace CaptureSnippets
 {
 
-    class CachedSnippets
+    public class CachedSnippets
     {
+        public List<SnippetGroup> SnippetGroups;
         public ReadSnippets Snippets;
         public long Ticks;
     }
@@ -28,7 +30,7 @@ namespace CaptureSnippets
         }
 
         [Time]
-        public ReadSnippets FromDirectory(string directory)
+        public CachedSnippets FromDirectory(string directory)
         {
             directory = directory.ToLower();
             var includeDirectories = new List<string>();
@@ -44,18 +46,18 @@ namespace CaptureSnippets
             {
                 return UpdateCache(directory, includeDirectories, lastDirectoryWrite);
             }
-            return cachedSnippets.Snippets;
+            return cachedSnippets;
         }
 
-        ReadSnippets UpdateCache(string directory, List<string> includeDirectories, long lastDirectoryWrite)
+        CachedSnippets UpdateCache(string directory, List<string> includeDirectories, long lastDirectoryWrite)
         {
             var readSnippets = snippetExtractor.FromFiles(GetFilesToInclude(includeDirectories));
-            directoryToSnippets[directory] = new CachedSnippets
+            return directoryToSnippets[directory] = new CachedSnippets
                                              {
                                                  Ticks = lastDirectoryWrite,
-                                                 Snippets = readSnippets
+                                                 Snippets = readSnippets,
+                                                 SnippetGroups = SnippetGrouper.Group(readSnippets.Snippets).ToList()
                                              };
-            return readSnippets;
         }
 
         void GetDirectoriesToInclude(string directory, List<string> includedDirectories)
