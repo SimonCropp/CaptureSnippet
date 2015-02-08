@@ -11,6 +11,10 @@ public class CachedSnippetExtractorTests
     public void SecondReadShouldBeFasterThanFirstRead()
     {
         var directory = @"scenarios\".ToCurrentDirectory();
+        //warmup 
+        new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs")).FromDirectory(directory);
+
+
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
         cachedSnippetExtractor.FromDirectory(directory);
@@ -18,9 +22,9 @@ public class CachedSnippetExtractorTests
         var secondRun = Stopwatch.StartNew();
         cachedSnippetExtractor.FromDirectory(directory);
         secondRun.Stop();
-        Assert.That(secondRun.ElapsedMilliseconds, Is.LessThan(firstRun.ElapsedMilliseconds));
-        Debug.WriteLine(firstRun.ElapsedMilliseconds);
-        Debug.WriteLine(secondRun.ElapsedMilliseconds);
+        Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
+        Debug.WriteLine(firstRun.ElapsedTicks);
+        Debug.WriteLine(secondRun.ElapsedTicks);
     }
     [Test]
     public void AssertOutput()
