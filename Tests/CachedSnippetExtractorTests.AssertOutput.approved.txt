@@ -1,0 +1,42 @@
+﻿{
+    "Snippets": [
+        {
+            "StartRow": 4,
+            "EndRow": 5,
+            "Value": "this is some text to import",
+            "Key": "mycodesnippet",
+            "Language": "cs",
+            "File": "01-UpdateSimpleFile\\code.cs",
+            "Version": null
+        },
+        {
+            "StartRow": 8,
+            "EndRow": 25,
+            "Value": "JObject o = JObject.Parse(@\"{\r\n'CPU': 'Intel',\r\n'Drives': [\r\n  'DVD read/writer',\r\n  '500 gigabyte hard drive' ]\r\n}\");\r\n\r\nstring cpu = (string) o[\"CPU\"];\r\n// Intel\r\n\r\nstring firstDrive = (string) o[\"Drives\"][0];\r\n// DVD read/writer\r\n\r\nIList<string> allDrives = o[\"Drives\"].Select(t => (string) t).ToList();\r\n// DVD read/writer\r\n// 500 gigabyte hard drive",
+            "Key": "linqtojsonbasic",
+            "Language": "cs",
+            "File": "04-UseAUnitTest\\code.cs",
+            "Version": null
+        },
+        {
+            "StartRow": 2,
+            "EndRow": 3,
+            "Value": "this is some text to import",
+            "Key": "my_code-snippet",
+            "Language": "cs",
+            "File": "07-WeirdCharacters\\code.cs",
+            "Version": {
+                "Major": 4,
+                "Minor": null,
+                "Patch": null
+            }
+        }
+    ],
+    "Errors": [
+        "Duplicate key detected. File:`02-UpdateSimpleFileMultipleTimes\\code.cs`. Line:4. Key:`mycodesnippet`. Version:``",
+        "Duplicate key detected. File:`05-SamplePage\\code.cs`. Line:8. Key:`linqtojsonbasic`. Version:``",
+        "Duplicate key detected. File:`06-IgnoreCase\\code.cs`. Line:2. Key:`mycodesnippet`. Version:``",
+        "Duplicate key detected. File:`08-Duplicates\\code.cs`. Line:4. Key:`mycodesnippet`. Version:``",
+        "Duplicate key detected. File:`08-Duplicates\\code.cs`. Line:7. Key:`mycodesnippet`. Version:``"
+    ]
+}
