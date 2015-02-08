@@ -120,5 +120,4 @@
             "Duplicate key detected. File:`08-Duplicates\\code.cs`. Line:7. Key:`mycodesnippet`. Version:``"
         ]
     },
-    "Ticks": 635590001421680496
 }

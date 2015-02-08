@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
 using CaptureSnippets;
 using NUnit.Framework;
 using ObjectApproval;
@@ -31,6 +35,18 @@ public class CachedSnippetExtractorTests
         var directory = @"scenarios\".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
         var readSnippets = cachedSnippetExtractor.FromDirectory(directory);
-        ObjectApprover.VerifyWithJson(readSnippets,s => s.ReplaceCaseless(directory.Replace("\\","\\\\"), ""));
+        ObjectApprover.VerifyWithJson(readSnippets,s => CleanOutput(s, directory));
+    }
+
+    static string CleanOutput(string s, string directory)
+    {
+        var replaced = s.ReplaceCaseless(directory.Replace("\\","\\\\"), "");
+        var enumerable = replaced.Split(new[]
+                                                {
+                                                    "\n"
+                                                }, StringSplitOptions.RemoveEmptyEntries)
+                                                .Where(x => !x.Contains("\"Ticks\":"))
+                                                .ToList();
+        return String.Join("\n", enumerable);
     }
 }
