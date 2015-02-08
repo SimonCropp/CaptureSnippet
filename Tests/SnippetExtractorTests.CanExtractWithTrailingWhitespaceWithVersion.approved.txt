@@ -1,4 +1,5 @@
 ﻿{
+    "ErrorsAsMarkdown": "",
     "Snippets": [
         {
             "StartRow": 3,

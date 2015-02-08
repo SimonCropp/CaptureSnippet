@@ -1,4 +1,5 @@
 ﻿{
+    "ErrorsAsMarkdown": "## Snippet errors\r\n\r\n * Snippet was not closed. File:`unknown`. Line:3. Key:`codekey`\r\n\r\n",
     "Snippets": [],
     "Errors": [
         "Snippet was not closed. File:`unknown`. Line:3. Key:`codekey`"

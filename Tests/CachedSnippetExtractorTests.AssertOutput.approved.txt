@@ -79,6 +79,7 @@
         }
     ],
     "Snippets": {
+        "ErrorsAsMarkdown": "## Snippet errors\r\n\r\n * Duplicate key detected. File:`02-UpdateSimpleFileMultipleTimes\\code.cs`. Line:4. Key:`mycodesnippet`. Version:``\r\n * Duplicate key detected. File:`05-SamplePage\\code.cs`. Line:8. Key:`linqtojsonbasic`. Version:``\r\n * Duplicate key detected. File:`06-IgnoreCase\\code.cs`. Line:2. Key:`mycodesnippet`. Version:``\r\n * Duplicate key detected. File:`08-Duplicates\\code.cs`. Line:4. Key:`mycodesnippet`. Version:``\r\n * Duplicate key detected. File:`08-Duplicates\\code.cs`. Line:7. Key:`mycodesnippet`. Version:``\r\n\r\n",
         "Snippets": [
             {
                 "StartRow": 4,

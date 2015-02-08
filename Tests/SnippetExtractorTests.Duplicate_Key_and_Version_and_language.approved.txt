@@ -1,4 +1,5 @@
 ﻿{
+    "ErrorsAsMarkdown": "## Snippet errors\r\n\r\n * Duplicate key detected. File:`unknown`. Line:6. Key:`codekey`. Version:`2`\r\n\r\n",
     "Snippets": [
         {
             "StartRow": 3,
