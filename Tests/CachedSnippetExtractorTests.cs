@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
 using CaptureSnippets;
 using NUnit.Framework;
 using ObjectApproval;
@@ -14,7 +13,6 @@ public class CachedSnippetExtractorTests
         //warmup 
         new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs")).FromDirectory(directory);
 
-
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
         cachedSnippetExtractor.FromDirectory(directory);
@@ -26,6 +24,7 @@ public class CachedSnippetExtractorTests
         Debug.WriteLine(firstRun.ElapsedTicks);
         Debug.WriteLine(secondRun.ElapsedTicks);
     }
+
     [Test]
     public void AssertOutput()
     {

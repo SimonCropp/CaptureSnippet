@@ -18,7 +18,7 @@ namespace CaptureSnippets
         Func<string, bool> includeFile;
         SnippetExtractor snippetExtractor;
 
-        static ConcurrentDictionary<string, CachedSnippets> directoryToSnippets = new ConcurrentDictionary<string, CachedSnippets>();
+        ConcurrentDictionary<string, CachedSnippets> directoryToSnippets = new ConcurrentDictionary<string, CachedSnippets>();
 
         public CachedSnippetExtractor(Func<string, Version> versionFromFilePathExtractor, Func<string,bool> includeDirectory, Func<string,bool> includeFile)
         {
