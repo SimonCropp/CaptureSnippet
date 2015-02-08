@@ -30,6 +30,7 @@ namespace CaptureSnippets
         [Time]
         public ReadSnippets FromDirectory(string directory)
         {
+            directory = directory.ToLower();
             var includeDirectories = new List<string>();
             GetDirectoriesToInclude(directory, includeDirectories);
             var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(includeDirectories);

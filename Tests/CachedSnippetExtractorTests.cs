@@ -31,6 +31,6 @@ public class CachedSnippetExtractorTests
         var directory = @"scenarios\".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
         var readSnippets = cachedSnippetExtractor.FromDirectory(directory);
-        ObjectApprover.VerifyWithJson(readSnippets,s => s.Replace(directory.Replace("\\","\\\\"), ""));
+        ObjectApprover.VerifyWithJson(readSnippets,s => s.ReplaceCaseless(directory.Replace("\\","\\\\"), ""));
     }
 }
