@@ -135,7 +135,7 @@ If tabs and spaces are mixed there is no way for the snippets to work out what t
 So given this snippet 
 
 <pre>
-&#8226;&#8226;#region DatMySnippetNameaBus
+&#8226;&#8226;#region MySnippetNamea
 &#8226;&#8226;Line one of the snippet
 &#10137;&#10137;Line one of the snippet
 &#8226;&#8226;#endregion
@@ -154,17 +154,34 @@ Note none of the tabs have been trimmed.
 
 ## Api Usage
 
+    // get files containing snippets
+    var filesToParse = Directory.EnumerateFiles(@"C:\path", "*.*", SearchOption.AllDirectories)
+        .Where(s => s.EndsWith(".vm") || s.EndsWith(".cs"));
 
-### Extraction
+    // setup version convention and extract snippets from files
+    var snippetExtractor = new SnippetExtractor(InferVersion);
+    var readSnippets = snippetExtractor.FromFiles(filesToParse);
 
-The "extraction" is essentially reading code snippets from a series of files.
+    // Grouping
+    var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets)
+        .ToList();
 
+    // Merge with some markdown text
+    var markdownProcessor = new MarkdownProcessor();
 
+    //In this case the text will be extracted from a file path
+    var result = markdownProcessor.ApplyToFile(snippetGroups, @"C:\path\mymarkdownfile.md");
 
-### Grouping
+    // List of all snippets that the markdown file expected but did not exist in the input snippets 
+    var missingSnippets = result.MissingSnippet;
 
-### Merging
+    // List of all snippets that the markdown file used
+    var usedSnippets = result.UsedSnippets;
 
+    // The resultant markdown of merging the snippets with the markdown file
+    var text = result.Text;
+
+    // This text can then be saved to a new file or overwrite the existing file
 
 ## Icon
 
