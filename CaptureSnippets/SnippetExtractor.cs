@@ -145,7 +145,7 @@ namespace CaptureSnippets
                 readSnippets.Errors.Add(error);
                 return;
             }
-            if (readSnippets.Snippets.Any(x => x.Key == loopState.CurrentKey && x.Version == parsedVersion && x.Language == language))
+            if (readSnippets.Any(x => x.Key == loopState.CurrentKey && x.Version == parsedVersion && x.Language == language))
             {
                 var error = string.Format("Duplicate key detected. File:`{0}`. Line:{1}. Key:`{2}`. Version:`{3}`", file ?? "unknown", startRow, loopState.CurrentKey,parsedVersion);
                 readSnippets.Errors.Add(error);
@@ -160,8 +160,8 @@ namespace CaptureSnippets
             }
             var snippet = new ReadSnippet
                           {
-                              StartRow = startRow,
-                              EndRow = stringReader.Index,
+                              StartLine = startRow,
+                              EndLine = stringReader.Index,
                               Key = loopState.CurrentKey,
                               Version = parsedVersion,
                               Value = value,

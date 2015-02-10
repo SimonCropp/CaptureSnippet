@@ -56,7 +56,7 @@ namespace CaptureSnippets
                                              {
                                                  Ticks = lastDirectoryWrite,
                                                  Snippets = readSnippets,
-                                                 SnippetGroups = SnippetGrouper.Group(readSnippets.Snippets).ToList()
+                                                 SnippetGroups = SnippetGrouper.Group(readSnippets).ToList()
                                              };
         }
 

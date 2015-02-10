@@ -6,7 +6,7 @@ namespace CaptureSnippets
 {
     public class MarkdownProcessor
     {
-        public ProcessResult Apply(List<SnippetGroup> snippets, string inputFile)
+        public ProcessResult ApplyToFile(List<SnippetGroup> snippets, string inputFile)
         {
             using (var reader = IndexReader.FromFile(inputFile))
             {
@@ -63,13 +63,13 @@ namespace CaptureSnippets
 
         public void AppendGroup(SnippetGroup snippetGroup, StringBuilder stringBuilder)
         {
-            foreach (var versionGroup in snippetGroup.Versions)
+            foreach (var versionGroup in snippetGroup)
             {
                 if (versionGroup.Version != null)
                 {
                     stringBuilder.AppendLine("#### Version " + versionGroup.Version);
                 }
-                foreach (var snippet in versionGroup.Snippets)
+                foreach (var snippet in versionGroup)
                 {
                     AppendSnippet(snippet, stringBuilder);
                 }

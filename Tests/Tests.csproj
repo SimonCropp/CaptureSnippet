@@ -95,6 +95,7 @@
     <None Include="scenarios\08-Duplicates\code.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="Sample.cs" />
     <Compile Include="SnippetExtractorTests.cs" />
     <Compile Include="SnippetExtractor_IsStartRegionTests.cs" />
     <Compile Include="SnippetExtractor_IsStartCodeTests.cs" />

@@ -23,7 +23,8 @@ public class ImportTestSuite
 
         var snippets = new SnippetExtractor().FromFiles(Directory.EnumerateFiles(folder, "code.cs"));
 
-        var snippetGroups = SnippetGrouper.Group(snippets.Snippets).ToList();
+        var snippetGroups = SnippetGrouper.Group(snippets)
+            .ToList();
         var result = new MarkdownProcessor().ApplyToText(snippetGroups, File.ReadAllText(input));
 
         var expected = File.ReadAllText(expectedOutput).FixNewLines();

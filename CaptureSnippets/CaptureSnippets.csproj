@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="CachedSnippetExtractor.cs" />
     <Compile Include="DirectoryDateFinder.cs" />
+    <Compile Include="Models\MissingSnippet.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="ImportKeyReader.cs" />
     <Compile Include="IndexReader.cs" />
