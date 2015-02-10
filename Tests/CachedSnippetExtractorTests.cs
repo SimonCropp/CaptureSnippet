@@ -11,7 +11,7 @@ public class CachedSnippetExtractorTests
     [Test]
     public void SecondReadShouldBeFasterThanFirstRead()
     {
-        var directory = @"C:\Code\Particular\docs.particular.net\Snippets";
+        var directory = @"scenarios\".ToCurrentDirectory();
         //warmup 
         new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs")).FromDirectory(directory);
 
@@ -30,7 +30,7 @@ public class CachedSnippetExtractorTests
     [Test]
     public void AssertOutput()
     {
-        var directory = @"C:\Code\Particular\docs.particular.net\Snippets";
+        var directory = @"scenarios\01-UpdateSimpleFile".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
         var readSnippets = cachedSnippetExtractor.FromDirectory(directory);
         ObjectApprover.VerifyWithJson(readSnippets,s => CleanOutput(s, directory));

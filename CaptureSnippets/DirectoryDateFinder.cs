@@ -5,7 +5,7 @@ using MethodTimer;
 
 namespace CaptureSnippets
 {
-    public static class DirectoryDateFinder
+    static class DirectoryDateFinder
     {
         [Time]
         public static long GetLastDirectoryWrite(IEnumerable<string> directories)

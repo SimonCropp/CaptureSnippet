@@ -1,19 +1,15 @@
-﻿{
-    "ErrorsAsMarkdown": "",
-    "Snippets": [
-        {
-            "StartRow": 3,
-            "EndRow": 4,
-            "Value": "the code",
-            "Key": "codekey",
-            "Language": "",
-            "File": null,
-            "Version": {
-                "Major": 6,
-                "Minor": null,
-                "Patch": null
-            }
+﻿[
+    {
+        "StartLine": 3,
+        "EndLine": 4,
+        "Value": "the code",
+        "Key": "codekey",
+        "Language": "",
+        "File": null,
+        "Version": {
+            "Major": 6,
+            "Minor": null,
+            "Patch": null
         }
-    ],
-    "Errors": []
-}
+    }
+]

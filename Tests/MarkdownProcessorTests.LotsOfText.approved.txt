@@ -153,52 +153,28 @@ kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 lkmdflkgmxdklfmgkdflxmg",
     "UsedSnippets": [
-        {
-            "Key": "FoundKey2",
-            "Versions": [
+        [
+            [
                 {
-                    "Version": null,
-                    "Snippets": [
-                        {
-                            "Language": null,
-                            "Value": "Value2",
-                            "Source": {
-                                "StartRow": 0,
-                                "EndRow": 0,
-                                "Value": "Value2",
-                                "Key": "FoundKey2",
-                                "Language": null,
-                                "File": null,
-                                "Version": null
-                            }
-                        }
-                    ]
+                    "StartLine": 0,
+                    "EndLine": 0,
+                    "Value": "Value2",
+                    "Language": null,
+                    "File": null
                 }
             ]
-        },
-        {
-            "Key": "FoundKey1",
-            "Versions": [
+        ],
+        [
+            [
                 {
-                    "Version": null,
-                    "Snippets": [
-                        {
-                            "Language": null,
-                            "Value": "Value1",
-                            "Source": {
-                                "StartRow": 0,
-                                "EndRow": 0,
-                                "Value": "Value1",
-                                "Key": "FoundKey1",
-                                "Language": null,
-                                "File": null,
-                                "Version": null
-                            }
-                        }
-                    ]
+                    "StartLine": 0,
+                    "EndLine": 0,
+                    "Value": "Value1",
+                    "Language": null,
+                    "File": null
                 }
             ]
-        }
+        ]
     ],
     "MissingSnippet": []
 }

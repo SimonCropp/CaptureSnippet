@@ -1,11 +1,30 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace CaptureSnippets
 {
+
+    /// <summary>
+    /// Merges <see cref="SnippetGroup"/>s with an input file/text.
+    /// </summary>
     public class MarkdownProcessor
     {
+        /// <summary>
+        /// Apply <paramref name="snippets"/> to an <paramref name="inputFile"/> <see cref="Stream"/>.
+        /// </summary>
+        public ProcessResult ApplyToFile(List<SnippetGroup> snippets, Stream inputFile)
+        {
+            using (var reader =  IndexReader.FromStream(inputFile))
+            {
+                return Apply(snippets, reader);
+            }
+        }
+
+        /// <summary>
+        /// Apply <paramref name="snippets"/> to an <paramref name="inputFile"/> <see cref="Stream"/>.
+        /// </summary>
         public ProcessResult ApplyToFile(List<SnippetGroup> snippets, string inputFile)
         {
             using (var reader = IndexReader.FromFile(inputFile))
@@ -14,15 +33,18 @@ namespace CaptureSnippets
             }
         }
 
-        public ProcessResult ApplyToText(List<SnippetGroup> availableSnippets, string markdownContent)
+        /// <summary>
+        /// Apply <paramref name="snippets"/> to an <paramref name="markdownContent"/> <see cref="string"/>.
+        /// </summary>
+        public ProcessResult ApplyToText(List<SnippetGroup> snippets, string markdownContent)
         {
             using (var reader = IndexReader.FromString(markdownContent))
             {
-                return Apply(availableSnippets, reader);
+                return Apply(snippets, reader);
             }
         }
 
-        public ProcessResult Apply(List<SnippetGroup> availableSnippets, IndexReader reader)
+        ProcessResult Apply(List<SnippetGroup> availableSnippets, IndexReader reader)
         {
             var stringBuilder = new StringBuilder();
             var result = new ProcessResult();
@@ -61,6 +83,9 @@ namespace CaptureSnippets
             return result;
         }
 
+        /// <summary>
+        /// Method that cna be override to control how an individual <see cref="SnippetGroup"/> is rendered.
+        /// </summary>
         public void AppendGroup(SnippetGroup snippetGroup, StringBuilder stringBuilder)
         {
             foreach (var versionGroup in snippetGroup)

@@ -1,17 +1,1 @@
-﻿{
-    "ErrorsAsMarkdown": "## Snippet errors\r\n\r\n * Duplicate key detected. File:`unknown`. Line:6. Key:`codekey`. Version:``\r\n\r\n",
-    "Snippets": [
-        {
-            "StartRow": 3,
-            "EndRow": 4,
-            "Value": "<configSections/>",
-            "Key": "codekey",
-            "Language": "",
-            "File": null,
-            "Version": null
-        }
-    ],
-    "Errors": [
-        "Duplicate key detected. File:`unknown`. Line:6. Key:`codekey`. Version:``"
-    ]
-}
+﻿Duplicate key detected. File:`unknown`. Line:6. Key:`codekey`. Version:``

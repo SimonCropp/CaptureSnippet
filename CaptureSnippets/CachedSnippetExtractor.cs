@@ -7,13 +7,9 @@ using MethodTimer;
 
 namespace CaptureSnippets
 {
-
-    public class CachedSnippets
-    {
-        public List<SnippetGroup> SnippetGroups;
-        public ReadSnippets Snippets;
-        public long Ticks;
-    }
+    /// <summary>
+    /// Provides a higher level abstraction over snippets parsing
+    /// </summary>
     public class CachedSnippetExtractor
     {
         Func<string, bool> includeDirectory;
@@ -22,6 +18,12 @@ namespace CaptureSnippets
 
         ConcurrentDictionary<string, CachedSnippets> directoryToSnippets = new ConcurrentDictionary<string, CachedSnippets>();
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="versionFromFilePathExtractor">The version convention that is passed to <see cref="SnippetExtractor"/>.</param>
+        /// <param name="includeDirectory">Directories to include.</param>
+        /// <param name="includeFile">Files to include.</param>
         public CachedSnippetExtractor(Func<string, Version> versionFromFilePathExtractor, Func<string,bool> includeDirectory, Func<string,bool> includeFile)
         {
             this.includeDirectory = includeDirectory;
@@ -29,6 +31,18 @@ namespace CaptureSnippets
             snippetExtractor = new SnippetExtractor(versionFromFilePathExtractor);
         }
 
+        /// <summary>
+        /// Attempts to remove and return the the cached value for <paramref name="directory"/> from the underlying <see cref="ConcurrentDictionary{TKey,TValue}"/> using <see cref="ConcurrentDictionary{TKey,TValue}.TryRemove"/>.
+        /// </summary>
+        [Time]
+        public bool TryRemoveDirectory(string directory, out CachedSnippets cachedSnippets)
+        {
+            return directoryToSnippets.TryRemove(directory, out cachedSnippets);
+        }
+
+        /// <summary>
+        /// Extract all snippets from a given directory.
+        /// </summary>
         [Time]
         public CachedSnippets FromDirectory(string directory)
         {
@@ -55,7 +69,7 @@ namespace CaptureSnippets
             return directoryToSnippets[directory] = new CachedSnippets
                                              {
                                                  Ticks = lastDirectoryWrite,
-                                                 Snippets = readSnippets,
+                                                 Errors = readSnippets.Errors,
                                                  SnippetGroups = SnippetGrouper.Group(readSnippets).ToList()
                                              };
         }
@@ -72,19 +86,12 @@ namespace CaptureSnippets
                 GetDirectoriesToInclude(child,includedDirectories);
             }
         }
+
         IEnumerable<string> GetFilesToInclude(List<string> includedDirectories)
         {
-            foreach (var directory in includedDirectories)
-            {
-                foreach (var file in Directory.EnumerateFiles(directory, "*"))
-                {
-                    if (!includeFile(Path.GetFileName(file)))
-                    {
-                        continue;
-                    }
-                    yield return file;
-                }
-            }
+            return from directory in includedDirectories 
+                   from file in Directory.EnumerateFiles(directory, "*") 
+                   where includeFile(Path.GetFileName(file)) select file;
         }
     }
 }

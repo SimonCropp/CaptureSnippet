@@ -3,6 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace CaptureSnippets
 {
+
+    /// <summary>
+    /// A simplified Major.Minor.Patch clone of <see cref="System.Version"/>.
+    /// </summary>
     [ComVisible(true)]
     public sealed class Version : IComparable, IComparable<Version>, IEquatable<Version>
     {
@@ -24,7 +28,6 @@ namespace CaptureSnippets
             Patch = patch;
         }
 
-
         public Version(int major, int minor)
         {
             if (major < 0)
@@ -34,14 +37,13 @@ namespace CaptureSnippets
             Major = major;
             Minor = minor;
         }
+
         public Version(int major)
         {
             if (major < 0)
                 throw new ArgumentOutOfRangeException("major");
             Major = major;
-            
         }
-
 
         public static bool operator ==(Version v1, Version v2)
         {
@@ -50,12 +52,10 @@ namespace CaptureSnippets
             return v1.Equals(v2);
         }
 
-
         public static bool operator !=(Version v1, Version v2)
         {
             return !(v1 == v2);
         }
-
 
         public static bool operator <(Version v1, Version v2)
         {
@@ -64,7 +64,6 @@ namespace CaptureSnippets
             return v1.CompareTo(v2) < 0;
         }
 
-
         public static bool operator <=(Version v1, Version v2)
         {
             if (v1 == null)
@@ -72,14 +71,10 @@ namespace CaptureSnippets
             return v1.CompareTo(v2) <= 0;
         }
 
-
-
         public static bool operator >(Version v1, Version v2)
         {
             return v2 < v1;
         }
-
-
 
         public static bool operator >=(Version v1, Version v2)
         {
@@ -102,7 +97,6 @@ namespace CaptureSnippets
             return Patch > version1.Patch ? 1 : -1;
         }
 
-
         public int CompareTo(Version value)
         {
             if (value == null)
@@ -116,25 +110,21 @@ namespace CaptureSnippets
             return Patch > value.Patch ? 1 : -1;
         }
 
-
         public override bool Equals(object obj)
         {
             var version = obj as Version;
             return !(version == null) && Major == version.Major && (Minor == version.Minor) && Patch == version.Patch;
         }
 
-
         public bool Equals(Version obj)
         {
             return !(obj == null) && Major == obj.Major && (Minor == obj.Minor) && Patch == obj.Patch;
         }
 
-
         public override int GetHashCode()
         {
             return 0 | (Major & 15) << 28 | (Minor.GetValueOrDefault(-1) & byte.MaxValue) << 20 | Patch.GetValueOrDefault(-1) & 4095;
         }
-
 
         public override string ToString()
         {

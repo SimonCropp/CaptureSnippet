@@ -6,6 +6,9 @@ using MethodTimer;
 
 namespace CaptureSnippets
 {
+    /// <summary>
+    /// Extracts <see cref="ReadSnippet"/>s from a given input.
+    /// </summary>
     public class SnippetExtractor
     {
         Func<string, Version> versionFromFilePathExtractor;
@@ -16,6 +19,9 @@ namespace CaptureSnippets
             
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="versionFromFilePathExtractor">How to extract a <see cref="Version"/> from a given file path. Return null for unknown version.</param>
         public SnippetExtractor(Func<string, Version> versionFromFilePathExtractor)
         {
             this.versionFromFilePathExtractor = versionFromFilePathExtractor;
@@ -123,8 +129,9 @@ namespace CaptureSnippets
                 loopState.Version = version;
                 loopState.StartLine = stringReader.Index;
                 loopState.SnippetLines = new List<string>();
+                return;
             }
-            else if (IsStartRegion(trimmedLine, out currentKey, out version))
+            if (IsStartRegion(trimmedLine, out currentKey, out version))
             {
                 loopState.EndFunc = IsEndRegion;
                 loopState.CurrentKey = currentKey;

@@ -1,6 +1,6 @@
 namespace CaptureSnippets
 {
-    public static class ImportKeyReader
+    static class ImportKeyReader
     {
         public static bool TryExtractKeyFromLine(string line, out string key)
         {

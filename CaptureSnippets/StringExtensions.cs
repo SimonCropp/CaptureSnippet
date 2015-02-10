@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CaptureSnippets
 {
-   public  static class StringExtensions
+    static class StringExtensions
     {
         public static IEnumerable<string> TrimIndentation(this IEnumerable<string> snippetLines)
         {

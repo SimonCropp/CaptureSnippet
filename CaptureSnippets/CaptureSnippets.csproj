@@ -50,7 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CachedSnippetExtractor.cs" />
+    <Compile Include="Models\CachedSnippets.cs" />
     <Compile Include="DirectoryDateFinder.cs" />
+    <Compile Include="Models\InterpretErrors.cs" />
     <Compile Include="Models\MissingSnippet.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="ImportKeyReader.cs" />
@@ -58,14 +60,13 @@
     <Compile Include="Models\ReadSnippet.cs" />
     <Compile Include="Models\SnippetGroup.cs" />
     <Compile Include="Models\VersionGroup.cs" />
-    <Compile Include="ReadSnippets.cs" />
+    <Compile Include="Models\ReadSnippets.cs" />
     <Compile Include="SnippetExtractor.cs" />
     <Compile Include="MarkdownProcessor.cs" />
     <Compile Include="MethodTimeLogger.cs" />
     <Compile Include="Models\Snippet.cs" />
     <Compile Include="Models\ProcessResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="RegexParser.cs" />
     <Compile Include="SnippetGrouper.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="VersionParser.cs" />

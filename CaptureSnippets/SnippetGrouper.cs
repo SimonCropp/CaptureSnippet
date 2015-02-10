@@ -31,8 +31,10 @@ namespace CaptureSnippets
                 var snippet = new Snippet
                               {
                                   Value = readSnippet.Value,
+                                  EndLine = readSnippet.EndLine,
+                                  File = readSnippet.File,
                                   Language = readSnippet.Language,
-                                  Source = readSnippet
+                                  StartLine = readSnippet.StartLine,
                               };
                 version.Snippets.Add(snippet);
             }

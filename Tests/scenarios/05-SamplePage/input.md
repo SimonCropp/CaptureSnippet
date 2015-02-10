@@ -2,6 +2,6 @@
 
 This is some words about the code below. Look below!
 
-<!-- import LinqToJsonBasic -->
+<!-- import LinqToJsonBasic5 -->
 
 And we're now below the code snippet. Cool eh?

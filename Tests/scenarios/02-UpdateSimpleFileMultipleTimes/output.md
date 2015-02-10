@@ -1,9 +1,9 @@
-﻿<!-- import mycodesnippet -->
+﻿<!-- import mycodesnippet2 -->
 ```cs
 this is some text to import
 ```
 
-<!-- import mycodesnippet -->
+<!-- import mycodesnippet2 -->
 ```cs
 this is some text to import
 ```

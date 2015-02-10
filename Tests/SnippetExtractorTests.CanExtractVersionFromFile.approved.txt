@@ -1,19 +1,15 @@
-﻿{
-    "ErrorsAsMarkdown": "",
-    "Snippets": [
-        {
-            "StartRow": 3,
-            "EndRow": 4,
-            "Value": "<configSections/>",
-            "Key": "codekey",
-            "Language": "",
-            "File": null,
-            "Version": {
-                "Major": 1,
-                "Minor": 1,
-                "Patch": null
-            }
+﻿[
+    {
+        "StartLine": 3,
+        "EndLine": 4,
+        "Value": "<configSections/>",
+        "Key": "codekey",
+        "Language": "",
+        "File": null,
+        "Version": {
+            "Major": 1,
+            "Minor": 1,
+            "Patch": null
         }
-    ],
-    "Errors": []
-}
+    }
+]

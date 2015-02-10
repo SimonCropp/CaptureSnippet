@@ -1,5 +1,8 @@
 namespace CaptureSnippets
 {
+    /// <summary>
+    /// Parser for converting a string to a <see cref="Version"/>.
+    /// </summary>
     public class VersionParser
     {
 

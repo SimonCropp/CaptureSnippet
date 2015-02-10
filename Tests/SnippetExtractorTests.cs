@@ -1,4 +1,6 @@
-﻿using CaptureSnippets;
+﻿using System.Linq;
+using ApprovalTests;
+using CaptureSnippets;
 using NUnit.Framework;
 using ObjectApproval;
 
@@ -16,7 +18,7 @@ public class SnippetExtractorTests
   <configSections/>
   <!-- endcode -->";
         var snippets = new SnippetExtractor().FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
+        Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
@@ -30,8 +32,9 @@ public class SnippetExtractorTests
   <configSections/>
   <!-- endcode -->";
         var snippets = new SnippetExtractor().FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
+        Approvals.Verify(snippets.Errors.Single());
     }
+
     [Test]
     public void Differ_by_version_missing_suffix()
     {
@@ -43,7 +46,7 @@ public class SnippetExtractorTests
   <configSections/>
   <!-- endcode -->";
         var snippets = new SnippetExtractor().FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
+        Approvals.Verify(snippets);
     }
 
     [Test]
@@ -54,7 +57,7 @@ public class SnippetExtractorTests
   sjfnskdjnf`knjknjkn`
   <!-- endcode -->";
         var snippets = new SnippetExtractor().FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
+        Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
@@ -111,7 +114,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey -->
   <configSections/>";
         var snippets = new SnippetExtractor().FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
+        Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
@@ -121,7 +124,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 5 -->
   <configSections/>";
         var snippets = new SnippetExtractor().FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
+        Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
@@ -131,7 +134,7 @@ public class SnippetExtractorTests
   #region CodeKey
   <configSections/>";
         var snippets = new SnippetExtractor().FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
+        Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
@@ -141,7 +144,7 @@ public class SnippetExtractorTests
   #region CodeKey 5
   <configSections/>";
         var snippets = new SnippetExtractor().FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
+        Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]

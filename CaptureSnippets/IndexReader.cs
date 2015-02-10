@@ -3,7 +3,7 @@ using System.IO;
 
 namespace CaptureSnippets
 {
-    public class IndexReader:IDisposable
+    class IndexReader:IDisposable
     {
         TextReader textReader;
         public int Index { get; private set; }
@@ -19,6 +19,10 @@ namespace CaptureSnippets
         public static IndexReader FromString(string value)
         {
             return new IndexReader(new StringReader(value));
+        }
+        public static IndexReader FromStream(Stream value)
+        {
+            return new IndexReader(new StreamReader(value));
         }
 
         public void Dispose()

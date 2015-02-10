@@ -4,7 +4,7 @@ public class LinqToJsonTests
 {
     public void LinqToJsonBasic()
     {
-        // startcode LinqToJsonBasic
+        // startcode LinqToJsonBasic5
         JObject o = JObject.Parse(@"{
         'CPU': 'Intel',
         'Drives': [
