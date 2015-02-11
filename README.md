@@ -4,8 +4,7 @@ CaptureSnippet
 
 ![Icon](https://raw.github.com/SimonCropp/CaptureSnippet/master/Icons/package_icon.png)
 
-Branched from https://github.com/shiftkey/scribble
-
+Loosely based on some code from  https://github.com/shiftkey/scribble
 
 ## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/CaptureSnippets.svg?style=flat)](https://www.nuget.org/packages/CaptureSnippets/)
 
