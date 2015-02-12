@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace CaptureSnippets
 {
@@ -27,27 +28,19 @@ namespace CaptureSnippets
 
         public void Dispose()
         {
+            textReader.Dispose();
         }
 
         public string ReadLine()
         {
             Index++;
-
-            //if (peeked != null)
-            //{
-            //    return peeked;
-            //}
             return textReader.ReadLine();
         }
+        public Task<string> ReadLineAsync()
+        {
+            Index++;
+            return textReader.ReadLineAsync();
+        }
 
-        //string peeked;
-        //public string PeekLine()
-        //{
-        //    if (peeked == null)
-        //    {
-        //        peeked = textReader.ReadLine();
-        //    }
-        //    return peeked;
-        //}
     }
 }

@@ -15,11 +15,11 @@ namespace CaptureSnippets
         /// <summary>
         /// Apply <paramref name="snippets"/> to <paramref name="textReader"/>.
         /// </summary>
-        public Task<ProcessResult> Apply(List<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
+        public async Task<ProcessResult> Apply(List<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
         {
             using (var reader = new IndexReader(textReader))
             {
-                return Apply(snippets, writer, reader);
+                return await Apply(snippets, writer, reader);
             }
         }
 
@@ -28,7 +28,7 @@ namespace CaptureSnippets
             var result = new ProcessResult();
 
             string line;
-            while ((line = reader.ReadLine()) != null)
+            while ((line = await reader.ReadLineAsync()) != null)
             {
                 await writer.WriteLineAsync(line).ConfigureAwait(false);
 
