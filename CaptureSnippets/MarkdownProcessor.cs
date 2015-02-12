@@ -30,7 +30,7 @@ namespace CaptureSnippets
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                await writer.WriteLineAsync(line);
+                await writer.WriteLineAsync(line).ConfigureAwait(false);
 
                 string key;
                 if (!ImportKeyReader.TryExtractKeyFromLine(line, out key))
@@ -47,11 +47,11 @@ namespace CaptureSnippets
                                              Line = reader.Index
                                          };
                     result.MissingSnippet.Add(missingSnippet);
-                    await writer.WriteLineAsync(string.Format("** Could not find key '{0}' **", key));
+                    await writer.WriteLineAsync(string.Format("** Could not find key '{0}' **", key)).ConfigureAwait(false);
                     continue;
                 }
 
-                await AppendGroup(snippetGroup, writer);
+                await AppendGroup(snippetGroup, writer).ConfigureAwait(false);
                 if (result.UsedSnippets.All(x => x.Key != snippetGroup.Key))
                 {
                     result.UsedSnippets.Add(snippetGroup);
@@ -69,11 +69,11 @@ namespace CaptureSnippets
             {
                 if (versionGroup.Version != null)
                 {
-                    await stringBuilder.WriteLineAsync("#### Version " + versionGroup.Version);
+                    await stringBuilder.WriteLineAsync("#### Version " + versionGroup.Version).ConfigureAwait(false);
                 }
                 foreach (var snippet in versionGroup)
                 {
-                    await AppendSnippet(snippet, stringBuilder);
+                    await AppendSnippet(snippet, stringBuilder).ConfigureAwait(false);
                 }
             }
         }
@@ -84,7 +84,7 @@ namespace CaptureSnippets
 @"```{0}
 {1}
 ```", codeSnippet.Language, codeSnippet.Value);
-            await stringBuilder.WriteLineAsync(format);
+            await stringBuilder.WriteLineAsync(format).ConfigureAwait(false);
         }
     }
 }

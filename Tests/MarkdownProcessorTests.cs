@@ -67,7 +67,7 @@ even more text
 <!-- import nonVersionedSnippet2 -->
 
 ";
-        await Verify(markdownContent, availableSnippets);
+        await Verify(markdownContent, availableSnippets).ConfigureAwait(false);
     }
 
     static async Task Verify(string markdownContent, List<SnippetGroup> availableSnippets)
@@ -77,7 +77,7 @@ even more text
         using (var reader = new StringReader(markdownContent))
         using (var writer = new StringWriter(stringBuilder))
         {
-            var processResult = await processor.Apply(availableSnippets, reader, writer);
+            var processResult = await processor.Apply(availableSnippets, reader, writer).ConfigureAwait(false);
             var ourput = new object[]
                          {
                              processResult, stringBuilder.ToString()
@@ -118,7 +118,7 @@ even more text
                     },
             };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        await Verify("<!-- import MissingKey -->", snippetGroups);
+        await Verify("<!-- import MissingKey -->", snippetGroups).ConfigureAwait(false);
     }
 
     [Test]
@@ -136,7 +136,7 @@ even more text
                     },
             };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        await Verify("<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->", snippetGroups);
+        await Verify("<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->", snippetGroups).ConfigureAwait(false);
     }
 
 
@@ -294,6 +294,6 @@ kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 lkmdflkgmxdklfmgkdflxmg
 ";
-        await Verify(markdownContent, snippetGroups);
+        await Verify(markdownContent, snippetGroups).ConfigureAwait(false);
     }
 }
