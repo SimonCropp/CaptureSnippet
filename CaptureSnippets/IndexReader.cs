@@ -13,15 +13,6 @@ namespace CaptureSnippets
             this.textReader = textReader;
         }
 
-        public static IndexReader FromFile(string path)
-        {
-            return new IndexReader(File.OpenText(path));
-        }
-        public static IndexReader FromString(string value)
-        {
-            return new IndexReader(new StringReader(value));
-        }
-
         public void Dispose()
         {
             if (textReader != null)
@@ -30,11 +21,6 @@ namespace CaptureSnippets
             }
         }
 
-        public string ReadLine()
-        {
-            Index++;
-            return textReader.ReadLine();
-        }
         public Task<string> ReadLineAsync()
         {
             Index++;

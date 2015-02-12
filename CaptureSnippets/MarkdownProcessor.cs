@@ -46,7 +46,7 @@ namespace CaptureSnippets
                                              Key = key,
                                              Line = reader.Index
                                          };
-                    result.MissingSnippet.Add(missingSnippet);
+                    result.MissingSnippets.Add(missingSnippet);
                     await writer.WriteLineAsync(string.Format("** Could not find key '{0}' **", key)).ConfigureAwait(false);
                     continue;
                 }

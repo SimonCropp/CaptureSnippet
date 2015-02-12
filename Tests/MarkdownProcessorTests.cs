@@ -80,7 +80,7 @@ even more text
             var processResult = await processor.Apply(availableSnippets, reader, writer).ConfigureAwait(false);
             var ourput = new object[]
                          {
-                             processResult, stringBuilder.ToString()
+                             processResult.MissingSnippets,processResult.UsedSnippets, stringBuilder.ToString()
                          };
             ObjectApprover.VerifyWithJson(ourput, s => s.Replace("\\r\\n", "\r\n"));
         }

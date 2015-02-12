@@ -1,17 +1,15 @@
 ﻿[
-    {
-        "UsedSnippets": [],
-        "MissingSnippet": [
-            {
-                "Key": "MissingKey1",
-                "Line": 1
-            },
-            {
-                "Key": "MissingKey2",
-                "Line": 3
-            }
-        ]
-    },
+    [
+        {
+            "Key": "MissingKey1",
+            "Line": 1
+        },
+        {
+            "Key": "MissingKey2",
+            "Line": 3
+        }
+    ],
+    [],
     "<!-- import MissingKey1 -->
 ** Could not find key 'MissingKey1' **
 

@@ -1,31 +1,29 @@
 ﻿[
-    {
-        "UsedSnippets": [
+    [],
+    [
+        [
             [
-                [
-                    {
-                        "StartLine": 0,
-                        "EndLine": 0,
-                        "Value": "Value2",
-                        "Language": null,
-                        "File": null
-                    }
-                ]
-            ],
-            [
-                [
-                    {
-                        "StartLine": 0,
-                        "EndLine": 0,
-                        "Value": "Value1",
-                        "Language": null,
-                        "File": null
-                    }
-                ]
+                {
+                    "StartLine": 0,
+                    "EndLine": 0,
+                    "Value": "Value2",
+                    "Language": null,
+                    "File": null
+                }
             ]
         ],
-        "MissingSnippet": []
-    },
+        [
+            [
+                {
+                    "StartLine": 0,
+                    "EndLine": 0,
+                    "Value": "Value1",
+                    "Language": null,
+                    "File": null
+                }
+            ]
+        ]
+    ],
     "
 <!-- import FoundKey2 -->\\r\\b\\n<!-- import FoundKey1 -->
 ```

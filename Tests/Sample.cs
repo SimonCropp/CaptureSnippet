@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Text;
 using CaptureSnippets;
 
 class Sample
@@ -13,43 +12,43 @@ class Sample
 
     async void UseSnippetExtractor()
     {
-        // get files containing snippets
-        var filesToParse = Directory.EnumerateFiles(@"C:\path", "*.*", SearchOption.AllDirectories)
-            .Where(s => s.EndsWith(".vm") || s.EndsWith(".cs"));
+    // get files containing snippets
+    var filesToParse = Directory.EnumerateFiles(@"C:\path", "*.*", SearchOption.AllDirectories)
+        .Where(s => s.EndsWith(".vm") || s.EndsWith(".cs"));
 
-        // setup version convention and extract snippets from files
-        var snippetExtractor = new SnippetExtractor(InferVersion);
-        var readSnippets = await snippetExtractor.FromFiles(filesToParse).ConfigureAwait(false);
+    // setup version convention and extract snippets from files
+    var snippetExtractor = new SnippetExtractor(InferVersion);
+    var readSnippets = await snippetExtractor.FromFiles(filesToParse)
+        .ConfigureAwait(false);
 
-        // Grouping
-        var snippetGroups = SnippetGrouper.Group(readSnippets)
-            .ToList();
+    // Grouping
+    var snippetGroups = SnippetGrouper.Group(readSnippets)
+        .ToList();
 
-        // Merge with some markdown text
-        var markdownProcessor = new MarkdownProcessor();
+    // Merge with some markdown text
+    var markdownProcessor = new MarkdownProcessor();
 
-        //In this case the text will be extracted from a file path
-        ProcessResult result;
-        var stringBuilder = new StringBuilder();
-        using (var reader = File.OpenText(@"C:\path\mymarkdownfile.md"))
-        using (var writer = new StringWriter(stringBuilder))
-        {
-            result = await markdownProcessor.Apply(snippetGroups, reader, writer).ConfigureAwait(false);
-        }
+    //In this case the text will be extracted from a file path
+    ProcessResult result;
+    using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
+    using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
+    {
+        result = await markdownProcessor.Apply(snippetGroups, reader, writer)
+            .ConfigureAwait(false);
+    }
 
-        // List of all snippets that the markdown file expected but did not exist in the input snippets 
-        var missingSnippets = result.MissingSnippet;
+    // List of all snippets that the markdown file expected but did not exist in the input snippets 
+    var missingSnippets = result.MissingSnippets;
 
-        // List of all snippets that the markdown file used
-        var usedSnippets = result.UsedSnippets;
+    // List of all snippets that the markdown file used
+    var usedSnippets = result.UsedSnippets;
 
-        // The resultant markdown of merging the snippets with the markdown file
-        var text = stringBuilder.ToString();
     }
 
     static Version InferVersion(string path)
     {
-        var directories = path.Split(Path.DirectorySeparatorChar, Path.DirectorySeparatorChar).Reverse();
+        var directories = path.Split(Path.DirectorySeparatorChar)
+            .Reverse();
         foreach (var directory in directories)
         {
             Version version;

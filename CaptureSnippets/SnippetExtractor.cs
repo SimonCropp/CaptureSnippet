@@ -34,7 +34,8 @@ namespace CaptureSnippets
             var readSnippets = new ReadSnippets();
             foreach (var file in files)
             {
-                using (var stringReader = IndexReader.FromFile(file))
+                using (var textReader = File.OpenText(file))
+                using (var stringReader = new IndexReader(textReader))
                 {
                     await GetSnippetsFromFile(readSnippets, stringReader, file).ConfigureAwait(false);
                 }

@@ -56,6 +56,23 @@ namespace CaptureSnippets
             ThrowIfErrors(cachedSnippets.Errors);
         }
 
+        /// <summary>
+        /// If any errors exist in <see cref="ProcessResult.MissingSnippets"/> they are concatenated and an exception is thrown.
+        /// </summary>
+        public static void ThrowIfErrors(this ProcessResult processResult)
+        {
+            if (processResult.MissingSnippets.Any())
+            {
+                var stringBuilder = new StringBuilder();
+                foreach (var snippet in processResult.MissingSnippets)
+                {
+                    stringBuilder.AppendFormat("Key: {0}, Line: {1}", snippet.Key, snippet.Line);
+                    stringBuilder.AppendLine();
+                }
+                throw new Exception("Missing snippets \r\n" + stringBuilder);
+            }
+        }
+
         static void ThrowIfErrors(List<string> errors)
         {
             if (errors.Any())
