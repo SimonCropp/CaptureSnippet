@@ -11,7 +11,7 @@ class Sample
     }
 
 
-    void UseSnippetExtractor()
+    async void UseSnippetExtractor()
     {
         // get files containing snippets
         var filesToParse = Directory.EnumerateFiles(@"C:\path", "*.*", SearchOption.AllDirectories)
@@ -34,7 +34,7 @@ class Sample
         using (var reader = File.OpenText(@"C:\path\mymarkdownfile.md"))
         using (var writer = new StringWriter(stringBuilder))
         {
-            result = markdownProcessor.Apply(snippetGroups, reader, writer);
+            result = await markdownProcessor.Apply(snippetGroups, reader, writer);
         }
 
         // List of all snippets that the markdown file expected but did not exist in the input snippets 

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using CaptureSnippets;
 using NUnit.Framework;
 
@@ -8,20 +9,19 @@ using NUnit.Framework;
 public class ImportTestSuite
 {
     [Test]
-    public void RunScenarios()
+    public async void RunScenarios()
     {
         var directory = @"scenarios\".ToCurrentDirectory();
         var folders = Directory.GetDirectories(directory);
 
         foreach (var folder in folders)
         {
-            Run(folder, Path.Combine(folder, "input.md"), Path.Combine(folder, "output.md"));
+            await Run(folder, Path.Combine(folder, "input.md"), Path.Combine(folder, "output.md"));
         }
     }
 
-    void Run(string folder, string input, string expectedOutput)
+    async Task Run(string folder, string input, string expectedOutput)
     {
-
         var snippets = new SnippetExtractor().FromFiles(Directory.EnumerateFiles(folder, "code.cs"));
 
         var snippetGroups = SnippetGrouper.Group(snippets)
@@ -33,7 +33,7 @@ public class ImportTestSuite
             var stringBuilder = new StringBuilder();
             using (var writer = new StringWriter(stringBuilder))
             {
-                markdownProcessor.Apply(snippetGroups, reader, writer);
+                await markdownProcessor.Apply(snippetGroups, reader, writer);
             }
 
             var expected = File.ReadAllText(expectedOutput).FixNewLines();

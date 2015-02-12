@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CaptureSnippets
 {
@@ -14,7 +15,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Apply <paramref name="snippets"/> to <paramref name="textReader"/>.
         /// </summary>
-        public ProcessResult Apply(List<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
+        public Task<ProcessResult> Apply(List<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
         {
             using (var reader = new IndexReader(textReader))
             {
@@ -22,14 +23,14 @@ namespace CaptureSnippets
             }
         }
 
-        ProcessResult Apply(List<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
+        async Task<ProcessResult> Apply(List<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
         {
             var result = new ProcessResult();
 
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                writer.WriteLine(line);
+                await writer.WriteLineAsync(line);
 
                 string key;
                 if (!ImportKeyReader.TryExtractKeyFromLine(line, out key))
@@ -37,20 +38,20 @@ namespace CaptureSnippets
                     continue;
                 }
 
-                var snippetGroup = availableSnippets.FirstOrDefault(x=>x.Key == key);
+                var snippetGroup = availableSnippets.FirstOrDefault(x => x.Key == key);
                 if (snippetGroup == null)
                 {
                     var missingSnippet = new MissingSnippet
-                    {
-                        Key = key,
-                        Line = reader.Index
-                    };
+                                         {
+                                             Key = key,
+                                             Line = reader.Index
+                                         };
                     result.MissingSnippet.Add(missingSnippet);
-                    writer.WriteLine("** Could not find key '{0}' **", key);
+                    await writer.WriteLineAsync(string.Format("** Could not find key '{0}' **", key));
                     continue;
                 }
 
-                AppendGroup(snippetGroup, writer);
+                await AppendGroup(snippetGroup, writer);
                 if (result.UsedSnippets.All(x => x.Key != snippetGroup.Key))
                 {
                     result.UsedSnippets.Add(snippetGroup);
@@ -62,26 +63,28 @@ namespace CaptureSnippets
         /// <summary>
         /// Method that cna be override to control how an individual <see cref="SnippetGroup"/> is rendered.
         /// </summary>
-        public void AppendGroup(SnippetGroup snippetGroup, TextWriter stringBuilder)
+        public async Task AppendGroup(SnippetGroup snippetGroup, TextWriter stringBuilder)
         {
             foreach (var versionGroup in snippetGroup)
             {
                 if (versionGroup.Version != null)
                 {
-                    stringBuilder.WriteLine("#### Version " + versionGroup.Version);
+                    await stringBuilder.WriteLineAsync("#### Version " + versionGroup.Version);
                 }
                 foreach (var snippet in versionGroup)
                 {
-                    AppendSnippet(snippet, stringBuilder);
+                    await AppendSnippet(snippet, stringBuilder);
                 }
             }
         }
 
-        public void AppendSnippet(Snippet codeSnippet, TextWriter stringBuilder)
+        public async Task AppendSnippet(Snippet codeSnippet, TextWriter stringBuilder)
         {
-            stringBuilder.WriteLine("```" + codeSnippet.Language);
-            stringBuilder.WriteLine(codeSnippet.Value);
-            stringBuilder.WriteLine("```");
+            var format = string.Format(
+@"```{0}
+{1}
+```", codeSnippet.Language, codeSnippet.Value);
+            await stringBuilder.WriteLineAsync(format);
         }
     }
 }
