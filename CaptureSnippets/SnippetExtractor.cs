@@ -41,12 +41,17 @@ namespace CaptureSnippets
             return readSnippets;
         }
 
-        public ReadSnippets FromText(string contents, string file = null)
+        /// <summary>
+        /// Read <see cref="ReadSnippet"/> from a <see cref="TextReader"/>.
+        /// </summary>
+        /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
+        /// <param name="source">Used to infer the version. Usually this will be the path to a file or a url.</param>
+        public ReadSnippets FromReader(TextReader textReader, string source = null)
         {
             var readSnippets = new ReadSnippets();
-            using (var reader = IndexReader.FromString(contents))
+            using (var reader = new IndexReader(textReader))
             {
-                GetSnippetsFromFile(readSnippets, reader, file);
+                GetSnippetsFromFile(readSnippets, reader, source);
             }
             return readSnippets;
         }

@@ -21,14 +21,13 @@ namespace CaptureSnippets
         {
             return new IndexReader(new StringReader(value));
         }
-        public static IndexReader FromStream(Stream value)
-        {
-            return new IndexReader(new StreamReader(value));
-        }
 
         public void Dispose()
         {
-            textReader.Dispose();
+            if (textReader != null)
+            {
+                textReader.Dispose();
+            }
         }
 
         public string ReadLine()
