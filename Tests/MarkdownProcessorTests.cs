@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using CaptureSnippets;
 using NUnit.Framework;
@@ -65,7 +66,10 @@ even more text
 
 ";
         var processor = new MarkdownProcessor();
-        ObjectApprover.VerifyWithJson(processor.ApplyToText(availableSnippets, markdownContent), s => s.Replace("\\r\\n", "\r\n"));
+        using (var reader = new StringReader(markdownContent))
+        {
+            ObjectApprover.VerifyWithJson(processor.Apply(availableSnippets, reader), s => s.Replace("\\r\\n", "\r\n"));
+        }
     }
 
     static VersionGroup CreateVersionGroup(int version)
@@ -98,8 +102,11 @@ even more text
                     },
             };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        var result = new MarkdownProcessor().ApplyToText(snippetGroups, "<!-- import MissingKey -->");
-        ObjectApprover.VerifyWithJson(result, s => s.Replace("\\r\\n", "\r\n"));
+        using (var reader = new StringReader("<!-- import MissingKey -->"))
+        {
+            var result = new MarkdownProcessor().Apply(snippetGroups, reader);
+            ObjectApprover.VerifyWithJson(result, s => s.Replace("\\r\\n", "\r\n"));
+        }
     }
 
     [Test]
@@ -117,8 +124,12 @@ even more text
                     },
             };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        var result = new MarkdownProcessor().ApplyToText(snippetGroups, "<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->");
-        ObjectApprover.VerifyWithJson(result, s => s.Replace("\\r\\n", "\r\n"));
+
+        using (var reader = new StringReader("<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->"))
+        {
+            var result = new MarkdownProcessor().Apply(snippetGroups, reader);
+            ObjectApprover.VerifyWithJson(result, s => s.Replace("\\r\\n", "\r\n"));
+        }
     }
 
 
@@ -149,7 +160,7 @@ even more text
                     },
             };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        var result = new MarkdownProcessor().ApplyToText(snippetGroups, @"
+        var markdownContent = @"
 <!-- import FoundKey2 -->\r\b\n<!-- import FoundKey1 -->
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
@@ -275,7 +286,12 @@ kdjrngkjfncgdflkgmxdklfmgkdflxmg<!-- import FoundKey1 -->
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 lkmdflkgmxdklfmgkdflxmg
-");
-        ObjectApprover.VerifyWithJson(result, s => s.Replace("\\r\\n", "\r\n"));
+";
+
+        using (var reader = new StringReader(markdownContent))
+        {
+            var result = new MarkdownProcessor().Apply(snippetGroups, reader);
+            ObjectApprover.VerifyWithJson(result, s => s.Replace("\\r\\n", "\r\n"));
+        }
     }
 }

@@ -25,11 +25,15 @@ public class ImportTestSuite
 
         var snippetGroups = SnippetGrouper.Group(snippets)
             .ToList();
-        var result = new MarkdownProcessor().ApplyToText(snippetGroups, File.ReadAllText(input));
 
-        var expected = File.ReadAllText(expectedOutput).FixNewLines();
-        var fixNewLines = result.Text.FixNewLines();
-        Assert.AreEqual(expected, fixNewLines,folder);
+        using (var reader = File.OpenText(input))
+        {
+            var result = new MarkdownProcessor().Apply(snippetGroups, reader);
+
+            var expected = File.ReadAllText(expectedOutput).FixNewLines();
+            var fixNewLines = result.Text.FixNewLines();
+            Assert.AreEqual(expected, fixNewLines, folder);
+        }
     }
 
 }

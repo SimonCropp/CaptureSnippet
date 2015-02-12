@@ -11,34 +11,13 @@ namespace CaptureSnippets
     /// </summary>
     public class MarkdownProcessor
     {
-        /// <summary>
-        /// Apply <paramref name="snippets"/> to an <paramref name="inputFile"/> <see cref="Stream"/>.
-        /// </summary>
-        public ProcessResult ApplyToFile(List<SnippetGroup> snippets, Stream inputFile)
-        {
-            using (var reader =  IndexReader.FromStream(inputFile))
-            {
-                return Apply(snippets, reader);
-            }
-        }
 
         /// <summary>
-        /// Apply <paramref name="snippets"/> to an <paramref name="inputFile"/> <see cref="Stream"/>.
+        /// Apply <paramref name="snippets"/> to <paramref name="textReader"/>.
         /// </summary>
-        public ProcessResult ApplyToFile(List<SnippetGroup> snippets, string inputFile)
+        public ProcessResult Apply(List<SnippetGroup> snippets, TextReader textReader)
         {
-            using (var reader = IndexReader.FromFile(inputFile))
-            {
-                return Apply(snippets, reader);
-            }
-        }
-
-        /// <summary>
-        /// Apply <paramref name="snippets"/> to an <paramref name="markdownContent"/> <see cref="string"/>.
-        /// </summary>
-        public ProcessResult ApplyToText(List<SnippetGroup> snippets, string markdownContent)
-        {
-            using (var reader = IndexReader.FromString(markdownContent))
+            using (var reader = new IndexReader(textReader))
             {
                 return Apply(snippets, reader);
             }
