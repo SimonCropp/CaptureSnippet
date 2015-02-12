@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ApprovalTests;
 using CaptureSnippets;
 using NUnit.Framework;
@@ -9,7 +10,7 @@ using ObjectApproval;
 public class SnippetExtractorTests
 {
     [Test]
-    public void Duplicate_Key()
+    public async void Duplicate_Key()
     {
         var input = @"
   <!-- startcode CodeKey -->
@@ -18,13 +19,13 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         Approvals.Verify(snippets.Errors.Single());
     }
 
 
     [Test]
-    public void Duplicate_Key_and_Version_and_language()
+    public async void Duplicate_Key_and_Version_and_language()
     {
         var input = @"
   <!-- startcode CodeKey 2-->
@@ -33,12 +34,12 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 2-->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
-    public void Differ_by_version_missing_suffix()
+    public async void Differ_by_version_missing_suffix()
     {
         var input = @"
   <!-- startcode CodeKey 2-->
@@ -47,23 +48,23 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 2.0-->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         Approvals.Verify(snippets);
     }
 
     [Test]
-    public void SingleCodeQuoteDetected()
+    public async void SingleCodeQuoteDetected()
     {
         var input = @"
   <!-- startcode CodeKey-->
   sjfnskdjnf`knjknjkn`
   <!-- endcode -->";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
-    public void CanExtractMultipleWithDifferentVersions()
+    public async void CanExtractMultipleWithDifferentVersions()
     {
         var input = @"
   <!-- startcode CodeKey 4 -->
@@ -72,23 +73,23 @@ public class SnippetExtractorTests
   #region CodeKey 5
   The Code
   #endregion";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void CanExtractFromXml()
+    public async void CanExtractFromXml()
     {
         var input = @"
   <!-- startcode CodeKey -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void CanExtractVersionFromFile()
+    public async void CanExtractVersionFromFile()
     {
         var input = @"
   <!-- startcode CodeKey -->
@@ -99,157 +100,158 @@ public class SnippetExtractorTests
         using (var stringReader = new StringReader(input))
         {
             var extractor = new SnippetExtractor(s => new Version(1, 1));
-            var readSnippets = extractor.FromReader(stringReader);
+            var readSnippets = await extractor.FromReader(stringReader).ConfigureAwait(false);
             ObjectApprover.VerifyWithJson(readSnippets);
         }
     }
 
-    public ReadSnippets FromText(string contents)
+    public async Task<ReadSnippets> FromText(string contents)
     {
         using (var stringReader = new StringReader(contents))
         {
-            return new SnippetExtractor().FromReader(stringReader);
+            var extractor = new SnippetExtractor();
+            return await extractor.FromReader(stringReader).ConfigureAwait(false);
         }
     }
 
 
 
     [Test]
-    public void CanExtractFromXmlWithVersion()
+    public async void CanExtractFromXmlWithVersion()
     {
         var input = @"
   <!-- startcode CodeKey 5 -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void UnClosedSnippet()
+    public async void UnClosedSnippet()
     {
         var input = @"
   <!-- startcode CodeKey -->
   <configSections/>";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
-    public void UnClosedSnippetWithVersion()
+    public async void UnClosedSnippetWithVersion()
     {
         var input = @"
   <!-- startcode CodeKey 5 -->
   <configSections/>";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
-    public void UnClosedRegion()
+    public async void UnClosedRegion()
     {
         var input = @"
   #region CodeKey
   <configSections/>";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
-    public void UnClosedRegionWithVersion()
+    public async void UnClosedRegionWithVersion()
     {
         var input = @"
   #region CodeKey 5
   <configSections/>";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         Approvals.Verify(snippets.Errors.Single());
     }
 
     [Test]
-    public void CanExtractFromRegion()
+    public async void CanExtractFromRegion()
     {
         var input = @"
   #region CodeKey
   The Code
   #endregion";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void CanExtractFromRegionWithVersion()
+    public async void CanExtractFromRegionWithVersion()
     {
         var input = @"
   #region CodeKey 5
   The Code
   #endregion";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void CanExtractWithNoTrailingCharacters()
+    public async void CanExtractWithNoTrailingCharacters()
     {
         var input = @"
   // startcode CodeKey
   the code
   // endcode ";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void CanExtractWithNoTrailingCharactersWithVersion()
+    public async void CanExtractWithNoTrailingCharactersWithVersion()
     {
         var input = @"
   // startcode CodeKey 6
   the code
   // endcode ";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void CanExtractWithMissingSpaces()
+    public async void CanExtractWithMissingSpaces()
     {
         var input = @"
   <!--startcode CodeKey-->
   <configSections/>
   <!--endcode-->";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void CanExtractWithMissingSpacesWithVersion()
+    public async void CanExtractWithMissingSpacesWithVersion()
     {
         var input = @"
   <!--startcode CodeKey 6-->
   <configSections/>
   <!--endcode-->";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void CanExtractWithTrailingWhitespace()
+    public async void CanExtractWithTrailingWhitespace()
     {
         var input = @"
   // startcode CodeKey
   the code
   // endcode   ";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
-    public void CanExtractWithTrailingWhitespaceWithVersion()
+    public async void CanExtractWithTrailingWhitespaceWithVersion()
     {
         var input = @"
   // startcode CodeKey 4
   the code
   // endcode   ";
-        var snippets = FromText(input);
+        var snippets = await FromText(input).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(snippets);
     }
 }

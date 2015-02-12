@@ -19,7 +19,7 @@ class Sample
 
         // setup version convention and extract snippets from files
         var snippetExtractor = new SnippetExtractor(InferVersion);
-        var readSnippets = snippetExtractor.FromFiles(filesToParse);
+        var readSnippets = await snippetExtractor.FromFiles(filesToParse).ConfigureAwait(false);
 
         // Grouping
         var snippetGroups = SnippetGrouper.Group(readSnippets)

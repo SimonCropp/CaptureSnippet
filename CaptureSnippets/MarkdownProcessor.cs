@@ -19,7 +19,7 @@ namespace CaptureSnippets
         {
             using (var reader = new IndexReader(textReader))
             {
-                return await Apply(snippets, writer, reader);
+                return await Apply(snippets, writer, reader).ConfigureAwait(false);
             }
         }
 
@@ -28,7 +28,7 @@ namespace CaptureSnippets
             var result = new ProcessResult();
 
             string line;
-            while ((line = await reader.ReadLineAsync()) != null)
+            while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
             {
                 await writer.WriteLineAsync(line).ConfigureAwait(false);
 

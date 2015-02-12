@@ -9,18 +9,19 @@ using ObjectApproval;
 public class CachedSnippetExtractorTests
 {
     [Test]
-    public void SecondReadShouldBeFasterThanFirstRead()
+    public async void SecondReadShouldBeFasterThanFirstRead()
     {
         var directory = @"scenarios\".ToCurrentDirectory();
         //warmup 
-        new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs")).FromDirectory(directory);
+        var snippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
+        await snippetExtractor.FromDirectory(directory).ConfigureAwait(false);
 
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
-        cachedSnippetExtractor.FromDirectory(directory);
+        await cachedSnippetExtractor.FromDirectory(directory).ConfigureAwait(false);
         firstRun.Stop();
         var secondRun = Stopwatch.StartNew();
-        cachedSnippetExtractor.FromDirectory(directory);
+        await cachedSnippetExtractor.FromDirectory(directory).ConfigureAwait(false);
         secondRun.Stop();
         Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
         Debug.WriteLine(firstRun.ElapsedMilliseconds);
@@ -28,11 +29,11 @@ public class CachedSnippetExtractorTests
     }
 
     [Test]
-    public void AssertOutput()
+    public async void AssertOutput()
     {
         var directory = @"scenarios\01-UpdateSimpleFile".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
-        var readSnippets = cachedSnippetExtractor.FromDirectory(directory);
+        var readSnippets = await cachedSnippetExtractor.FromDirectory(directory).ConfigureAwait(false);
         ObjectApprover.VerifyWithJson(readSnippets,s => CleanOutput(s, directory));
     }
 

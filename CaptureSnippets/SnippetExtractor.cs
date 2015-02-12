@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using MethodTimer;
 
 namespace CaptureSnippets
@@ -28,14 +29,14 @@ namespace CaptureSnippets
         }
 
         [Time]
-        public ReadSnippets FromFiles(IEnumerable<string> files)
+        public async Task<ReadSnippets> FromFiles(IEnumerable<string> files)
         {
             var readSnippets = new ReadSnippets();
             foreach (var file in files)
             {
                 using (var stringReader = IndexReader.FromFile(file))
                 {
-                    GetSnippetsFromFile(readSnippets, stringReader, file);
+                    await GetSnippetsFromFile(readSnippets, stringReader, file).ConfigureAwait(false);
                 }
             }
             return readSnippets;
@@ -46,12 +47,12 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
         /// <param name="source">Used to infer the version. Usually this will be the path to a file or a url.</param>
-        public ReadSnippets FromReader(TextReader textReader, string source = null)
+        public async Task<ReadSnippets> FromReader(TextReader textReader, string source = null)
         {
             var readSnippets = new ReadSnippets();
             using (var reader = new IndexReader(textReader))
             {
-                GetSnippetsFromFile(readSnippets, reader, source);
+                await GetSnippetsFromFile(readSnippets, reader, source).ConfigureAwait(false);
             }
             return readSnippets;
         }
@@ -88,13 +89,13 @@ namespace CaptureSnippets
             public bool IsInSnippet;
         }
 
-        void GetSnippetsFromFile(ReadSnippets readSnippets,IndexReader stringReader, string file)
+        async Task GetSnippetsFromFile(ReadSnippets readSnippets, IndexReader stringReader, string file)
         {
             var language = GetLanguageFromFile(file);
             var loopState = new LoopState();
             while (true)
             {
-                var line = stringReader.ReadLine();
+                var line = await stringReader.ReadLineAsync().ConfigureAwait(false);
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)
