@@ -1,18 +1,21 @@
-﻿{
-    "Text": "<!-- import MissingKey1 -->
+﻿[
+    {
+        "UsedSnippets": [],
+        "MissingSnippet": [
+            {
+                "Key": "MissingKey1",
+                "Line": 1
+            },
+            {
+                "Key": "MissingKey2",
+                "Line": 3
+            }
+        ]
+    },
+    "<!-- import MissingKey1 -->
 ** Could not find key 'MissingKey1' **
 
 <!-- import MissingKey2 -->
-** Could not find key 'MissingKey2' **",
-    "UsedSnippets": [],
-    "MissingSnippet": [
-        {
-            "Key": "MissingKey1",
-            "Line": 1
-        },
-        {
-            "Key": "MissingKey2",
-            "Line": 3
-        }
-    ]
-}
+** Could not find key 'MissingKey2' **
+"
+]

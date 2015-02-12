@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Text;
 using CaptureSnippets;
 
 class Sample
@@ -29,9 +30,11 @@ class Sample
 
         //In this case the text will be extracted from a file path
         ProcessResult result;
+        var stringBuilder = new StringBuilder();
         using (var reader = File.OpenText(@"C:\path\mymarkdownfile.md"))
+        using (var writer = new StringWriter(stringBuilder))
         {
-            result = markdownProcessor.Apply(snippetGroups, reader);
+            result = markdownProcessor.Apply(snippetGroups, reader, writer);
         }
 
         // List of all snippets that the markdown file expected but did not exist in the input snippets 
@@ -41,7 +44,7 @@ class Sample
         var usedSnippets = result.UsedSnippets;
 
         // The resultant markdown of merging the snippets with the markdown file
-        var text = result.Text;
+        var text = stringBuilder.ToString();
     }
 
     static Version InferVersion(string path)

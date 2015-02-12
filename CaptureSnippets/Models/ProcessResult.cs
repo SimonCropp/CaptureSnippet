@@ -8,10 +8,6 @@ namespace CaptureSnippets
     public class ProcessResult
     {
         /// <summary>
-        /// The resultant markdown of merging the snippets with the markdown file
-        /// </summary>
-        public string Text;
-        /// <summary>
         ///   List of all snippets that the markdown file used. 
         /// </summary>
         public List<SnippetGroup> UsedSnippets = new List<SnippetGroup>();

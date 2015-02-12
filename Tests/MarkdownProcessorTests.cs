@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using CaptureSnippets;
 using NUnit.Framework;
 using ObjectApproval;
@@ -65,28 +66,42 @@ even more text
 <!-- import nonVersionedSnippet2 -->
 
 ";
+        Verify(markdownContent, availableSnippets);
+    }
+
+    static void Verify(string markdownContent, List<SnippetGroup> availableSnippets)
+    {
         var processor = new MarkdownProcessor();
+        var stringBuilder = new StringBuilder();
         using (var reader = new StringReader(markdownContent))
+        using (var writer = new StringWriter(stringBuilder))
         {
-            ObjectApprover.VerifyWithJson(processor.Apply(availableSnippets, reader), s => s.Replace("\\r\\n", "\r\n"));
+            var processResult = processor.Apply(availableSnippets, reader, writer);
+            var ourput = new object[]
+                         {
+                             processResult, stringBuilder.ToString()
+                         };
+            ObjectApprover.VerifyWithJson(ourput, s => s.Replace("\\r\\n", "\r\n"));
         }
     }
+
 
     static VersionGroup CreateVersionGroup(int version)
     {
         return new VersionGroup
-        {
-            Version = new Version(version, 0),
-            Snippets = new List<Snippet>
+               {
+                   Version = new Version(version, 0),
+                   Snippets = new List<Snippet>
                               {
                                   new Snippet
                                   {
-                                      Language = "cs", 
+                                      Language = "cs",
                                       Value = "Snippet_v" + version
                                   }
                               }
-        };
+               };
     }
+
     [Test]
     public void MissingKey()
     {
@@ -102,11 +117,7 @@ even more text
                     },
             };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        using (var reader = new StringReader("<!-- import MissingKey -->"))
-        {
-            var result = new MarkdownProcessor().Apply(snippetGroups, reader);
-            ObjectApprover.VerifyWithJson(result, s => s.Replace("\\r\\n", "\r\n"));
-        }
+        Verify("<!-- import MissingKey -->", snippetGroups);
     }
 
     [Test]
@@ -124,12 +135,7 @@ even more text
                     },
             };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-
-        using (var reader = new StringReader("<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->"))
-        {
-            var result = new MarkdownProcessor().Apply(snippetGroups, reader);
-            ObjectApprover.VerifyWithJson(result, s => s.Replace("\\r\\n", "\r\n"));
-        }
+        Verify("<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->", snippetGroups);
     }
 
 
@@ -287,11 +293,6 @@ kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 lkmdflkgmxdklfmgkdflxmg
 ";
-
-        using (var reader = new StringReader(markdownContent))
-        {
-            var result = new MarkdownProcessor().Apply(snippetGroups, reader);
-            ObjectApprover.VerifyWithJson(result, s => s.Replace("\\r\\n", "\r\n"));
-        }
+        Verify(markdownContent, snippetGroups);
     }
 }

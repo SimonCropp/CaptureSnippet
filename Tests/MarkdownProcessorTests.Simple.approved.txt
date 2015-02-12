@@ -1,5 +1,72 @@
-﻿{
-    "Text": "
+﻿[
+    {
+        "UsedSnippets": [
+            [
+                [
+                    {
+                        "StartLine": 0,
+                        "EndLine": 0,
+                        "Value": "Snippet_v5",
+                        "Language": "cs",
+                        "File": null
+                    }
+                ],
+                [
+                    {
+                        "StartLine": 0,
+                        "EndLine": 0,
+                        "Value": "Snippet_v4",
+                        "Language": "cs",
+                        "File": null
+                    }
+                ]
+            ],
+            [
+                [
+                    {
+                        "StartLine": 0,
+                        "EndLine": 0,
+                        "Value": "Snippet_v3",
+                        "Language": "cs",
+                        "File": null
+                    }
+                ],
+                [
+                    {
+                        "StartLine": 0,
+                        "EndLine": 0,
+                        "Value": "Snippet_v2",
+                        "Language": "cs",
+                        "File": null
+                    }
+                ]
+            ],
+            [
+                [
+                    {
+                        "StartLine": 0,
+                        "EndLine": 0,
+                        "Value": "Snippet_v5",
+                        "Language": "cs",
+                        "File": null
+                    }
+                ]
+            ],
+            [
+                [
+                    {
+                        "StartLine": 0,
+                        "EndLine": 0,
+                        "Value": "Snippet_v5",
+                        "Language": "cs",
+                        "File": null
+                    }
+                ]
+            ]
+        ],
+        "MissingSnippet": []
+    },
+    "
 <!-- import versionedSnippet1 -->
 #### Version 5.0
 ```cs
@@ -36,70 +103,7 @@ even more text
 #### Version 5.0
 ```cs
 Snippet_v5
-```",
-    "UsedSnippets": [
-        [
-            [
-                {
-                    "StartLine": 0,
-                    "EndLine": 0,
-                    "Value": "Snippet_v5",
-                    "Language": "cs",
-                    "File": null
-                }
-            ],
-            [
-                {
-                    "StartLine": 0,
-                    "EndLine": 0,
-                    "Value": "Snippet_v4",
-                    "Language": "cs",
-                    "File": null
-                }
-            ]
-        ],
-        [
-            [
-                {
-                    "StartLine": 0,
-                    "EndLine": 0,
-                    "Value": "Snippet_v3",
-                    "Language": "cs",
-                    "File": null
-                }
-            ],
-            [
-                {
-                    "StartLine": 0,
-                    "EndLine": 0,
-                    "Value": "Snippet_v2",
-                    "Language": "cs",
-                    "File": null
-                }
-            ]
-        ],
-        [
-            [
-                {
-                    "StartLine": 0,
-                    "EndLine": 0,
-                    "Value": "Snippet_v5",
-                    "Language": "cs",
-                    "File": null
-                }
-            ]
-        ],
-        [
-            [
-                {
-                    "StartLine": 0,
-                    "EndLine": 0,
-                    "Value": "Snippet_v5",
-                    "Language": "cs",
-                    "File": null
-                }
-            ]
-        ]
-    ],
-    "MissingSnippet": []
-}
+```
+
+"
+]

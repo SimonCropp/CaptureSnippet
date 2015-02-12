@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Text;
 using CaptureSnippets;
 using NUnit.Framework;
 
@@ -28,10 +29,15 @@ public class ImportTestSuite
 
         using (var reader = File.OpenText(input))
         {
-            var result = new MarkdownProcessor().Apply(snippetGroups, reader);
+            var markdownProcessor = new MarkdownProcessor();
+            var stringBuilder = new StringBuilder();
+            using (var writer = new StringWriter(stringBuilder))
+            {
+                markdownProcessor.Apply(snippetGroups, reader, writer);
+            }
 
             var expected = File.ReadAllText(expectedOutput).FixNewLines();
-            var fixNewLines = result.Text.FixNewLines();
+            var fixNewLines = stringBuilder.ToString().FixNewLines().TrimTrailingNewLine();
             Assert.AreEqual(expected, fixNewLines, folder);
         }
     }
