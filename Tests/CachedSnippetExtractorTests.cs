@@ -1,9 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using CaptureSnippets;
 using NUnit.Framework;
-using ObjectApproval;
 
 [TestFixture]
 public class CachedSnippetExtractorTests
@@ -14,14 +11,14 @@ public class CachedSnippetExtractorTests
         var directory = @"scenarios\".ToCurrentDirectory();
         //warmup 
         var snippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
-        await snippetExtractor.FromDirectory(directory).ConfigureAwait(false);
+        await snippetExtractor.FromDirectory(directory);
 
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
-        await cachedSnippetExtractor.FromDirectory(directory).ConfigureAwait(false);
+        await cachedSnippetExtractor.FromDirectory(directory);
         firstRun.Stop();
         var secondRun = Stopwatch.StartNew();
-        await cachedSnippetExtractor.FromDirectory(directory).ConfigureAwait(false);
+        await cachedSnippetExtractor.FromDirectory(directory);
         secondRun.Stop();
         Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
         Debug.WriteLine(firstRun.ElapsedMilliseconds);
@@ -29,23 +26,12 @@ public class CachedSnippetExtractorTests
     }
 
     [Test]
-    public async void AssertOutput()
+    public async void EnsureErrorsAreReturned()
     {
-        var directory = @"scenarios\01-UpdateSimpleFile".ToCurrentDirectory();
+        var directory = @"badsnippets".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
-        var readSnippets = await cachedSnippetExtractor.FromDirectory(directory).ConfigureAwait(false);
-        ObjectApprover.VerifyWithJson(readSnippets,s => CleanOutput(s, directory));
+        var readSnippets = await cachedSnippetExtractor.FromDirectory(directory);
+        Assert.AreEqual(1,readSnippets.Errors.Count);
     }
 
-    static string CleanOutput(string s, string directory)
-    {
-        var replaced = s.ReplaceCaseless(directory.Replace("\\","\\\\"), "");
-        var enumerable = replaced.Split(new[]
-                                                {
-                                                    "\n"
-                                                }, StringSplitOptions.RemoveEmptyEntries)
-                                                .Where(x => !x.Contains("\"Ticks\":"))
-                                                .ToList();
-        return String.Join("\n", enumerable);
-    }
 }

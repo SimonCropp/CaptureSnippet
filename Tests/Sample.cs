@@ -19,7 +19,7 @@ class Sample
     // setup version convention and extract snippets from files
     var snippetExtractor = new SnippetExtractor(InferVersion);
     var readSnippets = await snippetExtractor.FromFiles(filesToParse)
-        .ConfigureAwait(false);
+        ;
 
     // Grouping
     var snippetGroups = SnippetGrouper.Group(readSnippets)
@@ -34,7 +34,7 @@ class Sample
     using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
     {
         result = await markdownProcessor.Apply(snippetGroups, reader, writer)
-            .ConfigureAwait(false);
+            ;
     }
 
     // List of all snippets that the markdown file expected but did not exist in the input snippets 

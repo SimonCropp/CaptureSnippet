@@ -67,24 +67,25 @@ namespace CaptureSnippets
         async Task<CachedSnippets> UpdateCache(string directory, List<string> includeDirectories, long lastDirectoryWrite)
         {
             var readSnippets = await snippetExtractor.FromFiles(GetFilesToInclude(includeDirectories)).ConfigureAwait(false);
+            var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets).ToList();
             return directoryToSnippets[directory] = new CachedSnippets
                                              {
                                                  Ticks = lastDirectoryWrite,
                                                  Errors = readSnippets.Errors,
-                                                 SnippetGroups = SnippetGrouper.Group(readSnippets).ToList()
+                                                 SnippetGroups = snippetGroups
                                              };
         }
 
         void GetDirectoriesToInclude(string directory, List<string> includedDirectories)
         {
+            if (!includeDirectory(directory))
+            {
+                return;
+            }
+            includedDirectories.Add(directory);
             foreach (var child in Directory.EnumerateDirectories(directory, "*"))
             {
-                if (!includeDirectory(child))
-                {
-                    continue;
-                }
-                includedDirectories.Add(child); 
-                GetDirectoriesToInclude(child,includedDirectories);
+                GetDirectoriesToInclude(child, includedDirectories);
             }
         }
 

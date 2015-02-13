@@ -19,7 +19,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         Approvals.Verify(snippets.Errors.Single());
     }
 
@@ -34,7 +34,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 2-->
   <configSections/>
   <!-- endcode -->";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         Approvals.Verify(snippets.Errors.Single());
     }
 
@@ -48,7 +48,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 2.0-->
   <configSections/>
   <!-- endcode -->";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         Approvals.Verify(snippets);
     }
 
@@ -59,7 +59,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey-->
   sjfnskdjnf`knjknjkn`
   <!-- endcode -->";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         Approvals.Verify(snippets.Errors.Single());
     }
 
@@ -73,7 +73,7 @@ public class SnippetExtractorTests
   #region CodeKey 5
   The Code
   #endregion";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -84,7 +84,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -100,7 +100,7 @@ public class SnippetExtractorTests
         using (var stringReader = new StringReader(input))
         {
             var extractor = new SnippetExtractor(s => new Version(1, 1));
-            var readSnippets = await extractor.FromReader(stringReader).ConfigureAwait(false);
+            var readSnippets = await extractor.FromReader(stringReader);
             ObjectApprover.VerifyWithJson(readSnippets);
         }
     }
@@ -110,7 +110,7 @@ public class SnippetExtractorTests
         using (var stringReader = new StringReader(contents))
         {
             var extractor = new SnippetExtractor();
-            return await extractor.FromReader(stringReader).ConfigureAwait(false);
+            return await extractor.FromReader(stringReader);
         }
     }
 
@@ -123,7 +123,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 5 -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -133,7 +133,7 @@ public class SnippetExtractorTests
         var input = @"
   <!-- startcode CodeKey -->
   <configSections/>";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         Approvals.Verify(snippets.Errors.Single());
     }
 
@@ -143,7 +143,7 @@ public class SnippetExtractorTests
         var input = @"
   <!-- startcode CodeKey 5 -->
   <configSections/>";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         Approvals.Verify(snippets.Errors.Single());
     }
 
@@ -153,7 +153,7 @@ public class SnippetExtractorTests
         var input = @"
   #region CodeKey
   <configSections/>";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         Approvals.Verify(snippets.Errors.Single());
     }
 
@@ -163,7 +163,7 @@ public class SnippetExtractorTests
         var input = @"
   #region CodeKey 5
   <configSections/>";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         Approvals.Verify(snippets.Errors.Single());
     }
 
@@ -174,7 +174,7 @@ public class SnippetExtractorTests
   #region CodeKey
   The Code
   #endregion";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -185,7 +185,7 @@ public class SnippetExtractorTests
   #region CodeKey 5
   The Code
   #endregion";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -196,7 +196,7 @@ public class SnippetExtractorTests
   // startcode CodeKey
   the code
   // endcode ";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -207,7 +207,7 @@ public class SnippetExtractorTests
   // startcode CodeKey 6
   the code
   // endcode ";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -218,7 +218,7 @@ public class SnippetExtractorTests
   <!--startcode CodeKey-->
   <configSections/>
   <!--endcode-->";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -229,7 +229,7 @@ public class SnippetExtractorTests
   <!--startcode CodeKey 6-->
   <configSections/>
   <!--endcode-->";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -240,7 +240,7 @@ public class SnippetExtractorTests
   // startcode CodeKey
   the code
   // endcode   ";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -251,7 +251,7 @@ public class SnippetExtractorTests
   // startcode CodeKey 4
   the code
   // endcode   ";
-        var snippets = await FromText(input).ConfigureAwait(false);
+        var snippets = await FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 }
