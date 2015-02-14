@@ -37,7 +37,7 @@ namespace CaptureSnippets
                 using (var textReader = File.OpenText(file))
                 using (var stringReader = new IndexReader(textReader))
                 {
-                    await GetSnippetsFromFile(readSnippets, stringReader, file).ConfigureAwait(false);
+                    await GetSnippetsFromFile(readSnippets, stringReader, file);
                 }
             }
             return readSnippets;
@@ -53,7 +53,7 @@ namespace CaptureSnippets
             var readSnippets = new ReadSnippets();
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippetsFromFile(readSnippets, reader, source).ConfigureAwait(false);
+                await GetSnippetsFromFile(readSnippets, reader, source);
             }
             return readSnippets;
         }
@@ -96,7 +96,7 @@ namespace CaptureSnippets
             var loopState = new LoopState();
             while (true)
             {
-                var line = await stringReader.ReadLineAsync().ConfigureAwait(false);
+                var line = await stringReader.ReadLineAsync();
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)
