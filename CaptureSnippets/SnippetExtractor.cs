@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Fody;
 using MethodTimer;
 
 namespace CaptureSnippets
@@ -10,6 +11,7 @@ namespace CaptureSnippets
     /// <summary>
     /// Extracts <see cref="ReadSnippet"/>s from a given input.
     /// </summary>
+    [ConfigureAwait(false)]
     public class SnippetExtractor
     {
         Func<string, Version> versionFromFilePathExtractor;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Fody;
 using MethodTimer;
 
 namespace CaptureSnippets
@@ -11,6 +12,7 @@ namespace CaptureSnippets
     /// <summary>
     /// Provides a higher level abstraction over snippets parsing
     /// </summary>
+    [ConfigureAwait(false)]
     public class CachedSnippetExtractor
     {
         Func<string, bool> includeDirectory;

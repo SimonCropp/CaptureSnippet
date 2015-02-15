@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Fody;
 
 namespace CaptureSnippets
 {
@@ -15,6 +16,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Apply <paramref name="snippets"/> to <paramref name="textReader"/>.
         /// </summary>
+        [ConfigureAwait(false)]
         public async Task<ProcessResult> Apply(List<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
         {
             using (var reader = new IndexReader(textReader))
@@ -23,6 +25,7 @@ namespace CaptureSnippets
             }
         }
 
+        
         async Task<ProcessResult> Apply(List<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
         {
             var result = new ProcessResult();
@@ -63,6 +66,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Method that cna be override to control how an individual <see cref="SnippetGroup"/> is rendered.
         /// </summary>
+        [ConfigureAwait(false)]
         public async Task AppendGroup(SnippetGroup snippetGroup, TextWriter stringBuilder)
         {
             foreach (var versionGroup in snippetGroup)
@@ -78,6 +82,7 @@ namespace CaptureSnippets
             }
         }
 
+        [ConfigureAwait(false)]
         public async Task AppendSnippet(Snippet codeSnippet, TextWriter stringBuilder)
         {
             var format = string.Format(
