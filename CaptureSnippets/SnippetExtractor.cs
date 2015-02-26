@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Fody;
 using MethodTimer;
 
 namespace CaptureSnippets
@@ -11,7 +10,6 @@ namespace CaptureSnippets
     /// <summary>
     /// Extracts <see cref="ReadSnippet"/>s from a given input.
     /// </summary>
-    [ConfigureAwait(false)]
     public class SnippetExtractor
     {
         Func<string, Version> versionFromFilePathExtractor;
@@ -39,7 +37,7 @@ namespace CaptureSnippets
                 using (var textReader = File.OpenText(file))
                 using (var stringReader = new IndexReader(textReader))
                 {
-                    await GetSnippetsFromFile(readSnippets, stringReader, file);
+                    await GetSnippetsFromFile(readSnippets, stringReader, file).ConfigureAwait(false);
                 }
             }
             return readSnippets;
@@ -55,7 +53,7 @@ namespace CaptureSnippets
             var readSnippets = new ReadSnippets();
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippetsFromFile(readSnippets, reader, source);
+                await GetSnippetsFromFile(readSnippets, reader, source).ConfigureAwait(false);
             }
             return readSnippets;
         }
@@ -98,7 +96,7 @@ namespace CaptureSnippets
             var loopState = new LoopState();
             while (true)
             {
-                var line = await stringReader.ReadLineAsync();
+                var line = await stringReader.ReadLineAsync().ConfigureAwait(false);
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)

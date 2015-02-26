@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Fody;
 using MethodTimer;
 
 namespace CaptureSnippets
@@ -12,7 +11,6 @@ namespace CaptureSnippets
     /// <summary>
     /// Provides a higher level abstraction over snippets parsing
     /// </summary>
-    [ConfigureAwait(false)]
     public class CachedSnippetExtractor
     {
         Func<string, bool> includeDirectory;
@@ -57,18 +55,18 @@ namespace CaptureSnippets
             CachedSnippets cachedSnippets;
             if (!directoryToSnippets.TryGetValue(directory, out cachedSnippets))
             {
-                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite);
+                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite).ConfigureAwait(false);
             }
             if (cachedSnippets.Ticks != lastDirectoryWrite)
             {
-                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite);
+                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite).ConfigureAwait(false);
             }
             return cachedSnippets;
         }
 
         async Task<CachedSnippets> UpdateCache(string directory, List<string> includeDirectories, long lastDirectoryWrite)
         {
-            var readSnippets = await snippetExtractor.FromFiles(GetFilesToInclude(includeDirectories));
+            var readSnippets = await snippetExtractor.FromFiles(GetFilesToInclude(includeDirectories)).ConfigureAwait(false);
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets).ToList();
             return directoryToSnippets[directory] = new CachedSnippets
                                              {

@@ -1,11 +1,9 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Fody;
 
 namespace CaptureSnippets
 {
-    [ConfigureAwait(false)]
     class IndexReader:IDisposable
     {
         TextReader textReader;
