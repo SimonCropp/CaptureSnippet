@@ -57,6 +57,26 @@ namespace CaptureSnippets
         }
 
         /// <summary>
+        /// Converts <see cref="ProcessResult.MissingSnippets"/> to a markdown string.
+        /// </summary>
+        public static string ErrorsAsMarkdown(this ProcessResult processResult)
+        {
+            if (!processResult.MissingSnippets.Any())
+            {
+                return "";
+            }
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("## Missing snippets\r\n");
+            foreach (var error in processResult.MissingSnippets)
+            {
+                stringBuilder.AppendLine(string.Format(" * Key:'{0}' Line:'{1}'", error.Key, error.Line));
+            }
+            stringBuilder.AppendLine();
+            return stringBuilder.ToString();
+        }
+
+
+        /// <summary>
         /// If any errors exist in <see cref="ProcessResult.MissingSnippets"/> they are concatenated and an exception is thrown.
         /// </summary>
         public static void ThrowIfErrors(this ProcessResult processResult)
