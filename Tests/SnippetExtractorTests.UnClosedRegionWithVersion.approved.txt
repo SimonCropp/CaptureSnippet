@@ -1,1 +1,1 @@
-﻿Snippet was not closed. File:`unknown`. Line:3. Key:`codekey`
+﻿Snippet was not closed. Line: 3. Key: 'codekey'.

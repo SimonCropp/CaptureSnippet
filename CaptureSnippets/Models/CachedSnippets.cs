@@ -22,7 +22,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Any errors found in the parsing of snippets.
         /// </summary>
-        public List<string> Errors = new List<string>();
+        public List<ReadSnippetError> Errors = new List<ReadSnippetError>();
         
         /// <summary>
         /// Enumerates through the <see cref="SnippetGroups"/> but will first throw an exception if there are any errors in <see cref="Errors"/>.

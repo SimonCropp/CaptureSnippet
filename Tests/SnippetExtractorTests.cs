@@ -19,8 +19,10 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = await FromText(input);
-        Approvals.Verify(snippets.Errors.Single());
+        var snippets = FromText(input).Result;
+        var readSnippetError = snippets.Errors.Single();
+        var text = readSnippetError.ToString();
+        Approvals.Verify(readSnippetError);
     }
 
 

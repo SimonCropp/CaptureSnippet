@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +23,7 @@ namespace CaptureSnippets
             return ErrorsAsMarkdown(cachedSnippets.Errors);
         }
 
-        static string ErrorsAsMarkdown(List<string> errors)
+        static string ErrorsAsMarkdown(List<ReadSnippetError> errors)
         {
             if (!errors.Any())
             {
@@ -83,22 +82,15 @@ namespace CaptureSnippets
         {
             if (processResult.MissingSnippets.Any())
             {
-                var stringBuilder = new StringBuilder();
-                foreach (var snippet in processResult.MissingSnippets)
-                {
-                    stringBuilder.AppendFormat("Key: {0}, Line: {1}", snippet.Key, snippet.Line);
-                    stringBuilder.AppendLine();
-                }
-                throw new Exception("Missing snippets \r\n" + stringBuilder);
+                throw new MissingSnippetsException(processResult.MissingSnippets);
             }
         }
 
-        static void ThrowIfErrors(List<string> errors)
+        static void ThrowIfErrors(List<ReadSnippetError> errors)
         {
             if (errors.Any())
             {
-                var error = String.Join(Environment.NewLine, errors);
-                throw new Exception(error);
+                throw new ReadSnippetsException(errors);
             }
         }
     }

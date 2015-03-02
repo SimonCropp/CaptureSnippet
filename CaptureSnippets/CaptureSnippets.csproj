@@ -54,6 +54,9 @@
     <Compile Include="DirectoryDateFinder.cs" />
     <Compile Include="Models\InterpretErrors.cs" />
     <Compile Include="Models\MissingSnippet.cs" />
+    <Compile Include="Models\ReadSnippetError.cs" />
+    <Compile Include="Models\ReadSnippetsException.cs" />
+    <Compile Include="Models\MissingSnippetsException.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="ImportKeyReader.cs" />
     <Compile Include="IndexReader.cs" />

@@ -101,8 +101,13 @@ namespace CaptureSnippets
                 {
                     if (loopState.IsInSnippet)
                     {
-                        var error = string.Format("Snippet was not closed. File:`{0}`. Line:{1}. Key:`{2}`", file ?? "unknown", loopState.StartLine.Value+1, loopState.CurrentKey);
-                        readSnippets.Errors.Add(error);
+                        readSnippets.Errors.Add(new ReadSnippetError
+                                                {
+                                                    Message = "Snippet was not closed",
+                                                    File = file,
+                                                    Line = loopState.StartLine.Value + 1,
+                                                    Key = loopState.CurrentKey,
+                                                });
                     }
                     break;
                 }
@@ -153,23 +158,41 @@ namespace CaptureSnippets
         {
             Version parsedVersion;
             var startRow = loopState.StartLine.Value + 1;
+            
             if (!TryParseVersion(file, loopState, out parsedVersion))
             {
-                var error = string.Format("Could not extract version from {0}. File:`{1}`. Line:{2}. Key:`{3}`", loopState.Version, file ?? "unknown", startRow, loopState.CurrentKey);
-                readSnippets.Errors.Add(error);
+                readSnippets.Errors.Add(new ReadSnippetError
+                                        {
+                                            Message = "Could not extract version",
+                                            File = file,
+                                            Line = startRow,
+                                            Key = loopState.CurrentKey,
+                                        });
                 return;
             }
             if (readSnippets.Any(x => x.Key == loopState.CurrentKey && x.Version == parsedVersion && x.Language == language))
             {
-                var error = string.Format("Duplicate key detected. File:`{0}`. Line:{1}. Key:`{2}`. Version:`{3}`", file ?? "unknown", startRow, loopState.CurrentKey,parsedVersion);
-                readSnippets.Errors.Add(error);
+                readSnippets.Errors.Add(new ReadSnippetError
+                                        {
+                                            Message = "Duplicate key detected",
+                                            File = file,
+                                            Line = startRow,
+                                            Key = loopState.CurrentKey,
+                                            Version = parsedVersion
+                                        });
                 return;
             }
             var value = ConvertLinesToValue(loopState.SnippetLines);
             if (value.Contains('`'))
             {
-                var error = string.Format("Sippet contains a code quote character. File:`{0}`. Line:{1}. Key:`{2}`. Version:`{3}`", file ?? "unknown", startRow, loopState.CurrentKey, parsedVersion);
-                readSnippets.Errors.Add(error);
+                readSnippets.Errors.Add(new ReadSnippetError
+                                        {
+                                            Message = "Snippet contains a code quote character",
+                                            File = file,
+                                            Line =startRow,
+                                            Key = loopState.CurrentKey,
+                                            Version = parsedVersion
+                                        });
                 return;
             }
             var snippet = new ReadSnippet
