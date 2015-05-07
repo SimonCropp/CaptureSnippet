@@ -219,7 +219,6 @@ namespace CaptureSnippets
             return VersionParser.TryParseVersion(stringVersion, out parsedVersion);
         }
 
-
         static string ConvertLinesToValue(List<string> snippetLines)
         {
             var snippetValue = snippetLines
@@ -238,12 +237,12 @@ namespace CaptureSnippets
             return line.IndexOf("endcode", StringComparison.Ordinal) >= 0;
         }
 
-        public static bool IsStartRegion(string line, out string key, out string version)
+        internal static bool IsStartRegion(string line, out string key, out string version)
         {
             return Extract(line, out key, out version, "#region");
         }
 
-        public static bool IsStartCode(string line, out string key, out string version)
+        internal static bool IsStartCode(string line, out string key, out string version)
         {
             return Extract(line.Replace("-->",""), out key, out version, "startcode");
         }
