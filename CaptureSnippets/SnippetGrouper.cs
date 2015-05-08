@@ -19,7 +19,7 @@ namespace CaptureSnippets
                               };
                     snippetGroups.Add(snippetGroup);
                 }
-                var version = snippetGroup.FirstOrDefault(x => x.Version == readSnippet.Version);
+                var version = snippetGroup.FirstOrDefault(x => VersionEquator.Equals(x.Version, readSnippet.Version));
                 if (version == null)
                 {
                     version = new VersionGroup
@@ -41,7 +41,7 @@ namespace CaptureSnippets
 
             foreach (var snippetGroup in snippetGroups)
             {
-                snippetGroup.Versions = snippetGroup.OrderByDescending(x => x.Version).ToList();
+                snippetGroup.Versions = snippetGroup.OrderByDescending(x => x.Version, VersionComparer.Instance).ToList();
                 foreach (var versionGroup in snippetGroup)
                 {
                     versionGroup.Snippets = versionGroup.OrderBy(x => x.Language).ToList();

@@ -1,8 +1,11 @@
-﻿namespace CaptureSnippets
+﻿using System.Collections.Generic;
+
+namespace CaptureSnippets
 {
-    static class VersionComparer
+    public class VersionComparer: IComparer<Version>
     {
-        internal static int Compare(Version version1, Version version2)
+        public static VersionComparer Instance = new VersionComparer();
+        public int Compare(Version version1, Version version2)
         {
             if (version1 == null)
                 return 1;

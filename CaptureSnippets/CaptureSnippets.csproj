@@ -73,6 +73,7 @@
     <Compile Include="SnippetGrouper.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="VersionComparer.cs" />
+    <Compile Include="VersionEquator.cs" />
     <Compile Include="VersionParser.cs" />
   </ItemGroup>
   <ItemGroup>

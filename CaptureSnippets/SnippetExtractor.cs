@@ -170,7 +170,7 @@ namespace CaptureSnippets
                                         });
                 return;
             }
-            if (readSnippets.Snippets.Any(x => x.Key == loopState.CurrentKey && x.Version == parsedVersion && x.Language == language))
+            if (readSnippets.Snippets.Any(x => x.Key == loopState.CurrentKey && VersionEquator.Equals(x.Version, parsedVersion) && x.Language == language))
             {
                 readSnippets.Errors.Add(new ReadSnippetError
                                         {

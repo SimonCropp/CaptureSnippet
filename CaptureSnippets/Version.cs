@@ -8,7 +8,7 @@ namespace CaptureSnippets
     /// A simplified Major.Minor.Patch clone of <see cref="System.Version"/>.
     /// </summary>
     [ComVisible(true)]
-    public sealed class Version : IComparable, IComparable<Version>, IEquatable<Version>
+    public sealed class Version 
     {
 
         public readonly int Major;
@@ -45,50 +45,6 @@ namespace CaptureSnippets
             Major = major;
         }
 
-        public static bool operator ==(Version v1, Version v2)
-        {
-            if (ReferenceEquals(v1, null))
-                return ReferenceEquals(v2, null);
-            return v1.Equals(v2);
-        }
-
-        public static bool operator !=(Version v1, Version v2)
-        {
-            return !(v1 == v2);
-        }
-
-        public int CompareTo(object version)
-        {
-            if (version == null)
-                return 1;
-            var version1 = version as Version;
-            if (version1 == null)
-                throw new ArgumentException();
-            if (Major != version1.Major)
-                return Major > version1.Major ? 1 : -1;
-            if (Minor != version1.Minor)
-                return Minor > version1.Minor ? 1 : -1;
-            if (Patch == version1.Patch)
-                return 0;
-            return Patch > version1.Patch ? 1 : -1;
-        }
-
-        public int CompareTo(Version value)
-        {
-            return VersionComparer.Compare(value,this);
-        }
-
-
-        public bool Equals(Version obj)
-        {
-            return VersionEquator.Equals(obj, this);
-        }
-
-        public override int GetHashCode()
-        {
-            return 0 | (Major & 15) << 28 | (Minor.GetValueOrDefault(-1) & byte.MaxValue) << 20 | Patch.GetValueOrDefault(-1) & 4095;
-        }
-
         public override string ToString()
         {
             if (Patch == null)
@@ -102,15 +58,6 @@ namespace CaptureSnippets
             }
 
             return Major + "." + Minor+ "." + Patch;
-        }
-    }
-
-    static class VersionEquator
-    {
-
-        internal static bool Equals(Version obj, Version version)
-        {
-            return !(obj == null) && version.Major == obj.Major && (version.Minor == obj.Minor) && version.Patch == obj.Patch;
         }
     }
 }
