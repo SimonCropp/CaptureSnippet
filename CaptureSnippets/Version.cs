@@ -99,15 +99,7 @@ namespace CaptureSnippets
 
         public int CompareTo(Version value)
         {
-            if (value == null)
-                return 1;
-            if (Major != value.Major)
-                return Major > value.Major ? 1 : -1;
-            if (Minor != value.Minor)
-                return Minor > value.Minor ? 1 : -1;
-            if (Patch == value.Patch)
-                return 0;
-            return Patch > value.Patch ? 1 : -1;
+            return VersionComparer.Compare(value,this);
         }
 
         public override bool Equals(object obj)
