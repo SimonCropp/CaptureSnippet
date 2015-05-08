@@ -57,30 +57,6 @@ namespace CaptureSnippets
             return !(v1 == v2);
         }
 
-        public static bool operator <(Version v1, Version v2)
-        {
-            if (v1 == null)
-                throw new ArgumentNullException("v1");
-            return v1.CompareTo(v2) < 0;
-        }
-
-        public static bool operator <=(Version v1, Version v2)
-        {
-            if (v1 == null)
-                throw new ArgumentNullException("v1");
-            return v1.CompareTo(v2) <= 0;
-        }
-
-        public static bool operator >(Version v1, Version v2)
-        {
-            return v2 < v1;
-        }
-
-        public static bool operator >=(Version v1, Version v2)
-        {
-            return v2 <= v1;
-        }
-
         public int CompareTo(object version)
         {
             if (version == null)
@@ -102,11 +78,6 @@ namespace CaptureSnippets
             return VersionComparer.Compare(value,this);
         }
 
-        public override bool Equals(object obj)
-        {
-            var version = obj as Version;
-            return !(version == null) && this.Major == version.Major && (this.Minor == version.Minor) && this.Patch == version.Patch;
-        }
 
         public bool Equals(Version obj)
         {
