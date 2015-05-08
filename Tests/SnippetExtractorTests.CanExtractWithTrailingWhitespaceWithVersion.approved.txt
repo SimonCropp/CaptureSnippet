@@ -6,10 +6,6 @@
     "Key": "codekey",
     "Language": "",
     "File": null,
-    "Version": {
-      "Major": 4,
-      "Minor": null,
-      "Patch": null
-    }
+    "Version": "4"
   }
 ]

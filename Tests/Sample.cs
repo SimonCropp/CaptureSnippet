@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using CaptureSnippets;
+using Version = CaptureSnippets.Version;
 
 class Sample
 {

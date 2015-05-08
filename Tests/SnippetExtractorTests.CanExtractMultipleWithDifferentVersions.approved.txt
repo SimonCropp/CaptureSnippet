@@ -6,11 +6,7 @@
     "Key": "codekey",
     "Language": "",
     "File": null,
-    "Version": {
-      "Major": 4,
-      "Minor": null,
-      "Patch": null
-    }
+    "Version": "4"
   },
   {
     "StartLine": 6,
@@ -19,10 +15,6 @@
     "Key": "codekey",
     "Language": "",
     "File": null,
-    "Version": {
-      "Major": 5,
-      "Minor": null,
-      "Patch": null
-    }
+    "Version": "5"
   }
 ]

@@ -89,6 +89,7 @@
     <None Include="scenarios\07-WeirdCharacters\code.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Sample.cs" />
     <None Include="badsnippets\code.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -97,6 +98,7 @@
     <Compile Include="SnippetExtractor_IsStartRegionTests.cs" />
     <Compile Include="SnippetExtractor_IsStartCodeTests.cs" />
     <Compile Include="SnippetGrouperTests.cs" />
+    <Compile Include="SnippetVersionConverter.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="StringExtensionTests.cs" />
     <None Include="scenarios\06-IgnoreCase\input.md">
