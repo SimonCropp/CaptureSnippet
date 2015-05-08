@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 namespace CaptureSnippets
 {
@@ -7,7 +6,6 @@ namespace CaptureSnippets
     /// <summary>
     /// A simplified Major.Minor.Patch clone of <see cref="System.Version"/>.
     /// </summary>
-    [ComVisible(true)]
     public sealed class Version 
     {
 

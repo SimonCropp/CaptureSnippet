@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CachedSnippetExtractor.cs" />
+    <Compile Include="Guard.cs" />
     <Compile Include="Models\CachedSnippets.cs" />
     <Compile Include="DirectoryDateFinder.cs" />
     <Compile Include="Models\InterpretErrors.cs" />

@@ -170,17 +170,45 @@ namespace CaptureSnippets
                                         });
                 return;
             }
-            if (readSnippets.Snippets.Any(x => x.Key == loopState.CurrentKey && VersionEquator.Equals(x.Version, parsedVersion) && x.Language == language))
+            var keyedSnippets = readSnippets.Snippets.Where(x => x.Key == loopState.CurrentKey)
+                .ToList();
+            if (keyedSnippets.Any())
             {
-                readSnippets.Errors.Add(new ReadSnippetError
-                                        {
-                                            Message = "Duplicate key detected",
-                                            File = file,
-                                            Line = startRow,
-                                            Key = loopState.CurrentKey,
-                                            Version = parsedVersion
-                                        });
-                return;
+                if (keyedSnippets.Any(x => VersionEquator.Equals(x.Version, parsedVersion) && x.Language == language))
+                {
+                    readSnippets.Errors.Add(new ReadSnippetError
+                    {
+                        Message = "Duplicate key detected",
+                        File = file,
+                        Line = startRow,
+                        Key = loopState.CurrentKey,
+                        Version = parsedVersion
+                    });
+                    return;
+                }
+                if (parsedVersion != null && keyedSnippets.Any(x => x.Version == null))
+                {
+                    readSnippets.Errors.Add(new ReadSnippetError
+                    {
+                        Message = "Cannot mix null and non-null versions",
+                        File = file,
+                        Line = startRow,
+                        Key = loopState.CurrentKey,
+                        Version = parsedVersion
+                    });
+                    return;
+                }
+                if (parsedVersion == null && keyedSnippets.Any(x => x.Version != null))
+                {
+                    readSnippets.Errors.Add(new ReadSnippetError
+                    {
+                        Message = "Cannot mix null and non-null versions",
+                        File = file,
+                        Line = startRow,
+                        Key = loopState.CurrentKey,
+                    });
+                    return;
+                }
             }
             var value = ConvertLinesToValue(loopState.SnippetLines);
             if (value.Contains('`'))
