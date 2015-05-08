@@ -105,12 +105,12 @@ namespace CaptureSnippets
         public override bool Equals(object obj)
         {
             var version = obj as Version;
-            return !(version == null) && Major == version.Major && (Minor == version.Minor) && Patch == version.Patch;
+            return !(version == null) && this.Major == version.Major && (this.Minor == version.Minor) && this.Patch == version.Patch;
         }
 
         public bool Equals(Version obj)
         {
-            return !(obj == null) && Major == obj.Major && (Minor == obj.Minor) && Patch == obj.Patch;
+            return VersionEquator.Equals(obj, this);
         }
 
         public override int GetHashCode()
@@ -131,6 +131,15 @@ namespace CaptureSnippets
             }
 
             return Major + "." + Minor+ "." + Patch;
+        }
+    }
+
+    static class VersionEquator
+    {
+
+        internal static bool Equals(Version obj, Version version)
+        {
+            return !(obj == null) && version.Major == obj.Major && (version.Minor == obj.Minor) && version.Patch == obj.Patch;
         }
     }
 }
