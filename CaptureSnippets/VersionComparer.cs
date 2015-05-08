@@ -7,8 +7,16 @@ namespace CaptureSnippets
         public static VersionComparer Instance = new VersionComparer();
         public int Compare(Version version1, Version version2)
         {
+            if (version1 == version2)
+                return 0;
             if (version1 == null)
-                return 1;
+            {
+                return -1;
+            }
+            if (version2 == null)
+            {
+                return 0;
+            }
             if (version2.Major != version1.Major)
                 return version2.Major > version1.Major ? 1 : -1;
             if (version2.Minor != version1.Minor)

@@ -3,9 +3,21 @@
     static class VersionEquator
     {
 
-        internal static bool Equals(Version obj, Version version)
+        internal static bool Equals(Version version1, Version version2)
         {
-            return obj != null && version.Major == obj.Major && (version.Minor == obj.Minor) && version.Patch == obj.Patch;
+            if (version1 == version2)
+            {
+                return true;
+            }
+            if (version1 == null)
+            {
+                return false;
+            }
+            if (version2 == null)
+            {
+                return false;
+            }
+            return version2.Major == version1.Major && (version2.Minor == version1.Minor) && version2.Patch == version1.Patch;
         }
     }
 }

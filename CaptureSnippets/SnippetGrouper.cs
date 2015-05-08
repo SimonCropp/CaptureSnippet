@@ -39,14 +39,14 @@ namespace CaptureSnippets
                 version.Snippets.Add(snippet);
             }
 
-            foreach (var snippetGroup in snippetGroups)
-            {
-                snippetGroup.Versions = snippetGroup.OrderByDescending(x => x.Version, VersionComparer.Instance).ToList();
-                foreach (var versionGroup in snippetGroup)
-                {
-                    versionGroup.Snippets = versionGroup.OrderBy(x => x.Language).ToList();
-                }
-            }
+            //foreach (var snippetGroup in snippetGroups)
+            //{
+            //    snippetGroup.Versions = snippetGroup.OrderByDescending(x => x.Version, VersionComparer.Instance).ToList();
+            //    foreach (var versionGroup in snippetGroup)
+            //    {
+            //        versionGroup.Snippets = versionGroup.OrderBy(x => x.Language).ToList();
+            //    }
+            //}
             return snippetGroups;
         }
     }
