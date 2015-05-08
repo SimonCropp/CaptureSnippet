@@ -1,12 +1,12 @@
 ﻿[
-    [
-        {
-            "Key": "MissingKey",
-            "Line": 1
-        }
-    ],
-    [],
-    "<!-- import MissingKey -->
+  [
+    {
+      "Key": "MissingKey",
+      "Line": 1
+    }
+  ],
+  [],
+  "<!-- import MissingKey -->
 ** Could not find key 'MissingKey' **
 "
 ]

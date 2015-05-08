@@ -1,15 +1,15 @@
 ﻿[
-    {
-        "StartLine": 3,
-        "EndLine": 4,
-        "Value": "the code",
-        "Key": "codekey",
-        "Language": "",
-        "File": null,
-        "Version": {
-            "Major": 4,
-            "Minor": null,
-            "Patch": null
-        }
+  {
+    "StartLine": 3,
+    "EndLine": 4,
+    "Value": "the code",
+    "Key": "codekey",
+    "Language": "",
+    "File": null,
+    "Version": {
+      "Major": 4,
+      "Minor": null,
+      "Patch": null
     }
+  }
 ]

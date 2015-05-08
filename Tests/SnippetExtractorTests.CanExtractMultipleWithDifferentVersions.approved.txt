@@ -1,28 +1,28 @@
 ﻿[
-    {
-        "StartLine": 3,
-        "EndLine": 4,
-        "Value": "<configSections/>",
-        "Key": "codekey",
-        "Language": "",
-        "File": null,
-        "Version": {
-            "Major": 4,
-            "Minor": null,
-            "Patch": null
-        }
-    },
-    {
-        "StartLine": 6,
-        "EndLine": 7,
-        "Value": "The Code",
-        "Key": "codekey",
-        "Language": "",
-        "File": null,
-        "Version": {
-            "Major": 5,
-            "Minor": null,
-            "Patch": null
-        }
+  {
+    "StartLine": 3,
+    "EndLine": 4,
+    "Value": "<configSections/>",
+    "Key": "codekey",
+    "Language": "",
+    "File": null,
+    "Version": {
+      "Major": 4,
+      "Minor": null,
+      "Patch": null
     }
+  },
+  {
+    "StartLine": 6,
+    "EndLine": 7,
+    "Value": "The Code",
+    "Key": "codekey",
+    "Language": "",
+    "File": null,
+    "Version": {
+      "Major": 5,
+      "Minor": null,
+      "Patch": null
+    }
+  }
 ]

@@ -1,15 +1,15 @@
 ﻿[
-    {
-        "StartLine": 3,
-        "EndLine": 4,
-        "Value": "<configSections/>",
-        "Key": "codekey",
-        "Language": "",
-        "File": null,
-        "Version": {
-            "Major": 5,
-            "Minor": null,
-            "Patch": null
-        }
+  {
+    "StartLine": 3,
+    "EndLine": 4,
+    "Value": "<configSections/>",
+    "Key": "codekey",
+    "Language": "",
+    "File": null,
+    "Version": {
+      "Major": 5,
+      "Minor": null,
+      "Patch": null
     }
+  }
 ]
