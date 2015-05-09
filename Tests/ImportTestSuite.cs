@@ -22,7 +22,7 @@ public class ImportTestSuite
 
     async Task Run(string folder, string input, string expectedOutput)
     {
-        var extractor = new SnippetExtractor(s => Version.ExplicitNull);
+        var extractor = new SnippetExtractor(s => Version.ExplicitEmpty);
         var snippets = await extractor.FromFiles(Directory.EnumerateFiles(folder, "code.cs"));
 
         var snippetGroups = SnippetGrouper.Group(snippets)

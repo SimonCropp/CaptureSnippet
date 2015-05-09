@@ -35,13 +35,13 @@ namespace CaptureSnippets
             stringBuilder.AppendFormat(" Key: '{0}'.", Key);
             if (Version != null)
             {
-                if (Version != Version.ExplicitNull)
+                if (Version != Version.ExplicitEmpty)
                 {
                     stringBuilder.AppendFormat(" Version: {0}.", Version);
                 }
                 else
                 {
-                    stringBuilder.Append(" Version: ExplicitNull.");
+                    stringBuilder.Append(" Version: ExplicitEmpty.");
                 }
             }
             return stringBuilder.ToString();

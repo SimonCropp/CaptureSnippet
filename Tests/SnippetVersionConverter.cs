@@ -12,9 +12,9 @@ class SnippetVersionConverter : JsonConverter
             return;
         }
         var version = (Version)value;
-        if (version == Version.ExplicitNull)
+        if (version == Version.ExplicitEmpty)
         {
-            writer.WriteValue("explicitnull");
+            writer.WriteValue("explicitempty");
             return;
         }
         writer.WriteValue(version.ToString());

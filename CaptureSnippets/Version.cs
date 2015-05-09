@@ -8,11 +8,10 @@ namespace CaptureSnippets
     /// </summary>
     public sealed class Version 
     {
-
-        public readonly int Major;
-        public readonly int? Minor;
-        public readonly int? Patch;
-        public static Version ExplicitNull = new Version();
+        int major;
+        int? minor;
+        int? patch;
+        public static Version ExplicitEmpty = new Version();
         public Version(int major, int minor, int patch)
         {
             if (major < 0)
@@ -49,9 +48,9 @@ namespace CaptureSnippets
 
         public override string ToString()
         {
-            if (IsExplicitNullVersion)
+            if (IsExplicitEmptyVersion)
             {
-                throw new Exception("Cannot convert a null version to a string.");
+                throw new Exception("Cannot convert an explicit empty version to a string.");
             }
             if (Patch == null)
             {
@@ -66,9 +65,45 @@ namespace CaptureSnippets
             return Major + "." + Minor+ "." + Patch;
         }
 
-        public bool IsExplicitNullVersion
+        public bool IsExplicitEmptyVersion
         {
-            get { return this == ExplicitNull; }
+            get { return this == ExplicitEmpty; }
+        }
+
+        public int? Minor
+        {
+            get
+            {
+                ThrowForExplcitEmpty(); return minor;
+            }
+            private set { minor = value; }
+        }
+
+        public int Major
+        {
+            get
+            {
+                ThrowForExplcitEmpty(); return major;
+            }
+            private set { major = value; }
+        }
+
+        public int? Patch
+        {
+            get
+            {
+                ThrowForExplcitEmpty();
+                return patch;
+            }
+            private set { patch = value; }
+        }
+
+        void ThrowForExplcitEmpty()
+        {
+            if (IsExplicitEmptyVersion)
+            {
+                throw new Exception("Cannot access this property for an ExplicitEmpty.");
+            }
         }
     }
 }

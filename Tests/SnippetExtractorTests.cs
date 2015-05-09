@@ -24,6 +24,33 @@ public class SnippetExtractorTests
         Approvals.Verify(readSnippetError);
     }
 
+    [Test]
+    public async void Mixing_null_and_non_null_versions()
+    {
+        var input = @"
+  <!-- startcode CodeKey 2-->
+  <configSections/>
+  <!-- endcode -->
+  <!-- startcode CodeKey vnull-->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = await FromText(input);
+        Approvals.Verify(snippets.Errors.Single());
+    }
+
+    [Test]
+    public async void Mixing_non_null_and_null_versions()
+    {
+        var input = @"
+  <!-- startcode CodeKey vnull-->
+  <configSections/>
+  <!-- endcode -->
+  <!-- startcode CodeKey 2-->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = await FromText(input);
+        Approvals.Verify(snippets.Errors.Single());
+    }
 
     [Test]
     public async void Duplicate_Key_and_Version_and_language()
@@ -108,7 +135,7 @@ public class SnippetExtractorTests
     {
         using (var stringReader = new StringReader(contents))
         {
-            var extractor = new SnippetExtractor(s => Version.ExplicitNull);
+            var extractor = new SnippetExtractor(s => Version.ExplicitEmpty);
             return await extractor.FromReader(stringReader);
         }
     }

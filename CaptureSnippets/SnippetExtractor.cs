@@ -192,7 +192,7 @@ namespace CaptureSnippets
                     return;
                 }
                 //TODO verify
-                if (parsedVersion != null && keyedSnippets.Any(x => x.Version == Version.ExplicitNull))
+                if (parsedVersion != Version.ExplicitEmpty && keyedSnippets.Any(x => x.Version == Version.ExplicitEmpty))
                 {
                     errors.Add(new ReadSnippetError(
                         message : "Cannot mix null and non-null versions",
@@ -202,7 +202,7 @@ namespace CaptureSnippets
                         version : parsedVersion));
                     return;
                 }
-                if (parsedVersion == null && keyedSnippets.Any(x => x.Version != Version.ExplicitNull))
+                if (parsedVersion == Version.ExplicitEmpty && keyedSnippets.Any(x => x.Version != Version.ExplicitEmpty))
                 {
                     errors.Add(new ReadSnippetError(
                         message : "Cannot mix null and non-null versions",
@@ -242,7 +242,7 @@ namespace CaptureSnippets
                 parsedVersion = versionFromFilePathExtractor(file);
                 if (parsedVersion == null)
                 {
-                    throw new Exception("Null version received from 'versionFromFilePathExtractor'. Did you mean to use 'CaptureSnippets.Version.ExplicitNull'.");
+                    throw new Exception("Null version received from 'versionFromFilePathExtractor'. Did you mean to use 'CaptureSnippets.Version.ExplicitEmpty'.");
                 }
                 return true;
             }

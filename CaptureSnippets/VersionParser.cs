@@ -10,7 +10,7 @@ namespace CaptureSnippets
         {
             if (stringVersion == "vnull")
             {
-                parsedVersion = Version.ExplicitNull;
+                parsedVersion = Version.ExplicitEmpty;
                 return true;
             }
 

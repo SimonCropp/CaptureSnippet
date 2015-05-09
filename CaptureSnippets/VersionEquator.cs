@@ -11,11 +11,11 @@ namespace CaptureSnippets
             {
                 return true;
             }
-            if (version1 == null)
+            if (version1 == Version.ExplicitEmpty)
             {
                 return false;
             }
-            if (version2 == null)
+            if (version2 == Version.ExplicitEmpty)
             {
                 return false;
             }
@@ -24,7 +24,7 @@ namespace CaptureSnippets
 
         public int GetHashCode(Version version)
         {
-            if (version == Version.ExplicitNull)
+            if (version == Version.ExplicitEmpty)
             {
                 return 0;
             }

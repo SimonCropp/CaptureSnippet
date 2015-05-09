@@ -13,7 +13,7 @@ namespace CaptureSnippets
             {
                 if (initialPadding == null)
                 {
-                    initialPadding = new String(line.TakeWhile(char.IsWhiteSpace).ToArray());
+                    initialPadding = new string(line.TakeWhile(char.IsWhiteSpace).ToArray());
                 }
                 yield return line.RemoveStart(initialPadding);
             }
@@ -21,9 +21,9 @@ namespace CaptureSnippets
 
         public static string TrimNonCharacters(this string line)
         {
-            var array = line.SkipWhile(c => !Char.IsLetterOrDigit(c))
+            var array = line.SkipWhile(c => !char.IsLetterOrDigit(c))
                 .Reverse()
-                .SkipWhile(c => !Char.IsLetterOrDigit(c))
+                .SkipWhile(c => !char.IsLetterOrDigit(c))
                 .Reverse().ToArray();
             return new string(array);
         }

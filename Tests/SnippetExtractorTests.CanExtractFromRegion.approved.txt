@@ -6,6 +6,6 @@
     "Key": "codekey",
     "Language": "",
     "File": null,
-    "Version": "explicitnull"
+    "Version": "explicitempty"
   }
 ]
