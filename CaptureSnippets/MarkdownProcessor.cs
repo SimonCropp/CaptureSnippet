@@ -42,11 +42,8 @@ namespace CaptureSnippets
                 var snippetGroup = availableSnippets.FirstOrDefault(x => x.Key == key);
                 if (snippetGroup == null)
                 {
-                    var missingSnippet = new MissingSnippet
-                                         {
-                                             Key = key,
-                                             Line = reader.Index
-                                         };
+                    var missingSnippet = new MissingSnippet(key : key,
+                                             line: reader.Index);
                     result.MissingSnippets.Add(missingSnippet);
                     await writer.WriteLineAsync(string.Format("** Could not find key '{0}' **", key)).ConfigureAwait(false);
                     continue;
