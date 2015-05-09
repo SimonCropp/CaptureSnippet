@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CaptureSnippets
 {
     public class MissingSnippetsException : Exception
     {
-        public List<MissingSnippet> MissingSnippets { get; private set; }
+        public readonly IEnumerable<MissingSnippet> MissingSnippets;
 
-        public MissingSnippetsException(List<MissingSnippet> missingSnippets)
-            : base(ToMessage(missingSnippets))
+        public MissingSnippetsException(IEnumerable<MissingSnippet> missingSnippets)
         {
-            MissingSnippets = missingSnippets;
+            MissingSnippets = missingSnippets.ToList();
         }
 
         public override string ToString()
@@ -19,14 +19,18 @@ namespace CaptureSnippets
             return Message;
         }
 
-        static string ToMessage(List<MissingSnippet> missingSnippets)
+        public override string Message
         {
-            var stringBuilder = new StringBuilder();
-            foreach (var snippet in missingSnippets)
+            get
             {
-                stringBuilder.AppendLine(snippet.ToString());
+                var stringBuilder = new StringBuilder();
+                foreach (var snippet in MissingSnippets)
+                {
+                    stringBuilder.AppendLine(snippet.ToString());
+                }
+                return stringBuilder.ToString();
             }
-            return stringBuilder.ToString();
         }
+
     }
 }
