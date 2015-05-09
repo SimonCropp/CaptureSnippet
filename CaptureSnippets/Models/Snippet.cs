@@ -8,6 +8,8 @@ namespace CaptureSnippets
     {
         public Snippet(int startLine, int endLine, string value, string language, string file)
         {
+            Guard.AgainstNegativeAndZero(startLine, "startLine");
+            Guard.AgainstNegativeAndZero(endLine, "endLine");
             File = file;
             StartLine = startLine;
             EndLine = endLine;

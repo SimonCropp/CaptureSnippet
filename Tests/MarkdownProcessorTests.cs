@@ -87,8 +87,8 @@ even more text
                 new Snippet(
                     language: "cs",
                     value: "Snippet_v" + version,
-                    startLine: 0,
-                    endLine: 0,
+                    startLine: 1,
+                    endLine: 2,
                     file: null
                     )
             });

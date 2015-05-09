@@ -9,6 +9,8 @@ namespace CaptureSnippets
     {
         public MissingSnippet(string key, int line)
         {
+            Guard.AgainstNullAndEmpty(key,"key");
+            Guard.AgainstNegativeAndZero(line, "line");
             Key = key;
             Line = line;
         }

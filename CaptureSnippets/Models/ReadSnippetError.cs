@@ -7,6 +7,9 @@ namespace CaptureSnippets
 
         public ReadSnippetError(Version version, string key, int line, string file, string message)
         {
+            Guard.AgainstNegativeAndZero(line, "line");
+            Guard.AgainstNullAndEmpty(key,"key");
+            Guard.AgainstNullAndEmpty(message, "message");
             Version = version;
             Key = key;
             Line = line;

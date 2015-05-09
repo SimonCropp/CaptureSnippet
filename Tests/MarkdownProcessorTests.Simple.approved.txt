@@ -4,8 +4,8 @@
     [
       [
         {
-          "StartLine": 0,
-          "EndLine": 0,
+          "StartLine": 1,
+          "EndLine": 2,
           "Value": "Snippet_v5",
           "Language": "cs",
           "File": null
@@ -13,8 +13,8 @@
       ],
       [
         {
-          "StartLine": 0,
-          "EndLine": 0,
+          "StartLine": 1,
+          "EndLine": 2,
           "Value": "Snippet_v4",
           "Language": "cs",
           "File": null
@@ -24,8 +24,8 @@
     [
       [
         {
-          "StartLine": 0,
-          "EndLine": 0,
+          "StartLine": 1,
+          "EndLine": 2,
           "Value": "Snippet_v3",
           "Language": "cs",
           "File": null
@@ -33,8 +33,8 @@
       ],
       [
         {
-          "StartLine": 0,
-          "EndLine": 0,
+          "StartLine": 1,
+          "EndLine": 2,
           "Value": "Snippet_v2",
           "Language": "cs",
           "File": null
@@ -44,8 +44,8 @@
     [
       [
         {
-          "StartLine": 0,
-          "EndLine": 0,
+          "StartLine": 1,
+          "EndLine": 2,
           "Value": "Snippet_v5",
           "Language": "cs",
           "File": null
@@ -55,8 +55,8 @@
     [
       [
         {
-          "StartLine": 0,
-          "EndLine": 0,
+          "StartLine": 1,
+          "EndLine": 2,
           "Value": "Snippet_v5",
           "Language": "cs",
           "File": null
