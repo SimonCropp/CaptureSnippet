@@ -8,7 +8,7 @@ namespace CaptureSnippets
 
         public static bool TryParseVersion(string stringVersion, out Version parsedVersion)
         {
-            if (stringVersion == "vnull")
+            if (stringVersion == "noversion")
             {
                 parsedVersion = Version.ExplicitEmpty;
                 return true;

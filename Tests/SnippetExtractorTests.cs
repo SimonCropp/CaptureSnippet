@@ -31,7 +31,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 2-->
   <configSections/>
   <!-- endcode -->
-  <!-- startcode CodeKey vnull-->
+  <!-- startcode CodeKey noversion-->
   <configSections/>
   <!-- endcode -->";
         var snippets = await FromText(input);
@@ -42,7 +42,7 @@ public class SnippetExtractorTests
     public async void Mixing_non_null_and_null_versions()
     {
         var input = @"
-  <!-- startcode CodeKey vnull-->
+  <!-- startcode CodeKey noversion-->
   <configSections/>
   <!-- endcode -->
   <!-- startcode CodeKey 2-->
