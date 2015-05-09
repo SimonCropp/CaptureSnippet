@@ -68,12 +68,10 @@ namespace CaptureSnippets
         {
             var readSnippets = await snippetExtractor.FromFiles(GetFilesToInclude(includeDirectories)).ConfigureAwait(false);
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets).ToList();
-            return directoryToSnippets[directory] = new CachedSnippets
-                                             {
-                                                 Ticks = lastDirectoryWrite,
-                                                 Errors = readSnippets.Errors,
-                                                 SnippetGroups = snippetGroups
-                                             };
+            return directoryToSnippets[directory] =
+                new CachedSnippets(ticks: lastDirectoryWrite,
+                    errors: readSnippets.Errors,
+                    snippetGroups: snippetGroups);
         }
 
         void GetDirectoriesToInclude(string directory, List<string> includedDirectories)

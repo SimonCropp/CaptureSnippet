@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using CaptureSnippets;
 using NUnit.Framework;
 
@@ -31,7 +32,7 @@ public class CachedSnippetExtractorTests
         var directory = @"badsnippets".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => Version.ExplicitNull, s => true, s => s.EndsWith(".cs"));
         var readSnippets = await cachedSnippetExtractor.FromDirectory(directory);
-        Assert.AreEqual(1,readSnippets.Errors.Count);
+        Assert.AreEqual(1,readSnippets.Errors.Count());
     }
 
 }

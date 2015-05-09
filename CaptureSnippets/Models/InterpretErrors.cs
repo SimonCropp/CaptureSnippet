@@ -23,15 +23,16 @@ namespace CaptureSnippets
             return ErrorsAsMarkdown(cachedSnippets.Errors);
         }
 
-        static string ErrorsAsMarkdown(List<ReadSnippetError> errors)
+        static string ErrorsAsMarkdown(IEnumerable<ReadSnippetError> errors)
         {
-            if (!errors.Any())
+            var readSnippetErrors = errors.ToList();
+            if (!readSnippetErrors.Any())
             {
                 return "";
             }
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("## Snippet errors\r\n");
-            foreach (var error in errors)
+            foreach (var error in readSnippetErrors)
             {
                 stringBuilder.AppendLine(" * " + error);
             }
@@ -86,11 +87,12 @@ namespace CaptureSnippets
             }
         }
 
-        static void ThrowIfErrors(List<ReadSnippetError> errors)
+        static void ThrowIfErrors(IEnumerable<ReadSnippetError> errors)
         {
-            if (errors.Any())
+            var readSnippetErrors = errors.ToList();
+            if (readSnippetErrors.Any())
             {
-                throw new ReadSnippetsException(errors);
+                throw new ReadSnippetsException(readSnippetErrors);
             }
         }
     }
