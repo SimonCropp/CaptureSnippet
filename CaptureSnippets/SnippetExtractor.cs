@@ -104,13 +104,12 @@ namespace CaptureSnippets
                 {
                     if (loopState.IsInSnippet)
                     {
-                        readSnippets.Errors.Add(new ReadSnippetError
-                                                {
-                                                    Message = "Snippet was not closed",
-                                                    File = file,
-                                                    Line = loopState.StartLine.Value + 1,
-                                                    Key = loopState.CurrentKey,
-                                                });
+                        readSnippets.Errors.Add(new ReadSnippetError(
+                            message: "Snippet was not closed",
+                            file: file,
+                            line: loopState.StartLine.Value + 1,
+                            key: loopState.CurrentKey, 
+                            version: null));
                     }
                     break;
                 }
@@ -164,13 +163,12 @@ namespace CaptureSnippets
             
             if (!TryParseVersion(file, loopState, out parsedVersion))
             {
-                readSnippets.Errors.Add(new ReadSnippetError
-                                        {
-                                            Message = "Could not extract version",
-                                            File = file,
-                                            Line = startRow,
-                                            Key = loopState.CurrentKey,
-                                        });
+                readSnippets.Errors.Add(new ReadSnippetError(
+                                            message : "Could not extract version",
+                                            file : file,
+                                            line : startRow,
+                                            key : loopState.CurrentKey,
+                                            version:null));
                 return;
             }
             var keyedSnippets = readSnippets.Snippets.Where(x => x.Key == loopState.CurrentKey)
@@ -179,52 +177,44 @@ namespace CaptureSnippets
             {
                 if (keyedSnippets.Any(x => VersionEquator.Equals(x.Version, parsedVersion) && x.Language == language))
                 {
-                    readSnippets.Errors.Add(new ReadSnippetError
-                    {
-                        Message = "Duplicate key detected",
-                        File = file,
-                        Line = startRow,
-                        Key = loopState.CurrentKey,
-                        Version = parsedVersion
-                    });
+                    readSnippets.Errors.Add(new ReadSnippetError(
+                        message : "Duplicate key detected",
+                        file : file,
+                        line : startRow,
+                        key : loopState.CurrentKey,
+                        version : parsedVersion));
                     return;
                 }
                 //TODO verify
                 if (parsedVersion != null && keyedSnippets.Any(x => x.Version == Version.ExplicitNull))
                 {
-                    readSnippets.Errors.Add(new ReadSnippetError
-                    {
-                        Message = "Cannot mix null and non-null versions",
-                        File = file,
-                        Line = startRow,
-                        Key = loopState.CurrentKey,
-                        Version = parsedVersion
-                    });
+                    readSnippets.Errors.Add(new ReadSnippetError(
+                        message : "Cannot mix null and non-null versions",
+                        file : file,
+                        line : startRow,
+                        key : loopState.CurrentKey,
+                        version : parsedVersion));
                     return;
                 }
                 if (parsedVersion == null && keyedSnippets.Any(x => x.Version != Version.ExplicitNull))
                 {
-                    readSnippets.Errors.Add(new ReadSnippetError
-                    {
-                        Message = "Cannot mix null and non-null versions",
-                        File = file,
-                        Line = startRow,
-                        Key = loopState.CurrentKey,
-                    });
+                    readSnippets.Errors.Add(new ReadSnippetError(
+                        message : "Cannot mix null and non-null versions",
+                        file :file,
+                        line : startRow,
+                        key : loopState.CurrentKey,version:null));
                     return;
                 }
             }
             var value = ConvertLinesToValue(loopState.SnippetLines);
             if (value.Contains('`'))
             {
-                readSnippets.Errors.Add(new ReadSnippetError
-                                        {
-                                            Message = "Snippet contains a code quote character",
-                                            File = file,
-                                            Line =startRow,
-                                            Key = loopState.CurrentKey,
-                                            Version = parsedVersion
-                                        });
+                readSnippets.Errors.Add(new ReadSnippetError(
+                    message: "Snippet contains a code quote character",
+                    file: file,
+                    line: startRow,
+                    key: loopState.CurrentKey,
+                    version: parsedVersion));
                 return;
             }
             var snippet = new ReadSnippet(

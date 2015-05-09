@@ -4,21 +4,22 @@ namespace CaptureSnippets
 {
     public class ReadSnippetError
     {
-        public Version Version
+
+        public ReadSnippetError(Version version, string key, int line, string file, string message)
         {
-            get { return version; }
-            set
-            {
-                Guard.AgainstNull(value,"value");
-                version = value;
-            }
+            Version = version;
+            Key = key;
+            Line = line;
+            File = file;
+            Message = message;
+            Version = version;
         }
 
-        public string Key;
-        public int Line;
-        public string File;
-        public string Message;
-        Version version;
+        public readonly Version Version;
+        public readonly string Key;
+        public readonly int Line;
+        public readonly string File;
+        public readonly string Message;
 
         public override string ToString()
         {
