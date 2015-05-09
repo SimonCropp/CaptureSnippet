@@ -12,10 +12,13 @@ namespace CaptureSnippets
     /// </summary>
     public class SnippetExtractor
     {
-        Func<string, Version> versionFromFilePathExtractor;
+        Func<string, Version> versionFromFilePathExtractor = s =>
+        {
+            throw new Exception("Failed to determin a version for a snippet. Please use the 'SnippetExtractor(Func<string, Version> versionFromFilePathExtractor)' overload for to apply a fallback convention.");
+        };
         const string LineEnding = "\r\n";
 
-        public SnippetExtractor():this(s => null)
+        public SnippetExtractor()
         {
             
         }
@@ -186,7 +189,8 @@ namespace CaptureSnippets
                     });
                     return;
                 }
-                if (parsedVersion != null && keyedSnippets.Any(x => x.Version == null))
+                //TODO verify
+                if (parsedVersion != null && keyedSnippets.Any(x => x.Version == Version.ExplicitNull))
                 {
                     readSnippets.Errors.Add(new ReadSnippetError
                     {
@@ -198,7 +202,7 @@ namespace CaptureSnippets
                     });
                     return;
                 }
-                if (parsedVersion == null && keyedSnippets.Any(x => x.Version != null))
+                if (parsedVersion == null && keyedSnippets.Any(x => x.Version != Version.ExplicitNull))
                 {
                     readSnippets.Errors.Add(new ReadSnippetError
                     {
@@ -242,6 +246,10 @@ namespace CaptureSnippets
             if (stringVersion == null)
             {
                 parsedVersion = versionFromFilePathExtractor(file);
+                if (parsedVersion == null)
+                {
+                    throw new Exception("Null version received from 'versionFromFilePathExtractor'. Did you mean to use 'CaptureSnippets.Version.ExplicitNull'.");
+                }
                 return true;
             }
             return VersionParser.TryParseVersion(stringVersion, out parsedVersion);

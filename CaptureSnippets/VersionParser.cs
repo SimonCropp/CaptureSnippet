@@ -8,6 +8,12 @@ namespace CaptureSnippets
 
         public static bool TryParseVersion(string stringVersion, out Version parsedVersion)
         {
+            if (stringVersion == "vnull")
+            {
+                parsedVersion = Version.ExplicitNull;
+                return true;
+            }
+
             parsedVersion = null;
             var split = stringVersion.Split('.');
             if (split.Length == 1)

@@ -4,11 +4,21 @@ namespace CaptureSnippets
 {
     public class ReadSnippetError
     {
-        public Version Version;
+        public Version Version
+        {
+            get { return version; }
+            set
+            {
+                Guard.AgainstNull(value,"value");
+                version = value;
+            }
+        }
+
         public string Key;
         public int Line;
         public string File;
         public string Message;
+        Version version;
 
         public override string ToString()
         {
@@ -21,7 +31,14 @@ namespace CaptureSnippets
             stringBuilder.AppendFormat(" Key: '{0}'.", Key);
             if (Version != null)
             {
-                stringBuilder.AppendFormat(" Version: {0}.", Version);
+                if (Version != Version.ExplicitNull)
+                {
+                    stringBuilder.AppendFormat(" Version: {0}.", Version);
+                }
+                else
+                {
+                    stringBuilder.Append(" Version: ExplicitNull.");
+                }
             }
             return stringBuilder.ToString();
         }

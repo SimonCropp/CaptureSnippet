@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CaptureSnippets
 {
@@ -8,15 +9,22 @@ namespace CaptureSnippets
     /// </summary>
     public class VersionGroup : IEnumerable<Snippet>
     {
+        public VersionGroup(Version version, IEnumerable<Snippet> snippets)
+        {
+            Guard.AgainstNull(version,"version");
+            Guard.AgainstNull(snippets, "snippets");
+            Version = version;
+            Snippets = snippets.ToList();
+        }
         /// <summary>
         ///  The version that all the child <see cref="Snippet"/>s have.
         /// </summary>
-        public Version Version;
+        public readonly Version Version;
 
         /// <summary>
         /// All the snippets with a common <see cref="Version"/>.
         /// </summary>
-        public List<Snippet> Snippets = new List<Snippet>();
+        public readonly IEnumerable<Snippet> Snippets;
 
         /// <summary>
         /// Enumerates over <see cref="Snippets"/>.

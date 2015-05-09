@@ -10,10 +10,10 @@ public class CachedSnippetExtractorTests
     {
         var directory = @"scenarios\".ToCurrentDirectory();
         //warmup 
-        var snippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
+        var snippetExtractor = new CachedSnippetExtractor(s => Version.ExplicitNull, s => true, s => s.EndsWith(".cs"));
         await snippetExtractor.FromDirectory(directory);
 
-        var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
+        var cachedSnippetExtractor = new CachedSnippetExtractor(s => Version.ExplicitNull, s => true, s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
         await cachedSnippetExtractor.FromDirectory(directory);
         firstRun.Stop();
@@ -29,7 +29,7 @@ public class CachedSnippetExtractorTests
     public async void EnsureErrorsAreReturned()
     {
         var directory = @"badsnippets".ToCurrentDirectory();
-        var cachedSnippetExtractor = new CachedSnippetExtractor(s => null, s => true, s => s.EndsWith(".cs"));
+        var cachedSnippetExtractor = new CachedSnippetExtractor(s => Version.ExplicitNull, s => true, s => s.EndsWith(".cs"));
         var readSnippets = await cachedSnippetExtractor.FromDirectory(directory);
         Assert.AreEqual(1,readSnippets.Errors.Count);
     }

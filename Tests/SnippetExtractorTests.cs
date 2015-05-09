@@ -21,7 +21,6 @@ public class SnippetExtractorTests
   <!-- endcode -->";
         var snippets = FromText(input).Result;
         var readSnippetError = snippets.Errors.Single();
-        var text = readSnippetError.ToString();
         Approvals.Verify(readSnippetError);
     }
 
@@ -111,7 +110,7 @@ public class SnippetExtractorTests
     {
         using (var stringReader = new StringReader(contents))
         {
-            var extractor = new SnippetExtractor();
+            var extractor = new SnippetExtractor(s => Version.ExplicitNull);
             return await extractor.FromReader(stringReader);
         }
     }

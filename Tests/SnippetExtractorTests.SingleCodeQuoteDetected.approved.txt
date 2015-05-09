@@ -1,1 +1,1 @@
-﻿Snippet contains a code quote character. Line: 3. Key: 'codekey'.
+﻿Snippet contains a code quote character. Line: 3. Key: 'codekey'. Version: ExplicitNull.

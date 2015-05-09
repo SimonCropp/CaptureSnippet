@@ -12,7 +12,7 @@ namespace CaptureSnippets
         public readonly int Major;
         public readonly int? Minor;
         public readonly int? Patch;
-
+        public static Version ExplicitNull = new Version();
         public Version(int major, int minor, int patch)
         {
             if (major < 0)
@@ -43,8 +43,16 @@ namespace CaptureSnippets
             Major = major;
         }
 
+        Version()
+        {
+        }
+
         public override string ToString()
         {
+            if (IsExplicitNullVersion)
+            {
+                throw new Exception("Cannot convert a null version to a string.");
+            }
             if (Patch == null)
             {
                 if (Minor == null)
@@ -56,6 +64,11 @@ namespace CaptureSnippets
             }
 
             return Major + "." + Minor+ "." + Patch;
+        }
+
+        public bool IsExplicitNullVersion
+        {
+            get { return this == ExplicitNull; }
         }
     }
 }

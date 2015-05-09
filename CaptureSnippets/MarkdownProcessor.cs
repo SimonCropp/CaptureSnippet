@@ -68,7 +68,7 @@ namespace CaptureSnippets
         {
             foreach (var versionGroup in snippetGroup)
             {
-                if (versionGroup.Version != null)
+                if (versionGroup.Version != Version.ExplicitNull)
                 {
                     await stringBuilder.WriteLineAsync("#### Version " + versionGroup.Version).ConfigureAwait(false);
                 }
