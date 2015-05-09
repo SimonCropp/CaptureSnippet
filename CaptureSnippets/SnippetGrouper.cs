@@ -22,17 +22,12 @@ namespace CaptureSnippets
 
         static IEnumerable<Snippet> GetSnippets(IGrouping<Version, ReadSnippet> versionGrouping)
         {
-            foreach (var readSnippet in versionGrouping)
-            {
-                yield return new Snippet
-                {
-                    Value = readSnippet.Value,
-                    EndLine = readSnippet.EndLine,
-                    File = readSnippet.File,
-                    Language = readSnippet.Language,
-                    StartLine = readSnippet.StartLine,
-                };
-            }
+            return versionGrouping.Select(readSnippet =>
+                new Snippet(value: readSnippet.Value,
+                    endLine: readSnippet.EndLine,
+                    file: readSnippet.File,
+                    language: readSnippet.Language,
+                    startLine: readSnippet.StartLine));
         }
     }
 }

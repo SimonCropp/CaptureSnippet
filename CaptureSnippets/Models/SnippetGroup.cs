@@ -16,6 +16,7 @@ namespace CaptureSnippets
             Key = key;
             Versions = versions.ToList();
         }
+
         /// <summary>
         /// The key that all child <see cref="VersionGroup"/>s contain.
         /// </summary>

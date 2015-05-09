@@ -84,11 +84,13 @@ even more text
             version: new Version(version, 0),
             snippets: new List<Snippet>
             {
-                new Snippet
-                {
-                    Language = "cs",
-                    Value = "Snippet_v" + version
-                }
+                new Snippet(
+                    language: "cs",
+                    value: "Snippet_v" + version,
+                    startLine: 0,
+                    endLine: 0,
+                    file: null
+                    )
             });
     }
 
