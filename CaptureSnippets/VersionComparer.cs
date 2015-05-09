@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CaptureSnippets
 {
@@ -7,22 +8,28 @@ namespace CaptureSnippets
         public static VersionComparer Instance = new VersionComparer();
         public int Compare(Version version1, Version version2)
         {
-            if (version1 == version2)
-                return 0;
-            if (version1 == null)
+            Guard.AgainstNull(version1, "version1");
+            Guard.AgainstNull(version2, "version2");
+            if (version1 == Version.ExplicitEmpty)
             {
-                return -1;
+                throw new ArgumentException("Cannot compare an ExplicitEmpty version.", "version1");
             }
-            if (version2 == null)
+            if (version2 == Version.ExplicitEmpty)
             {
-                return 0;
+                throw new ArgumentException("Cannot compare an ExplicitEmpty version.", "version2");
             }
             if (version2.Major != version1.Major)
+            {
                 return version2.Major > version1.Major ? 1 : -1;
+            }
             if (version2.Minor != version1.Minor)
+            {
                 return version2.Minor > version1.Minor ? 1 : -1;
+            }
             if (version2.Patch == version1.Patch)
+            {
                 return 0;
+            }
             return version2.Patch > version1.Patch ? 1 : -1;
         }
 
