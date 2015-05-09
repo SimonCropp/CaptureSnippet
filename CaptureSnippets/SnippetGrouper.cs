@@ -8,11 +8,16 @@ namespace CaptureSnippets
         public static IEnumerable<SnippetGroup> Group(IEnumerable<ReadSnippet> snippets)
         {
             Guard.AgainstNull(snippets, "snippets");
-            return snippets.GroupBy(x => x.Key)
-                .Select(grouping =>
-                    new SnippetGroup(
-                        key: grouping.Key,
-                        versions: GetVersionGroups(grouping).ToList()));
+            foreach (var grouping in snippets.GroupBy(x => x.Key))
+            {
+                var versions = GetVersionGroups(grouping).ToList();
+                if (versions.Count > 1)
+                {
+                    versions = versions.OrderByDescending(x => x.Version, VersionComparer.Instance).ToList();   
+                }
+
+                yield return new SnippetGroup(key: grouping.Key, versions: versions);
+            }
         }
 
         static IEnumerable<VersionGroup> GetVersionGroups(IGrouping<string, ReadSnippet> keyGrouping)

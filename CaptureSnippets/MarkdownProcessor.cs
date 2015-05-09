@@ -15,7 +15,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Apply <paramref name="snippets"/> to <paramref name="textReader"/>.
         /// </summary>
-        public async Task<ProcessResult> Apply(List<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
+        public async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
         {
             Guard.AgainstNull(snippets, "snippets");
             Guard.AgainstNull(textReader, "textReader");
@@ -26,9 +26,10 @@ namespace CaptureSnippets
             }
         }
 
-        
-        async Task<ProcessResult> Apply(List<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
+
+        async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
         {
+            var snippets = availableSnippets.ToList();
             var missingSnippets = new List<MissingSnippet>();
             var usedSnippets = new List<SnippetGroup>();
             string line;
@@ -42,7 +43,7 @@ namespace CaptureSnippets
                     continue;
                 }
 
-                var snippetGroup = availableSnippets.FirstOrDefault(x => x.Key == key);
+                var snippetGroup = snippets.FirstOrDefault(x => x.Key == key);
                 if (snippetGroup == null)
                 {
                     var missingSnippet = new MissingSnippet(
