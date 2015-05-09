@@ -8,6 +8,7 @@ namespace CaptureSnippets
         public ReadSnippet(int startLine, int endLine, string value, string key, string language, string file, Version version)
         {
             Guard.AgainstNullAndEmpty(key, "key");
+            Guard.AgainstNull(language, "language");
             Guard.AgainstNegativeAndZero(startLine, "startLine");
             Guard.AgainstNegativeAndZero(endLine, "endLine");
             StartLine = startLine;

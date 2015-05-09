@@ -74,7 +74,7 @@ namespace CaptureSnippets
             {
                 return extension.TrimStart('.');
             }
-            return String.Empty;
+            return string.Empty;
         }
 
         class LoopState

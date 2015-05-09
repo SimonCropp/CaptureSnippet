@@ -10,6 +10,7 @@ namespace CaptureSnippets
         {
             Guard.AgainstNegativeAndZero(startLine, "startLine");
             Guard.AgainstNegativeAndZero(endLine, "endLine");
+            Guard.AgainstNull(language, "language");
             File = file;
             StartLine = startLine;
             EndLine = endLine;

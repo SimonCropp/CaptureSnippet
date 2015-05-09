@@ -5,7 +5,7 @@
         "StartLine": 1,
         "EndLine": 1,
         "Value": "1",
-        "Language": null,
+        "Language": "",
         "File": null
       }
     ],
@@ -14,7 +14,7 @@
         "StartLine": 1,
         "EndLine": 1,
         "Value": "2",
-        "Language": null,
+        "Language": "",
         "File": null
       }
     ]
@@ -25,7 +25,7 @@
         "StartLine": 1,
         "EndLine": 1,
         "Value": "3",
-        "Language": null,
+        "Language": "",
         "File": null
       }
     ],
@@ -35,14 +35,14 @@
         "EndLine": 1,
         "Value": "4",
         "Language": "cs",
-        "File": null
+        "File": ""
       },
       {
         "StartLine": 1,
         "EndLine": 1,
         "Value": "4",
         "Language": "vb",
-        "File": null
+        "File": ""
       }
     ],
     [
@@ -51,7 +51,7 @@
         "EndLine": 1,
         "Value": "5",
         "Language": "cs",
-        "File": null
+        "File": ""
       }
     ]
   ]

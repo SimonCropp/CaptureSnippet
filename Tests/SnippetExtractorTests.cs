@@ -96,8 +96,6 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey -->
   <configSections/>
   <!-- endcode -->";
-
-
         using (var stringReader = new StringReader(input))
         {
             var extractor = new SnippetExtractor(s => new Version(1, 1));
@@ -114,8 +112,6 @@ public class SnippetExtractorTests
             return await extractor.FromReader(stringReader);
         }
     }
-
-
 
     [Test]
     public async void CanExtractFromXmlWithVersion()

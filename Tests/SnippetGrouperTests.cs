@@ -17,21 +17,24 @@ public class SnippetGrouperTests
                 value: "1",
                 startLine: 1,
                 endLine: 1,
-                file: null, language: null),
+                file: null, 
+                language: string.Empty),
             new ReadSnippet(
                 key: "FoundKey1",
                 version: new Version(1, 4),
                 value: "2",
                 startLine: 1,
                 endLine: 1,
-                file: null, language: null),
+                file: null, 
+                language: string.Empty),
             new ReadSnippet(
                 key: "FoundKey2",
                 version: new Version(1, 3),
                 value: "3",
                 startLine: 1,
                 endLine: 1,
-                file: null, language: null),
+                file: null,
+                language: string.Empty),
             new ReadSnippet(
                 key: "FoundKey2",
                 language: "cs",
@@ -39,7 +42,7 @@ public class SnippetGrouperTests
                 value: "4",
                 startLine: 1,
                 endLine: 1,
-                file: null),
+                file: string.Empty),
             new ReadSnippet(
                 key: "FoundKey2",
                 language: "vb",
@@ -47,7 +50,7 @@ public class SnippetGrouperTests
                 value: "4",
                 startLine: 1,
                 endLine: 1,
-                file: null),
+                file: string.Empty),
             new ReadSnippet(
                 key: "FoundKey2",
                 language: "cs",
@@ -55,7 +58,7 @@ public class SnippetGrouperTests
                 value: "5",
                 startLine: 1,
                 endLine: 1,
-                file: null),
+                file: string.Empty),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
