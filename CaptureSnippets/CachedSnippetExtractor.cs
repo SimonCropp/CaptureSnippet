@@ -27,6 +27,9 @@ namespace CaptureSnippets
         /// <param name="includeFile">Files to include.</param>
         public CachedSnippetExtractor(Func<string, Version> versionFromFilePathExtractor, Func<string,bool> includeDirectory, Func<string,bool> includeFile)
         {
+            Guard.AgainstNull(versionFromFilePathExtractor, "versionFromFilePathExtractor");
+            Guard.AgainstNull(includeDirectory, "includeDirectory");
+            Guard.AgainstNull(includeFile, "includeFile");
             this.includeDirectory = includeDirectory;
             this.includeFile = includeFile;
             snippetExtractor = new SnippetExtractor(versionFromFilePathExtractor);

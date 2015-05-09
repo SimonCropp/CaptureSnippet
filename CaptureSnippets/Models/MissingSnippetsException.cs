@@ -11,6 +11,7 @@ namespace CaptureSnippets
 
         public MissingSnippetsException(IEnumerable<MissingSnippet> missingSnippets)
         {
+            Guard.AgainstNull(missingSnippets, "missingSnippets");
             MissingSnippets = missingSnippets.ToList();
         }
 

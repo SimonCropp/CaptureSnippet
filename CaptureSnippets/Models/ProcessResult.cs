@@ -12,6 +12,8 @@ namespace CaptureSnippets
 
         public ProcessResult(IEnumerable<SnippetGroup> usedSnippets,IEnumerable<MissingSnippet> missingSnippets)
         {
+            Guard.AgainstNull(usedSnippets, "usedSnippets");
+            Guard.AgainstNull(missingSnippets, "missingSnippets");
             UsedSnippets = usedSnippets.ToList();
             MissingSnippets = missingSnippets.ToList();
         }

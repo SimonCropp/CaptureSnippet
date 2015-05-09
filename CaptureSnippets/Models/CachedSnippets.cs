@@ -12,6 +12,9 @@ namespace CaptureSnippets
     {
         public CachedSnippets(IEnumerable<SnippetGroup> snippetGroups, long ticks, IEnumerable<ReadSnippetError> errors)
         {
+            Guard.AgainstNull(snippetGroups, "snippetGroups");
+            Guard.AgainstNull(errors, "errors");
+            Guard.AgainstNegativeAndZero(ticks, "ticks");
             SnippetGroups = snippetGroups.ToList();
             Errors = errors.ToList();
             Ticks = ticks;

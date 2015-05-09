@@ -11,6 +11,7 @@ namespace CaptureSnippets
 
         public ReadSnippetsException(IEnumerable<ReadSnippetError> readSnippetErrors)
         {
+            Guard.AgainstNull(readSnippetErrors, "readSnippetErrors");
             ReadSnippetErrors = readSnippetErrors.ToList();
         }
 

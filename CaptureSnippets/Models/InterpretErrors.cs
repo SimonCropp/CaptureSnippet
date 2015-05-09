@@ -12,6 +12,7 @@ namespace CaptureSnippets
         /// </summary>
         public static string ErrorsAsMarkdown(this ReadSnippets readSnippets)
         {
+            Guard.AgainstNull(readSnippets, "readSnippets");
             return ErrorsAsMarkdown(readSnippets.Errors);
         }
 
@@ -20,6 +21,7 @@ namespace CaptureSnippets
         /// </summary>
         public static string ErrorsAsMarkdown(this CachedSnippets cachedSnippets)
         {
+            Guard.AgainstNull(cachedSnippets, "cachedSnippets");
             return ErrorsAsMarkdown(cachedSnippets.Errors);
         }
 
@@ -45,6 +47,7 @@ namespace CaptureSnippets
         /// </summary>
         public static void ThrowIfErrors(this ReadSnippets readSnippets)
         {
+            Guard.AgainstNull(readSnippets, "readSnippets");
             ThrowIfErrors(readSnippets.Errors);
         }
 
@@ -53,6 +56,7 @@ namespace CaptureSnippets
         /// </summary>
         public static void ThrowIfErrors(this CachedSnippets cachedSnippets)
         {
+            Guard.AgainstNull(cachedSnippets, "cachedSnippets");
             ThrowIfErrors(cachedSnippets.Errors);
         }
 
@@ -61,13 +65,15 @@ namespace CaptureSnippets
         /// </summary>
         public static string ErrorsAsMarkdown(this ProcessResult processResult)
         {
-            if (!processResult.MissingSnippets.Any())
+            Guard.AgainstNull(processResult, "processResult");
+            var missingSnippets = processResult.MissingSnippets.ToList();
+            if (!missingSnippets.Any())
             {
                 return "";
             }
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("## Missing snippets\r\n");
-            foreach (var error in processResult.MissingSnippets)
+            foreach (var error in missingSnippets)
             {
                 stringBuilder.AppendLine(string.Format(" * Key:'{0}' Line:'{1}'", error.Key, error.Line));
             }
@@ -81,9 +87,11 @@ namespace CaptureSnippets
         /// </summary>
         public static void ThrowIfErrors(this ProcessResult processResult)
         {
-            if (processResult.MissingSnippets.Any())
+            Guard.AgainstNull(processResult, "processResult");
+            var missingSnippets = processResult.MissingSnippets.ToList();
+            if (missingSnippets.Any())
             {
-                throw new MissingSnippetsException(processResult.MissingSnippets);
+                throw new MissingSnippetsException(missingSnippets);
             }
         }
 

@@ -11,6 +11,8 @@ namespace CaptureSnippets
     {
         public ReadSnippets(IEnumerable<ReadSnippet> snippets, IEnumerable<ReadSnippetError> errors)
         {
+            Guard.AgainstNull(snippets, "snippets");
+            Guard.AgainstNull(errors, "errors");
             Snippets = snippets.ToList();
             Errors = errors.ToList();
         }

@@ -12,5 +12,27 @@ namespace CaptureSnippets
                 throw new ArgumentNullException(argumentName);
             }
         }
+        public static void AgainstNegativeAndZero(long value, string argumentName)
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentOutOfRangeException(argumentName);
+            }
+        }
+        public static void AgainstNegativeAndZero(int value, string argumentName)
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentOutOfRangeException(argumentName);
+            }
+        }
+
+        public static void AgainstNullAndEmpty(string value, string argumentName)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentNullException(argumentName);
+            }
+        }
     }
 }
