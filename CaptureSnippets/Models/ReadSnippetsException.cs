@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CaptureSnippets
 {
     public class ReadSnippetsException : Exception
     {
-        public List<ReadSnippetError> ReadSnippetErrors { get; private set; }
+        public readonly IEnumerable<ReadSnippetError> ReadSnippetErrors;
 
-        public ReadSnippetsException(List<ReadSnippetError> readSnippetErrors)
-            : base(ToMessage(readSnippetErrors))
+        public ReadSnippetsException(IEnumerable<ReadSnippetError> readSnippetErrors)
         {
-            ReadSnippetErrors = readSnippetErrors;
+            ReadSnippetErrors = readSnippetErrors.ToList();
         }
 
         public override string ToString()
@@ -19,14 +19,17 @@ namespace CaptureSnippets
             return Message;
         }
 
-        static string ToMessage(List<ReadSnippetError> readSnippetErrors)
+        public override string Message
         {
-            var stringBuilder = new StringBuilder();
-            foreach (var snippet in readSnippetErrors)
+            get
             {
-                stringBuilder.AppendLine(snippet.ToString());
+                var stringBuilder = new StringBuilder();
+                foreach (var snippet in ReadSnippetErrors)
+                {
+                    stringBuilder.AppendLine(snippet.ToString());
+                }
+                return stringBuilder.ToString();
             }
-            return stringBuilder.ToString();
         }
     }
 }
