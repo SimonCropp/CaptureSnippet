@@ -97,16 +97,21 @@ even more text
     {
         var snippets = new List<ReadSnippet>
         {
-            new ReadSnippet
-            {
-                Key = "FoundKey1",
-                Version = Version.ExplicitNull
-            },
-            new ReadSnippet
-            {
-                Key = "FoundKey2",
-                Version = Version.ExplicitNull
-            },
+            new ReadSnippet(
+                key: "FoundKey1",
+                version: Version.ExplicitNull,
+                startLine: 1,
+                endLine: 1,
+                value: " ",
+                language: "c",
+                file: "unknown"),
+            new ReadSnippet(key: "FoundKey2",
+                version: Version.ExplicitNull,
+                startLine: 1,
+                endLine: 1,
+                value: " ",
+                language: "c",
+                file: "unknown"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         await Verify("<!-- import MissingKey -->", snippetGroups);
@@ -117,16 +122,20 @@ even more text
     {
         var snippets = new List<ReadSnippet>
         {
-            new ReadSnippet
-            {
-                Key = "FoundKey1",
-                Version = Version.ExplicitNull
-            },
-            new ReadSnippet
-            {
-                Key = "FoundKey2",
-                Version = Version.ExplicitNull
-            },
+            new ReadSnippet(key: "FoundKey1",
+                version: Version.ExplicitNull,
+                startLine: 1,
+                endLine: 1,
+                value: " ",
+                language: "c",
+                file: "unknown"),
+            new ReadSnippet(key: "FoundKey2",
+                version: Version.ExplicitNull,
+                startLine: 1,
+                endLine: 1,
+                value: " ",
+                language: "c",
+                file: "unknown"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         await Verify("<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->", snippetGroups);
@@ -138,30 +147,35 @@ even more text
     {
         var snippets = new List<ReadSnippet>
         {
-            new ReadSnippet
-            {
-                Key = "FoundKey1",
-                Value = "Value1",
-                Version = Version.ExplicitNull
-            },
-            new ReadSnippet
-            {
-                Key = "FoundKey2",
-                Value = "Value2",
-                Version = Version.ExplicitNull
-            },
-            new ReadSnippet
-            {
-                Key = "FoundKey3",
-                Value = "Value3",
-                Version = Version.ExplicitNull
-            },
-            new ReadSnippet
-            {
-                Key = "FoundKey4",
-                Value = "Value4",
-                Version = Version.ExplicitNull
-            },
+            new ReadSnippet(key: "FoundKey1",
+                value: "Value1",
+                version: Version.ExplicitNull,
+                startLine: 1,
+                endLine: 1,
+                language: "c",
+                file: null),
+            new ReadSnippet(
+                key: "FoundKey2",
+                value: "Value2",
+                version: Version.ExplicitNull,
+                startLine: 1,
+                endLine: 1,
+                language: "c",
+                file: null),
+            new ReadSnippet(key: "FoundKey3",
+                value: "Value3",
+                version: Version.ExplicitNull,
+                startLine: 1,
+                endLine: 1,
+                language: "c",
+                file: null),
+            new ReadSnippet(key: "FoundKey4",
+                value: "Value4",
+                version: Version.ExplicitNull,
+                startLine: 1,
+                endLine: 1,
+                language: "c",
+                file: null),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         var markdownContent = @"

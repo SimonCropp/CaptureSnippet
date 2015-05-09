@@ -227,16 +227,14 @@ namespace CaptureSnippets
                                         });
                 return;
             }
-            var snippet = new ReadSnippet
-                          {
-                              StartLine = startRow,
-                              EndLine = stringReader.Index,
-                              Key = loopState.CurrentKey,
-                              Version = parsedVersion,
-                              Value = value,
-                              File = file,
-                              Language = language,
-                          };
+            var snippet = new ReadSnippet(
+                              startLine : startRow,
+                              endLine : stringReader.Index,
+                              key : loopState.CurrentKey,
+                              version : parsedVersion,
+                              value : value,
+                              file : file,
+                              language : language);
             readSnippets.Snippets.Add(snippet);
         }
 

@@ -11,47 +11,52 @@ public class SnippetGrouperTests
     public void Simple()
     {
         var snippets = new List<ReadSnippet>
-                       {
-                           new ReadSnippet
-                           {
-                               Key = "FoundKey1",
-                               Version = new Version(1,2),
-                               Value = "1"
-                           },
-                           new ReadSnippet
-                           {
-                               Key = "FoundKey1",
-                               Version = new Version(1,4),
-                               Value = "2"
-                           },
-                           new ReadSnippet
-                           {
-                               Key = "FoundKey2",
-                               Version = new Version(1,3),
-                               Value = "3"
-                           },
-                           new ReadSnippet
-                           {
-                               Key = "FoundKey2",
-                               Language = "cs",
-                               Version = new Version(1,4),
-                               Value = "4"
-                           },
-                           new ReadSnippet
-                           {
-                               Key = "FoundKey2",
-                               Language = "vb",
-                               Version = new Version(1,4),
-                               Value = "4"
-                           },
-                           new ReadSnippet
-                           {
-                               Key = "FoundKey2",
-                               Language = "cs",
-                               Version = new Version(1,6),
-                               Value = "5"
-                           },
-                       };
+        {
+            new ReadSnippet(key: "FoundKey1",
+                version: new Version(1, 2),
+                value: "1",
+                startLine: 1,
+                endLine: 1,
+                file: null, language: null),
+            new ReadSnippet(
+                key: "FoundKey1",
+                version: new Version(1, 4),
+                value: "2",
+                startLine: 1,
+                endLine: 1,
+                file: null, language: null),
+            new ReadSnippet(
+                key: "FoundKey2",
+                version: new Version(1, 3),
+                value: "3",
+                startLine: 1,
+                endLine: 1,
+                file: null, language: null),
+            new ReadSnippet(
+                key: "FoundKey2",
+                language: "cs",
+                version: new Version(1, 4),
+                value: "4",
+                startLine: 1,
+                endLine: 1,
+                file: null),
+            new ReadSnippet(
+                key: "FoundKey2",
+                language: "vb",
+                version: new Version(1, 4),
+                value: "4",
+                startLine: 1,
+                endLine: 1,
+                file: null),
+            new ReadSnippet(
+                key: "FoundKey2",
+                language: "cs",
+                version: new Version(1, 6),
+                value: "5",
+                startLine: 1,
+                endLine: 1,
+                file: null),
+        };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
     }
