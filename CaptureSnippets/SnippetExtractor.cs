@@ -34,16 +34,19 @@ namespace CaptureSnippets
         [Time]
         public async Task<ReadSnippets> FromFiles(IEnumerable<string> files)
         {
-            var readSnippets = new ReadSnippets();
+            var errors = new List<ReadSnippetError>();
+            var snippets = new List<ReadSnippet>();
             foreach (var file in files)
             {
                 using (var textReader = File.OpenText(file))
                 using (var stringReader = new IndexReader(textReader))
                 {
-                    await GetSnippetsFromFile(readSnippets, stringReader, file).ConfigureAwait(false);
+                    await GetSnippetsFromFile(stringReader, file, errors, snippets).ConfigureAwait(false);
                 }
             }
-            return readSnippets;
+            return new ReadSnippets(
+                snippets: snippets,
+                errors: errors);
         }
 
         /// <summary>
@@ -53,12 +56,15 @@ namespace CaptureSnippets
         /// <param name="source">Used to infer the version. Usually this will be the path to a file or a url.</param>
         public async Task<ReadSnippets> FromReader(TextReader textReader, string source = null)
         {
-            var readSnippets = new ReadSnippets();
+            var errors = new List<ReadSnippetError>();
+            var snippets = new List<ReadSnippet>();
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippetsFromFile(readSnippets, reader, source).ConfigureAwait(false);
+                await GetSnippetsFromFile(reader, source, errors,snippets).ConfigureAwait(false);
             }
-            return readSnippets;
+            return new ReadSnippets(
+                snippets: snippets,
+                errors: errors);
         }
 
         static string GetLanguageFromFile(string file)
@@ -93,7 +99,7 @@ namespace CaptureSnippets
             public bool IsInSnippet;
         }
 
-        async Task GetSnippetsFromFile(ReadSnippets readSnippets, IndexReader stringReader, string file)
+        async Task GetSnippetsFromFile(IndexReader stringReader, string file, List<ReadSnippetError> errors, List<ReadSnippet> snippets)
         {
             var language = GetLanguageFromFile(file);
             var loopState = new LoopState();
@@ -104,7 +110,7 @@ namespace CaptureSnippets
                 {
                     if (loopState.IsInSnippet)
                     {
-                        readSnippets.Errors.Add(new ReadSnippetError(
+                        errors.Add(new ReadSnippetError(
                             message: "Snippet was not closed",
                             file: file,
                             line: loopState.StartLine.Value + 1,
@@ -122,8 +128,8 @@ namespace CaptureSnippets
                         loopState.SnippetLines.Add(line);
                         continue;
                     }
-                    
-                    TryAddSnippet(readSnippets, stringReader, file, loopState, language);
+
+                    TryAddSnippet(stringReader, file, loopState, language, errors, snippets);
                     loopState.Reset();
                     continue;
                 }
@@ -156,14 +162,14 @@ namespace CaptureSnippets
             }
         }
 
-        void TryAddSnippet(ReadSnippets readSnippets, IndexReader stringReader, string file, LoopState loopState, string language)
+        void TryAddSnippet(IndexReader stringReader, string file, LoopState loopState, string language, List<ReadSnippetError> errors, List<ReadSnippet> snippets)
         {
             Version parsedVersion;
             var startRow = loopState.StartLine.Value + 1;
             
             if (!TryParseVersion(file, loopState, out parsedVersion))
             {
-                readSnippets.Errors.Add(new ReadSnippetError(
+                errors.Add(new ReadSnippetError(
                                             message : "Could not extract version",
                                             file : file,
                                             line : startRow,
@@ -171,13 +177,13 @@ namespace CaptureSnippets
                                             version:null));
                 return;
             }
-            var keyedSnippets = readSnippets.Snippets.Where(x => x.Key == loopState.CurrentKey)
+            var keyedSnippets = snippets.Where(x => x.Key == loopState.CurrentKey)
                 .ToList();
             if (keyedSnippets.Any())
             {
                 if (keyedSnippets.Any(x => VersionEquator.Equals(x.Version, parsedVersion) && x.Language == language))
                 {
-                    readSnippets.Errors.Add(new ReadSnippetError(
+                    errors.Add(new ReadSnippetError(
                         message : "Duplicate key detected",
                         file : file,
                         line : startRow,
@@ -188,7 +194,7 @@ namespace CaptureSnippets
                 //TODO verify
                 if (parsedVersion != null && keyedSnippets.Any(x => x.Version == Version.ExplicitNull))
                 {
-                    readSnippets.Errors.Add(new ReadSnippetError(
+                    errors.Add(new ReadSnippetError(
                         message : "Cannot mix null and non-null versions",
                         file : file,
                         line : startRow,
@@ -198,7 +204,7 @@ namespace CaptureSnippets
                 }
                 if (parsedVersion == null && keyedSnippets.Any(x => x.Version != Version.ExplicitNull))
                 {
-                    readSnippets.Errors.Add(new ReadSnippetError(
+                    errors.Add(new ReadSnippetError(
                         message : "Cannot mix null and non-null versions",
                         file :file,
                         line : startRow,
@@ -209,7 +215,7 @@ namespace CaptureSnippets
             var value = ConvertLinesToValue(loopState.SnippetLines);
             if (value.Contains('`'))
             {
-                readSnippets.Errors.Add(new ReadSnippetError(
+                errors.Add(new ReadSnippetError(
                     message: "Snippet contains a code quote character",
                     file: file,
                     line: startRow,
@@ -225,7 +231,7 @@ namespace CaptureSnippets
                               value : value,
                               file : file,
                               language : language);
-            readSnippets.Snippets.Add(snippet);
+            snippets.Add(snippet);
         }
 
         bool TryParseVersion(string file, LoopState loopState, out Version parsedVersion)
