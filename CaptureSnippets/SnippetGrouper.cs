@@ -7,6 +7,7 @@ namespace CaptureSnippets
     {
         public static IEnumerable<SnippetGroup> Group(IEnumerable<ReadSnippet> snippets)
         {
+            Guard.AgainstNull(snippets, "snippets");
             return snippets.GroupBy(x => x.Key)
                 .Select(grouping =>
                     new SnippetGroup(

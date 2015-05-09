@@ -28,12 +28,14 @@ namespace CaptureSnippets
         /// <param name="versionFromFilePathExtractor">How to extract a <see cref="Version"/> from a given file path. Return null for unknown version.</param>
         public SnippetExtractor(Func<string, Version> versionFromFilePathExtractor)
         {
+            Guard.AgainstNull(versionFromFilePathExtractor, "versionFromFilePathExtractor");
             this.versionFromFilePathExtractor = versionFromFilePathExtractor;
         }
 
         [Time]
         public async Task<ReadSnippets> FromFiles(IEnumerable<string> files)
         {
+            Guard.AgainstNull(files, "files");
             var errors = new List<ReadSnippetError>();
             var snippets = new List<ReadSnippet>();
             foreach (var file in files)
@@ -56,6 +58,7 @@ namespace CaptureSnippets
         /// <param name="source">Used to infer the version. Usually this will be the path to a file or a url.</param>
         public async Task<ReadSnippets> FromReader(TextReader textReader, string source = null)
         {
+            Guard.AgainstNull(textReader, "textReader");
             var errors = new List<ReadSnippetError>();
             var snippets = new List<ReadSnippet>();
             using (var reader = new IndexReader(textReader))

@@ -17,6 +17,9 @@ namespace CaptureSnippets
         /// </summary>
         public async Task<ProcessResult> Apply(List<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
         {
+            Guard.AgainstNull(snippets, "snippets");
+            Guard.AgainstNull(textReader, "textReader");
+            Guard.AgainstNull(writer, "writer");
             using (var reader = new IndexReader(textReader))
             {
                 return await Apply(snippets, writer, reader).ConfigureAwait(false);
@@ -62,28 +65,32 @@ namespace CaptureSnippets
         /// <summary>
         /// Method that cna be override to control how an individual <see cref="SnippetGroup"/> is rendered.
         /// </summary>
-        public async Task AppendGroup(SnippetGroup snippetGroup, TextWriter stringBuilder)
+        public async Task AppendGroup(SnippetGroup snippetGroup, TextWriter writer)
         {
+            Guard.AgainstNull(snippetGroup, "snippetGroup");
+            Guard.AgainstNull(writer, "writer");
             foreach (var versionGroup in snippetGroup)
             {
                 if (versionGroup.Version != Version.ExplicitEmpty)
                 {
-                    await stringBuilder.WriteLineAsync("#### Version " + versionGroup.Version).ConfigureAwait(false);
+                    await writer.WriteLineAsync("#### Version " + versionGroup.Version).ConfigureAwait(false);
                 }
                 foreach (var snippet in versionGroup)
                 {
-                    await AppendSnippet(snippet, stringBuilder).ConfigureAwait(false);
+                    await AppendSnippet(snippet, writer).ConfigureAwait(false);
                 }
             }
         }
 
-        public async Task AppendSnippet(Snippet codeSnippet, TextWriter stringBuilder)
+        public async Task AppendSnippet(Snippet codeSnippet, TextWriter writer)
         {
+            Guard.AgainstNull(codeSnippet, "codeSnippet");
+            Guard.AgainstNull(writer, "writer");
             var format = string.Format(
 @"```{0}
 {1}
 ```", codeSnippet.Language, codeSnippet.Value);
-            await stringBuilder.WriteLineAsync(format).ConfigureAwait(false);
+            await writer.WriteLineAsync(format).ConfigureAwait(false);
         }
     }
 }
