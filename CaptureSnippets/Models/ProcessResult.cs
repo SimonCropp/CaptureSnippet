@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CaptureSnippets
 {
@@ -8,14 +9,21 @@ namespace CaptureSnippets
     /// </summary>
     public class ProcessResult : IEnumerable<SnippetGroup>
     {
+
+        public ProcessResult(IEnumerable<SnippetGroup> usedSnippets,IEnumerable<MissingSnippet> missingSnippets)
+        {
+            UsedSnippets = usedSnippets.ToList();
+            MissingSnippets = missingSnippets.ToList();
+        }
+
         /// <summary>
         ///   List of all snippets that the markdown file used. 
         /// </summary>
-        public List<SnippetGroup> UsedSnippets = new List<SnippetGroup>();
+        public readonly IEnumerable<SnippetGroup> UsedSnippets;
         /// <summary>
         ///   List of all snippets that the markdown file expected but did not exist in the input snippets.
         /// </summary>
-        public List<MissingSnippet> MissingSnippets = new List<MissingSnippet>();
+        public readonly IEnumerable<MissingSnippet> MissingSnippets;
 
 
         /// <summary>

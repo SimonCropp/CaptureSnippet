@@ -26,8 +26,8 @@ namespace CaptureSnippets
         
         async Task<ProcessResult> Apply(List<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
         {
-            var result = new ProcessResult();
-
+            var missingSnippets = new List<MissingSnippet>();
+            var usedSnippets = new List<SnippetGroup>();
             string line;
             while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
             {
@@ -44,18 +44,18 @@ namespace CaptureSnippets
                 {
                     var missingSnippet = new MissingSnippet(key : key,
                                              line: reader.Index);
-                    result.MissingSnippets.Add(missingSnippet);
+                    missingSnippets.Add(missingSnippet);
                     await writer.WriteLineAsync(string.Format("** Could not find key '{0}' **", key)).ConfigureAwait(false);
                     continue;
                 }
 
                 await AppendGroup(snippetGroup, writer).ConfigureAwait(false);
-                if (result.UsedSnippets.All(x => x.Key != snippetGroup.Key))
+                if (usedSnippets.All(x => x.Key != snippetGroup.Key))
                 {
-                    result.UsedSnippets.Add(snippetGroup);
+                    usedSnippets.Add(snippetGroup);
                 }
             }
-            return result;
+            return new ProcessResult(missingSnippets: missingSnippets, usedSnippets: usedSnippets);
         }
 
         /// <summary>
