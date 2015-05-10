@@ -14,7 +14,7 @@ namespace CaptureSnippets
         /// </summary>
         public SnippetGroup(string key, IEnumerable<VersionGroup> versions)
         {
-            Guard.AgainstNull(key,"key");
+            Guard.AgainstNull(key, "key");
             Guard.AgainstNull(versions, "versions");
             Key = key;
             Versions = versions.ToList();

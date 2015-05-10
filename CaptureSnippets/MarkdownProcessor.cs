@@ -23,7 +23,8 @@ namespace CaptureSnippets
             Guard.AgainstNull(writer, "writer");
             using (var reader = new IndexReader(textReader))
             {
-                return await Apply(snippets, writer, reader).ConfigureAwait(false);
+                return await Apply(snippets, writer, reader)
+                    .ConfigureAwait(false);
             }
         }
         
@@ -35,7 +36,8 @@ namespace CaptureSnippets
             string line;
             while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
             {
-                await writer.WriteLineAsync(line).ConfigureAwait(false);
+                await writer.WriteLineAsync(line)
+                    .ConfigureAwait(false);
 
                 string key;
                 if (!ImportKeyReader.TryExtractKeyFromLine(line, out key))
@@ -48,11 +50,14 @@ namespace CaptureSnippets
                 {
                     var missingSnippet = new MissingSnippet(key: key, line: reader.Index);
                     missingSnippets.Add(missingSnippet);
-                    await writer.WriteLineAsync(string.Format("** Could not find key '{0}' **", key)).ConfigureAwait(false);
+                    var message = string.Format("** Could not find key '{0}' **", key);
+                    await writer.WriteLineAsync(message)
+                        .ConfigureAwait(false);
                     continue;
                 }
 
-                await AppendGroup(snippetGroup, writer).ConfigureAwait(false);
+                await AppendGroup(snippetGroup, writer)
+                    .ConfigureAwait(false);
                 if (usedSnippets.All(x => x.Key != snippetGroup.Key))
                 {
                     usedSnippets.Add(snippetGroup);
@@ -70,16 +75,22 @@ namespace CaptureSnippets
             Guard.AgainstNull(writer, "writer");
             foreach (var versionGroup in snippetGroup)
             {
-                if (!versionGroup.Version.Equals(VersionRange.All))
-                {
-                    await writer.WriteLineAsync(string.Format("#### Version '{0}'", versionGroup.Version.ToFriendlyString()))
-                        .ConfigureAwait(false);
-                }
-                foreach (var snippet in versionGroup)
-                {
-                    await AppendSnippet(snippet, writer)
-                        .ConfigureAwait(false);
-                }
+                await AppendVersionGroup(writer, versionGroup);
+            }
+        }
+
+        async Task AppendVersionGroup(TextWriter writer, VersionGroup versionGroup)
+        {
+            if (!versionGroup.Version.Equals(VersionRange.All))
+            {
+                var message = string.Format("#### Version '{0}'", versionGroup.Version.ToFriendlyString());
+                await writer.WriteLineAsync(message)
+                    .ConfigureAwait(false);
+            }
+            foreach (var snippet in versionGroup)
+            {
+                await AppendSnippet(snippet, writer)
+                    .ConfigureAwait(false);
             }
         }
 
@@ -91,7 +102,8 @@ namespace CaptureSnippets
 @"```{0}
 {1}
 ```", codeSnippet.Language, codeSnippet.Value);
-            await writer.WriteLineAsync(format).ConfigureAwait(false);
+            await writer.WriteLineAsync(format)
+                .ConfigureAwait(false);
         }
     }
 }

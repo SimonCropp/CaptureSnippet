@@ -17,6 +17,7 @@ namespace CaptureSnippets
         {
             throw new Exception("Failed to determin a version for a snippet. Please use the 'SnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor)' overload for to apply a fallback convention.");
         };
+
         const string LineEnding = "\r\n";
 
         /// <summary>
@@ -48,7 +49,8 @@ namespace CaptureSnippets
                 using (var textReader = File.OpenText(file))
                 using (var stringReader = new IndexReader(textReader))
                 {
-                    await GetSnippetsFromFile(stringReader, file, errors, snippets).ConfigureAwait(false);
+                    await GetSnippetsFromFile(stringReader, file, errors, snippets)
+                        .ConfigureAwait(false);
                 }
             }
             return new ReadSnippets(
@@ -68,7 +70,8 @@ namespace CaptureSnippets
             var snippets = new List<ReadSnippet>();
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippetsFromFile(reader, source, errors,snippets).ConfigureAwait(false);
+                await GetSnippetsFromFile(reader, source, errors,snippets)
+                    .ConfigureAwait(false);
             }
             return new ReadSnippets(
                 snippets: snippets,
@@ -113,7 +116,8 @@ namespace CaptureSnippets
             var loopState = new LoopState();
             while (true)
             {
-                var line = await stringReader.ReadLineAsync().ConfigureAwait(false);
+                var line = await stringReader.ReadLineAsync()
+                    .ConfigureAwait(false);
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)

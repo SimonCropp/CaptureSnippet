@@ -20,6 +20,7 @@ namespace CaptureSnippets
             Version = version;
             Snippets = snippets.ToList();
         }
+
         /// <summary>
         ///  The version that all the child <see cref="Snippet"/>s have.
         /// </summary>
