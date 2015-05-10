@@ -50,7 +50,7 @@ namespace CaptureSnippets
         /// </summary>
         public readonly string File;
         /// <summary>
-        /// The <see cref="Version"/> that was inferred for the snippet.
+        /// The <see cref="VersionRange"/> that was inferred for the snippet.
         /// </summary>
         public readonly VersionRange Version;
     }

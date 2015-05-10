@@ -6,7 +6,7 @@ using NuGet.Versioning;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// Allows <see cref="Snippet"/>s to be grouped by their <see cref="Version"/>.
+    /// Allows <see cref="Snippet"/>s to be grouped by their <see cref="VersionRange"/>.
     /// </summary>
     public class VersionGroup : IEnumerable<Snippet>
     {
@@ -26,7 +26,7 @@ namespace CaptureSnippets
         public readonly VersionRange Version;
 
         /// <summary>
-        /// All the snippets with a common <see cref="Version"/>.
+        /// All the snippets with a common <see cref="VersionRange"/>.
         /// </summary>
         public readonly IEnumerable<Snippet> Snippets;
 

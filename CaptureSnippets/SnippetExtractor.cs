@@ -30,7 +30,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new insatnce of <see cref="SnippetExtractor"/>.
         /// </summary>
-        /// <param name="versionFromFilePathExtractor">How to extract a <see cref="Version"/> from a given file path. Return null for unknown version.</param>
+        /// <param name="versionFromFilePathExtractor">How to extract a <see cref="VersionRange"/> from a given file path. Return null for unknown version.</param>
         public SnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor)
         {
             Guard.AgainstNull(versionFromFilePathExtractor, "versionFromFilePathExtractor");
