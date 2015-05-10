@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MethodTimer;
+using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -12,9 +13,9 @@ namespace CaptureSnippets
     /// </summary>
     public class SnippetExtractor
     {
-        Func<string, Version> versionFromFilePathExtractor = s =>
+        Func<string, VersionRange> versionFromFilePathExtractor = s =>
         {
-            throw new Exception("Failed to determin a version for a snippet. Please use the 'SnippetExtractor(Func<string, Version> versionFromFilePathExtractor)' overload for to apply a fallback convention.");
+            throw new Exception("Failed to determin a version for a snippet. Please use the 'SnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor)' overload for to apply a fallback convention.");
         };
         const string LineEnding = "\r\n";
 
@@ -30,7 +31,7 @@ namespace CaptureSnippets
         /// Initialise a new insatnce of <see cref="SnippetExtractor"/>.
         /// </summary>
         /// <param name="versionFromFilePathExtractor">How to extract a <see cref="Version"/> from a given file path. Return null for unknown version.</param>
-        public SnippetExtractor(Func<string, Version> versionFromFilePathExtractor)
+        public SnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor)
         {
             Guard.AgainstNull(versionFromFilePathExtractor, "versionFromFilePathExtractor");
             this.versionFromFilePathExtractor = versionFromFilePathExtractor;
@@ -171,7 +172,7 @@ namespace CaptureSnippets
 
         void TryAddSnippet(IndexReader stringReader, string file, LoopState loopState, string language, List<ReadSnippetError> errors, List<ReadSnippet> snippets)
         {
-            Version parsedVersion;
+            VersionRange parsedVersion;
             var startRow = loopState.StartLine.Value + 1;
             
             if (!TryParseVersion(file, loopState, out parsedVersion))
@@ -188,7 +189,7 @@ namespace CaptureSnippets
                 .ToList();
             if (keyedSnippets.Any())
             {
-                if (keyedSnippets.Any(x => VersionEquator.Equals(x.Version, parsedVersion) && x.Language == language))
+                if (keyedSnippets.Any(x => x.Version.Equals(parsedVersion) && x.Language == language))
                 {
                     errors.Add(new ReadSnippetError(
                         message : "Duplicate key detected",
@@ -199,20 +200,20 @@ namespace CaptureSnippets
                     return;
                 }
                 //TODO verify
-                if (parsedVersion != Version.ExplicitEmpty && keyedSnippets.Any(x => x.Version == Version.ExplicitEmpty))
+                if (!parsedVersion.Equals(VersionRange.All) && keyedSnippets.Any(x => x.Version.Equals(VersionRange.All)))
                 {
                     errors.Add(new ReadSnippetError(
-                        message : "Cannot mix null and non-null versions",
+                        message : "Cannot mix 'all' versions and specific versions",
                         file : file,
                         line : startRow,
                         key : loopState.CurrentKey,
                         version : parsedVersion));
                     return;
                 }
-                if (parsedVersion == Version.ExplicitEmpty && keyedSnippets.Any(x => x.Version != Version.ExplicitEmpty))
+                if (parsedVersion.Equals(VersionRange.All) && keyedSnippets.Any(x => !x.Version.Equals(VersionRange.All)))
                 {
                     errors.Add(new ReadSnippetError(
-                        message : "Cannot mix null and non-null versions",
+                        message: "Cannot mix 'all' versions and specific versions",
                         file :file,
                         line : startRow,
                         key : loopState.CurrentKey,version:null));
@@ -241,7 +242,7 @@ namespace CaptureSnippets
             snippets.Add(snippet);
         }
 
-        bool TryParseVersion(string file, LoopState loopState, out Version parsedVersion)
+        bool TryParseVersion(string file, LoopState loopState, out VersionRange parsedVersion)
         {
             var stringVersion = loopState.Version;
             if (stringVersion == null)
@@ -253,7 +254,7 @@ namespace CaptureSnippets
                 }
                 return true;
             }
-            return VersionParser.TryParseVersion(stringVersion, out parsedVersion);
+            return VersionRangeParser.TryParseVersion(stringVersion, out parsedVersion);
         }
 
         static string ConvertLinesToValue(List<string> snippetLines)

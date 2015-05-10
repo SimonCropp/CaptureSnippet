@@ -82,6 +82,7 @@ even more text
     static VersionGroup CreateVersionGroup(int version)
     {
         return new VersionGroup(
+            version: new VersionRange(minVersion: new SemanticVersion(version, 0, 0)),
             snippets: new List<Snippet>
             {
                 new Snippet(
@@ -101,12 +102,14 @@ even more text
         {
             new ReadSnippet(
                 key: "FoundKey1",
+                version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
                 language: "c",
                 file: "unknown"),
             new ReadSnippet(key: "FoundKey2",
+                version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
@@ -123,12 +126,14 @@ even more text
         var snippets = new List<ReadSnippet>
         {
             new ReadSnippet(key: "FoundKey1",
+                version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
                 language: "c",
                 file: "unknown"),
             new ReadSnippet(key: "FoundKey2",
+                version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
@@ -147,6 +152,7 @@ even more text
         {
             new ReadSnippet(key: "FoundKey1",
                 value: "Value1",
+                version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
@@ -154,18 +160,21 @@ even more text
             new ReadSnippet(
                 key: "FoundKey2",
                 value: "Value2",
+                version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
                 file: null),
             new ReadSnippet(key: "FoundKey3",
                 value: "Value3",
+                version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
                 file: null),
             new ReadSnippet(key: "FoundKey4",
                 value: "Value4",
+                version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
