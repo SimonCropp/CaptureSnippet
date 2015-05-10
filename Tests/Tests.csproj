@@ -51,6 +51,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NuGet.Versioning">
+      <HintPath>..\packages\NuGet.Versioning.1.0.7\lib\portable-net40+win\NuGet.Versioning.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -76,7 +79,6 @@
     <Compile Include="CachedSnippetExtractorTests.cs" />
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="VersionParserTests.cs" />
     <None Include="app.config" />
     <None Include="scenarios\07-WeirdCharacters\input.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -100,7 +102,7 @@
     <Compile Include="SnippetExtractor_IsStartRegionTests.cs" />
     <Compile Include="SnippetExtractor_IsStartCodeTests.cs" />
     <Compile Include="SnippetGrouperTests.cs" />
-    <Compile Include="SnippetVersionConverter.cs" />
+    <Compile Include="VersionRangeConverter.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="StringExtensionTests.cs" />
     <None Include="scenarios\06-IgnoreCase\input.md">

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -25,8 +26,7 @@ namespace CaptureSnippets
                 return await Apply(snippets, writer, reader).ConfigureAwait(false);
             }
         }
-
-
+        
         async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
         {
             var snippets = availableSnippets.ToList();
@@ -46,9 +46,7 @@ namespace CaptureSnippets
                 var snippetGroup = snippets.FirstOrDefault(x => x.Key == key);
                 if (snippetGroup == null)
                 {
-                    var missingSnippet = new MissingSnippet(
-                        key: key,
-                        line: reader.Index);
+                    var missingSnippet = new MissingSnippet(key: key, line: reader.Index);
                     missingSnippets.Add(missingSnippet);
                     await writer.WriteLineAsync(string.Format("** Could not find key '{0}' **", key)).ConfigureAwait(false);
                     continue;
@@ -72,13 +70,15 @@ namespace CaptureSnippets
             Guard.AgainstNull(writer, "writer");
             foreach (var versionGroup in snippetGroup)
             {
-                if (versionGroup.Version != Version.ExplicitEmpty)
+                if (!versionGroup.Version.Equals(VersionRange.All))
                 {
-                    await writer.WriteLineAsync("#### Version " + versionGroup.Version).ConfigureAwait(false);
+                    await writer.WriteLineAsync(string.Format("#### Version '{0}'", versionGroup.Version.ToFriendlyString()))
+                        .ConfigureAwait(false);
                 }
                 foreach (var snippet in versionGroup)
                 {
-                    await AppendSnippet(snippet, writer).ConfigureAwait(false);
+                    await AppendSnippet(snippet, writer)
+                        .ConfigureAwait(false);
                 }
             }
         }

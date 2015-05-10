@@ -6,6 +6,6 @@
     "Key": "codekey",
     "Language": "",
     "File": null,
-    "Version": "5"
+    "Version": "5.0.0"
   }
 ]

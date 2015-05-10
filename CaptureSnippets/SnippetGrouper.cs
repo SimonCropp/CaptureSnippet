@@ -13,7 +13,7 @@ namespace CaptureSnippets
                 var versions = GetVersionGroups(grouping).ToList();
                 if (versions.Count > 1)
                 {
-                    versions = versions.OrderByDescending(x => x.Version, VersionComparer.Instance).ToList();   
+                    versions = versions.OrderByDescending(x => x.Version.MinVersion).ToList();   
                 }
 
                 yield return new SnippetGroup(key: grouping.Key, versions: versions);
@@ -22,7 +22,7 @@ namespace CaptureSnippets
 
         static IEnumerable<VersionGroup> GetVersionGroups(IEnumerable<ReadSnippet> keyGrouping)
         {
-            return keyGrouping.GroupBy(x => x.Version, VersionEquator.Instance)
+            return keyGrouping.GroupBy(x => x.Version)
                 .Select(versionGrouping => new VersionGroup(versionGrouping.Key, GetSnippets(versionGrouping)));
         }
 

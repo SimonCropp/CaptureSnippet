@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using CaptureSnippets;
+using NuGet.Versioning;
 using NUnit.Framework;
 
 [TestFixture]
@@ -11,10 +12,10 @@ public class CachedSnippetExtractorTests
     {
         var directory = @"scenarios\".ToCurrentDirectory();
         //warmup 
-        var snippetExtractor = new CachedSnippetExtractor(s => Version.ExplicitEmpty, s => true, s => s.EndsWith(".cs"));
+        var snippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
         await snippetExtractor.FromDirectory(directory);
 
-        var cachedSnippetExtractor = new CachedSnippetExtractor(s => Version.ExplicitEmpty, s => true, s => s.EndsWith(".cs"));
+        var cachedSnippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
         await cachedSnippetExtractor.FromDirectory(directory);
         firstRun.Stop();
@@ -30,7 +31,7 @@ public class CachedSnippetExtractorTests
     public async void EnsureErrorsAreReturned()
     {
         var directory = @"badsnippets".ToCurrentDirectory();
-        var cachedSnippetExtractor = new CachedSnippetExtractor(s => Version.ExplicitEmpty, s => true, s => s.EndsWith(".cs"));
+        var cachedSnippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
         var readSnippets = await cachedSnippetExtractor.FromDirectory(directory);
         Assert.AreEqual(1,readSnippets.Errors.Count());
     }

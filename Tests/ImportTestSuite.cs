@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CaptureSnippets;
+using NuGet.Versioning;
 using NUnit.Framework;
 
 [TestFixture]
@@ -16,13 +17,15 @@ public class ImportTestSuite
 
         foreach (var folder in folders)
         {
-            await Run(folder, Path.Combine(folder, "input.md"), Path.Combine(folder, "output.md"));
+            var input = Path.Combine(folder, "input.md");
+            var output = Path.Combine(folder, "output.md");
+            await Run(folder, input, output);
         }
     }
 
     async Task Run(string folder, string input, string expectedOutput)
     {
-        var extractor = new SnippetExtractor(s => Version.ExplicitEmpty);
+        var extractor = new SnippetExtractor(s => VersionRange.All);
         var snippets = await extractor.FromFiles(Directory.EnumerateFiles(folder, "code.cs"));
 
         var snippetGroups = SnippetGrouper.Group(snippets)
@@ -38,7 +41,10 @@ public class ImportTestSuite
             }
 
             var expected = File.ReadAllText(expectedOutput).FixNewLines();
-            var fixNewLines = stringBuilder.ToString().FixNewLines().TrimTrailingNewLine();
+            var fixNewLines = stringBuilder
+                .ToString()
+                .FixNewLines()
+                .TrimTrailingNewLine();
             Assert.AreEqual(expected, fixNewLines, folder);
         }
     }

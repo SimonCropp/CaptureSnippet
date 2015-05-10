@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CaptureSnippets;
+using NuGet.Versioning;
 using NUnit.Framework;
 using ObjectApproval;
 
@@ -81,7 +82,6 @@ even more text
     static VersionGroup CreateVersionGroup(int version)
     {
         return new VersionGroup(
-            version: new Version(version, 0),
             snippets: new List<Snippet>
             {
                 new Snippet(
@@ -101,14 +101,12 @@ even more text
         {
             new ReadSnippet(
                 key: "FoundKey1",
-                version: Version.ExplicitEmpty,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
                 language: "c",
                 file: "unknown"),
             new ReadSnippet(key: "FoundKey2",
-                version: Version.ExplicitEmpty,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
@@ -125,14 +123,12 @@ even more text
         var snippets = new List<ReadSnippet>
         {
             new ReadSnippet(key: "FoundKey1",
-                version: Version.ExplicitEmpty,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
                 language: "c",
                 file: "unknown"),
             new ReadSnippet(key: "FoundKey2",
-                version: Version.ExplicitEmpty,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
@@ -151,7 +147,6 @@ even more text
         {
             new ReadSnippet(key: "FoundKey1",
                 value: "Value1",
-                version: Version.ExplicitEmpty,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
@@ -159,21 +154,18 @@ even more text
             new ReadSnippet(
                 key: "FoundKey2",
                 value: "Value2",
-                version: Version.ExplicitEmpty,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
                 file: null),
             new ReadSnippet(key: "FoundKey3",
                 value: "Value3",
-                version: Version.ExplicitEmpty,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
                 file: null),
             new ReadSnippet(key: "FoundKey4",
                 value: "Value4",
-                version: Version.ExplicitEmpty,
                 startLine: 1,
                 endLine: 1,
                 language: "c",

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApprovalTests;
 using CaptureSnippets;
+using NuGet.Versioning;
 using NUnit.Framework;
 using ObjectApproval;
 
@@ -31,7 +32,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 2-->
   <configSections/>
   <!-- endcode -->
-  <!-- startcode CodeKey noversion-->
+  <!-- startcode CodeKey allversions-->
   <configSections/>
   <!-- endcode -->";
         var snippets = await FromText(input);
@@ -42,7 +43,7 @@ public class SnippetExtractorTests
     public async void Mixing_non_null_and_null_versions()
     {
         var input = @"
-  <!-- startcode CodeKey noversion-->
+  <!-- startcode CodeKey allversions-->
   <configSections/>
   <!-- endcode -->
   <!-- startcode CodeKey 2-->
@@ -125,7 +126,8 @@ public class SnippetExtractorTests
   <!-- endcode -->";
         using (var stringReader = new StringReader(input))
         {
-            var extractor = new SnippetExtractor(s => new Version(1, 1));
+            var versionRange = new VersionRange(new SemanticVersion(1, 1, 0));
+            var extractor = new SnippetExtractor(s => versionRange);
             var readSnippets = await extractor.FromReader(stringReader);
             ObjectApprover.VerifyWithJson(readSnippets);
         }
@@ -135,7 +137,7 @@ public class SnippetExtractorTests
     {
         using (var stringReader = new StringReader(contents))
         {
-            var extractor = new SnippetExtractor(s => Version.ExplicitEmpty);
+            var extractor = new SnippetExtractor(s => VersionRange.All);
             return await extractor.FromReader(stringReader);
         }
     }

@@ -1,1 +1,1 @@
-﻿Cannot mix null and non-null versions. Line: 6. Key: 'codekey'. Version: 2.
+﻿Cannot mix 'all' versions and specific versions. Line: 6. Key: 'codekey'. Version: '[2.0.0, )'.

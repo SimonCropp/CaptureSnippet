@@ -5,7 +5,7 @@ public static class ModuleInitializer
 {
     public static void Initialize()
     {
-        var versionConverter = new SnippetVersionConverter();
+        var versionConverter = new VersionRangeConverter();
         ObjectApprover.JsonSerializer.Converters.Add(versionConverter);
     }
 }

@@ -1,4 +1,5 @@
 using System.Text;
+using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -11,7 +12,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new insatnce of <see cref="ReadSnippetError"/>.
         /// </summary>
-        public ReadSnippetError(Version version, string key, int line, string file, string message)
+        public ReadSnippetError(VersionRange version, string key, int line, string file, string message)
         {
             Guard.AgainstNegativeAndZero(line, "line");
             Guard.AgainstNullAndEmpty(key,"key");
@@ -21,10 +22,9 @@ namespace CaptureSnippets
             Line = line;
             File = file;
             Message = message;
-            Version = version;
         }
 
-        public readonly Version Version;
+        public readonly VersionRange Version;
         public readonly string Key;
         public readonly int Line;
         public readonly string File;
@@ -41,13 +41,13 @@ namespace CaptureSnippets
             stringBuilder.AppendFormat(" Key: '{0}'.", Key);
             if (Version != null)
             {
-                if (Version != Version.ExplicitEmpty)
+                if (Version.Equals(VersionRange.All))
                 {
-                    stringBuilder.AppendFormat(" Version: {0}.", Version);
+                    stringBuilder.Append(" Version: All.");
                 }
                 else
                 {
-                    stringBuilder.Append(" Version: ExplicitEmpty.");
+                    stringBuilder.AppendFormat(" Version: '{0}'.", Version);
                 }
             }
             return stringBuilder.ToString();

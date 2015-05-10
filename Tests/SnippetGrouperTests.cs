@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CaptureSnippets;
+using NuGet.Versioning;
 using NUnit.Framework;
 using ObjectApproval;
 
@@ -13,7 +14,7 @@ public class SnippetGrouperTests
         var snippets = new List<ReadSnippet>
         {
             new ReadSnippet(key: "FoundKey1",
-                version: new Version(1, 2),
+                version: new VersionRange(new SemanticVersion(1,2,0) ),
                 value: "1",
                 startLine: 1,
                 endLine: 1,
@@ -21,7 +22,7 @@ public class SnippetGrouperTests
                 language: string.Empty),
             new ReadSnippet(
                 key: "FoundKey1",
-                version: new Version(1, 4),
+                version: new VersionRange(new SemanticVersion(1, 4,0)),
                 value: "2",
                 startLine: 1,
                 endLine: 1,
@@ -29,7 +30,7 @@ public class SnippetGrouperTests
                 language: string.Empty),
             new ReadSnippet(
                 key: "FoundKey2",
-                version: new Version(1, 3),
+                version: new VersionRange(new SemanticVersion(1, 3,0)),
                 value: "3",
                 startLine: 1,
                 endLine: 1,
@@ -38,7 +39,7 @@ public class SnippetGrouperTests
             new ReadSnippet(
                 key: "FoundKey2",
                 language: "cs",
-                version: new Version(1, 4),
+                version: new VersionRange(new SemanticVersion(1, 4,0)),
                 value: "4",
                 startLine: 1,
                 endLine: 1,
@@ -46,7 +47,7 @@ public class SnippetGrouperTests
             new ReadSnippet(
                 key: "FoundKey2",
                 language: "vb",
-                version: new Version(1, 4),
+                version: new VersionRange(new SemanticVersion(1, 4,0)),
                 value: "4",
                 startLine: 1,
                 endLine: 1,
@@ -54,7 +55,7 @@ public class SnippetGrouperTests
             new ReadSnippet(
                 key: "FoundKey2",
                 language: "cs",
-                version: new Version(1, 6),
+                version: new VersionRange(new SemanticVersion(1, 6,0)),
                 value: "5",
                 startLine: 1,
                 endLine: 1,

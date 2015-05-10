@@ -1,8 +1,9 @@
 ﻿using System;
+using CaptureSnippets;
 using Newtonsoft.Json;
-using Version = CaptureSnippets.Version;
+using NuGet.Versioning;
 
-class SnippetVersionConverter : JsonConverter
+class VersionRangeConverter : JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
@@ -11,13 +12,9 @@ class SnippetVersionConverter : JsonConverter
             writer.WriteValue("null");
             return;
         }
-        var version = (Version)value;
-        if (version == Version.ExplicitEmpty)
-        {
-            writer.WriteValue("explicitempty");
-            return;
-        }
-        writer.WriteValue(version.ToString());
+        
+        var version = (VersionRange)value;
+        writer.WriteValue(version.ToFriendlyString());
     }
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -27,6 +24,6 @@ class SnippetVersionConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        return objectType == typeof (Version);
+        return objectType == typeof(VersionRange);
     }
 }

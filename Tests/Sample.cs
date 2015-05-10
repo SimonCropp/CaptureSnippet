@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using CaptureSnippets;
-using Version = CaptureSnippets.Version;
+using NuGet.Versioning;
 
 class Sample
 {
@@ -44,14 +44,14 @@ class Sample
 
     }
 
-    static Version InferVersion(string path)
+    static VersionRange InferVersion(string path)
     {
         var directories = path.Split(Path.DirectorySeparatorChar)
             .Reverse();
         foreach (var directory in directories)
         {
-            Version version;
-            if (VersionParser.TryParseVersion(directory.Split('_').Last(), out version))
+            VersionRange version;
+            if (VersionRange.TryParse(directory.Split('_').Last(), out version))
             {
                 return version;
             }

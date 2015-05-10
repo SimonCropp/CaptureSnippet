@@ -1,3 +1,5 @@
+using NuGet.Versioning;
+
 namespace CaptureSnippets
 {
     /// <summary>
@@ -8,7 +10,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new insatnce of <see cref="ReadSnippet"/>.
         /// </summary>
-        public ReadSnippet(int startLine, int endLine, string value, string key, string language, string file, Version version)
+        public ReadSnippet(int startLine, int endLine, string value, string key, string language, string file, VersionRange version)
         {
             Guard.AgainstNullAndEmpty(key, "key");
             Guard.AgainstNull(language, "language");
@@ -50,6 +52,6 @@ namespace CaptureSnippets
         /// <summary>
         /// The <see cref="Version"/> that was inferred for the snippet.
         /// </summary>
-        public readonly Version Version;
+        public readonly VersionRange Version;
     }
 }

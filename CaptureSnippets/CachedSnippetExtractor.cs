@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MethodTimer;
+using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -25,7 +26,7 @@ namespace CaptureSnippets
         /// <param name="versionFromFilePathExtractor">The version convention that is passed to <see cref="SnippetExtractor"/>.</param>
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
-        public CachedSnippetExtractor(Func<string, Version> versionFromFilePathExtractor, Func<string,bool> includeDirectory, Func<string,bool> includeFile)
+        public CachedSnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor, Func<string, bool> includeDirectory, Func<string, bool> includeFile)
         {
             Guard.AgainstNull(versionFromFilePathExtractor, "versionFromFilePathExtractor");
             Guard.AgainstNull(includeDirectory, "includeDirectory");

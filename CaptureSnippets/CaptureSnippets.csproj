@@ -43,6 +43,9 @@
       <HintPath>..\packages\MethodTimer.Fody.1.15.2.0\Lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\MethodTimer.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="NuGet.Versioning">
+      <HintPath>..\packages\NuGet.Versioning.1.0.7\lib\portable-net40+win\NuGet.Versioning.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,7 +64,6 @@
     <Compile Include="Models\ReadSnippetError.cs" />
     <Compile Include="Models\ReadSnippetsException.cs" />
     <Compile Include="Models\MissingSnippetsException.cs" />
-    <Compile Include="Version.cs" />
     <Compile Include="ImportKeyReader.cs" />
     <Compile Include="IndexReader.cs" />
     <Compile Include="Models\ReadSnippet.cs" />
@@ -76,9 +78,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="SnippetGrouper.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="VersionComparer.cs" />
-    <Compile Include="VersionEquator.cs" />
-    <Compile Include="VersionParser.cs" />
+    <Compile Include="VersionRangeExtensions.cs" />
+    <Compile Include="VersionRangeParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
