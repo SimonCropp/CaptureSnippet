@@ -2,9 +2,15 @@ using System.Text;
 
 namespace CaptureSnippets
 {
+    /// <summary>
+    /// Represents an error encountered by <see cref="SnippetExtractor"/>.
+    /// </summary>
     public class ReadSnippetError
     {
 
+        /// <summary>
+        /// Initialise a new insatnce of <see cref="ReadSnippetError"/>.
+        /// </summary>
         public ReadSnippetError(Version version, string key, int line, string file, string message)
         {
             Guard.AgainstNegativeAndZero(line, "line");

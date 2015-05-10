@@ -9,6 +9,9 @@ namespace CaptureSnippets
     /// </summary>
     public class SnippetGroup : IEnumerable<VersionGroup>
     {
+        /// <summary>
+        /// Initialise a new insatnce of <see cref="SnippetGroup"/>.
+        /// </summary>
         public SnippetGroup(string key, IEnumerable<VersionGroup> versions)
         {
             Guard.AgainstNull(key,"key");

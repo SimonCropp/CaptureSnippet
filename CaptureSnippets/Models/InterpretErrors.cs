@@ -4,6 +4,9 @@ using System.Text;
 
 namespace CaptureSnippets
 {
+    /// <summary>
+    /// Extension method to convert various error cases.
+    /// </summary>
     public static class InterpretErrors
     {
 

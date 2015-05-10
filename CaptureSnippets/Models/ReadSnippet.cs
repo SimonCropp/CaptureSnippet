@@ -5,6 +5,9 @@ namespace CaptureSnippets
     /// </summary>
     public class ReadSnippet
     {
+        /// <summary>
+        /// Initialise a new insatnce of <see cref="ReadSnippet"/>.
+        /// </summary>
         public ReadSnippet(int startLine, int endLine, string value, string key, string language, string file, Version version)
         {
             Guard.AgainstNullAndEmpty(key, "key");

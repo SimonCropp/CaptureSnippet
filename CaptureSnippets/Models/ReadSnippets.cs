@@ -9,6 +9,9 @@ namespace CaptureSnippets
     /// </summary>
     public class ReadSnippets : IEnumerable<ReadSnippet>
     {
+        /// <summary>
+        /// Initialise a new insatnce of <see cref="ReadSnippets"/>.
+        /// </summary>
         public ReadSnippets(IEnumerable<ReadSnippet> snippets, IEnumerable<ReadSnippetError> errors)
         {
             Guard.AgainstNull(snippets, "snippets");

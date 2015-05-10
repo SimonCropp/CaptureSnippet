@@ -18,12 +18,16 @@ namespace CaptureSnippets
         };
         const string LineEnding = "\r\n";
 
+        /// <summary>
+        /// Initialise a new insatnce of <see cref="SnippetExtractor"/>.
+        /// </summary>
         public SnippetExtractor()
         {
             
         }
 
         /// <summary>
+        /// Initialise a new insatnce of <see cref="SnippetExtractor"/>.
         /// </summary>
         /// <param name="versionFromFilePathExtractor">How to extract a <see cref="Version"/> from a given file path. Return null for unknown version.</param>
         public SnippetExtractor(Func<string, Version> versionFromFilePathExtractor)

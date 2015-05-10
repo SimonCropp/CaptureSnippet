@@ -10,6 +10,9 @@ namespace CaptureSnippets
     /// </summary>
     public class CachedSnippets : IEnumerable<SnippetGroup>
     {
+        /// <summary>
+        /// Initialise a new insatnce of <see cref="CachedSnippets"/>.
+        /// </summary>
         public CachedSnippets(IEnumerable<SnippetGroup> snippetGroups, long ticks, IEnumerable<ReadSnippetError> errors)
         {
             Guard.AgainstNull(snippetGroups, "snippetGroups");

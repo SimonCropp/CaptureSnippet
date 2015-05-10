@@ -9,6 +9,9 @@ namespace CaptureSnippets
     {
         public readonly IEnumerable<ReadSnippetError> ReadSnippetErrors;
 
+        /// <summary>
+        /// Initialise a new insatnce of <see cref="ReadSnippetsException"/>.
+        /// </summary>
         public ReadSnippetsException(IEnumerable<ReadSnippetError> readSnippetErrors)
         {
             Guard.AgainstNull(readSnippetErrors, "readSnippetErrors");

@@ -2,11 +2,10 @@
 
 namespace CaptureSnippets
 {
-
     /// <summary>
     /// A simplified Major.Minor.Patch clone of <see cref="System.Version"/>.
     /// </summary>
-    public sealed class Version 
+    public class Version 
     {
         int major;
         int? minor;

@@ -7,6 +7,9 @@ namespace CaptureSnippets
     /// </summary>
     public class MissingSnippet
     {
+        /// <summary>
+        /// Initialise a new insatnce of <see cref="MissingSnippet"/>.
+        /// </summary>
         public MissingSnippet(string key, int line)
         {
             Guard.AgainstNullAndEmpty(key,"key");

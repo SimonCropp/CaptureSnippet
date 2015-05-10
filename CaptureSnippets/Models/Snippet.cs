@@ -6,6 +6,9 @@ namespace CaptureSnippets
     /// <remarks>Note that <see cref="ReadSnippet.Version"/> and <see cref="ReadSnippet.Key"/> are not included since they can be infered by the grouping structure.</remarks>
     public class Snippet
     {
+        /// <summary>
+        /// Initialise a new insatnce of <see cref="Snippet"/>.
+        /// </summary>
         public Snippet(int startLine, int endLine, string value, string language, string file)
         {
             Guard.AgainstNegativeAndZero(startLine, "startLine");
