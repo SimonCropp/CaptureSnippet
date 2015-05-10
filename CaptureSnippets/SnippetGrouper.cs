@@ -20,14 +20,15 @@ namespace CaptureSnippets
             }
         }
 
-        static IEnumerable<VersionGroup> GetVersionGroups(IGrouping<string, ReadSnippet> keyGrouping)
+        static IEnumerable<VersionGroup> GetVersionGroups(IEnumerable<ReadSnippet> keyGrouping)
         {
             return keyGrouping.GroupBy(x => x.Version, VersionEquator.Instance)
                 .Select(versionGrouping => new VersionGroup(versionGrouping.Key, GetSnippets(versionGrouping)));
         }
 
-        static IEnumerable<Snippet> GetSnippets(IGrouping<Version, ReadSnippet> versionGrouping)
+        static IEnumerable<Snippet> GetSnippets(IEnumerable<ReadSnippet> versionGrouping)
         {
+            
             return versionGrouping.Select(readSnippet =>
                 new Snippet(value: readSnippet.Value,
                     endLine: readSnippet.EndLine,
