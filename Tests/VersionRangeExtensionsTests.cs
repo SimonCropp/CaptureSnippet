@@ -7,48 +7,72 @@ public class VersionRangeExtensionsTests
 {
 
     [Test]
-    public void Soft_upper_joining_soft_lower_should_merge()
+    public void Soft_upper_joining_soft_lower_can_merge()
     {
         var version1 = VersionRange.Parse("(1.0,2.0]");
         var version2 = VersionRange.Parse("[2.0,3.0)");
         VersionRange newVersion;
-        Assert.IsTrue(VersionRangeExtensions.ShouldMerge(version1, version2, out newVersion));
-        Assert.AreEqual("(1.0.0, 3.0.0)", newVersion.ToString());
-        Assert.IsTrue(VersionRangeExtensions.ShouldMerge(version2, version1, out newVersion));
-        Assert.AreEqual("(1.0.0, 3.0.0)", newVersion.ToString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.AreEqual("> 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
+        Assert.AreEqual("> 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
     }
+
     [Test]
-    public void Soft_upper_overlapping_soft_lower_should_merge()
+    public void All_should_override()
+    {
+        var version = VersionRange.Parse("[2.0,3.0)");
+        VersionRange newVersion;
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(VersionRange.All, version, out newVersion));
+        Assert.AreEqual("all", newVersion.ToFriendlyString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version, VersionRange.All, out newVersion));
+        Assert.AreEqual("all", newVersion.ToFriendlyString());
+    }
+
+    [Test]
+    public void Soft_upper_overlapping_soft_lower_can_merge()
     {
         var version1 = VersionRange.Parse("(1.0,2.1]");
         var version2 = VersionRange.Parse("[2.0,3.0)");
         VersionRange newVersion;
-        Assert.IsTrue(VersionRangeExtensions.ShouldMerge(version1, version2, out newVersion));
-        Assert.AreEqual("(1.0.0, 3.0.0)", newVersion.ToString());
-        Assert.IsTrue(VersionRangeExtensions.ShouldMerge(version2, version1, out newVersion));
-        Assert.AreEqual("(1.0.0, 3.0.0)", newVersion.ToString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.AreEqual("> 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
+        Assert.AreEqual("> 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
     }
 
     [Test]
-    public void Hard_upper_joining_hard_lower_should_not_merge()
+    public void Soft_upper_overlapping_soft_lower_with_missing_version_can_merge()
+    {
+        var version1 = VersionRange.Parse("(,2.1]");
+        var version2 = VersionRange.Parse("[2.0,)");
+        VersionRange newVersion;
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.AreEqual("all", newVersion.ToFriendlyString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
+        Assert.AreEqual("all", newVersion.ToFriendlyString());
+    }
+
+    [Test]
+    public void Hard_upper_joining_hard_lower_can_not_merge()
     {
         var version1 = VersionRange.Parse("(1.0,2.0)");
         var version2 = VersionRange.Parse("(2.0,3.0)");
         VersionRange newVersion;
-        Assert.IsFalse(VersionRangeExtensions.ShouldMerge(version1, version2, out newVersion));
-        Assert.IsFalse(VersionRangeExtensions.ShouldMerge(version2, version1, out newVersion));
+        Assert.IsFalse(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.IsFalse(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
     }
 
     [Test]
-    public void Hard_upper_overlapping_hard_lower_should_merge()
+    public void Hard_upper_overlapping_hard_lower_can_merge()
     {
         var version1 = VersionRange.Parse("(1.0,2.1)");
         var version2 = VersionRange.Parse("(2.0,3.0)");
         VersionRange newVersion;
-        Assert.IsTrue(VersionRangeExtensions.ShouldMerge(version1, version2, out newVersion));
-        Assert.AreEqual("(1.0.0, 3.0.0)", newVersion.ToString());
-        Assert.IsTrue(VersionRangeExtensions.ShouldMerge(version2, version1, out newVersion));
-        Assert.AreEqual("(1.0.0, 3.0.0)", newVersion.ToString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.AreEqual("> 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
+        Assert.AreEqual("> 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
     }
 
     [Test]
@@ -57,19 +81,106 @@ public class VersionRangeExtensionsTests
         var version1 = VersionRange.Parse("(1.0,2.0]");
         var version2 = VersionRange.Parse("[2.1,3.0)");
         VersionRange newVersion;
-        Assert.IsFalse(VersionRangeExtensions.ShouldMerge(version1, version2, out newVersion));
-        Assert.IsFalse(VersionRangeExtensions.ShouldMerge(version2, version1, out newVersion));
+        Assert.IsFalse(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.IsFalse(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
     }
 
     [Test]
-    public void Hard_upper_not_joining_hard_lower_should_not_merge()
+    public void Hard_upper_not_joining_hard_lower_can_not_merge()
     {
         var version1 = VersionRange.Parse("(1.0,2.0)");
         var version2 = VersionRange.Parse("(2.1,3.0)");
         VersionRange newVersion;
-        Assert.IsFalse(VersionRangeExtensions.ShouldMerge(version1, version2, out newVersion));
-        Assert.IsFalse(VersionRangeExtensions.ShouldMerge(version2, version1, out newVersion));
+        Assert.IsFalse(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.IsFalse(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
     }
+
+    [Test]
+    public void ToFriendlyString()
+    {
+        Assert.AreEqual("> 1.0.0 && < 2.0.0", VersionRange.Parse("(1.0,2.0)").ToFriendlyString());
+        Assert.AreEqual("all", VersionRange.All.ToFriendlyString());
+        Assert.AreEqual("none", VersionRange.None.ToFriendlyString());
+    }
+
+    [Test]
+    public void MaxVersion()
+    {
+        bool isMaxInclusive;
+        SimpleVersion maxVersion;
+
+        VersionRangeExtensions.MaxVersion(VersionRange.Parse("(1.0,2.0)"), VersionRange.Parse("(2.1,)"), out maxVersion, out isMaxInclusive);
+        Assert.IsNull(maxVersion);
+        Assert.IsFalse(isMaxInclusive);
+
+        VersionRangeExtensions.MaxVersion(VersionRange.Parse("(1.0,2.0)"), VersionRange.Parse("(2.1,]"), out maxVersion, out isMaxInclusive);
+        Assert.IsNull(maxVersion);
+        Assert.IsFalse(isMaxInclusive);
+
+        VersionRangeExtensions.MaxVersion(VersionRange.Parse("(2.1,)"), VersionRange.Parse("(1.0,2.0)"), out maxVersion, out isMaxInclusive);
+        Assert.IsNull(maxVersion);
+        Assert.IsFalse(isMaxInclusive);
+
+        VersionRangeExtensions.MaxVersion(VersionRange.Parse("(2.1,]"), VersionRange.Parse("(1.0,2.0)"), out maxVersion, out isMaxInclusive);
+        Assert.IsNull(maxVersion);
+        Assert.IsFalse(isMaxInclusive);
+
+        VersionRangeExtensions.MaxVersion(VersionRange.Parse("(1.0,2.0)"), VersionRange.Parse("(2.1,3.0)"), out maxVersion, out isMaxInclusive);
+        Assert.AreEqual("3.0", maxVersion.ToString());
+        Assert.IsFalse(isMaxInclusive);
+
+        VersionRangeExtensions.MaxVersion(VersionRange.Parse("(1.0,2.0)"), VersionRange.Parse("(2.1,3.0]"), out maxVersion, out isMaxInclusive);
+        Assert.AreEqual("3.0", maxVersion.ToString());
+        Assert.IsTrue(isMaxInclusive);
+
+        VersionRangeExtensions.MaxVersion(VersionRange.Parse("(2.1,3.0)"), VersionRange.Parse("(1.0,2.0)"), out maxVersion, out isMaxInclusive);
+        Assert.AreEqual("3.0", maxVersion.ToString());
+        Assert.IsFalse(isMaxInclusive);
+
+        VersionRangeExtensions.MaxVersion(VersionRange.Parse("(2.1,3.0]"), VersionRange.Parse("(1.0,2.0)"), out maxVersion, out isMaxInclusive);
+        Assert.AreEqual("3.0", maxVersion.ToString());
+        Assert.IsTrue(isMaxInclusive);
+    }
+
+    [Test]
+    public void MinVersion()
+    {
+        bool isMinInclusive;
+        SimpleVersion minVersion;
+
+        VersionRangeExtensions.MinVersion(VersionRange.Parse("(1.0,2.0)"), VersionRange.Parse("(,2.1)"), out minVersion, out isMinInclusive);
+        Assert.IsNull(minVersion);
+        Assert.IsFalse(isMinInclusive);
+
+        VersionRangeExtensions.MinVersion(VersionRange.Parse("(1.0,2.0)"), VersionRange.Parse("(,2.1]"), out minVersion, out isMinInclusive);
+        Assert.IsNull(minVersion);
+        Assert.IsFalse(isMinInclusive);
+
+        VersionRangeExtensions.MinVersion(VersionRange.Parse("(,2.1)"), VersionRange.Parse("(1.0,2.0)"), out minVersion, out isMinInclusive);
+        Assert.IsNull(minVersion);
+        Assert.IsFalse(isMinInclusive);
+
+        VersionRangeExtensions.MinVersion(VersionRange.Parse("(,2.1]"), VersionRange.Parse("(1.0,2.0)"), out minVersion, out isMinInclusive);
+        Assert.IsNull(minVersion);
+        Assert.IsFalse(isMinInclusive);
+
+        VersionRangeExtensions.MinVersion(VersionRange.Parse("(1.0,2.0)"), VersionRange.Parse("(2.1,3.0)"), out minVersion, out isMinInclusive);
+        Assert.AreEqual("1.0", minVersion.ToString());
+        Assert.IsFalse(isMinInclusive);
+
+        VersionRangeExtensions.MinVersion(VersionRange.Parse("[1.0,2.0)"), VersionRange.Parse("(2.1,3.0)"), out minVersion, out isMinInclusive);
+        Assert.AreEqual("1.0", minVersion.ToString());
+        Assert.IsTrue(isMinInclusive);
+
+        VersionRangeExtensions.MinVersion(VersionRange.Parse("(2.1,3.0)"), VersionRange.Parse("(1.0,2.0)"), out minVersion, out isMinInclusive);
+        Assert.AreEqual("1.0", minVersion.ToString());
+        Assert.IsFalse(isMinInclusive);
+
+        VersionRangeExtensions.MinVersion(VersionRange.Parse("(2.1,3.0)"), VersionRange.Parse("[1.0,2.0)"), out minVersion, out isMinInclusive);
+        Assert.AreEqual("1.0", minVersion.ToString());
+        Assert.IsTrue(isMinInclusive);
+    }
+
     [Test]
     public void Overlaps()
     {
@@ -81,5 +192,11 @@ public class VersionRangeExtensionsTests
         Assert.IsTrue(VersionRange.Parse("(2.0,3.0)").OverlapsWith(VersionRange.Parse("(1.0,2.1)")));
         Assert.IsTrue(VersionRange.Parse("(1.0,2.1)").OverlapsWith(VersionRange.Parse("(2.0,3.0)")));
         Assert.IsTrue(VersionRange.Parse("(2.0,3.0)").OverlapsWith(VersionRange.Parse("(1.0,2.1)")));
+        Assert.IsTrue(VersionRange.Parse("(2.0,)").OverlapsWith(VersionRange.Parse("(,2.1)")));
+        Assert.IsTrue(VersionRange.Parse("(,2.1)").OverlapsWith(VersionRange.Parse("(2.0,)")));
+        Assert.IsFalse(VersionRange.Parse("(2.0,)").OverlapsWith(VersionRange.Parse("(,2.0)")));
+        Assert.IsFalse(VersionRange.Parse("(,2.0)").OverlapsWith(VersionRange.Parse("(2.0,)")));
+        Assert.IsFalse(VersionRange.Parse("(2.1,)").OverlapsWith(VersionRange.Parse("(,2.0)")));
+        Assert.IsFalse(VersionRange.Parse("(,2.0)").OverlapsWith(VersionRange.Parse("(2.1,)")));
     }
 }
