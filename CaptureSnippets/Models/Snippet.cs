@@ -20,6 +20,7 @@ namespace CaptureSnippets
             Value = value;
             Language = language;
         }
+
         /// <summary>
         /// The line the snippets started on
         /// </summary>

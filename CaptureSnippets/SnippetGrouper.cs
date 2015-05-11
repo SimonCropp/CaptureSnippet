@@ -10,12 +10,17 @@ namespace CaptureSnippets
             Guard.AgainstNull(snippets, "snippets");
             foreach (var grouping in snippets.GroupBy(x => x.Key))
             {
-                var versions = GetVersionGroups(grouping).ToList();
-                if (versions.Count > 1)
-                {
-                    versions = versions.OrderByDescending(x => x.Version.MinVersion).ToList();   
-                }
+                var versions = GetVersionGroups(grouping)
+                    .OrderByDescending(x => x.Version.MinVersion)
+                    .ToList();
 
+                for (var i = 0; i < versions.Count - 1; i++)
+                {
+                    for (var j = i + 1; j < versions.Count; j++)
+                    {
+                        // Use list[i] and list[j]
+                    }
+                }
                 yield return new SnippetGroup(key: grouping.Key, versions: versions);
             }
         }

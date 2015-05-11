@@ -3,6 +3,7 @@ using CaptureSnippets;
 using NUnit.Framework;
 using ObjectApproval;
 
+
 [TestFixture]
 public class StringExtensionTests
 {
