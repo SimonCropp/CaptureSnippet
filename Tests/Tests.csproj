@@ -77,6 +77,11 @@
   <ItemGroup>
     <Compile Include="ApprovalTestConfig.cs" />
     <Compile Include="CachedSnippetExtractorTests.cs" />
+    <Compile Include="Converters\CachedSnippetsConverter.cs" />
+    <Compile Include="Converters\ProcessResultConverter.cs" />
+    <Compile Include="Converters\ReadSnippetsConverter.cs" />
+    <Compile Include="Converters\SnippetGroupConverter.cs" />
+    <Compile Include="Converters\VersionGroupConverter.cs" />
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="VersionRangeExtensionsTests.cs" />
@@ -103,7 +108,7 @@
     <Compile Include="SnippetExtractor_IsStartRegionTests.cs" />
     <Compile Include="SnippetExtractor_IsStartCodeTests.cs" />
     <Compile Include="SnippetGrouperTests.cs" />
-    <Compile Include="VersionRangeConverter.cs" />
+    <Compile Include="Converters\VersionRangeConverter.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="StringExtensionTests.cs" />
     <None Include="scenarios\06-IgnoreCase\input.md">

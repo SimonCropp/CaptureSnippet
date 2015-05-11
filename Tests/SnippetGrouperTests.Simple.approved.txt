@@ -1,58 +1,79 @@
 ﻿[
-  [
-    [
+  {
+    "key": "foundkey1",
+    "language": "",
+    "versions": [
       {
-        "StartLine": 1,
-        "EndLine": 1,
-        "Value": "2",
-        "Language": "",
-        "File": null
-      }
-    ],
-    [
-      {
-        "StartLine": 1,
-        "EndLine": 1,
-        "Value": "1",
-        "Language": "",
-        "File": null
-      }
-    ]
-  ],
-  [
-    [
-      {
-        "StartLine": 1,
-        "EndLine": 1,
-        "Value": "5",
-        "Language": "cs",
-        "File": ""
-      }
-    ],
-    [
-      {
-        "StartLine": 1,
-        "EndLine": 1,
-        "Value": "4",
-        "Language": "cs",
-        "File": ""
+        "version": "(≥ 1.4.0)",
+        "value": "2",
+        "sources": [
+          {
+            "StartLine": 1,
+            "EndLine": 1,
+            "File": null
+          }
+        ]
       },
       {
-        "StartLine": 1,
-        "EndLine": 1,
-        "Value": "4",
-        "Language": "vb",
-        "File": ""
-      }
-    ],
-    [
-      {
-        "StartLine": 1,
-        "EndLine": 1,
-        "Value": "3",
-        "Language": "",
-        "File": null
+        "version": "(≥ 1.2.0)",
+        "value": "1",
+        "sources": [
+          {
+            "StartLine": 1,
+            "EndLine": 1,
+            "File": null
+          }
+        ]
       }
     ]
-  ]
+  },
+  {
+    "key": "foundkey2",
+    "language": "cs",
+    "versions": [
+      {
+        "version": "(≥ 1.6.0)",
+        "value": "5",
+        "sources": [
+          {
+            "StartLine": 1,
+            "EndLine": 1,
+            "File": ""
+          },
+          {
+            "StartLine": 1,
+            "EndLine": 1,
+            "File": ""
+          }
+        ]
+      },
+      {
+        "version": "(≥ 1.4.0)",
+        "value": "4",
+        "sources": [
+          {
+            "StartLine": 1,
+            "EndLine": 1,
+            "File": ""
+          },
+          {
+            "StartLine": 1,
+            "EndLine": 1,
+            "File": ""
+          }
+        ]
+      },
+      {
+        "version": "(≥ 1.3.0)",
+        "value": "3",
+        "sources": [
+          {
+            "StartLine": 1,
+            "EndLine": 1,
+            "File": null
+          }
+        ]
+      }
+    ]
+  }
 ]

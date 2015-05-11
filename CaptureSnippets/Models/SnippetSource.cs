@@ -4,21 +4,18 @@ namespace CaptureSnippets
     /// A snippet after it has been grouped by <see cref="SnippetGrouper"/>.
     /// </summary>
     /// <remarks>Note that <see cref="ReadSnippet.Version"/> and <see cref="ReadSnippet.Key"/> are not included since they can be infered by the grouping structure.</remarks>
-    public class Snippet
+    public class SnippetSource
     {
         /// <summary>
-        /// Initialise a new insatnce of <see cref="Snippet"/>.
+        /// Initialise a new insatnce of <see cref="SnippetSource"/>.
         /// </summary>
-        public Snippet(int startLine, int endLine, string value, string language, string file)
+        public SnippetSource(int startLine, int endLine, string file)
         {
             Guard.AgainstNegativeAndZero(startLine, "startLine");
             Guard.AgainstNegativeAndZero(endLine, "endLine");
-            Guard.AgainstNull(language, "language");
             File = file;
             StartLine = startLine;
             EndLine = endLine;
-            Value = value;
-            Language = language;
         }
 
         /// <summary>
@@ -29,14 +26,6 @@ namespace CaptureSnippets
         /// The line the snippet ended on.
         /// </summary>
         public readonly int EndLine;
-        /// <summary>
-        /// The contents of the snippet
-        /// </summary>
-        public readonly string Value;
-        /// <summary>
-        /// The language of the snippet, extracted from the file extension of the input file.
-        /// </summary>
-        public readonly string Language;
         /// <summary>
         /// The file path the snippet was read from.
         /// </summary>

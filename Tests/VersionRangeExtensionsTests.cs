@@ -1,4 +1,4 @@
-using CaptureSnippets;
+﻿using CaptureSnippets;
 using NuGet.Versioning;
 using NUnit.Framework;
 
@@ -16,6 +16,30 @@ public class VersionRangeExtensionsTests
         Assert.AreEqual("> 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
         Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
         Assert.AreEqual("> 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+    }
+
+    [Test]
+    public void Soft_upper_joining_hard_lower_can_merge()
+    {
+        var version1 = VersionRange.Parse("[1.0,2.0)");
+        var version2 = VersionRange.Parse("[2.0,3.0)");
+        VersionRange newVersion;
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.AreEqual("≥ 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
+        Assert.AreEqual("≥ 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+    }
+
+    [Test]
+    public void Soft_lower_joining_hard_upper_can_merge()
+    {
+        var version1 = VersionRange.Parse("[1.0,2.0]");
+        var version2 = VersionRange.Parse("(2.0,3.0)");
+        VersionRange newVersion;
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.AreEqual("≥ 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+        Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
+        Assert.AreEqual("≥ 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
     }
 
     [Test]
@@ -52,6 +76,7 @@ public class VersionRangeExtensionsTests
         Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
         Assert.AreEqual("all", newVersion.ToFriendlyString());
     }
+
 
     [Test]
     public void Hard_upper_joining_hard_lower_can_not_merge()
@@ -197,6 +222,6 @@ public class VersionRangeExtensionsTests
         Assert.IsFalse(VersionRange.Parse("(2.0,)").OverlapsWith(VersionRange.Parse("(,2.0)")));
         Assert.IsFalse(VersionRange.Parse("(,2.0)").OverlapsWith(VersionRange.Parse("(2.0,)")));
         Assert.IsFalse(VersionRange.Parse("(2.1,)").OverlapsWith(VersionRange.Parse("(,2.0)")));
-        Assert.IsFalse(VersionRange.Parse("(,2.0)").OverlapsWith(VersionRange.Parse("(2.1,)")));
+        Assert.IsTrue(VersionRange.Parse("[2.1.0, )").OverlapsWith(VersionRange.Parse("[2.2.0, )")));
     }
 }

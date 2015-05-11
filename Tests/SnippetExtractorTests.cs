@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ApprovalTests;
@@ -10,6 +11,7 @@ using ObjectApproval;
 [TestFixture]
 public class SnippetExtractorTests
 {
+
     [Test]
     public async void Duplicate_Key()
     {

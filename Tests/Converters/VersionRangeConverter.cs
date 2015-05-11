@@ -12,9 +12,9 @@ class VersionRangeConverter : JsonConverter
             writer.WriteValue("null");
             return;
         }
-        
-        var version = (VersionRange)value;
-        writer.WriteValue(version.ToFriendlyString());
+
+        var versionRange = (VersionRange)value;
+        writer.WriteValue(versionRange.ToFriendlyString());
     }
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

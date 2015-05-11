@@ -18,6 +18,7 @@ public class MarkdownProcessorTests
         var availableSnippets = new List<SnippetGroup>
         {
             new SnippetGroup(
+                language:"cs",
                 key: "versionedSnippet1",
                 versions: new List<VersionGroup>
                 {
@@ -25,6 +26,7 @@ public class MarkdownProcessorTests
                     CreateVersionGroup(4),
                 }),
             new SnippetGroup(
+                language:"cs",
                 key: "versionedSnippet2",
                 versions: new List<VersionGroup>
                 {
@@ -32,12 +34,15 @@ public class MarkdownProcessorTests
                     CreateVersionGroup(2),
                 }),
             new SnippetGroup(
+                language:"cs",
                 key: "nonVersionedSnippet1",
                 versions: new List<VersionGroup>
                 {
                     CreateVersionGroup(5),
                 }),
-            new SnippetGroup(key: "nonVersionedSnippet2",
+            new SnippetGroup(
+                language:"cs",
+                key: "nonVersionedSnippet2",
                 versions: new List<VersionGroup>
                 {
                     CreateVersionGroup(5),
@@ -70,11 +75,11 @@ even more text
         using (var writer = new StringWriter(stringBuilder))
         {
             var processResult = await processor.Apply(availableSnippets, reader, writer);
-            var ourput = new object[]
+            var output = new object[]
             {
                 processResult.MissingSnippets, processResult.UsedSnippets, stringBuilder.ToString()
             };
-            ObjectApprover.VerifyWithJson(ourput, s => s.Replace("\\r\\n", "\r\n"));
+            ObjectApprover.VerifyWithJson(output, s => s.Replace("\\r\\n", "\r\n"));
         }
     }
 
@@ -83,11 +88,10 @@ even more text
     {
         return new VersionGroup(
             version: new VersionRange(minVersion: new SemanticVersion(version, 0, 0)),
-            snippets: new List<Snippet>
+            value: "Snippet_v" + version,
+            sources: new List<SnippetSource>
             {
-                new Snippet(
-                    language: "cs",
-                    value: "Snippet_v" + version,
+                new SnippetSource(
                     startLine: 1,
                     endLine: 2,
                     file: null
@@ -101,14 +105,15 @@ even more text
         var snippets = new List<ReadSnippet>
         {
             new ReadSnippet(
-                key: "FoundKey1",
+                key: "foundkey1",
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
                 language: "c",
                 file: "unknown"),
-            new ReadSnippet(key: "FoundKey2",
+            new ReadSnippet(
+                key: "foundkey2",
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
@@ -125,14 +130,14 @@ even more text
     {
         var snippets = new List<ReadSnippet>
         {
-            new ReadSnippet(key: "FoundKey1",
+            new ReadSnippet(key: "foundkey1",
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
                 language: "c",
                 file: "unknown"),
-            new ReadSnippet(key: "FoundKey2",
+            new ReadSnippet(key: "foundkey2",
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
@@ -150,7 +155,7 @@ even more text
     {
         var snippets = new List<ReadSnippet>
         {
-            new ReadSnippet(key: "FoundKey1",
+            new ReadSnippet(key: "foundkey1",
                 value: "Value1",
                 version: VersionRange.All,
                 startLine: 1,
@@ -158,21 +163,21 @@ even more text
                 language: "c",
                 file: null),
             new ReadSnippet(
-                key: "FoundKey2",
+                key: "foundkey2",
                 value: "Value2",
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
                 file: null),
-            new ReadSnippet(key: "FoundKey3",
+            new ReadSnippet(key: "foundkey3",
                 value: "Value3",
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
                 file: null),
-            new ReadSnippet(key: "FoundKey4",
+            new ReadSnippet(key: "foundkey4",
                 value: "Value4",
                 version: VersionRange.All,
                 startLine: 1,

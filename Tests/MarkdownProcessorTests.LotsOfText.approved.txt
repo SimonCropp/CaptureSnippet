@@ -1,28 +1,40 @@
 ﻿[
   [],
   [
-    [
-      [
+    {
+      "key": "foundkey2",
+      "language": "c",
+      "versions": [
         {
-          "StartLine": 1,
-          "EndLine": 1,
-          "Value": "Value2",
-          "Language": "c",
-          "File": null
+          "version": "",
+          "value": "Value2",
+          "sources": [
+            {
+              "StartLine": 1,
+              "EndLine": 1,
+              "File": null
+            }
+          ]
         }
       ]
-    ],
-    [
-      [
+    },
+    {
+      "key": "foundkey1",
+      "language": "c",
+      "versions": [
         {
-          "StartLine": 1,
-          "EndLine": 1,
-          "Value": "Value1",
-          "Language": "c",
-          "File": null
+          "version": "",
+          "value": "Value1",
+          "sources": [
+            {
+              "StartLine": 1,
+              "EndLine": 1,
+              "File": null
+            }
+          ]
         }
       ]
-    ]
+    }
   ],
   "
 <!-- import FoundKey2 -->\\r\\b\\n<!-- import FoundKey1 -->

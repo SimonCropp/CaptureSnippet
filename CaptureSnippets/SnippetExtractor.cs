@@ -238,11 +238,11 @@ namespace CaptureSnippets
             var snippet = new ReadSnippet(
                               startLine : startRow,
                               endLine : stringReader.Index,
-                              key : loopState.CurrentKey,
+                              key : loopState.CurrentKey.ToLowerInvariant(),
                               version : parsedVersion,
                               value : value,
                               file : file,
-                              language : language);
+                              language: language.ToLowerInvariant());
             snippets.Add(snippet);
         }
 

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -10,35 +12,82 @@ namespace CaptureSnippets
             Guard.AgainstNull(snippets, "snippets");
             foreach (var grouping in snippets.GroupBy(x => x.Key))
             {
-                var versions = GetVersionGroups(grouping)
-                    .OrderByDescending(x => x.Version.MinVersion)
-                    .ToList();
-
-                for (var i = 0; i < versions.Count - 1; i++)
+                var readSnippets = grouping.ToList();
+                var requiredLanguage = readSnippets.Select(x => x.Language).First();
+                if (readSnippets.Any(x => x.Language != requiredLanguage))
                 {
-                    for (var j = i + 1; j < versions.Count; j++)
-                    {
-                        // Use list[i] and list[j]
-                    }
+                    throw new Exception(string.Format("All laguages of a give key must be equivalent. Key='{0}'.", grouping.Key));
                 }
-                yield return new SnippetGroup(key: grouping.Key, versions: versions);
+
+                var keyGroup = ProcessKeyGroup(readSnippets)
+                    .OrderByDescending(x => x.Version.VersionForCompare());
+
+                yield return new SnippetGroup(
+                    key: grouping.Key,
+                    language: requiredLanguage,
+                    versions:keyGroup);
             }
         }
 
-        static IEnumerable<VersionGroup> GetVersionGroups(IEnumerable<ReadSnippet> keyGrouping)
+        class MergedSnippets
         {
-            return keyGrouping.GroupBy(x => x.Version)
-                .Select(versionGrouping => new VersionGroup(versionGrouping.Key, GetSnippets(versionGrouping)));
+            public VersionRange Range;
+            public int ValueHash;
+            public string Value;
+            public List<ReadSnippet> Snippets;
         }
 
-        static IEnumerable<Snippet> GetSnippets(IEnumerable<ReadSnippet> versionGrouping)
+        internal static IEnumerable<VersionGroup> ProcessKeyGroup(List<ReadSnippet> readSnippets)
         {
-            return versionGrouping.Select(x =>
-                new Snippet(value: x.Value,
-                    endLine: x.EndLine,
-                    file: x.File,
-                    language: x.Language,
-                    startLine: x.StartLine));
+            var versions = readSnippets.Select(x => new MergedSnippets
+            {
+                Range = x.Version,
+                ValueHash = x.ValueHash,
+                Value = x.Value,
+                Snippets = new List<ReadSnippet> {x}
+            }).ToList();
+
+            while (true)
+            {
+                var mergeOccured = false;
+
+                for (var i = 0; i < versions.Count - 1; i++)
+                {
+                    var left = versions[i];
+                    for (var j = i + 1; j < versions.Count; j++)
+                    {
+                        var right = versions[j];
+
+                        VersionRange newVersion;
+                        if (VersionRangeExtensions.CanMerge(left.Range, right.Range, out newVersion))
+                        {
+                            if (left.ValueHash == right.ValueHash)
+                            {
+                                left.Range = newVersion;
+                                left.Snippets.AddRange(right.Snippets);
+                                versions.RemoveAt(j);
+                                mergeOccured = true;
+                                j--;
+                            }
+                        }
+                    }
+                }
+
+                if (!mergeOccured)
+                {
+                    break;
+                }
+            }
+            return versions.Select(x =>
+                new VersionGroup(
+                    version: x.Range,
+                    value: x.Value,
+                    sources: x.Snippets.Select(y =>
+                        new SnippetSource(
+                            startLine: y.StartLine,
+                            endLine: y.EndLine,
+                            file: y.File))));
         }
+
     }
 }

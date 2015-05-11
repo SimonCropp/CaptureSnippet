@@ -6,37 +6,43 @@ using NuGet.Versioning;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// Allows <see cref="Snippet"/>s to be grouped by their <see cref="VersionRange"/>.
+    /// Allows <see cref="SnippetSource"/>s to be grouped by their <see cref="VersionRange"/>.
     /// </summary>
-    public class VersionGroup : IEnumerable<Snippet>
+    public class VersionGroup : IEnumerable<SnippetSource>
     {
         /// <summary>
         /// Initialise a new insatnce of <see cref="VersionGroup"/>.
         /// </summary>
-        public VersionGroup(VersionRange version, IEnumerable<Snippet> snippets)
+        public VersionGroup(VersionRange version, string value, IEnumerable<SnippetSource> sources)
         {
             Guard.AgainstNull(version,"version");
-            Guard.AgainstNull(snippets, "snippets");
+            Guard.AgainstNull(sources, "sources");
+            Value = value;
             Version = version;
-            Snippets = snippets.ToList();
+            Sources = sources.ToList();
         }
 
         /// <summary>
-        ///  The version that all the child <see cref="Snippet"/>s have.
+        ///  The version that all the child <see cref="SnippetSource"/>s have.
         /// </summary>
         public readonly VersionRange Version;
 
         /// <summary>
-        /// All the snippets with a common <see cref="VersionRange"/>.
+        /// The contents of the snippet
         /// </summary>
-        public readonly IEnumerable<Snippet> Snippets;
+        public readonly string Value;
 
         /// <summary>
-        /// Enumerates over <see cref="Snippets"/>.
+        /// All the snippets with a common <see cref="VersionRange"/>.
         /// </summary>
-        public IEnumerator<Snippet> GetEnumerator()
+        public readonly IEnumerable<SnippetSource> Sources;
+
+        /// <summary>
+        /// Enumerates over <see cref="Sources"/>.
+        /// </summary>
+        public IEnumerator<SnippetSource> GetEnumerator()
         {
-            return Snippets.GetEnumerator();
+            return Sources.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

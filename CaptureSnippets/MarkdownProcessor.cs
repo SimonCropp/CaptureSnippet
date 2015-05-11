@@ -75,35 +75,29 @@ namespace CaptureSnippets
             Guard.AgainstNull(writer, "writer");
             foreach (var versionGroup in snippetGroup)
             {
-                await AppendVersionGroup(writer, versionGroup);
+                await AppendVersionGroup(writer, versionGroup,snippetGroup.Language);
             }
         }
 
-        async Task AppendVersionGroup(TextWriter writer, VersionGroup versionGroup)
+        public async Task AppendVersionGroup(TextWriter writer, VersionGroup versionGroup, string language)
         {
+            Guard.AgainstNull(versionGroup, "versionGroup");
+            Guard.AgainstNull(writer, "writer");
+            Guard.AgainstNullAndEmpty(language, "language");
+
             if (!versionGroup.Version.Equals(VersionRange.All))
             {
                 var message = string.Format("#### Version '{0}'", versionGroup.Version.ToFriendlyString());
                 await writer.WriteLineAsync(message)
                     .ConfigureAwait(false);
             }
-            foreach (var snippet in versionGroup)
-            {
-                await AppendSnippet(snippet, writer)
-                    .ConfigureAwait(false);
-            }
-        }
-
-        public async Task AppendSnippet(Snippet codeSnippet, TextWriter writer)
-        {
-            Guard.AgainstNull(codeSnippet, "codeSnippet");
-            Guard.AgainstNull(writer, "writer");
             var format = string.Format(
 @"```{0}
 {1}
-```", codeSnippet.Language, codeSnippet.Value);
+```", language, versionGroup.Value);
             await writer.WriteLineAsync(format)
                 .ConfigureAwait(false);
         }
+
     }
 }

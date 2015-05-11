@@ -13,17 +13,23 @@ namespace CaptureSnippets
         public ReadSnippet(int startLine, int endLine, string value, string key, string language, string file, VersionRange version)
         {
             Guard.AgainstNullAndEmpty(key, "key");
+            Guard.AgainstUpperCase(key, "key");
             Guard.AgainstNull(language, "language");
+            Guard.AgainstUpperCase(language, "language");
             Guard.AgainstNegativeAndZero(startLine, "startLine");
             Guard.AgainstNegativeAndZero(endLine, "endLine");
+           
             StartLine = startLine;
             EndLine = endLine;
             Value = value;
+            ValueHash = value.RemoveWhitespace().GetHashCode();
             Key = key;
             Language = language;
             File = file;
             Version = version;
         }
+
+        internal int ValueHash;
 
         /// <summary>
         /// The line the snippets started on

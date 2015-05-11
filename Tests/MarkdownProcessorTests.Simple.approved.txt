@@ -1,68 +1,96 @@
 ﻿[
   [],
   [
-    [
-      [
+    {
+      "key": "versionedSnippet1",
+      "language": "cs",
+      "versions": [
         {
-          "StartLine": 1,
-          "EndLine": 2,
-          "Value": "Snippet_v5",
-          "Language": "cs",
-          "File": null
-        }
-      ],
-      [
+          "version": "(≥ 5.0.0)",
+          "value": "Snippet_v5",
+          "sources": [
+            {
+              "StartLine": 1,
+              "EndLine": 2,
+              "File": null
+            }
+          ]
+        },
         {
-          "StartLine": 1,
-          "EndLine": 2,
-          "Value": "Snippet_v4",
-          "Language": "cs",
-          "File": null
-        }
-      ]
-    ],
-    [
-      [
-        {
-          "StartLine": 1,
-          "EndLine": 2,
-          "Value": "Snippet_v3",
-          "Language": "cs",
-          "File": null
-        }
-      ],
-      [
-        {
-          "StartLine": 1,
-          "EndLine": 2,
-          "Value": "Snippet_v2",
-          "Language": "cs",
-          "File": null
+          "version": "(≥ 4.0.0)",
+          "value": "Snippet_v4",
+          "sources": [
+            {
+              "StartLine": 1,
+              "EndLine": 2,
+              "File": null
+            }
+          ]
         }
       ]
-    ],
-    [
-      [
+    },
+    {
+      "key": "versionedSnippet2",
+      "language": "cs",
+      "versions": [
         {
-          "StartLine": 1,
-          "EndLine": 2,
-          "Value": "Snippet_v5",
-          "Language": "cs",
-          "File": null
+          "version": "(≥ 3.0.0)",
+          "value": "Snippet_v3",
+          "sources": [
+            {
+              "StartLine": 1,
+              "EndLine": 2,
+              "File": null
+            }
+          ]
+        },
+        {
+          "version": "(≥ 2.0.0)",
+          "value": "Snippet_v2",
+          "sources": [
+            {
+              "StartLine": 1,
+              "EndLine": 2,
+              "File": null
+            }
+          ]
         }
       ]
-    ],
-    [
-      [
+    },
+    {
+      "key": "nonVersionedSnippet1",
+      "language": "cs",
+      "versions": [
         {
-          "StartLine": 1,
-          "EndLine": 2,
-          "Value": "Snippet_v5",
-          "Language": "cs",
-          "File": null
+          "version": "(≥ 5.0.0)",
+          "value": "Snippet_v5",
+          "sources": [
+            {
+              "StartLine": 1,
+              "EndLine": 2,
+              "File": null
+            }
+          ]
         }
       ]
-    ]
+    },
+    {
+      "key": "nonVersionedSnippet2",
+      "language": "cs",
+      "versions": [
+        {
+          "version": "(≥ 5.0.0)",
+          "value": "Snippet_v5",
+          "sources": [
+            {
+              "StartLine": 1,
+              "EndLine": 2,
+              "File": null
+            }
+          ]
+        }
+      ]
+    }
   ],
   "
 <!-- import versionedSnippet1 -->

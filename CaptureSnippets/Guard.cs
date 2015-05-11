@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace CaptureSnippets
 {
@@ -10,6 +11,13 @@ namespace CaptureSnippets
             if (value == null)
             {
                 throw new ArgumentNullException(argumentName);
+            }
+        }
+        public static void AgainstUpperCase(string value, string argumentName)
+        {
+            if (value.Any(char.IsUpper))
+            {
+                throw new ArgumentException("Cannot contain upper case",argumentName);
             }
         }
         public static void AgainstNegativeAndZero(long value, string argumentName)

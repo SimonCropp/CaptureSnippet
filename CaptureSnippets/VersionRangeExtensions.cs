@@ -4,6 +4,14 @@ namespace CaptureSnippets
 {
     static class VersionRangeExtensions
     {
+        internal static SimpleVersion VersionForCompare(this VersionRange range)
+        {
+            if (range.MinVersion == null)
+            {
+                return range.MaxVersion;
+            }
+            return range.MinVersion;
+        }
 
 
         public static string ToFriendlyString(this VersionRange version)
@@ -29,37 +37,15 @@ namespace CaptureSnippets
                 return true;
             }
 
-            if (range1.IsMaxInclusive &&
-                range2.IsMinInclusive && 
-                range1.MaxVersion.Equals(range2.MinVersion))
-            {
-                newVersion = new VersionRange(
-                    minVersion: range1.MinVersion,
-                    includeMinVersion: range1.IsMinInclusive,
-                    maxVersion: range2.MaxVersion,
-                    includeMaxVersion: range2.IsMaxInclusive);
-                return true;
-            }
-            if (range1.IsMinInclusive && 
-                range2.IsMaxInclusive && 
-                range1.MinVersion.Equals(range2.MaxVersion))
-            {
-                newVersion = new VersionRange(
-                    maxVersion: range1.MaxVersion,
-                    includeMinVersion: range2.IsMinInclusive,
-                    minVersion: range2.MinVersion,
-                    includeMaxVersion: range1.IsMaxInclusive);
-                return true;
-            }
             if (range1.OverlapsWith(range2))
             {
                 bool maxInclusive;
                 SimpleVersion maxVersion;
                 MaxVersion(range1, range2, out maxVersion, out maxInclusive);
-                
+
                 SimpleVersion minVersion;
                 bool minInclusive;
-                MinVersion(range1,range2, out minVersion, out minInclusive);
+                MinVersion(range1, range2, out minVersion, out minInclusive);
                 if (minVersion == null && maxVersion == null)
                 {
                     newVersion = VersionRange.All;
@@ -70,6 +56,27 @@ namespace CaptureSnippets
                     includeMinVersion: minInclusive,
                     maxVersion: maxVersion,
                     includeMaxVersion: maxInclusive);
+                return true;
+            }
+
+            if ((range1.IsMaxInclusive || range2.IsMinInclusive) && 
+                range1.MaxVersion.Equals(range2.MinVersion))
+            {
+                newVersion = new VersionRange(
+                    minVersion: range1.MinVersion,
+                    includeMinVersion: range1.IsMinInclusive,
+                    maxVersion: range2.MaxVersion,
+                    includeMaxVersion: range2.IsMaxInclusive);
+                return true;
+            }
+            if ((range1.IsMinInclusive || range2.IsMaxInclusive) && 
+                range1.MinVersion.Equals(range2.MaxVersion))
+            {
+                newVersion = new VersionRange(
+                    maxVersion: range1.MaxVersion,
+                    includeMinVersion: range2.IsMinInclusive,
+                    minVersion: range2.MinVersion,
+                    includeMaxVersion: range1.IsMaxInclusive);
                 return true;
             }
 
@@ -127,17 +134,18 @@ namespace CaptureSnippets
 
         public static bool OverlapsWith(this VersionRange range1, VersionRange range2)
         {
-            if (range1.MinVersion == null || range2.MaxVersion == null)
-            {
-                return range2.MinVersion < range1.MaxVersion;
-            }
-            if (range1.MaxVersion == null || range2.MinVersion == null)
-            {
-                return range1.MinVersion < range2.MaxVersion;
-            }
             return
-                (range1.MinVersion < range2.MaxVersion) &&
-                range2.MinVersion < range1.MaxVersion;
+                CompareVersions(range1.MinVersion, range2.MaxVersion) &&
+                CompareVersions(range2.MinVersion, range1.MaxVersion);
+        }
+
+        static bool CompareVersions(SimpleVersion version1, SimpleVersion version2)
+        {
+            if (version1 == null || version2 == null)
+            {
+                return true;
+            }
+            return version1 < version2;
         }
     }
 }

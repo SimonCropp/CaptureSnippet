@@ -73,7 +73,7 @@
     <Compile Include="SnippetExtractor.cs" />
     <Compile Include="MarkdownProcessor.cs" />
     <Compile Include="MethodTimeLogger.cs" />
-    <Compile Include="Models\Snippet.cs" />
+    <Compile Include="Models\SnippetSource.cs" />
     <Compile Include="Models\ProcessResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="SnippetGrouper.cs" />

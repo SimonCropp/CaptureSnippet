@@ -1,20 +1,23 @@
-﻿[
-  {
-    "StartLine": 3,
-    "EndLine": 4,
-    "Value": "<configSections/>",
-    "Key": "codekey",
-    "Language": "",
-    "File": null,
-    "Version": "≥ 4.0.0"
-  },
-  {
-    "StartLine": 6,
-    "EndLine": 7,
-    "Value": "The Code",
-    "Key": "codekey",
-    "Language": "",
-    "File": null,
-    "Version": "≥ 5.0.0"
-  }
-]
+﻿{
+  "snippets": [
+    {
+      "StartLine": 3,
+      "EndLine": 4,
+      "Value": "<configSections/>",
+      "Key": "codekey",
+      "Language": "",
+      "File": null,
+      "Version": "≥ 4.0.0"
+    },
+    {
+      "StartLine": 6,
+      "EndLine": 7,
+      "Value": "The Code",
+      "Key": "codekey",
+      "Language": "",
+      "File": null,
+      "Version": "≥ 5.0.0"
+    }
+  ],
+  "errors": []
+}

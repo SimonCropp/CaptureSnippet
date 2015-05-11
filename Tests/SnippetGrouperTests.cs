@@ -13,7 +13,8 @@ public class SnippetGrouperTests
     {
         var snippets = new List<ReadSnippet>
         {
-            new ReadSnippet(key: "FoundKey1",
+            new ReadSnippet(
+                key: "foundkey1",
                 version: new VersionRange(new SemanticVersion(1,2,0) ),
                 value: "1",
                 startLine: 1,
@@ -21,7 +22,7 @@ public class SnippetGrouperTests
                 file: null, 
                 language: string.Empty),
             new ReadSnippet(
-                key: "FoundKey1",
+                key: "foundkey1",
                 version: new VersionRange(new SemanticVersion(1, 4,0)),
                 value: "2",
                 startLine: 1,
@@ -29,15 +30,15 @@ public class SnippetGrouperTests
                 file: null, 
                 language: string.Empty),
             new ReadSnippet(
-                key: "FoundKey2",
+                key: "foundkey2",
                 version: new VersionRange(new SemanticVersion(1, 3,0)),
                 value: "3",
                 startLine: 1,
                 endLine: 1,
                 file: null,
-                language: string.Empty),
+                language: "cs"),
             new ReadSnippet(
-                key: "FoundKey2",
+                key: "foundkey2",
                 language: "cs",
                 version: new VersionRange(new SemanticVersion(1, 4,0)),
                 value: "4",
@@ -45,15 +46,23 @@ public class SnippetGrouperTests
                 endLine: 1,
                 file: string.Empty),
             new ReadSnippet(
-                key: "FoundKey2",
-                language: "vb",
+                key: "foundkey2",
+                language: "cs",
                 version: new VersionRange(new SemanticVersion(1, 4,0)),
                 value: "4",
                 startLine: 1,
                 endLine: 1,
                 file: string.Empty),
             new ReadSnippet(
-                key: "FoundKey2",
+                key: "foundkey2",
+                language: "cs",
+                version: new VersionRange(new SemanticVersion(1, 6,0)),
+                value: "5",
+                startLine: 1,
+                endLine: 1,
+                file: string.Empty),
+            new ReadSnippet(
+                key: "foundkey2",
                 language: "cs",
                 version: new VersionRange(new SemanticVersion(1, 6,0)),
                 value: "5",
@@ -62,6 +71,40 @@ public class SnippetGrouperTests
                 file: string.Empty),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
+        ObjectApprover.VerifyWithJson(snippetGroups);
+    }
+
+    [Test]
+    public void Merging()
+    {
+        var snippets = new List<ReadSnippet>
+        {
+            new ReadSnippet(
+                key: "foundkey1",
+                version: VersionRange.Parse("1.2.0"),
+                value: "code",
+                startLine: 1,
+                endLine: 1,
+                file: null, 
+                language: string.Empty),
+            new ReadSnippet(
+                key: "foundkey1",
+                version: VersionRange.Parse("1.4.0"),
+                value: "code",
+                startLine: 1,
+                endLine: 1,
+                file: null, 
+                language: string.Empty),
+            new ReadSnippet(
+                key: "foundkey1",
+                version: VersionRange.Parse("1.3.0"),
+                value: "code",
+                startLine: 1,
+                endLine: 1,
+                file: null, 
+                language: string.Empty),
+        };
+        var snippetGroups = SnippetGrouper.ProcessKeyGroup(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
     }
 }
