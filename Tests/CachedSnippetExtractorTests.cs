@@ -8,6 +8,7 @@ using NUnit.Framework;
 public class CachedSnippetExtractorTests
 {
     [Test]
+    [Explicit]
     public async void SecondReadShouldBeFasterThanFirstRead()
     {
         var directory = @"scenarios\".ToCurrentDirectory();
@@ -17,10 +18,12 @@ public class CachedSnippetExtractorTests
 
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
-        await cachedSnippetExtractor.FromDirectory(directory);
+        await cachedSnippetExtractor.FromDirectory(directory)
+            .ConfigureAwait(false);
         firstRun.Stop();
         var secondRun = Stopwatch.StartNew();
-        await cachedSnippetExtractor.FromDirectory(directory);
+        await cachedSnippetExtractor.FromDirectory(directory)
+            .ConfigureAwait(false);
         secondRun.Stop();
         Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
         Debug.WriteLine(firstRun.ElapsedMilliseconds);
