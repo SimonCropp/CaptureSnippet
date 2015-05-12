@@ -155,6 +155,17 @@ public class SnippetExtractorTests
     }
 
     [Test]
+    public async void CanExtractFromXmlWithVersionRange()
+    {
+        var input = @"
+  <!-- startcode CodeKey [1.0,2.0] -->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = await FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
     public async void UnClosedSnippet()
     {
         var input = @"

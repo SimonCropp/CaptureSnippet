@@ -30,8 +30,18 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string version;
         SnippetExtractor.IsStartCode("<!-- startcode CodeKey 5 -->", out key, out version);
-        Assert.AreEqual("CodeKey",key);
+        Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", version);
+    }
+
+    [Test]
+    public void CanExtractFromXmlWithVersionRange()
+    {
+        string key;
+        string version;
+        SnippetExtractor.IsStartCode("<!-- startcode CodeKey [1.0,2.0] -->", out key, out version);
+        Assert.AreEqual("CodeKey", key);
+        Assert.AreEqual("[1.0,2.0]", version);
     }
 
     [Test]
