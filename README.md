@@ -38,7 +38,9 @@ My Snippet Code
 
 ### Snippets are versioned
 
-Version is of the form `Major.Minor.Patch`.
+Version follows the [nuget version range syntax](https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files).
+
+For more details on nuget versioning see https://github.com/NuGet/NuGet.Versioning/.
 
 #### Version suffix on snippets
 
@@ -46,6 +48,14 @@ Appending a version to the end of a snippet definition as follows.
 
 ```
 #region MySnippetName 4.5
+My Snippet Code
+#endregion
+```
+
+Or a version range
+
+```
+#region MySnippetName [1.0,2.0]
 My Snippet Code
 #endregion
 ```
@@ -66,14 +76,14 @@ var snippetExtractor = new SnippetExtractor(InferVersion);
 
 And the convention method
 
-    static Version InferVersion(string path)
+    static VersionRange InferVersion(string path)
     {
         var directories = path.Split(Path.DirectorySeparatorChar)
             .Reverse();
         foreach (var directory in directories)
         {
-            Version version;
-            if (VersionParser.TryParseVersion(directory.Split('_').Last(), out version))
+            VersionRange version;
+            if (VersionRange.TryParse(directory.Split('_').Last(), out version))
             {
                 return version;
             }
