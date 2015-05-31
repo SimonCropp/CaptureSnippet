@@ -46,7 +46,7 @@ namespace CaptureSnippets
                 if (snippets.Count > 1)
                 {
                     var files = string.Join("\r\n", snippets.Select(x => x.FileLocation));
-                    error = string.Format("Duplicate key detected. Key='{0}'. Files=\r\n{1}", key, files);
+                    error = string.Format("Duplicate key detected. Key='{0}'. Version='{1}'. Files=\r\n{2}", key, snippets.First().Version.PrettyPrint(), files);
                     snippetGroup = null;
                     return false;
                 }
