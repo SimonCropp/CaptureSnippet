@@ -16,7 +16,7 @@ namespace CaptureSnippets
                 var requiredLanguage = readSnippets.Select(x => x.Language).First();
                 if (readSnippets.Any(x => x.Language != requiredLanguage))
                 {
-                    throw new Exception(string.Format("All laguages of a give key must be equivalent. Key='{0}'.", grouping.Key));
+                    throw new Exception(string.Format("All languages of a give key must be equivalent. Key='{0}'.", grouping.Key));
                 }
 
                 var keyGroup = ProcessKeyGroup(readSnippets)
