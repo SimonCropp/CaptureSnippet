@@ -19,7 +19,7 @@ class CachedSnippetsConverter : JsonConverter
         writer.WritePropertyName("snippetGroups");
         serializer.Serialize(writer, cachedSnippets.SnippetGroups);
         writer.WritePropertyName("errors");
-        serializer.Serialize(writer, cachedSnippets.Errors);
+        serializer.Serialize(writer, cachedSnippets.ReadingErrors);
         writer.WriteEndObject();
     }
 

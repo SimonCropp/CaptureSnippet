@@ -13,14 +13,16 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new insatnce of <see cref="CachedSnippets"/>.
         /// </summary>
-        public CachedSnippets(IEnumerable<SnippetGroup> snippetGroups, long ticks, IEnumerable<ReadSnippetError> errors)
+        public CachedSnippets(IEnumerable<SnippetGroup> snippetGroups, long ticks, IEnumerable<ReadSnippetError> readingErrors, IEnumerable<string> groupingErrors)
         {
             Guard.AgainstNull(snippetGroups, "snippetGroups");
-            Guard.AgainstNull(errors, "errors");
+            Guard.AgainstNull(readingErrors, "readingErrors");
+            Guard.AgainstNull(groupingErrors, "groupingErrors");
             Guard.AgainstNegativeAndZero(ticks, "ticks");
             SnippetGroups = snippetGroups.ToList();
-            Errors = errors.ToList();
+            ReadingErrors = readingErrors.ToList();
             Ticks = ticks;
+            GroupingErrors = groupingErrors;
         }
         /// <summary>
         /// The grouped snippets from the passed in directory.
@@ -33,16 +35,28 @@ namespace CaptureSnippets
         public readonly long Ticks;
 
         /// <summary>
+        /// Errors that occured as part of the grouping.
+        /// </summary>
+        public readonly IEnumerable<string> GroupingErrors;
+
+        /// <summary>
         /// Any errors found in the parsing of snippets.
         /// </summary>
-        public readonly IEnumerable<ReadSnippetError> Errors;
+        public readonly IEnumerable<ReadSnippetError> ReadingErrors;
         
         /// <summary>
-        /// Enumerates through the <see cref="SnippetGroups"/> but will first throw an exception if there are any errors in <see cref="Errors"/>.
+        /// Enumerates through the <see cref="SnippetGroups"/> but will first throw an exception if there are any errors in <see cref="ReadingErrors"/>.
         /// </summary>
         public IEnumerator<SnippetGroup> GetEnumerator()
         {
-            this.ThrowIfErrors();
+            if (ReadingErrors.Any())
+            {
+                throw new ReadSnippetsException(ReadingErrors);
+            }
+            if (GroupingErrors.Any())
+            {
+                throw new GroupingException(GroupingErrors);
+            }
             return SnippetGroups.GetEnumerator();
         }
 

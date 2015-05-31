@@ -33,7 +33,10 @@ namespace CaptureSnippets
         /// </summary>
         public IEnumerator<SnippetGroup> GetEnumerator()
         {
-            this.ThrowIfErrors();
+            if (MissingSnippets.Any())
+            {
+                throw new MissingSnippetsException(MissingSnippets);
+            }
             return UsedSnippets.GetEnumerator();
         }
 

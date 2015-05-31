@@ -11,62 +11,7 @@ using ObjectApproval;
 public class SnippetExtractorTests
 {
 
-    [Test]
-    public async void Duplicate_Key()
-    {
-        var input = @"
-  <!-- startcode CodeKey -->
-  <configSections/>
-  <!-- endcode -->
-  <!-- startcode CodeKey -->
-  <configSections/>
-  <!-- endcode -->";
-        var snippets = FromText(input).Result;
-        var readSnippetError = snippets.Errors.Single();
-        Approvals.Verify(readSnippetError);
-    }
 
-    [Test]
-    public async void Mixing_null_and_non_null_versions()
-    {
-        var input = @"
-  <!-- startcode CodeKey 2-->
-  <configSections/>
-  <!-- endcode -->
-  <!-- startcode CodeKey allversions-->
-  <configSections/>
-  <!-- endcode -->";
-        var snippets = await FromText(input);
-        Approvals.Verify(snippets.Errors.Single());
-    }
-
-    [Test]
-    public async void Mixing_non_null_and_null_versions()
-    {
-        var input = @"
-  <!-- startcode CodeKey allversions-->
-  <configSections/>
-  <!-- endcode -->
-  <!-- startcode CodeKey 2-->
-  <configSections/>
-  <!-- endcode -->";
-        var snippets = await FromText(input);
-        Approvals.Verify(snippets.Errors.Single());
-    }
-
-    [Test]
-    public async void Duplicate_Key_and_Version_and_language()
-    {
-        var input = @"
-  <!-- startcode CodeKey 2-->
-  <configSections/>
-  <!-- endcode -->
-  <!-- startcode CodeKey 2-->
-  <configSections/>
-  <!-- endcode -->";
-        var snippets = await FromText(input);
-        Approvals.Verify(snippets.Errors.Single());
-    }
 
     [Test]
     public async void Differ_by_version_missing_suffix()

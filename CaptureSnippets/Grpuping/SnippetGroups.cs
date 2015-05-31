@@ -5,38 +5,41 @@ using System.Linq;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// The result of an <see cref="SnippetExtractor"/> From methods.
+    /// The result of an <see cref="SnippetGrouper.Group"/> method.
     /// </summary>
-    public class ReadSnippets : IEnumerable<ReadSnippet>
+    public class SnippetGroups : IEnumerable<SnippetGroup>
     {
         /// <summary>
         /// Initialise a new insatnce of <see cref="ReadSnippets"/>.
         /// </summary>
-        public ReadSnippets(IEnumerable<ReadSnippet> snippets, IEnumerable<ReadSnippetError> errors)
+        public SnippetGroups(IEnumerable<SnippetGroup> snippets, IEnumerable<string> errors)
         {
             Guard.AgainstNull(snippets, "snippets");
             Guard.AgainstNull(errors, "errors");
-            Snippets = snippets.ToList();
+            Groups = snippets.ToList();
             Errors = errors.ToList();
         }
 
         /// <summary>
         /// The full list of snippets.
         /// </summary>
-        public readonly IEnumerable<ReadSnippet> Snippets;
+        public readonly IEnumerable<SnippetGroup> Groups;
 
         /// <summary>
         /// Any errors found in the parsing of snippets.
         /// </summary>
-        public readonly IEnumerable<ReadSnippetError> Errors ;
+        public readonly IEnumerable<string> Errors;
 
         /// <summary>
-        /// Enumerates through the <see cref="Snippets"/> but will first throw an exception if there are any errors in <see cref="Errors"/>.
+        /// Enumerates through the <see cref="Groups"/> but will first throw an exception if there are any errors in <see cref="Errors"/>.
         /// </summary>
-        public IEnumerator<ReadSnippet> GetEnumerator()
+        public IEnumerator<SnippetGroup> GetEnumerator()
         {
-            this.ThrowIfErrors();
-            return Snippets.GetEnumerator();
+            if (Errors.Any())
+            {
+                throw new GroupingException(Errors);
+            }
+            return Groups.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

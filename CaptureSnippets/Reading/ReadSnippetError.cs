@@ -23,11 +23,25 @@ namespace CaptureSnippets
             File = file;
             Message = message;
         }
-
+        /// <summary>
+        /// The snippet version if one could be detected before the error was encountered.
+        /// </summary>
         public readonly VersionRange Version;
+        /// <summary>
+        /// The key used to identify the snippet
+        /// </summary>
         public readonly string Key;
+        /// <summary>
+        /// The line the error was encountered.
+        /// </summary>
         public readonly int Line;
+        /// <summary>
+        /// The file path the error was encountered in.
+        /// </summary>
         public readonly string File;
+        /// <summary>
+        /// A description of the error.
+        /// </summary>
         public readonly string Message;
 
         public override string ToString()

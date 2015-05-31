@@ -29,7 +29,10 @@ namespace CaptureSnippets
             Version = version;
         }
 
-        internal int ValueHash;
+        /// <summary>
+        /// A hash of the <see cref="Value"/>.
+        /// </summary>
+        public readonly int ValueHash;
 
         /// <summary>
         /// The line the snippets started on
@@ -59,5 +62,11 @@ namespace CaptureSnippets
         /// The <see cref="VersionRange"/> that was inferred for the snippet.
         /// </summary>
         public readonly VersionRange Version;
+
+
+        public string FileLocation
+        {
+            get { return string.Format("{0}({1}-{2})", File, StartLine, EndLine); }
+        }
     }
 }

@@ -36,7 +36,7 @@ public class CachedSnippetExtractorTests
         var directory = @"badsnippets".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
         var readSnippets = await cachedSnippetExtractor.FromDirectory(directory);
-        Assert.AreEqual(1,readSnippets.Errors.Count());
+        Assert.AreEqual(1,readSnippets.GroupingErrors.Count());
     }
 
 }

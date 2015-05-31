@@ -55,28 +55,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachedSnippetExtractor.cs" />
+    <Compile Include="Caching\CachedSnippetExtractor.cs" />
+    <Compile Include="Grpuping\MergedSnippets.cs" />
     <Compile Include="Guard.cs" />
-    <Compile Include="Models\CachedSnippets.cs" />
+    <Compile Include="Caching\CachedSnippets.cs" />
     <Compile Include="DirectoryDateFinder.cs" />
-    <Compile Include="Models\InterpretErrors.cs" />
-    <Compile Include="Models\MissingSnippet.cs" />
-    <Compile Include="Models\ReadSnippetError.cs" />
-    <Compile Include="Models\ReadSnippetsException.cs" />
-    <Compile Include="Models\MissingSnippetsException.cs" />
-    <Compile Include="ImportKeyReader.cs" />
+    <Compile Include="InterpretErrors.cs" />
+    <Compile Include="Processing\MissingSnippet.cs" />
+    <Compile Include="Reading\ReadSnippetError.cs" />
+    <Compile Include="Grpuping\SnippetGroups.cs" />
+    <Compile Include="Grpuping\GroupingException.cs" />
+    <Compile Include="Reading\ReadSnippetsException.cs" />
+    <Compile Include="Processing\MissingSnippetsException.cs" />
+    <Compile Include="Processing\ImportKeyReader.cs" />
     <Compile Include="IndexReader.cs" />
-    <Compile Include="Models\ReadSnippet.cs" />
-    <Compile Include="Models\SnippetGroup.cs" />
-    <Compile Include="Models\VersionGroup.cs" />
-    <Compile Include="Models\ReadSnippets.cs" />
-    <Compile Include="SnippetExtractor.cs" />
-    <Compile Include="MarkdownProcessor.cs" />
+    <Compile Include="Reading\ReadSnippet.cs" />
+    <Compile Include="Grpuping\SnippetGroup.cs" />
+    <Compile Include="Grpuping\VersionGroup.cs" />
+    <Compile Include="Reading\ReadSnippets.cs" />
+    <Compile Include="Reading\SnippetExtractor.cs" />
+    <Compile Include="Processing\MarkdownProcessor.cs" />
     <Compile Include="MethodTimeLogger.cs" />
-    <Compile Include="Models\SnippetSource.cs" />
-    <Compile Include="Models\ProcessResult.cs" />
+    <Compile Include="Grpuping\SnippetSource.cs" />
+    <Compile Include="Processing\ProcessResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="SnippetGrouper.cs" />
+    <Compile Include="Grpuping\SnippetGrouper.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="VersionRangeExtensions.cs" />
     <Compile Include="VersionRangeParser.cs" />
@@ -92,6 +95,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <ItemGroup>

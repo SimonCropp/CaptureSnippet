@@ -20,12 +20,12 @@ namespace CaptureSnippets
         }
 
         /// <summary>
-        /// Converts <see cref="CachedSnippets.Errors"/> to a markdown string.
+        /// Converts <see cref="CachedSnippets.ReadingErrors"/> to a markdown string.
         /// </summary>
         public static string ErrorsAsMarkdown(this CachedSnippets cachedSnippets)
         {
             Guard.AgainstNull(cachedSnippets, "cachedSnippets");
-            return ErrorsAsMarkdown(cachedSnippets.Errors);
+            return ErrorsAsMarkdown(cachedSnippets.ReadingErrors);
         }
 
         static string ErrorsAsMarkdown(IEnumerable<ReadSnippetError> errors)
@@ -45,23 +45,6 @@ namespace CaptureSnippets
             return stringBuilder.ToString();
         }
 
-        /// <summary>
-        /// If any errors exist in <see cref="ReadSnippets.Errors"/> they are concatenated and an exception is thrown.
-        /// </summary>
-        public static void ThrowIfErrors(this ReadSnippets readSnippets)
-        {
-            Guard.AgainstNull(readSnippets, "readSnippets");
-            ThrowIfErrors(readSnippets.Errors);
-        }
-
-        /// <summary>
-        /// If any errors exist in <see cref="CachedSnippets.Errors"/> they are concatenated and an exception is thrown.
-        /// </summary>
-        public static void ThrowIfErrors(this CachedSnippets cachedSnippets)
-        {
-            Guard.AgainstNull(cachedSnippets, "cachedSnippets");
-            ThrowIfErrors(cachedSnippets.Errors);
-        }
 
         /// <summary>
         /// Converts <see cref="ProcessResult.MissingSnippets"/> to a markdown string.
@@ -82,29 +65,6 @@ namespace CaptureSnippets
             }
             stringBuilder.AppendLine();
             return stringBuilder.ToString();
-        }
-
-
-        /// <summary>
-        /// If any errors exist in <see cref="ProcessResult.MissingSnippets"/> they are concatenated and an exception is thrown.
-        /// </summary>
-        public static void ThrowIfErrors(this ProcessResult processResult)
-        {
-            Guard.AgainstNull(processResult, "processResult");
-            var missingSnippets = processResult.MissingSnippets.ToList();
-            if (missingSnippets.Any())
-            {
-                throw new MissingSnippetsException(missingSnippets);
-            }
-        }
-
-        static void ThrowIfErrors(IEnumerable<ReadSnippetError> errors)
-        {
-            var readSnippetErrors = errors.ToList();
-            if (readSnippetErrors.Any())
-            {
-                throw new ReadSnippetsException(readSnippetErrors);
-            }
         }
     }
 }

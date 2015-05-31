@@ -1,6 +1,8 @@
 ﻿{
   "snippets": [
     {
+      "FileLocation": "(3-4)",
+      "ValueHash": -32320816,
       "StartLine": 3,
       "EndLine": 4,
       "Value": "the code",

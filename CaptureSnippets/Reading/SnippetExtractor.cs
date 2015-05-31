@@ -42,20 +42,20 @@ namespace CaptureSnippets
         public async Task<ReadSnippets> FromFiles(IEnumerable<string> files)
         {
             Guard.AgainstNull(files, "files");
-            var errors = new List<ReadSnippetError>();
-            var snippets = new List<ReadSnippet>();
-            foreach (var file in files)
-            {
-                using (var textReader = File.OpenText(file))
-                using (var stringReader = new IndexReader(textReader))
-                {
-                    await GetSnippetsFromFile(stringReader, file, errors, snippets)
-                        .ConfigureAwait(false);
-                }
-            }
+            var read = await Task.WhenAll(files.Select(ProcessFile));
             return new ReadSnippets(
-                snippets: snippets,
-                errors: errors);
+                snippets: read.SelectMany(x => x.Snippets),
+                errors: read.SelectMany(x => x.Errors));
+        }
+
+        async Task<ReadSnippets> ProcessFile(string file)
+        {
+            using (var textReader = File.OpenText(file))
+            using (var stringReader = new IndexReader(textReader))
+            {
+                return await GetSnippetsFromFile(stringReader, file)
+                    .ConfigureAwait(false);
+            }
         }
 
         /// <summary>
@@ -66,16 +66,11 @@ namespace CaptureSnippets
         public async Task<ReadSnippets> FromReader(TextReader textReader, string source = null)
         {
             Guard.AgainstNull(textReader, "textReader");
-            var errors = new List<ReadSnippetError>();
-            var snippets = new List<ReadSnippet>();
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippetsFromFile(reader, source, errors,snippets)
+                return await GetSnippetsFromFile(reader, source)
                     .ConfigureAwait(false);
             }
-            return new ReadSnippets(
-                snippets: snippets,
-                errors: errors);
         }
 
         static string GetLanguageFromFile(string file)
@@ -110,8 +105,10 @@ namespace CaptureSnippets
             public bool IsInSnippet;
         }
 
-        async Task GetSnippetsFromFile(IndexReader stringReader, string file, List<ReadSnippetError> errors, List<ReadSnippet> snippets)
+        async Task<ReadSnippets> GetSnippetsFromFile(IndexReader stringReader, string file)
         {
+            var errors = new List<ReadSnippetError>();
+            var snippets = new List<ReadSnippet>();
             var language = GetLanguageFromFile(file);
             var loopState = new LoopState();
             while (true)
@@ -147,6 +144,7 @@ namespace CaptureSnippets
                 }
                 IsStart(stringReader, trimmedLine, loopState);
             }
+            return new ReadSnippets(snippets, errors);
         }
 
         static void IsStart(IndexReader stringReader, string trimmedLine, LoopState loopState)
@@ -188,41 +186,6 @@ namespace CaptureSnippets
                                             key : loopState.CurrentKey,
                                             version:null));
                 return;
-            }
-            var keyedSnippets = snippets.Where(x => x.Key == loopState.CurrentKey)
-                .ToList();
-            if (keyedSnippets.Any())
-            {
-                if (keyedSnippets.Any(x => x.Version.Equals(parsedVersion) && x.Language == language))
-                {
-                    errors.Add(new ReadSnippetError(
-                        message : "Duplicate key detected",
-                        file : file,
-                        line : startRow,
-                        key : loopState.CurrentKey,
-                        version : parsedVersion));
-                    return;
-                }
-                //TODO verify
-                if (!parsedVersion.Equals(VersionRange.All) && keyedSnippets.Any(x => x.Version.Equals(VersionRange.All)))
-                {
-                    errors.Add(new ReadSnippetError(
-                        message : "Cannot mix 'all' versions and specific versions",
-                        file : file,
-                        line : startRow,
-                        key : loopState.CurrentKey,
-                        version : parsedVersion));
-                    return;
-                }
-                if (parsedVersion.Equals(VersionRange.All) && keyedSnippets.Any(x => !x.Version.Equals(VersionRange.All)))
-                {
-                    errors.Add(new ReadSnippetError(
-                        message: "Cannot mix 'all' versions and specific versions",
-                        file :file,
-                        line : startRow,
-                        key : loopState.CurrentKey,version:null));
-                    return;
-                }
             }
             var value = ConvertLinesToValue(loopState.SnippetLines);
             if (value.Contains('`'))
