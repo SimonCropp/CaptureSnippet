@@ -224,4 +224,41 @@ public class VersionRangeExtensionsTests
         Assert.IsFalse(VersionRange.Parse("(2.1,)").OverlapsWith(VersionRange.Parse("(,2.0)")));
         Assert.IsTrue(VersionRange.Parse("[2.1.0, )").OverlapsWith(VersionRange.Parse("[2.2.0, )")));
     }
+
+    [Test]
+    public void PrettyPrintVersion()
+    {
+        Assert.AreEqual("4-pre", NuGetVersion.Parse("4.0-pre").SimplePrint());
+    }
+    [Test]
+    public void PrettyPrintVersionRange()
+    {
+        Assert.AreEqual("1.1.x - 3.0.x", VersionRange.Parse("(1.0,3.1)").SimplePrint());
+        Assert.AreEqual("1.x - 3.0.x", VersionRange.Parse("[1.0,3.1)").SimplePrint());
+        Assert.AreEqual("1.x - 3.1.x", VersionRange.Parse("[1.0,3.1]").SimplePrint());
+        Assert.AreEqual("1.1.x - 3.1.x", VersionRange.Parse("(1.0,3.1]").SimplePrint());
+
+        Assert.AreEqual("1.1.x - 2.x", VersionRange.Parse("(1.0,3.0)").SimplePrint());
+        Assert.AreEqual("1.x - 2.x", VersionRange.Parse("[1.0,3.0)").SimplePrint());
+        Assert.AreEqual("1.x - 3.x", VersionRange.Parse("[1.0,3.0]").SimplePrint());
+        Assert.AreEqual("1.1.x - 3.x", VersionRange.Parse("(1.0,3.0]").SimplePrint());
+
+        Assert.AreEqual("1.1.x - 1.x", VersionRange.Parse("(1.0,2.0)").SimplePrint());
+        Assert.AreEqual("1.x", VersionRange.Parse("[1.0,2.0)").SimplePrint());
+        Assert.AreEqual("1.x - 2.x", VersionRange.Parse("[1.0,2.0]").SimplePrint());
+        Assert.AreEqual("1.1.x - 2.x", VersionRange.Parse("(1.0,2.0]").SimplePrint());
+
+        Assert.AreEqual("1-pre - N", VersionRange.Parse("[1.0-pre,)").SimplePrint());
+        Assert.AreEqual("1-alpha - N", VersionRange.Parse("[1.0-alpha,)").SimplePrint());
+
+        Assert.AreEqual("1.1.x - 2.0.x", VersionRange.Parse("(1.0,2.1)").SimplePrint());
+        Assert.AreEqual("1.x - 2.0.x", VersionRange.Parse("[1.0,2.1)").SimplePrint());
+        Assert.AreEqual("1.x - 2.1.x", VersionRange.Parse("[1.0,2.1]").SimplePrint());
+        Assert.AreEqual("1.1.x - 2.1.x", VersionRange.Parse("(1.0,2.1]").SimplePrint());
+
+        Assert.AreEqual("1.1.x - N", VersionRange.Parse("(1.0,]").SimplePrint());
+        Assert.AreEqual("1.x - N", VersionRange.Parse("[1.0,]").SimplePrint());
+        Assert.AreEqual("N - 2.0.x", VersionRange.Parse("[,2.1)").SimplePrint());
+        Assert.AreEqual("N - 2.1.x", VersionRange.Parse("[,2.1]").SimplePrint());
+    }
 }
