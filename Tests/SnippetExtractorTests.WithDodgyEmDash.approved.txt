@@ -1,0 +1,9 @@
+﻿[
+  {
+    "Version": "all",
+    "Key": "key",
+    "Line": 3,
+    "File": null,
+    "Message": "Snippet contains a dodogy em dash (`—`) which is not allowed. This was probably cause by you copying code from MS Word or Outlook. Dont do that."
+  }
+]

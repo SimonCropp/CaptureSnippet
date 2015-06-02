@@ -1,0 +1,9 @@
+﻿[
+  {
+    "Version": "all",
+    "Key": "key",
+    "Line": 3,
+    "File": null,
+    "Message": "Snippet contains a code quote character"
+  }
+]

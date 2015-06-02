@@ -1,1 +1,27 @@
-﻿CaptureSnippets.ReadSnippets
+﻿{
+  "snippets": [
+    {
+      "FileLocation": "(3-4)",
+      "ValueHash": -1342836223,
+      "StartLine": 3,
+      "EndLine": 4,
+      "Value": "<configSections/>",
+      "Key": "codekey",
+      "Language": "",
+      "File": null,
+      "Version": "≥ 2.0.0"
+    },
+    {
+      "FileLocation": "(6-7)",
+      "ValueHash": -1342836223,
+      "StartLine": 6,
+      "EndLine": 7,
+      "Value": "<configSections/>",
+      "Key": "codekey",
+      "Language": "",
+      "File": null,
+      "Version": "≥ 2.0.0"
+    }
+  ],
+  "errors": []
+}

@@ -1,1 +1,9 @@
-﻿Snippet contains a code quote character. Line: 3. Key: 'codekey'. Version: All.
+﻿[
+  {
+    "Version": "all",
+    "Key": "codekey",
+    "Line": 3,
+    "File": null,
+    "Message": "Snippet contains a code quote character"
+  }
+]

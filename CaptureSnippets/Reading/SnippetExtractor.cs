@@ -198,6 +198,25 @@ namespace CaptureSnippets
                     version: parsedVersion));
                 return;
             }
+            if (value.Contains('“') || value.Contains('”'))
+            {
+                errors.Add(new ReadSnippetError(
+                    message: "Snippet contains dodogy left-right quotes ('“' or '”') which are not allowed. This was probably cause by you copying code from MS Word or Outlook. Dont do that.",
+                    file: file,
+                    line: startRow,
+                    key: loopState.CurrentKey,
+                    version: parsedVersion));
+            }
+            if (value.Contains('—'))
+            {
+                errors.Add(new ReadSnippetError(
+                    message: "Snippet contains a dodogy em dash (`—`) which is not allowed. This was probably cause by you copying code from MS Word or Outlook. Dont do that.",
+                    file: file,
+                    line: startRow,
+                    key: loopState.CurrentKey,
+                    version: parsedVersion));
+            }
+            
             var snippet = new ReadSnippet(
                               startLine : startRow,
                               endLine : stringReader.Index,

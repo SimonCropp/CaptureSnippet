@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using ApprovalTests;
 using CaptureSnippets;
 using NuGet.Versioning;
 using NUnit.Framework;
@@ -10,8 +8,48 @@ using ObjectApproval;
 [TestFixture]
 public class SnippetExtractorTests
 {
+    [Test]
+    public async void WithDodgyEmDash()
+    {
+        var input = @"
+  <!-- startcode key -->
+  —
+  <!-- endcode -->";
+        var snippets = await FromText(input);
+        ObjectApprover.VerifyWithJson(snippets.Errors);
+    }
+    [Test]
+    public async void WithDodgyLeftQuote()
+    {
+        var input = @"
+  <!-- startcode key -->
+  “
+  <!-- endcode -->";
+        var snippets = await FromText(input);
+        ObjectApprover.VerifyWithJson(snippets.Errors);
+    }
 
+    [Test]
+    public async void WithDodgyRightQuote()
+    {
+        var input = @"
+  <!-- startcode key -->
+  ”
+  <!-- endcode -->";
+        var snippets = await FromText(input);
+        ObjectApprover.VerifyWithJson(snippets.Errors);
+    }
 
+    [Test]
+    public async void WithCodeTick()
+    {
+        var input = @"
+  <!-- startcode key -->
+  `
+  <!-- endcode -->";
+        var snippets = await FromText(input);
+        ObjectApprover.VerifyWithJson(snippets.Errors);
+    }
 
     [Test]
     public async void Differ_by_version_missing_suffix()
@@ -24,7 +62,7 @@ public class SnippetExtractorTests
   <configSections/>
   <!-- endcode -->";
         var snippets = await FromText(input);
-        Approvals.Verify(snippets);
+        ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
@@ -35,7 +73,7 @@ public class SnippetExtractorTests
   sjfnskdjnf`knjknjkn`
   <!-- endcode -->";
         var snippets = await FromText(input);
-        Approvals.Verify(snippets.Errors.Single());
+        ObjectApprover.VerifyWithJson(snippets.Errors);
     }
 
     [Test]
@@ -117,7 +155,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey -->
   <configSections/>";
         var snippets = await FromText(input);
-        Approvals.Verify(snippets.Errors.Single());
+        ObjectApprover.VerifyWithJson(snippets.Errors);
     }
 
     [Test]
@@ -127,7 +165,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 5 -->
   <configSections/>";
         var snippets = await FromText(input);
-        Approvals.Verify(snippets.Errors.Single());
+        ObjectApprover.VerifyWithJson(snippets.Errors);
     }
 
     [Test]
@@ -137,7 +175,7 @@ public class SnippetExtractorTests
   #region CodeKey
   <configSections/>";
         var snippets = await FromText(input);
-        Approvals.Verify(snippets.Errors.Single());
+        ObjectApprover.VerifyWithJson(snippets.Errors);
     }
 
     [Test]
@@ -147,7 +185,7 @@ public class SnippetExtractorTests
   #region CodeKey 5
   <configSections/>";
         var snippets = await FromText(input);
-        Approvals.Verify(snippets.Errors.Single());
+        ObjectApprover.VerifyWithJson(snippets.Errors);
     }
 
     [Test]
