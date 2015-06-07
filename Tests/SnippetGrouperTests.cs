@@ -12,7 +12,7 @@ public class SnippetGrouperTests
 
 
     [Test]
-    public async void Mixing_null_and_non_null_versions()
+    public void Mixing_null_and_non_null_versions()
     {
         var snippets = new List<ReadSnippet>
         {
@@ -39,7 +39,7 @@ public class SnippetGrouperTests
     }
 
     [Test]
-    public async void Duplicate_Key()
+    public void Duplicate_Key()
     {
         var snippets = new List<ReadSnippet>
         {

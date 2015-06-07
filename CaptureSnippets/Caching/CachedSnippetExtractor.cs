@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using MethodTimer;
 using NuGet.Versioning;
 
@@ -49,7 +48,7 @@ namespace CaptureSnippets
         /// Extract all snippets from a given directory.
         /// </summary>
         [Time]
-        public async Task<CachedSnippets> FromDirectory(string directory)
+        public CachedSnippets FromDirectory(string directory)
         {
             directory = directory.ToLower();
             var includeDirectories = new List<string>();
@@ -59,21 +58,18 @@ namespace CaptureSnippets
             CachedSnippets cachedSnippets;
             if (!directoryToSnippets.TryGetValue(directory, out cachedSnippets))
             {
-                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite)
-                    .ConfigureAwait(false);
+                return UpdateCache(directory, includeDirectories, lastDirectoryWrite);
             }
             if (cachedSnippets.Ticks != lastDirectoryWrite)
             {
-                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite)
-                    .ConfigureAwait(false);
+                return UpdateCache(directory, includeDirectories, lastDirectoryWrite);
             }
             return cachedSnippets;
         }
 
-        async Task<CachedSnippets> UpdateCache(string directory, List<string> includeDirectories, long lastDirectoryWrite)
+        CachedSnippets UpdateCache(string directory, List<string> includeDirectories, long lastDirectoryWrite)
         {
-            var readSnippets = await snippetExtractor.FromFiles(GetFilesToInclude(includeDirectories))
-                .ConfigureAwait(false);
+            var readSnippets = snippetExtractor.FromFiles(GetFilesToInclude(includeDirectories));
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,

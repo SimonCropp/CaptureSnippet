@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using CaptureSnippets;
 using NuGet.Versioning;
 using NUnit.Framework;
@@ -13,7 +12,7 @@ public class MarkdownProcessorTests
 {
 
     [Test]
-    public async void Simple()
+    public void Simple()
     {
         var availableSnippets = new List<SnippetGroup>
         {
@@ -64,17 +63,17 @@ even more text
 <!-- import nonVersionedSnippet2 -->
 
 ";
-        await Verify(markdownContent, availableSnippets);
+        Verify(markdownContent, availableSnippets);
     }
 
-    static async Task Verify(string markdownContent, List<SnippetGroup> availableSnippets)
+    static void Verify(string markdownContent, List<SnippetGroup> availableSnippets)
     {
         var processor = new MarkdownProcessor();
         var stringBuilder = new StringBuilder();
         using (var reader = new StringReader(markdownContent))
         using (var writer = new StringWriter(stringBuilder))
         {
-            var processResult = await processor.Apply(availableSnippets, reader, writer);
+            var processResult = processor.Apply(availableSnippets, reader, writer);
             var output = new object[]
             {
                 processResult.MissingSnippets, processResult.UsedSnippets, stringBuilder.ToString()
@@ -100,7 +99,7 @@ even more text
     }
 
     [Test]
-    public async void MissingKey()
+    public void MissingKey()
     {
         var snippets = new List<ReadSnippet>
         {
@@ -122,11 +121,11 @@ even more text
                 file: "unknown"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        await Verify("<!-- import MissingKey -->", snippetGroups);
+        Verify("<!-- import MissingKey -->", snippetGroups);
     }
 
     [Test]
-    public async void MissingMultipleKeys()
+    public void MissingMultipleKeys()
     {
         var snippets = new List<ReadSnippet>
         {
@@ -146,12 +145,12 @@ even more text
                 file: "unknown"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        await Verify("<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->", snippetGroups);
+        Verify("<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->", snippetGroups);
     }
 
 
     [Test]
-    public async void LotsOfText()
+    public void LotsOfText()
     {
         var snippets = new List<ReadSnippet>
         {
@@ -313,6 +312,6 @@ kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 lkmdflkgmxdklfmgkdflxmg
 ";
-        await Verify(markdownContent, snippetGroups);
+        Verify(markdownContent, snippetGroups);
     }
 }

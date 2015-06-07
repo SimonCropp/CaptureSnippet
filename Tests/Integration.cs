@@ -11,10 +11,10 @@ using NUnit.Framework;
 public class Integration
 {
     [Test]
-    public async void Foo()
+    public void Foo()
     {
         var extractor = new SnippetExtractor(InferVersion);
-        var snippets = await extractor.FromFiles(Directory.EnumerateFiles(@"C:\Code\docs.particular.net\Snippets", "*.cs",SearchOption.AllDirectories));
+        var snippets = extractor.FromFiles(Directory.EnumerateFiles(@"C:\Code\docs.particular.net\Snippets", "*.cs",SearchOption.AllDirectories));
 
         Debug.WriteLine(snippets.ToList());
         

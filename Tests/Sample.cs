@@ -11,7 +11,7 @@ class Sample
     }
 
 
-    async void UseSnippetExtractor()
+    void UseSnippetExtractor()
     {
     // get files containing snippets
     var filesToParse = Directory.EnumerateFiles(@"C:\path", "*.*", SearchOption.AllDirectories)
@@ -19,8 +19,7 @@ class Sample
 
     // setup version convention and extract snippets from files
     var snippetExtractor = new SnippetExtractor(InferVersion);
-    var readSnippets = await snippetExtractor.FromFiles(filesToParse)
-        .ConfigureAwait(false);
+    var readSnippets = snippetExtractor.FromFiles(filesToParse);
 
     // Grouping
     var snippetGroups = SnippetGrouper.Group(readSnippets)
@@ -34,8 +33,7 @@ class Sample
     using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
     using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
     {
-        result = await markdownProcessor.Apply(snippetGroups, reader, writer)
-            .ConfigureAwait(false);
+        result = markdownProcessor.Apply(snippetGroups, reader, writer);
     }
 
     // List of all snippets that the markdown file expected but did not exist in the input snippets 

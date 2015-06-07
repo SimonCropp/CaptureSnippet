@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -16,27 +15,26 @@ namespace CaptureSnippets
         /// <summary>
         /// Apply <paramref name="snippets"/> to <paramref name="textReader"/>.
         /// </summary>
-        public async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
+        public ProcessResult Apply(IEnumerable<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
         {
             Guard.AgainstNull(snippets, "snippets");
             Guard.AgainstNull(textReader, "textReader");
             Guard.AgainstNull(writer, "writer");
             using (var reader = new IndexReader(textReader))
             {
-                return await Apply(snippets, writer, reader)
-                    .ConfigureAwait(false);
+                return Apply(snippets, writer, reader);
             }
         }
         
-        async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
+        ProcessResult Apply(IEnumerable<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
         {
             var snippets = availableSnippets.ToList();
             var missingSnippets = new List<MissingSnippet>();
             var usedSnippets = new List<SnippetGroup>();
             string line;
-            while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
+            while ((line = reader.ReadLine()) != null)
             {
-                await writer.WriteLineAsync(line)
+                writer.WriteLineAsync(line)
                     .ConfigureAwait(false);
 
                 string key;
@@ -51,13 +49,12 @@ namespace CaptureSnippets
                     var missingSnippet = new MissingSnippet(key: key, line: reader.Index);
                     missingSnippets.Add(missingSnippet);
                     var message = string.Format("** Could not find key '{0}' **", key);
-                    await writer.WriteLineAsync(message)
+                    writer.WriteLineAsync(message)
                         .ConfigureAwait(false);
                     continue;
                 }
 
-                await AppendGroup(snippetGroup, writer)
-                    .ConfigureAwait(false);
+                AppendGroup(snippetGroup, writer);
                 if (usedSnippets.All(x => x.Key != snippetGroup.Key))
                 {
                     usedSnippets.Add(snippetGroup);
@@ -69,17 +66,17 @@ namespace CaptureSnippets
         /// <summary>
         /// Method that cna be override to control how an individual <see cref="SnippetGroup"/> is rendered.
         /// </summary>
-        public async Task AppendGroup(SnippetGroup snippetGroup, TextWriter writer)
+        public void AppendGroup(SnippetGroup snippetGroup, TextWriter writer)
         {
             Guard.AgainstNull(snippetGroup, "snippetGroup");
             Guard.AgainstNull(writer, "writer");
             foreach (var versionGroup in snippetGroup)
             {
-                await AppendVersionGroup(writer, versionGroup,snippetGroup.Language);
+                AppendVersionGroup(writer, versionGroup,snippetGroup.Language);
             }
         }
 
-        public async Task AppendVersionGroup(TextWriter writer, VersionGroup versionGroup, string language)
+        public void AppendVersionGroup(TextWriter writer, VersionGroup versionGroup, string language)
         {
             Guard.AgainstNull(versionGroup, "versionGroup");
             Guard.AgainstNull(writer, "writer");
@@ -88,14 +85,14 @@ namespace CaptureSnippets
             if (!versionGroup.Version.Equals(VersionRange.All))
             {
                 var message = string.Format("#### Version '{0}'", versionGroup.Version.ToFriendlyString());
-                await writer.WriteLineAsync(message)
+                writer.WriteLineAsync(message)
                     .ConfigureAwait(false);
             }
             var format = string.Format(
 @"```{0}
 {1}
 ```", language, versionGroup.Value);
-            await writer.WriteLineAsync(format)
+            writer.WriteLineAsync(format)
                 .ConfigureAwait(false);
         }
 
