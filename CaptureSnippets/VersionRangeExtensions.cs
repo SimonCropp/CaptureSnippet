@@ -89,12 +89,6 @@ namespace CaptureSnippets
             }
             if (range.HasLowerAndUpperBounds)
             {
-                if (minVersion.IsPrerelease)
-                {
-                    var message = string.Format("Pre release not allowed on lower bound when upper bound is defined '{0}.", range);
-                    throw new Exception(message);
-                }
-
                 if (minVersion.Minor == 0 &&
                     minVersion.Patch == 0 &&
                     maxVersion.Minor == 0 &&

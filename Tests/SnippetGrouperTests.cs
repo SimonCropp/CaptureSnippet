@@ -164,4 +164,21 @@ public class SnippetGrouperTests
         var snippetGroups = SnippetGrouper.ProcessKeyGroup(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
     }
+    [Test]
+    public void Single()
+    {
+        var snippets = new List<ReadSnippet>
+        {
+            new ReadSnippet(
+                key: "foundkey1",
+                version: VersionRange.Parse("1.2.0"),
+                value: "code",
+                startLine: 1,
+                endLine: 1,
+                file: null, 
+                language: string.Empty)
+        };
+        var snippetGroups = SnippetGrouper.ProcessKeyGroup(snippets).ToList();
+        ObjectApprover.VerifyWithJson(snippetGroups);
+    }
 }

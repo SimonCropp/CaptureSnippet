@@ -1,0 +1,13 @@
+﻿[
+  {
+    "version": "(≥ 1.2.0)",
+    "value": "code",
+    "sources": [
+      {
+        "StartLine": 1,
+        "EndLine": 1,
+        "File": null
+      }
+    ]
+  }
+]
