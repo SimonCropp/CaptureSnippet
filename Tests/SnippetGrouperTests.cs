@@ -164,6 +164,7 @@ public class SnippetGrouperTests
         var snippetGroups = SnippetGrouper.ProcessKeyGroup(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
     }
+
     [Test]
     public void Single()
     {

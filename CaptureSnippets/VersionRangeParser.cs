@@ -7,7 +7,7 @@ namespace CaptureSnippets
 
         public static bool TryParseVersion(string stringVersion, out VersionRange parsedVersion)
         {
-            if (stringVersion == "allversions")
+            if (stringVersion == "all")
             {
                 parsedVersion = VersionRange.All;
                 return true;

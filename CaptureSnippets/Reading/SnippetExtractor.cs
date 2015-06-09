@@ -95,9 +95,9 @@ namespace CaptureSnippets
             }
 
             public List<string> SnippetLines;
-            public string CurrentKey { get; set; }
+            public string CurrentKey;
 
-            public string Version { get; set; }
+            public string Version;
             public Func<string, bool> EndFunc;
             public int? StartLine;
             public bool IsInSnippet;

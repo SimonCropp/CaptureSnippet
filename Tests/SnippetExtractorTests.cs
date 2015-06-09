@@ -135,6 +135,16 @@ public class SnippetExtractorTests
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
+    [Test]
+    public void CanExtractFromAllVersion()
+    {
+        var input = @"
+  <!-- startcode CodeKey all -->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
 
     [Test]
     public void CanExtractFromXmlWithVersionRange()
