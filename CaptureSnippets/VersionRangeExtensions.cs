@@ -74,6 +74,14 @@ namespace CaptureSnippets
         }
         public static string SimplePrint(this VersionRange range)
         {
+            if (range.Equals(VersionRange.All) || range.Equals(VersionRange.AllStable))
+            {
+                return "All";
+            }
+            if (range.Equals(VersionRange.None))
+            {
+                return "None";
+            }
             var minVersion = (SemanticVersion)range.MinVersion;
             var maxVersion = (SemanticVersion)range.MaxVersion;
 

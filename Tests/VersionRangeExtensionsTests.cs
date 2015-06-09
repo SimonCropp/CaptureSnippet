@@ -230,9 +230,12 @@ public class VersionRangeExtensionsTests
     {
         Assert.AreEqual("4-pre", NuGetVersion.Parse("4.0-pre").SimplePrint());
     }
+
     [Test]
     public void PrettyPrintVersionRange()
     {
+        Assert.AreEqual("All", VersionRange.All.SimplePrint());
+        Assert.AreEqual("None", VersionRange.None.SimplePrint());
         Assert.AreEqual("1.1.x - 3.0.x", VersionRange.Parse("(1.0,3.1)").SimplePrint());
         Assert.AreEqual("1.x - 3.0.x", VersionRange.Parse("[1.0,3.1)").SimplePrint());
         Assert.AreEqual("1.x - 3.1.x", VersionRange.Parse("[1.0,3.1]").SimplePrint());
