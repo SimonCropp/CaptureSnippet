@@ -180,6 +180,11 @@ namespace CaptureSnippets
                 return true;
             }
 
+            if (range1.IncludePrerelease || range2.IncludePrerelease)
+            {
+                newVersion = null;
+                return false;
+            }
             if (range1.OverlapsWith(range2))
             {
                 bool maxInclusive;

@@ -43,6 +43,16 @@ public class VersionRangeExtensionsTests
     }
 
     [Test]
+    public void Pre_cant_merge()
+    {
+        var version1 = VersionRange.Parse("[1.0,2.0]");
+        var version2 = VersionRange.Parse("(2.0-pre,3.0)");
+        VersionRange newVersion;
+        Assert.IsFalse(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
+        Assert.IsFalse(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
+    }
+
+    [Test]
     public void All_should_override()
     {
         var version = VersionRange.Parse("[2.0,3.0)");

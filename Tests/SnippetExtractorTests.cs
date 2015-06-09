@@ -139,7 +139,7 @@ public class SnippetExtractorTests
     public void CanExtractFromAllVersion()
     {
         var input = @"
-  <!-- startcode CodeKey all -->
+  <!-- startcode CodeKey All -->
   <configSections/>
   <!-- endcode -->";
         var snippets = FromText(input);
