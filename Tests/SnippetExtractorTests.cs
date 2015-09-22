@@ -109,7 +109,7 @@ public class SnippetExtractorTests
   <!-- endcode -->";
         using (var stringReader = new StringReader(input))
         {
-            var versionRange = new VersionRange(new SemanticVersion(1, 1, 0));
+            var versionRange = new VersionRange(new NuGetVersion(1, 1, 0));
             var extractor = new SnippetExtractor(s => versionRange);
             var readSnippets = extractor.FromReader(stringReader);
             ObjectApprover.VerifyWithJson(readSnippets);

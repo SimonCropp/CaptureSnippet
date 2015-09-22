@@ -43,8 +43,9 @@
       <HintPath>..\packages\MethodTimer.Fody.1.15.7.0\Lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\MethodTimer.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="NuGet.Versioning">
-      <HintPath>..\packages\NuGet.Versioning.1.0.7\lib\portable-net40+win\NuGet.Versioning.dll</HintPath>
+    <Reference Include="NuGet.Versioning, Version=3.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\NuGet.Versioning.3.2.0\lib\net45\NuGet.Versioning.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

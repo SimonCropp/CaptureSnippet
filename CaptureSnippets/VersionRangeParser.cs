@@ -15,11 +15,11 @@ namespace CaptureSnippets
             int intversion;
             if (int.TryParse(stringVersion, out intversion))
             {
-                var semanticVersion = new SemanticVersion(intversion, 0, 0);
+                var semanticVersion = new NuGetVersion(intversion, 0, 0);
                 parsedVersion = new VersionRange(
                     minVersion: semanticVersion,
                     includeMinVersion: true,
-                    maxVersion: new SemanticVersion(intversion + 1, 0, 0),
+                    maxVersion: new NuGetVersion(intversion + 1, 0, 0),
                     includeMaxVersion: false
                     );
                 return true;

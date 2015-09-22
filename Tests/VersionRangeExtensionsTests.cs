@@ -142,7 +142,7 @@ public class VersionRangeExtensionsTests
     public void MaxVersion()
     {
         bool isMaxInclusive;
-        SimpleVersion maxVersion;
+        NuGetVersion maxVersion;
 
         VersionRangeExtensions.MaxVersion(VersionRange.Parse("(1.0,2.0)"), VersionRange.Parse("(2.1,)"), out maxVersion, out isMaxInclusive);
         Assert.IsNull(maxVersion);
@@ -181,7 +181,7 @@ public class VersionRangeExtensionsTests
     public void MinVersion()
     {
         bool isMinInclusive;
-        SimpleVersion minVersion;
+        NuGetVersion minVersion;
 
         VersionRangeExtensions.MinVersion(VersionRange.Parse("(1.0,2.0)"), VersionRange.Parse("(,2.1)"), out minVersion, out isMinInclusive);
         Assert.IsNull(minVersion);

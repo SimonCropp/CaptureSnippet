@@ -72,14 +72,14 @@ public class Integration
             if (pretext == null)
             {
                 version = new VersionRange(
-                    minVersion: new SemanticVersion(majorPart, 0, 0),
+                    minVersion: new NuGetVersion(majorPart, 0, 0),
                     includeMinVersion: true,
-                    maxVersion: new SemanticVersion(majorPart + 1, 0, 0),
+                    maxVersion: new NuGetVersion(majorPart + 1, 0, 0),
                     includeMaxVersion: false);
                 return true;
             }
             version = new VersionRange(
-                minVersion: new SemanticVersion(majorPart, 0, 0, new[]
+                minVersion: new NuGetVersion(majorPart, 0, 0, new[]
                 {
                     pretext
                 }, null),
@@ -95,7 +95,7 @@ public class Integration
                 version = new VersionRange(
                     minVersion: minVersion,
                     includeMinVersion: true,
-                    maxVersion: new SemanticVersion(minVersion.Major + 1, 0, 0),
+                    maxVersion: new NuGetVersion(minVersion.Major + 1, 0, 0),
                     includeMaxVersion: false);
                 return true;
             }

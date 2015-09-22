@@ -86,7 +86,7 @@ even more text
     static VersionGroup CreateVersionGroup(int version)
     {
         return new VersionGroup(
-            version: new VersionRange(minVersion: new SemanticVersion(version, 0, 0)),
+            version: new VersionRange(minVersion: new NuGetVersion(version, 0, 0)),
             value: "Snippet_v" + version,
             sources: new List<SnippetSource>
             {

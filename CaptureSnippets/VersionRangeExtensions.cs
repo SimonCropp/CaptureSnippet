@@ -7,11 +7,7 @@ namespace CaptureSnippets
 {
     public static class VersionRangeExtensions
     {
-        public static SemanticVersion Semantic(this SimpleVersion version)
-        {
-            return (SemanticVersion)version;
-        }
-        internal static SimpleVersion VersionForCompare(this VersionRange range)
+        internal static NuGetVersion VersionForCompare(this VersionRange range)
         {
             if (range.MinVersion == null)
             {
@@ -47,31 +43,31 @@ namespace CaptureSnippets
             return string.Format("{0}.x", version.Major - 1);
         }
 
-        public static string SimplePrint(this SimpleVersion version)
+        public static string SimplePrint(this NuGetVersion version)
         {
-            var semantic = version.Semantic();
-            if (semantic.Patch > 0)
+            if (version.Patch > 0)
             {
-                if (semantic.IsPrerelease)
+                if (version.IsPrerelease)
                 {
-                    return string.Format("{0}.{1}.{2}-{3}", semantic.Major, semantic.Minor, semantic.Patch, semantic.ReleaseLabels.First());
+                    return string.Format("{0}.{1}.{2}-{3}", version.Major, version.Minor, version.Patch, version.ReleaseLabels.First());
                 }
-                return string.Format("{0}.{1}.{2}.x", semantic.Major, semantic.Minor, semantic.Patch);
+                return string.Format("{0}.{1}.{2}.x", version.Major, version.Minor, version.Patch);
             }
-            if (semantic.Minor > 0)
+            if (version.Minor > 0)
             {
-                if (semantic.IsPrerelease)
+                if (version.IsPrerelease)
                 {
-                    return string.Format("{0}.{1}-{2}", semantic.Major, semantic.Minor, semantic.ReleaseLabels.First());
+                    return string.Format("{0}.{1}-{2}", version.Major, version.Minor, version.ReleaseLabels.First());
                 }
-                return string.Format("{0}.{1}.x", semantic.Major, semantic.Minor);
+                return string.Format("{0}.{1}.x", version.Major, version.Minor);
             }
-            if (semantic.IsPrerelease)
+            if (version.IsPrerelease)
             {
-                return string.Format("{0}-{1}", semantic.Major, semantic.ReleaseLabels.First());
+                return string.Format("{0}-{1}", version.Major, version.ReleaseLabels.First());
             }
-            return string.Format("{0}.x", semantic.Major);
+            return string.Format("{0}.x", version.Major);
         }
+
         public static string SimplePrint(this VersionRange range)
         {
             if (range.Equals(VersionRange.All) || range.Equals(VersionRange.AllStable))
@@ -82,8 +78,8 @@ namespace CaptureSnippets
             {
                 return "None";
             }
-            var minVersion = (SemanticVersion)range.MinVersion;
-            var maxVersion = (SemanticVersion)range.MaxVersion;
+            var minVersion = range.MinVersion;
+            var maxVersion = range.MaxVersion;
 
             if (range.HasUpperBound && maxVersion.IsPrerelease)
             {
@@ -188,10 +184,10 @@ namespace CaptureSnippets
             if (range1.OverlapsWith(range2))
             {
                 bool maxInclusive;
-                SimpleVersion maxVersion;
+                NuGetVersion maxVersion;
                 MaxVersion(range1, range2, out maxVersion, out maxInclusive);
 
-                SimpleVersion minVersion;
+                NuGetVersion minVersion;
                 bool minInclusive;
                 MinVersion(range1, range2, out minVersion, out minInclusive);
                 if (minVersion == null && maxVersion == null)
@@ -207,7 +203,7 @@ namespace CaptureSnippets
                 return true;
             }
 
-            if ((range1.IsMaxInclusive || range2.IsMinInclusive) && 
+            if ((range1.IsMaxInclusive || range2.IsMinInclusive) &&
                 range1.MaxVersion.Equals(range2.MinVersion))
             {
                 newVersion = new VersionRange(
@@ -217,7 +213,7 @@ namespace CaptureSnippets
                     includeMaxVersion: range2.IsMaxInclusive);
                 return true;
             }
-            if ((range1.IsMinInclusive || range2.IsMaxInclusive) && 
+            if ((range1.IsMinInclusive || range2.IsMaxInclusive) &&
                 range1.MinVersion.Equals(range2.MaxVersion))
             {
                 newVersion = new VersionRange(
@@ -232,7 +228,7 @@ namespace CaptureSnippets
             return false;
         }
 
-        internal static void MaxVersion(VersionRange range1, VersionRange range2, out SimpleVersion simpleVersion, out bool isMaxInclusive)
+        internal static void MaxVersion(VersionRange range1, VersionRange range2, out NuGetVersion simpleVersion, out bool isMaxInclusive)
         {
             if (range1.MaxVersion == null)
             {
@@ -248,7 +244,7 @@ namespace CaptureSnippets
             }
             if (range1.MaxVersion > range2.MaxVersion)
             {
-                simpleVersion =  range1.MaxVersion;
+                simpleVersion = range1.MaxVersion;
                 isMaxInclusive = range1.IsMaxInclusive;
                 return;
             }
@@ -256,7 +252,7 @@ namespace CaptureSnippets
             isMaxInclusive = range2.IsMaxInclusive;
         }
 
-        internal static void MinVersion(VersionRange range1, VersionRange range2, out SimpleVersion simpleVersion, out bool isMinInclusive)
+        internal static void MinVersion(VersionRange range1, VersionRange range2, out NuGetVersion simpleVersion, out bool isMinInclusive)
         {
             if (range1.MinVersion == null)
             {
@@ -287,7 +283,7 @@ namespace CaptureSnippets
                 CompareVersions(range2.MinVersion, range1.MaxVersion);
         }
 
-        static bool CompareVersions(SimpleVersion version1, SimpleVersion version2)
+        static bool CompareVersions(NuGetVersion version1, NuGetVersion version2)
         {
             if (version1 == null || version2 == null)
             {
