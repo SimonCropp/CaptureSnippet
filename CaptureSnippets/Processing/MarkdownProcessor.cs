@@ -34,14 +34,14 @@ namespace CaptureSnippets
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                writer.WriteLineAsync(line)
-                    .ConfigureAwait(false);
 
                 string key;
                 if (!ImportKeyReader.TryExtractKeyFromLine(line, out key))
                 {
+                    writer.WriteLine(line);
                     continue;
                 }
+                writer.WriteLine("<!-- snippet: {0} -->", key);
 
                 var snippetGroup = snippets.FirstOrDefault(x => x.Key == key);
                 if (snippetGroup == null)
@@ -49,8 +49,7 @@ namespace CaptureSnippets
                     var missingSnippet = new MissingSnippet(key: key, line: reader.Index);
                     missingSnippets.Add(missingSnippet);
                     var message = $"** Could not find key '{key}' **";
-                    writer.WriteLineAsync(message)
-                        .ConfigureAwait(false);
+                    writer.WriteLine(message);
                     continue;
                 }
 
@@ -85,14 +84,12 @@ namespace CaptureSnippets
             if (!versionGroup.Version.Equals(VersionRange.All))
             {
                 var message = $"#### Version '{versionGroup.Version.ToFriendlyString()}'";
-                writer.WriteLineAsync(message)
-                    .ConfigureAwait(false);
+                writer.WriteLine(message);
             }
             var format = $@"```{language}
 {versionGroup.Value}
 ```";
-            writer.WriteLineAsync(format)
-                .ConfigureAwait(false);
+            writer.WriteLine(format);
         }
 
     }

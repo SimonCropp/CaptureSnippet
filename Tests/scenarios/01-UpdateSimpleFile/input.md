@@ -1,1 +1,1 @@
-﻿<!-- import mycodesnippet1 -->
+﻿snippet: mycodesnippet1

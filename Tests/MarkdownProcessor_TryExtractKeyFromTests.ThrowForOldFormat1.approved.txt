@@ -1,0 +1,1 @@
+﻿The old was of including snippets is now obsolete. Please replace '<!-- import key' with 'snippet: key' or 'snippet:key'.

@@ -90,17 +90,17 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="VersionRangeExtensionsTests.cs" />
     <None Include="app.config" />
-    <None Include="scenarios\07-WeirdCharacters\input.md">
+    <None Include="scenarios\03-WeirdCharacters\input.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="scenarios\07-WeirdCharacters\output.md">
+    <None Include="scenarios\03-WeirdCharacters\output.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="scenarios\06-IgnoreCase\code.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="MarkdownProcessor_TryExtractKeyFromTests.cs" />
-    <None Include="scenarios\07-WeirdCharacters\code.cs">
+    <None Include="scenarios\03-WeirdCharacters\code.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="ModuleInitializer.cs" />
@@ -121,9 +121,6 @@
     <None Include="scenarios\06-IgnoreCase\output.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="scenarios\03-UpdateSimpleFileOverwritesNextLine\code.cs" />
-    <None Include="scenarios\03-UpdateSimpleFileOverwritesNextLine\input.md" />
-    <None Include="scenarios\03-UpdateSimpleFileOverwritesNextLine\output.md" />
     <None Include="scenarios\05-SamplePage\code.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

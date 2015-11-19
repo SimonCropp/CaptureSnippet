@@ -12,9 +12,12 @@ https://nuget.org/packages/CaptureSnippets/
 
     PM> Install-Package CaptureSnippets
 
+
 ## Conventions
 
+
 ### Defining Snippets 
+
 
 #### Using comments
 
@@ -92,19 +95,20 @@ And the convention method
         return null;
     }
  
+
 ### Using Snippets
 
 The keyed snippets can then be used in any documentation `.md` file by adding the text
 
-**&lt;!-- import KEY -->**.
+**snippet:KEY**.
 
 Then snippets with the key (all versions) will be rendered in a tabbed manner. If there is only a single version then it will be rendered as a simple code block with no tabs.
 
 For example 
 
 <pre>
-<code >Some blurb about the below snippet
-&lt;!-- import MySnippetName --></code>
+<code>Some blurb about the below snippet
+&lt;!-- snippet MySnippetName --></code>
 </pre>
 
 The resulting markdown will be will be 
@@ -113,6 +117,7 @@ The resulting markdown will be will be
     ```
     My Snippet Code
     ``` 
+
 
 ### Code indentation
 
@@ -135,6 +140,7 @@ Line one of the snippet
 ```
 
 The same behavior will apply to leading tabs.
+
 
 #### Do not mix tabs and spaces
 
@@ -159,6 +165,7 @@ Line one of the snippet
 </pre>
 
 Note none of the tabs have been trimmed.
+
 
 ## Api Usage
 
@@ -190,6 +197,8 @@ Note none of the tabs have been trimmed.
 
     // List of all snippets that the markdown file used
     var usedSnippets = result.UsedSnippets;
+
+
 ## Icon
 
 Icon courtesy of [The Noun Project](http://thenounproject.com) and  is licensed under Creative Commons Attribution as: 

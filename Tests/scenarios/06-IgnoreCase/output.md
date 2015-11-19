@@ -1,4 +1,4 @@
-﻿<!-- imPort mycodesnippet6 -->
+﻿<!-- snippet: mycodesnippet6 -->
 ```cs
 this is some text to import
 ```

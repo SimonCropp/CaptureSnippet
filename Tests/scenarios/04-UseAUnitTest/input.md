@@ -1,1 +1,1 @@
-﻿<!-- import LinqToJsonBasic4 -->
+﻿snippet: LinqToJsonBasic4

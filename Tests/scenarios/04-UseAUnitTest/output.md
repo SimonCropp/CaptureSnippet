@@ -1,4 +1,4 @@
-﻿<!-- import LinqToJsonBasic4 -->
+﻿<!-- snippet: LinqToJsonBasic4 -->
 ```cs
 JObject o = JObject.Parse(@"{
 'CPU': 'Intel',

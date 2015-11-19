@@ -49,19 +49,19 @@ public class MarkdownProcessorTests
                 }),
         };
         var markdownContent = @"
-<!-- import versionedSnippet1 -->
+snippet: versionedSnippet1
 
 some text
 
-<!-- import versionedSnippet2 -->
+snippet: versionedSnippet2
 
 some other text
 
-<!-- import nonVersionedSnippet1 -->
+snippet: nonVersionedSnippet1
 
 even more text
 
-<!-- import nonVersionedSnippet2 -->
+snippet: nonVersionedSnippet2
 
 ";
         Verify(markdownContent, availableSnippets);
@@ -122,7 +122,7 @@ even more text
                 file: "unknown"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        Verify("<!-- import MissingKey -->", snippetGroups);
+        Verify("snippet: MissingKey", snippetGroups);
     }
 
     [Test]
@@ -146,7 +146,7 @@ even more text
                 file: "unknown"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
-        Verify("<!-- import MissingKey1 -->\r\n\r\n<!-- import MissingKey2 -->", snippetGroups);
+        Verify("snippet: MissingKey1\r\n\r\nsnippet: MissingKey2", snippetGroups);
     }
 
 
@@ -187,7 +187,8 @@ even more text
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         var markdownContent = @"
-<!-- import FoundKey2 -->\r\b\n<!-- import FoundKey1 -->
+snippet: FoundKey2
+snippet: FoundKey1
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
@@ -200,7 +201,8 @@ dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn<!-- import FoundKey1 -->
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+snippet: FoundKey1
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmdfgkjndfkjgngkdflxmg
@@ -214,41 +216,12 @@ dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg<!-- import FoundKey1 -->
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+snippet: FoundKey1
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmg<!-- import FoundKey1 -->
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg<!-- import FoundKey1 -->
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
@@ -263,36 +236,7 @@ kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg<!-- import FoundKey1 -->
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg<!-- import FoundKey1 -->
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn<!-- import FoundKey1 --><!-- import FoundKey1 -->
-dflkgmxdklfmgkdflxmg
+snippet: FoundKey1
 dflkgmxdklfmdfgkjndfkjgngkdflxmg
 dflkgmxdklfmdfgkjndfkjgngkdflxmg
 dflkgmxdklfmgkdflxmg
@@ -308,7 +252,73 @@ dflkgmxdklfmdfgkjndfkjgngkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg<!-- import FoundKey1 -->
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+snippet: FoundKey1
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+snippet: FoundKey1
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+snippet: FoundKey1
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+snippet: FoundKey1
+snippet: FoundKey1
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+snippet: FoundKey1
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 lkmdflkgmxdklfmgkdflxmg

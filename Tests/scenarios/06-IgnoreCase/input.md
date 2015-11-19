@@ -1,1 +1,1 @@
-﻿<!-- imPort mycodesnippet6 -->
+﻿snippet: mycodesnippet6

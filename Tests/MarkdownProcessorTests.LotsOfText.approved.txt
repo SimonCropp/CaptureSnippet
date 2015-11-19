@@ -37,10 +37,14 @@
     }
   ],
   "
-<!-- import FoundKey2 -->\\r\\b\\n<!-- import FoundKey1 -->
+<!-- snippet: FoundKey2 -->
 ```c
 Value2
 ```
+<!-- snippet: FoundKey1 -->
+```c
+Value1
+```
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
@@ -53,7 +57,8 @@ dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn<!-- import FoundKey1 -->
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+<!-- snippet: FoundKey1 -->
 ```c
 Value1
 ```
@@ -70,7 +75,8 @@ dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg<!-- import FoundKey1 -->
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+<!-- snippet: FoundKey1 -->
 ```c
 Value1
 ```
@@ -91,7 +97,8 @@ kdjrngkjfncgdflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmg<!-- import FoundKey1 -->
+dflkgmxdklfmgkdflxmg
+<!-- snippet: FoundKey1 -->
 ```c
 Value1
 ```
@@ -110,7 +117,8 @@ dflkgmxdklfmdfgkjndfkjgngkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg<!-- import FoundKey1 -->
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+<!-- snippet: FoundKey1 -->
 ```c
 Value1
 ```
@@ -129,7 +137,8 @@ dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmdfgkjndfkjgngkdflxmg
-dflkgmxdklfmdfgkjndfkjgngkdflxmg<!-- import FoundKey1 -->
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+<!-- snippet: FoundKey1 -->
 ```c
 Value1
 ```
@@ -146,7 +155,8 @@ dflkgmxdklfmdfgkjndfkjgngkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg<!-- import FoundKey1 -->
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+<!-- snippet: FoundKey1 -->
 ```c
 Value1
 ```
@@ -162,7 +172,12 @@ dflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
-dflkgmxdklfmgkdflxmgfkgjnfdjkgn<!-- import FoundKey1 --><!-- import FoundKey1 -->
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+<!-- snippet: FoundKey1 -->
+```c
+Value1
+```
+<!-- snippet: FoundKey1 -->
 ```c
 Value1
 ```
@@ -182,7 +197,8 @@ dflkgmxdklfmdfgkjndfkjgngkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmg
-kdjrngkjfncgdflkgmxdklfmgkdflxmg<!-- import FoundKey1 -->
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+<!-- snippet: FoundKey1 -->
 ```c
 Value1
 ```

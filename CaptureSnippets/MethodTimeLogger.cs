@@ -7,7 +7,7 @@ namespace CaptureSnippets
         public static void Log(MethodBase methodBase, long milliseconds)
         {
 #if DEBUG
-           System.Diagnostics.Trace.WriteLine(string.Format("{0} took {1}ms", methodBase.Name, milliseconds));
+           System.Diagnostics.Trace.WriteLine($"{methodBase.Name} took {milliseconds}ms");
 #endif
         }
     }

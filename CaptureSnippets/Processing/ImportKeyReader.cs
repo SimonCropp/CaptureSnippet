@@ -4,29 +4,14 @@ namespace CaptureSnippets
     {
         public static bool TryExtractKeyFromLine(string line, out string key)
         {
-            line = line.Replace("  ", " ");
-            var indexOfImport = line.IndexOf("<!-- import ");
-            var charsToTrim = 12;
-            if (indexOfImport == -1)
+            if (line.StartsWith("snippet:"))
             {
-                charsToTrim = 11;
-                indexOfImport = line.IndexOf("<!--import ");
-                if (indexOfImport == -1)
-                {
-                    key = null;
-                    return false;
-                }
+                key = line.Substring(8).Trim();
+                return true;
             }
-            var substring = line.Substring(indexOfImport + charsToTrim);
-            var indexOfFinish = substring.IndexOf("-->");
-            if (indexOfFinish == -1)
-            {
-                key = null;
-                return false;
-            }
-            key = substring.Substring(0, indexOfFinish)
-                .TrimNonCharacters();
-            return true;
+            key = null;
+            return false;
         }
+
     }
 }
