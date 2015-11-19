@@ -29,6 +29,7 @@ My Snippet Code
 // endcode
 ```
 
+
 #### Using regions
 
 Any code wrapped in a named C# region will pe picked up. The name of the region is used as the key.
@@ -39,11 +40,13 @@ My Snippet Code
 #endregion
 ```
 
+
 ### Snippets are versioned
 
 Version follows the [nuget version range syntax](https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files).
 
 For more details on nuget versioning see https://github.com/NuGet/NuGet.Versioning/.
+
 
 #### Version suffix on snippets
 
@@ -62,6 +65,7 @@ Or a version range
 My Snippet Code
 #endregion
 ```
+
 
 #### Inferred using conventions
 
@@ -100,7 +104,9 @@ And the convention method
 
 The keyed snippets can then be used in any documentation `.md` file by adding the text
 
-**snippet:KEY**.
+```
+snippet:KEY
+```
 
 Then snippets with the key (all versions) will be rendered in a tabbed manner. If there is only a single version then it will be rendered as a simple code block with no tabs.
 

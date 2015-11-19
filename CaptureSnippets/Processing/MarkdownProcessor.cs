@@ -6,11 +6,30 @@ using NuGet.Versioning;
 namespace CaptureSnippets
 {
 
+    delegate bool KeyReaderDelegate(string input, out string key);
+
     /// <summary>
     /// Merges <see cref="SnippetGroup"/>s with an input file/text.
     /// </summary>
     public class MarkdownProcessor
     {
+        KeyReaderDelegate keyReader;
+
+        /// <summary>
+        /// Initizes a new instance of <see cref="MarkdownProcessor"/>.
+        /// </summary>
+        /// <param name="alsoParseImportSyntax">Indicate if the old "<!-- import key -->" should also be parsed.</param>
+        public MarkdownProcessor(bool alsoParseImportSyntax = false)
+        {
+            if (alsoParseImportSyntax)
+            {
+                keyReader = ImportKeyReader.TryExtractKeyFromLineLegacy;
+            }
+            else
+            {
+                keyReader = ImportKeyReader.TryExtractKeyFromLine;
+            }
+        }
 
         /// <summary>
         /// Apply <paramref name="snippets"/> to <paramref name="textReader"/>.
@@ -34,9 +53,8 @@ namespace CaptureSnippets
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-
                 string key;
-                if (!ImportKeyReader.TryExtractKeyFromLine(line, out key))
+                if (!keyReader(line, out key))
                 {
                     writer.WriteLine(line);
                     continue;

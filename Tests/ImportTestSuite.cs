@@ -32,7 +32,7 @@ public class ImportTestSuite
 
         using (var reader = File.OpenText(input))
         {
-            var markdownProcessor = new MarkdownProcessor();
+            var markdownProcessor = new MarkdownProcessor(alsoParseImportSyntax:true);
             var stringBuilder = new StringBuilder();
             using (var writer = new StringWriter(stringBuilder))
             {
