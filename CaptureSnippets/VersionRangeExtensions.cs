@@ -21,26 +21,26 @@ namespace CaptureSnippets
         {
             if (version.Patch > 0)
             {
-                return string.Format("{0}.{1}.{2}.x", version.Major, version.Minor, version.Patch + 1);
+                return $"{version.Major}.{version.Minor}.{version.Patch + 1}.x";
             }
             if (version.Minor > 0)
             {
-                return string.Format("{0}.{1}.1.x", version.Major, version.Minor);
+                return $"{version.Major}.{version.Minor}.1.x";
             }
-            return string.Format("{0}.1.x", version.Major);
+            return $"{version.Major}.1.x";
         }
 
         public static string PreviousVersion(this SemanticVersion version)
         {
             if (version.Patch > 0)
             {
-                return string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Patch - 1);
+                return $"{version.Major}.{version.Minor}.{version.Patch - 1}";
             }
             if (version.Minor > 0)
             {
-                return string.Format("{0}.{1}.x", version.Major, version.Minor - 1);
+                return $"{version.Major}.{version.Minor - 1}.x";
             }
-            return string.Format("{0}.x", version.Major - 1);
+            return $"{version.Major - 1}.x";
         }
 
         public static string SimplePrint(this NuGetVersion version)
@@ -49,23 +49,23 @@ namespace CaptureSnippets
             {
                 if (version.IsPrerelease)
                 {
-                    return string.Format("{0}.{1}.{2}-{3}", version.Major, version.Minor, version.Patch, version.ReleaseLabels.First());
+                    return $"{version.Major}.{version.Minor}.{version.Patch}-{version.ReleaseLabels.First()}";
                 }
-                return string.Format("{0}.{1}.{2}.x", version.Major, version.Minor, version.Patch);
+                return $"{version.Major}.{version.Minor}.{version.Patch}.x";
             }
             if (version.Minor > 0)
             {
                 if (version.IsPrerelease)
                 {
-                    return string.Format("{0}.{1}-{2}", version.Major, version.Minor, version.ReleaseLabels.First());
+                    return $"{version.Major}.{version.Minor}-{version.ReleaseLabels.First()}";
                 }
-                return string.Format("{0}.{1}.x", version.Major, version.Minor);
+                return $"{version.Major}.{version.Minor}.x";
             }
             if (version.IsPrerelease)
             {
-                return string.Format("{0}-{1}", version.Major, version.ReleaseLabels.First());
+                return $"{version.Major}-{version.ReleaseLabels.First()}";
             }
-            return string.Format("{0}.x", version.Major);
+            return $"{version.Major}.x";
         }
 
         public static string SimplePrint(this VersionRange range)
@@ -83,12 +83,12 @@ namespace CaptureSnippets
 
             if (range.HasUpperBound && maxVersion.IsPrerelease)
             {
-                var message = string.Format("Pre release not allowed on upper bound '{0}.", range);
+                var message = $"Pre release not allowed on upper bound '{range}'.";
                 throw new Exception(message);
             }
             if (range.HasLowerBound && minVersion.IsPrerelease && !range.IsMinInclusive)
             {
-                var message = string.Format("Pre release not allowed on non-inclusive lower bound '{0}.", range);
+                var message = $"Pre release not allowed on non-inclusive lower bound '{range}'.";
                 throw new Exception(message);
             }
             if (range.HasLowerAndUpperBounds)

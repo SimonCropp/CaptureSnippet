@@ -48,7 +48,7 @@ namespace CaptureSnippets
                 {
                     var missingSnippet = new MissingSnippet(key: key, line: reader.Index);
                     missingSnippets.Add(missingSnippet);
-                    var message = string.Format("** Could not find key '{0}' **", key);
+                    var message = $"** Could not find key '{key}' **";
                     writer.WriteLineAsync(message)
                         .ConfigureAwait(false);
                     continue;
@@ -84,14 +84,13 @@ namespace CaptureSnippets
 
             if (!versionGroup.Version.Equals(VersionRange.All))
             {
-                var message = string.Format("#### Version '{0}'", versionGroup.Version.ToFriendlyString());
+                var message = $"#### Version '{versionGroup.Version.ToFriendlyString()}'";
                 writer.WriteLineAsync(message)
                     .ConfigureAwait(false);
             }
-            var format = string.Format(
-@"```{0}
-{1}
-```", language, versionGroup.Value);
+            var format = $@"```{language}
+{versionGroup.Value}
+```";
             writer.WriteLineAsync(format)
                 .ConfigureAwait(false);
         }

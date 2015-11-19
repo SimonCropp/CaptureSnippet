@@ -69,7 +69,7 @@ public class SnippetExtractorTests
     {
         var input = @"
   <!-- startcode CodeKey-->
-  sjfnskdjnf`knjknjkn`
+  foo`bar`
   <!-- endcode -->";
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets.Errors);

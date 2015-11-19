@@ -14,10 +14,7 @@ namespace CaptureSnippets
 
         public void Dispose()
         {
-            if (textReader != null)
-            {
-                textReader.Dispose();
-            }
+            textReader?.Dispose();
         }
 
         public string ReadLine()

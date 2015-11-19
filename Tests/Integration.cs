@@ -16,7 +16,7 @@ public class Integration
         var extractor = new SnippetExtractor(InferVersion);
         var snippets = extractor.FromFiles(Directory.EnumerateFiles(@"C:\Code\docs.particular.net\Snippets", "*.cs",SearchOption.AllDirectories));
 
-        Debug.WriteLine(snippets.ToList());
+        Trace.WriteLine(snippets.ToList());
         
     }
 
@@ -105,7 +105,7 @@ public class Integration
             var valueWithPre = value + "-" + pretext;
             if (!NuGetVersion.TryParse(valueWithPre, out minVersion))
             {
-                var message = string.Format("Could not use prerelease.txt to parse a SemanticVersion. Value attempted:'{0}'.", valueWithPre);
+                var message = $"Could not use prerelease.txt to parse a SemanticVersion. Value attempted:'{valueWithPre}'.";
                 throw new Exception(message);
             }
             version = new VersionRange(

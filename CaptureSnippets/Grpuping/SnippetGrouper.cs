@@ -33,7 +33,7 @@ namespace CaptureSnippets
             var requiredLanguage = readSnippets.Select(x => x.Language).First();
             if (readSnippets.Any(x => x.Language != requiredLanguage))
             {
-                error = string.Format("All languages of a give key must be equivalent. Key='{0}'.", key);
+                error = $"All languages of a give key must be equivalent. Key='{key}'.";
                 snippetGroup = null;
                 return false;
             }
@@ -46,7 +46,7 @@ namespace CaptureSnippets
                 if (snippets.Count > 1)
                 {
                     var files = string.Join("\r\n", snippets.Select(x => x.FileLocation));
-                    error = string.Format("Duplicate key detected. Key='{0}'. Version='{1}'. Files=\r\n{2}", key, snippets.First().Version.PrettyPrint(), files);
+                    error = $"Duplicate key detected. Key='{key}'. Version='{snippets.First().Version.PrettyPrint()}'. Files=\r\n{files}";
                     snippetGroup = null;
                     return false;
                 }
@@ -58,7 +58,7 @@ namespace CaptureSnippets
             if (containsAllVersionRanges && containsNonAllVersionRanges)
             {
                 var files = string.Join("\r\n", readSnippets.Select(x => x.FileLocation));
-                error = string.Format("Cannot mix 'all' versions and specific versions. Key='{0}'. Files=\r\n{1}", key, files);
+                error = $"Cannot mix 'all' versions and specific versions. Key='{key}'. Files=\r\n{files}";
                 snippetGroup = null;
                 return false;
             }

@@ -46,7 +46,7 @@ namespace CaptureSnippets
 
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder(string.Format("{0}.", Message));
+            var stringBuilder = new StringBuilder($"{Message}.");
             if (File != null)
             {
                 stringBuilder.AppendFormat(" File: '{0}'.", File);

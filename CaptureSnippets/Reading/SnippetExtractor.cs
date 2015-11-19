@@ -81,28 +81,7 @@ namespace CaptureSnippets
             return string.Empty;
         }
 
-        class LoopState
-        {
-            public void Reset()
-            {
-
-                SnippetLines = null;
-                CurrentKey = null;
-                Version = null;
-                EndFunc = null;
-                StartLine = null;
-                IsInSnippet = false;
-            }
-
-            public List<string> SnippetLines;
-            public string CurrentKey;
-
-            public string Version;
-            public Func<string, bool> EndFunc;
-            public int? StartLine;
-            public bool IsInSnippet;
-        }
-
+        
         ReadSnippets GetSnippetsFromFile(IndexReader stringReader, string file)
         {
             var errors = new List<ReadSnippetError>();
@@ -189,7 +168,7 @@ namespace CaptureSnippets
             {
                 var joinedInvalidChars = "'" + string.Join("', '", invalidCharacters) + "'";
                 errors.Add(new ReadSnippetError(
-                    message: string.Format("Snippet contains invalid characters ({0}). This was probably caused by you copying code from MS Word or Outlook. Dont do that.", joinedInvalidChars),
+                    message: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by you copying code from MS Word or Outlook. Dont do that.",
                     file: file,
                     line: startRow,
                     key: loopState.CurrentKey,

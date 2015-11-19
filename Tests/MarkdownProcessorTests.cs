@@ -6,6 +6,7 @@ using CaptureSnippets;
 using NuGet.Versioning;
 using NUnit.Framework;
 using ObjectApproval;
+// ReSharper disable StringLiteralTypo
 
 [TestFixture]
 public class MarkdownProcessorTests

@@ -64,9 +64,6 @@ namespace CaptureSnippets
         public readonly VersionRange Version;
 
 
-        public string FileLocation
-        {
-            get { return string.Format("{0}({1}-{2})", File, StartLine, EndLine); }
-        }
+        public string FileLocation => $"{File}({StartLine}-{EndLine})";
     }
 }

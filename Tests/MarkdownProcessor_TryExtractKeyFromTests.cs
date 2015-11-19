@@ -1,5 +1,6 @@
 ﻿using CaptureSnippets;
 using NUnit.Framework;
+// ReSharper disable StringLiteralTypo
 
 [TestFixture]
 public class MarkdownProcessor_TryExtractKeyFromTests

@@ -61,7 +61,7 @@ namespace CaptureSnippets
             stringBuilder.AppendLine("## Missing snippets\r\n");
             foreach (var error in missingSnippets)
             {
-                stringBuilder.AppendLine(string.Format(" * Key:'{0}' Line:'{1}'", error.Key, error.Line));
+                stringBuilder.AppendLine($" * Key:'{error.Key}' Line:'{error.Line}'");
             }
             stringBuilder.AppendLine();
             return stringBuilder.ToString();

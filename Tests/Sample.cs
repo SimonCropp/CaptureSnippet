@@ -2,6 +2,7 @@
 using System.Linq;
 using CaptureSnippets;
 using NuGet.Versioning;
+// ReSharper disable UnusedMember.Local
 
 class Sample
 {
