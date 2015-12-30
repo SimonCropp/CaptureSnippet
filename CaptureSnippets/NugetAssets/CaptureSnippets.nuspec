@@ -14,7 +14,7 @@
     <language>en-AU</language>
     <tags>CaptureSnippets</tags>
     <dependencies>
-      <dependency id="NuGet.Versioning"  version="[3.2.0, 4.0.0)"/>
+      <dependency id="NuGet.Versioning"  version="[3.3.0, 4.0.0)"/>
     </dependencies>
   </metadata>
 </package>
