@@ -44,7 +44,7 @@ namespace CaptureSnippets
         {
             Guard.AgainstNull(files, "files");
             var tasks = files.Select(ProcessFile);
-            var snippets = await Task.WhenAll(tasks);
+            var snippets = await Task.WhenAll(tasks).ConfigureAwait(false);
             return new ReadSnippets(
                 snippets: snippets.SelectMany(x => x.Snippets),
                 errors: snippets.SelectMany(x => x.Errors));
@@ -55,7 +55,7 @@ namespace CaptureSnippets
             using (var textReader = File.OpenText(file))
             using (var stringReader = new IndexReader(textReader))
             {
-                return await GetSnippetsFromFile(stringReader, file);
+                return await GetSnippetsFromFile(stringReader, file).ConfigureAwait(false);
             }
         }
 
@@ -69,7 +69,7 @@ namespace CaptureSnippets
             Guard.AgainstNull(textReader, "textReader");
             using (var reader = new IndexReader(textReader))
             {
-                return await GetSnippetsFromFile(reader, source);
+                return await GetSnippetsFromFile(reader, source).ConfigureAwait(false);
             }
         }
 
@@ -92,7 +92,7 @@ namespace CaptureSnippets
             var loopState = new LoopState();
             while (true)
             {
-                var line = await stringReader.ReadLine();
+                var line = await stringReader.ReadLine().ConfigureAwait(false);
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)

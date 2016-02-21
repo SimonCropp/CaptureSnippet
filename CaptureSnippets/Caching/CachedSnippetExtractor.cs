@@ -59,11 +59,11 @@ namespace CaptureSnippets
             CachedSnippets cachedSnippets;
             if (!directoryToSnippets.TryGetValue(directory, out cachedSnippets))
             {
-                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite);
+                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite).ConfigureAwait(false);
             }
             if (cachedSnippets.Ticks != lastDirectoryWrite)
             {
-                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite);
+                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite).ConfigureAwait(false);
             }
             return cachedSnippets;
         }
@@ -71,7 +71,7 @@ namespace CaptureSnippets
         async Task<CachedSnippets> UpdateCache(string directory, List<string> includeDirectories, long lastDirectoryWrite)
         {
             var filesToInclude = GetFilesToInclude(includeDirectories);
-            var readSnippets = await snippetExtractor.FromFiles(filesToInclude);
+            var readSnippets = await snippetExtractor.FromFiles(filesToInclude).ConfigureAwait(false);
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,
