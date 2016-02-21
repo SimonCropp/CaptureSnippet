@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using MethodTimer;
 using NuGet.Versioning;
 
@@ -39,21 +40,22 @@ namespace CaptureSnippets
         }
 
         [Time]
-        public ReadSnippets FromFiles(IEnumerable<string> files)
+        public async Task<ReadSnippets> FromFiles(IEnumerable<string> files)
         {
             Guard.AgainstNull(files, "files");
-            var read = files.Select(ProcessFile).ToList();
+            var tasks = files.Select(ProcessFile);
+            var snippets = await Task.WhenAll(tasks);
             return new ReadSnippets(
-                snippets: read.SelectMany(x => x.Snippets),
-                errors: read.SelectMany(x => x.Errors));
+                snippets: snippets.SelectMany(x => x.Snippets),
+                errors: snippets.SelectMany(x => x.Errors));
         }
 
-        ReadSnippets ProcessFile(string file)
+        async Task<ReadSnippets> ProcessFile(string file)
         {
             using (var textReader = File.OpenText(file))
             using (var stringReader = new IndexReader(textReader))
             {
-                return GetSnippetsFromFile(stringReader, file);
+                return await GetSnippetsFromFile(stringReader, file);
             }
         }
 
@@ -62,12 +64,12 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
         /// <param name="source">Used to infer the version. Usually this will be the path to a file or a url.</param>
-        public ReadSnippets FromReader(TextReader textReader, string source = null)
+        public async Task<ReadSnippets> FromReader(TextReader textReader, string source = null)
         {
             Guard.AgainstNull(textReader, "textReader");
             using (var reader = new IndexReader(textReader))
             {
-                return GetSnippetsFromFile(reader, source);
+                return await GetSnippetsFromFile(reader, source);
             }
         }
 
@@ -81,8 +83,8 @@ namespace CaptureSnippets
             return string.Empty;
         }
 
-        
-        ReadSnippets GetSnippetsFromFile(IndexReader stringReader, string file)
+
+        async Task<ReadSnippets> GetSnippetsFromFile(IndexReader stringReader, string file)
         {
             var errors = new List<ReadSnippetError>();
             var snippets = new List<ReadSnippet>();
@@ -90,7 +92,7 @@ namespace CaptureSnippets
             var loopState = new LoopState();
             while (true)
             {
-                var line = stringReader.ReadLine();
+                var line = await stringReader.ReadLine();
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)

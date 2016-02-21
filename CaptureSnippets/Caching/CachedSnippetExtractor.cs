@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using MethodTimer;
 using NuGet.Versioning;
 
@@ -48,7 +49,7 @@ namespace CaptureSnippets
         /// Extract all snippets from a given directory.
         /// </summary>
         [Time]
-        public CachedSnippets FromDirectory(string directory)
+        public async Task<CachedSnippets> FromDirectory(string directory)
         {
             directory = directory.ToLower();
             var includeDirectories = new List<string>();
@@ -58,18 +59,19 @@ namespace CaptureSnippets
             CachedSnippets cachedSnippets;
             if (!directoryToSnippets.TryGetValue(directory, out cachedSnippets))
             {
-                return UpdateCache(directory, includeDirectories, lastDirectoryWrite);
+                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite);
             }
             if (cachedSnippets.Ticks != lastDirectoryWrite)
             {
-                return UpdateCache(directory, includeDirectories, lastDirectoryWrite);
+                return await UpdateCache(directory, includeDirectories, lastDirectoryWrite);
             }
             return cachedSnippets;
         }
 
-        CachedSnippets UpdateCache(string directory, List<string> includeDirectories, long lastDirectoryWrite)
+        async Task<CachedSnippets> UpdateCache(string directory, List<string> includeDirectories, long lastDirectoryWrite)
         {
-            var readSnippets = snippetExtractor.FromFiles(GetFilesToInclude(includeDirectories));
+            var filesToInclude = GetFilesToInclude(includeDirectories);
+            var readSnippets = await snippetExtractor.FromFiles(filesToInclude);
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,

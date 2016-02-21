@@ -19,6 +19,10 @@ namespace CaptureSnippets
 
         public static string NextVersion(this SemanticVersion version)
         {
+            if (version.IsPrerelease)
+            {
+                throw new Exception("Cannot increment prerelease version");
+            }
             if (version.Patch > 0)
             {
                 return $"{version.Major}.{version.Minor}.{version.Patch + 1}.x";
@@ -32,6 +36,10 @@ namespace CaptureSnippets
 
         public static string PreviousVersion(this SemanticVersion version)
         {
+            if (version.IsPrerelease)
+            {
+                throw new Exception("Cannot decrement prerelease version");
+            }
             if (version.Patch > 0)
             {
                 return $"{version.Major}.{version.Minor}.{version.Patch - 1}";
@@ -106,13 +114,20 @@ namespace CaptureSnippets
                     }
 
                 }
+
+
+                // single version
+                if (maxVersion.Equals(minVersion) && range.IsMinInclusive && range.IsMaxInclusive)
+                {
+                    return minVersion.SimplePrint();
+                }
+                // TODO:
+                //if (minVersion.Equals(maxVersion.p) && range.IsMinInclusive && range.IsMaxInclusive)
+                //{
+                //    return minVersion.SimplePrint();
+                //}
             }
 
-            // single version
-            if (range.HasLowerAndUpperBounds && maxVersion.Equals(minVersion) && range.IsMinInclusive && range.IsMaxInclusive)
-            {
-                return minVersion.SimplePrint();
-            }
             var sb = new StringBuilder();
             // normal range
 

@@ -244,6 +244,8 @@ public class VersionRangeExtensionsTests
     [Test]
     public void PrettyPrintVersionRange()
     {
+        //TODO:
+       // Assert.AreEqual("0.2.x", VersionRange.Parse("[0.2,0.3)").SimplePrint());
         Assert.AreEqual("All", VersionRange.All.SimplePrint());
         Assert.AreEqual("None", VersionRange.None.SimplePrint());
         Assert.AreEqual("1.1.x - 3.0.x", VersionRange.Parse("(1.0,3.1)").SimplePrint());

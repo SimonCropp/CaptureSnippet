@@ -74,7 +74,7 @@ snippet: nonVersionedSnippet2
         using (var reader = new StringReader(markdownContent))
         using (var writer = new StringWriter(stringBuilder))
         {
-            var processResult = processor.Apply(availableSnippets, reader, writer);
+            var processResult = processor.Apply(availableSnippets, reader, writer).Result;
             var output = new object[]
             {
                 processResult.MissingSnippets, processResult.UsedSnippets, stringBuilder.ToString()

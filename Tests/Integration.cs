@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using CaptureSnippets;
 using NuGet.Versioning;
 using NUnit.Framework;
@@ -11,13 +12,12 @@ using NUnit.Framework;
 public class Integration
 {
     [Test]
-    public void Foo()
+    public async Task Foo()
     {
         var extractor = new SnippetExtractor(InferVersion);
-        var snippets = extractor.FromFiles(Directory.EnumerateFiles(@"C:\Code\docs.particular.net\Snippets", "*.cs",SearchOption.AllDirectories));
+        var snippets = await extractor.FromFiles(Directory.EnumerateFiles(@"C:\Code\docs.particular.net\Snippets", "*.cs",SearchOption.AllDirectories));
 
         Trace.WriteLine(snippets.ToList());
-        
     }
 
     public static VersionRange InferVersion(string path)

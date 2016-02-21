@@ -23,6 +23,7 @@ namespace CaptureSnippets
             File = file;
             Message = message;
         }
+
         /// <summary>
         /// The snippet version if one could be detected before the error was encountered.
         /// </summary>

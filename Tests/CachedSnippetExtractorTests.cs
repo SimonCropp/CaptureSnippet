@@ -14,14 +14,14 @@ public class CachedSnippetExtractorTests
         var directory = @"scenarios\".ToCurrentDirectory();
         //warmup 
         var snippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
-        snippetExtractor.FromDirectory(directory);
+        snippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
 
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
-        cachedSnippetExtractor.FromDirectory(directory);
+        cachedSnippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
         firstRun.Stop();
         var secondRun = Stopwatch.StartNew();
-        cachedSnippetExtractor.FromDirectory(directory);
+        cachedSnippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
         secondRun.Stop();
         Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
         Debug.WriteLine(firstRun.ElapsedMilliseconds);
@@ -33,7 +33,7 @@ public class CachedSnippetExtractorTests
     {
         var directory = @"badsnippets".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
-        var readSnippets = cachedSnippetExtractor.FromDirectory(directory);
+        var readSnippets = cachedSnippetExtractor.FromDirectory(directory).Result;
         Assert.AreEqual(1,readSnippets.GroupingErrors.Count());
     }
 
