@@ -3,7 +3,7 @@
 this is some text to import
 ```
 
-<!-- snippet: mycodesnippet2 -->
+<!-- snippet: mycodesnippet1 -->
 ```cs
 this is some text to import
 ```

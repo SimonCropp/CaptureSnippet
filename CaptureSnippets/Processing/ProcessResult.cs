@@ -10,7 +10,7 @@ namespace CaptureSnippets
     public class ProcessResult : IEnumerable<SnippetGroup>
     {
 
-        public ProcessResult(IEnumerable<SnippetGroup> usedSnippets,IEnumerable<MissingSnippet> missingSnippets)
+        public ProcessResult(IEnumerable<SnippetGroup> usedSnippets, IEnumerable<MissingSnippet> missingSnippets)
         {
             Guard.AgainstNull(usedSnippets, "usedSnippets");
             Guard.AgainstNull(missingSnippets, "missingSnippets");

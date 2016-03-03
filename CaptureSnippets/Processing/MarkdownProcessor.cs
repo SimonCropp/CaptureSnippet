@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -73,16 +74,17 @@ namespace CaptureSnippets
                 }
 
                 await AppendGroup(snippetGroup, writer).ConfigureAwait(false);
-                if (usedSnippets.All(x => x.Key != snippetGroup.Key))
+                if (usedSnippets.Any(x => x.Key == snippetGroup.Key))
                 {
-                    usedSnippets.Add(snippetGroup);
+                    throw new Exception($"Duplicate use of the same snippet key '{snippetGroup.Key}'.");
                 }
+                usedSnippets.Add(snippetGroup);
             }
             return new ProcessResult(missingSnippets: missingSnippets, usedSnippets: usedSnippets);
         }
 
         /// <summary>
-        /// Method that cna be override to control how an individual <see cref="SnippetGroup"/> is rendered.
+        /// Method that can be override to control how an individual <see cref="SnippetGroup"/> is rendered.
         /// </summary>
         public async Task AppendGroup(SnippetGroup snippetGroup, TextWriter writer)
         {
