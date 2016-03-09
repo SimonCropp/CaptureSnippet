@@ -18,7 +18,7 @@ namespace CaptureSnippets
             throw new Exception("Failed to determin a version for a snippet. Please use the 'SnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor)' overload for to apply a fallback convention.");
         };
 
-        static char[] invalidCharacters = {'“', '”', '—','`' };
+        static char[] invalidCharacters = {'“', '”', '—', '`'};
         const string LineEnding = "\r\n";
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace CaptureSnippets
         /// </summary>
         public SnippetExtractor()
         {
-            
+
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace CaptureSnippets
                             message: "Snippet was not closed",
                             file: file,
                             line: loopState.StartLine.Value + 1,
-                            key: loopState.CurrentKey, 
+                            key: loopState.CurrentKey,
                             version: null));
                     }
                     break;
@@ -154,15 +154,15 @@ namespace CaptureSnippets
         {
             VersionRange parsedVersion;
             var startRow = loopState.StartLine.Value + 1;
-            
+
             if (!TryParseVersion(file, loopState, out parsedVersion))
             {
                 errors.Add(new ReadSnippetError(
-                                            message : "Could not extract version",
-                                            file : file,
-                                            line : startRow,
-                                            key : loopState.CurrentKey,
-                                            version:null));
+                    message: "Could not extract version",
+                    file: file,
+                    line: startRow,
+                    key: loopState.CurrentKey,
+                    version: null));
                 return;
             }
             var value = ConvertLinesToValue(loopState.SnippetLines);
@@ -176,15 +176,15 @@ namespace CaptureSnippets
                     key: loopState.CurrentKey,
                     version: parsedVersion));
             }
-            
+
             var snippet = new ReadSnippet(
-                              startLine : startRow,
-                              endLine : stringReader.Index,
-                              key : loopState.CurrentKey.ToLowerInvariant(),
-                              version : parsedVersion,
-                              value : value,
-                              file : file,
-                              language: language.ToLowerInvariant());
+                startLine: startRow,
+                endLine: stringReader.Index,
+                key: loopState.CurrentKey.ToLowerInvariant(),
+                version: parsedVersion,
+                value: value,
+                file: file,
+                language: language.ToLowerInvariant());
             snippets.Add(snippet);
         }
 
@@ -228,44 +228,54 @@ namespace CaptureSnippets
 
         internal static bool IsStartCode(string line, out string key, out string version)
         {
-            return Extract(line.Replace("-->",""), out key, out version, "startcode");
+            return Extract(line, out key, out version, "startcode");
         }
 
         static bool Extract(string line, out string key, out string version, string prefix)
         {
-            var startCodeIndex = line.IndexOf(prefix + " ", StringComparison.Ordinal);
-            if (startCodeIndex != -1)
+            var startCodeIndex = line.IndexOf(prefix, StringComparison.Ordinal);
+            if (startCodeIndex == -1)
             {
-                var startIndex = startCodeIndex + prefix.Length +1;
-
-                var substring = line.Substring(startIndex);
-                var splitBySpace = substring
-                    .Split(new[]
-                           {
-                               ' '
-                           }, StringSplitOptions.RemoveEmptyEntries);
-                if (splitBySpace.Any())
-                {
-                    key = splitBySpace[0]
-                        .TrimNonCharacters();
-                    if (splitBySpace.Length > 1)
-                    {
-                        version = splitBySpace[1];
-                    }
-                    else
-                    {
-                        version = null;
-                    }
-                    if (!string.IsNullOrWhiteSpace(key))
-                    {
-                        return true;
-                    }
-                }
+                version = null;
+                key = null;
+                return false;
+            }
+            var startIndex = startCodeIndex + prefix.Length + 1;
+            var substring = line.Substring(startIndex)
+                .TrimBackCommentChars();
+            var split = substring.SplitBySpace();
+            if (split.Length ==0)
+            {
                 throw new Exception("No Key could be derived.");
             }
-            version = null;
-            key = null;
-            return false;
+            if (split.Length == 1)
+            {
+                key = split[0];
+                ValidateDoesNotStartOrEndWIthSymbol(key);
+                version = null;
+                return true;
+            }
+            if (split.Length == 2)
+            {
+                key = split[0];
+                ValidateDoesNotStartOrEndWIthSymbol(key);
+                version = split[1];
+                return true;
+            }
+
+            throw new Exception("Too many parts.");
+        }
+
+        static void ValidateDoesNotStartOrEndWIthSymbol(string key)
+        {
+            if (!char.IsLetterOrDigit(key, 0))
+            {
+                throw new Exception("Key should not start or end with symbols.");
+            }
+            if (!char.IsLetterOrDigit(key, key.Length - 1))
+            {
+                throw new Exception("Key should not start or end with symbols.");
+            }
         }
     }
 }

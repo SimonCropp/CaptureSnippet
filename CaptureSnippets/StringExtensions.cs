@@ -18,11 +18,33 @@ namespace CaptureSnippets
                 yield return line.RemoveStart(initialPadding);
             }
         }
+
         public static string RemoveWhitespace(this string input)
         {
             return new string(input.ToCharArray()
                 .Where(c => !char.IsWhiteSpace(c))
                 .ToArray());
+        }
+
+        public static string TrimBackCommentChars(this string input)
+        {
+            for (var index = input.Length - 1; index >= 0; index--)
+            {
+                var ch = input[index];
+                if (char.IsLetterOrDigit(ch) || ch == ']' || ch == ' ' || ch == ')')
+                {
+                    return input.Substring(0, index + 1);
+                }
+            }
+            return string.Empty;
+        }
+        public static string[] SplitBySpace(this string substring)
+        {
+            return substring
+                .Split(new[]
+                {
+                    ' '
+                }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         public static string TrimNonCharacters(this string line)

@@ -27,6 +27,14 @@ public class SnippetExtractor_IsStartCodeTests
     }
 
     [Test]
+    public void ShouldThrowForNoKeyWithNoSpace()
+    {
+        string fake;
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartCode("<!--startcode-->", out fake, out fake));
+        Assert.AreEqual("No Key could be derived.", exception.Message);
+    }
+
+    [Test]
     public void CanExtractFromXmlWithVersion()
     {
         string key;
@@ -137,28 +145,6 @@ public class SnippetExtractor_IsStartCodeTests
     }
 
     [Test]
-    public void CanExtractWithUnderScoresOutside()
-    {
-        string key;
-        string version;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode _CodeKey_ -->", out key, out version);
-        Assert.IsTrue(isStartCode);
-        Assert.AreEqual("CodeKey", key);
-        Assert.IsNull(version);
-    }
-
-    [Test]
-    public void CanExtractWithUnderScoresOutsideWithVersion()
-    {
-        string key;
-        string version;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode _CodeKey_ 5 -->", out key, out version);
-        Assert.IsTrue(isStartCode);
-        Assert.AreEqual("CodeKey", key);
-        Assert.AreEqual("5", version);
-    }
-
-    [Test]
     public void CanExtractWithDashes()
     {
         string key;
@@ -181,22 +167,52 @@ public class SnippetExtractor_IsStartCodeTests
     }
 
     [Test]
-    public void CanExtractWithDashesOutside()
+    public void ShouldThrowForKeyStartingWithSymbolAndVersion()
     {
-        string key;
-        string version;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode -CodeKey- -->", out key, out version);
-        Assert.IsTrue(isStartCode);
-        Assert.AreEqual("CodeKey", key);
-        Assert.IsNull(version);
+        string fake;
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartCode("<!-- startcode _key 6 -->", out fake, out fake));
+        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
     [Test]
-    public void CanExtractWithDashesOutsideWithVersion()
+    public void ShouldThrowForKeyEndingWithSymbolAndVersion()
+    {
+        string fake;
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartCode("<!-- startcode key_ 6 -->", out fake, out fake));
+        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+    }
+    [Test]
+    public void ShouldThrowForKeyStartingWithSymbol()
+    {
+        string fake;
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartCode("<!-- startcode _key-->", out fake, out fake));
+        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+    }
+
+    [Test]
+    public void ShouldThrowForKeyEndingWithSymbol()
+    {
+        string fake;
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartCode("<!-- startcode key_ -->", out fake, out fake));
+        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+    }
+
+    [Test]
+    public void CanExtractWithDifferentEndComments()
     {
         string key;
         string version;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode -CodeKey- 5 -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("/* startcode CodeKey 5 */", out key, out version);
+        Assert.IsTrue(isStartCode);
+        Assert.AreEqual("CodeKey", key);
+        Assert.AreEqual("5", version);
+    }
+    [Test]
+    public void CanExtractWithDifferentEndCommentsAndNoSpaces()
+    {
+        string key;
+        string version;
+        var isStartCode = SnippetExtractor.IsStartCode("/*startcode CodeKey 5*/", out key, out version);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", version);

@@ -17,6 +17,38 @@ public class SnippetExtractor_IsStartRegionTests
     }
 
     [Test]
+    public void ShouldThrowForKeyStartingWithSymbolAndVersion()
+    {
+        string fake;
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region _key 6", out fake, out fake));
+        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+    }
+
+    [Test]
+    public void ShouldThrowForKeyEndingWithSymbolAndVersion()
+    {
+        string fake;
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region key_ 6", out fake, out fake));
+        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+    }
+    [Test]
+    public void ShouldThrowForKeyStartingWithSymbol()
+    {
+        string fake;
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region _key", out fake, out fake));
+        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+    }
+
+    [Test]
+    public void ShouldThrowForKeyEndingWithSymbol()
+    {
+        string fake;
+        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region key_ ", out fake, out fake));
+        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+    }
+
+
+    [Test]
     public void ShouldIgnoreForNoKey()
     {
         string fake;
@@ -85,25 +117,6 @@ public class SnippetExtractor_IsStartRegionTests
         Assert.AreEqual("5", version);
     }
 
-    [Test]
-    public void CanExtractWithUnderScoresOutside()
-    {
-        string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region _CodeKey_", out key, out version);
-        Assert.AreEqual("CodeKey", key);
-        Assert.IsNull(version);
-    }
-
-    [Test]
-    public void CanExtractWithUnderScoresOutsideWithVersion()
-    {
-        string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region _CodeKey_ v5", out key, out version);
-        Assert.AreEqual("CodeKey", key);
-        Assert.AreEqual("v5", version);
-    }
 
     [Test]
     public void CanExtractWithDashes()
@@ -125,24 +138,5 @@ public class SnippetExtractor_IsStartRegionTests
         Assert.AreEqual("5", version);
     }
 
-    [Test]
-    public void CanExtractWithDashesOutside()
-    {
-        string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region -CodeKey-", out key, out version);
-        Assert.AreEqual("CodeKey", key);
-        Assert.IsNull(version);
-    }
-
-    [Test]
-    public void CanExtractWithDashesOutsideWithVersion()
-    {
-        string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region -CodeKey- v5", out key, out version);
-        Assert.AreEqual("CodeKey", key);
-        Assert.AreEqual("v5", version);
-    }
 
 }
