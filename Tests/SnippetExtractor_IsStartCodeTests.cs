@@ -11,7 +11,9 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode CodeKey -->", out key, out version);
+
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
@@ -29,7 +31,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode CodeKey 5 -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey 5 -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", version);
     }
@@ -39,7 +42,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode CodeKey [1.0,2.0] -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey [1.0,2.0] -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("[1.0,2.0]", version);
     }
@@ -49,7 +53,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!--startcode CodeKey-->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!--startcode CodeKey-->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey",key);
         Assert.IsNull(version);
     }
@@ -59,7 +64,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!--startcode CodeKey 5-->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!--startcode CodeKey 5-->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", version);
     }
@@ -69,7 +75,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!--  startcode  CodeKey  -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!--  startcode  CodeKey  -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
@@ -79,7 +86,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!--  startcode  CodeKey  v5  -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!--  startcode  CodeKey  v5  -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("v5", version);
     }
@@ -89,7 +97,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode CodeKey", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
@@ -99,7 +108,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode CodeKey 5", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey 5", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", version);
     }
@@ -109,7 +119,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode Code_Key -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode Code_Key -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code_Key", key);
         Assert.IsNull(version);
     }
@@ -119,7 +130,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode Code_Key 5 -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode Code_Key 5 -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code_Key", key);
         Assert.AreEqual("5", version);
     }
@@ -129,7 +141,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode _CodeKey_ -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode _CodeKey_ -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
@@ -139,7 +152,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode _CodeKey_ 5 -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode _CodeKey_ 5 -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", version);
     }
@@ -149,7 +163,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode Code-Key -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode Code-Key -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code-Key", key);
         Assert.IsNull(version);
     }
@@ -159,7 +174,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode Code-Key 5 -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode Code-Key 5 -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code-Key", key);
         Assert.AreEqual("5", version);
     }
@@ -169,7 +185,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode -CodeKey- -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode -CodeKey- -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(version);
     }
@@ -179,7 +196,8 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string key;
         string version;
-        SnippetExtractor.IsStartCode("<!-- startcode -CodeKey- 5 -->", out key, out version);
+        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode -CodeKey- 5 -->", out key, out version);
+        Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", version);
     }
