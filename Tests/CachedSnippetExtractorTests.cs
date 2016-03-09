@@ -24,8 +24,8 @@ public class CachedSnippetExtractorTests
         cachedSnippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
         secondRun.Stop();
         Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
-        Debug.WriteLine(firstRun.ElapsedMilliseconds);
-        Debug.WriteLine(secondRun.ElapsedMilliseconds);
+        Trace.WriteLine(firstRun.ElapsedMilliseconds);
+        Trace.WriteLine(secondRun.ElapsedMilliseconds);
     }
 
     [Test]
