@@ -26,14 +26,15 @@ namespace CaptureSnippets
         /// <param name="versionFromFilePathExtractor">The version convention that is passed to <see cref="SnippetExtractor"/>.</param>
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
-        public CachedSnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor, Func<string, bool> includeDirectory, Func<string, bool> includeFile)
+        public CachedSnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor, Func<string, bool> includeDirectory, Func<string, bool> includeFile, Func<string, string> packageFromFilePathExtractor)
         {
             Guard.AgainstNull(versionFromFilePathExtractor, "versionFromFilePathExtractor");
+            Guard.AgainstNull(packageFromFilePathExtractor, "packageFromFilePathExtractor");
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
             this.includeDirectory = includeDirectory;
             this.includeFile = includeFile;
-            snippetExtractor = new SnippetExtractor(versionFromFilePathExtractor);
+            snippetExtractor = new SnippetExtractor(versionFromFilePathExtractor, packageFromFilePathExtractor);
         }
 
         /// <summary>

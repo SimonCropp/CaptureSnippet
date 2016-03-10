@@ -13,10 +13,18 @@ public class CachedSnippetExtractorTests
     {
         var directory = @"scenarios\".ToCurrentDirectory();
         //warmup 
-        var snippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
+        var snippetExtractor = new CachedSnippetExtractor(
+            versionFromFilePathExtractor: s => VersionRange.All, 
+            includeDirectory: s => true, 
+            includeFile: s => s.EndsWith(".cs"),
+            packageFromFilePathExtractor:s => null);
         snippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
 
-        var cachedSnippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
+        var cachedSnippetExtractor = new CachedSnippetExtractor(
+            versionFromFilePathExtractor: s => VersionRange.All, 
+            includeDirectory: s => true, 
+            includeFile: s => s.EndsWith(".cs"),
+            packageFromFilePathExtractor: s => null);
         var firstRun = Stopwatch.StartNew();
         cachedSnippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
         firstRun.Stop();
@@ -32,7 +40,11 @@ public class CachedSnippetExtractorTests
     public void EnsureErrorsAreReturned()
     {
         var directory = @"badsnippets".ToCurrentDirectory();
-        var cachedSnippetExtractor = new CachedSnippetExtractor(s => VersionRange.All, s => true, s => s.EndsWith(".cs"));
+        var cachedSnippetExtractor = new CachedSnippetExtractor(
+            versionFromFilePathExtractor: s => VersionRange.All, 
+            includeDirectory: s => true, 
+            includeFile: s => s.EndsWith(".cs"),
+            packageFromFilePathExtractor: s => null);
         var readSnippets = cachedSnippetExtractor.FromDirectory(directory).Result;
         Assert.AreEqual(1,readSnippets.GroupingErrors.Count());
     }

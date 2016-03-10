@@ -137,21 +137,23 @@ public class SnippetExtractorTests
         var snippets = FromText(input).Result;
         ObjectApprover.VerifyWithJson(snippets);
     }
+
     [Test]
     public void CanExtractFromWithVersionAndPackage1()
     {
         var input = @"
-  #region startcode CodeKey 5 package1-->
+  #region CodeKey 5 package1
   The code
   #endregion";
         var snippets = FromText(input).Result;
         ObjectApprover.VerifyWithJson(snippets);
     }
+
     [Test]
     public void CanExtractFromWithVersionAndPackage2()
     {
         var input = @"
-  #region startcode CodeKey package1 5 -->
+  #region CodeKey package1 5
   The code
   #endregion";
         var snippets = FromText(input).Result;
