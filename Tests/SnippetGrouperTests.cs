@@ -23,7 +23,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null,
-                language: string.Empty),
+                language: string.Empty,
+                package: "package1"),
             new ReadSnippet(
                 key: "key",
                 version:  VersionRange.All,
@@ -31,7 +32,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null,
-                language: string.Empty),
+                language: string.Empty,
+                package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets);
         var readSnippetError = snippetGroups.Errors.Single();
@@ -50,7 +52,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null,
-                language: string.Empty),
+                language: string.Empty,
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey1",
                 version: new VersionRange(new NuGetVersion (1, 2, 0)),
@@ -58,7 +61,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null,
-                language: string.Empty),
+                language: string.Empty,
+                package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets);
         var readSnippetError = snippetGroups.Errors.Single();
@@ -77,7 +81,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null,
-                language: string.Empty),
+                language: string.Empty,
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey1",
                 version: new VersionRange(new NuGetVersion (1, 4, 0)),
@@ -85,7 +90,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null,
-                language: string.Empty),
+                language: string.Empty,
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
                 version: new VersionRange(new NuGetVersion (1, 3, 0)),
@@ -93,7 +99,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null,
-                language: "cs"),
+                language: "cs",
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
                 language: "cs",
@@ -101,7 +108,8 @@ public class SnippetGrouperTests
                 value: "4",
                 startLine: 1,
                 endLine: 1,
-                file: string.Empty),
+                file: string.Empty,
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
                 language: "cs",
@@ -109,7 +117,8 @@ public class SnippetGrouperTests
                 value: "4",
                 startLine: 1,
                 endLine: 1,
-                file: string.Empty),
+                file: string.Empty,
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
                 language: "cs",
@@ -117,7 +126,8 @@ public class SnippetGrouperTests
                 value: "5",
                 startLine: 1,
                 endLine: 1,
-                file: string.Empty),
+                file: string.Empty,
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
                 language: "cs",
@@ -125,7 +135,8 @@ public class SnippetGrouperTests
                 value: "5",
                 startLine: 1,
                 endLine: 1,
-                file: string.Empty),
+                file: string.Empty,
+                package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
@@ -143,7 +154,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null, 
-                language: string.Empty),
+                language: string.Empty,
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey1",
                 version: VersionRange.Parse("1.4.0"),
@@ -151,7 +163,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null, 
-                language: string.Empty),
+                language: string.Empty,
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey1",
                 version: VersionRange.Parse("1.3.0"),
@@ -159,7 +172,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null, 
-                language: string.Empty),
+                language: string.Empty,
+                package: "package1"),
         };
         var snippetGroups = SnippetGrouper.ProcessKeyGroup(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
@@ -177,7 +191,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 file: null, 
-                language: string.Empty)
+                language: string.Empty,
+                package: "package1")
         };
         var snippetGroups = SnippetGrouper.ProcessKeyGroup(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);

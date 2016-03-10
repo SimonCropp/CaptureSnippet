@@ -12,12 +12,13 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new insatnce of <see cref="ReadSnippetError"/>.
         /// </summary>
-        public ReadSnippetError(VersionRange version, string key, int line, string file, string message)
+        public ReadSnippetError(VersionRange version, string key, int line, string file, string message, string package)
         {
             Guard.AgainstNegativeAndZero(line, "line");
             Guard.AgainstNullAndEmpty(key, "key");
             Guard.AgainstNullAndEmpty(message, "message");
             Version = version;
+            Package = package;
             Key = key;
             Line = line;
             File = file;
@@ -28,6 +29,10 @@ namespace CaptureSnippets
         /// The snippet version if one could be detected before the error was encountered.
         /// </summary>
         public readonly VersionRange Version;
+        /// <summary>
+        /// The snippet package if one could be detected before the error was encountered.
+        /// </summary>
+        public readonly string Package;
         /// <summary>
         /// The key used to identify the snippet
         /// </summary>
@@ -54,6 +59,10 @@ namespace CaptureSnippets
             }
             stringBuilder.AppendFormat(" Line: {0}.", Line);
             stringBuilder.AppendFormat(" Key: '{0}'.", Key);
+            if (Package != null)
+            {
+                stringBuilder.AppendFormat(" Package: '{0}'.", Package);
+            }
             if (Version != null)
             {
                 if (Version.Equals(VersionRange.All))

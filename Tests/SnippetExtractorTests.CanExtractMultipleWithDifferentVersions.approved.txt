@@ -9,7 +9,8 @@
       "Key": "codekey",
       "Language": "",
       "File": null,
-      "Version": "≥ 4.0.0 && < 5.0.0"
+      "Version": "≥ 4.0.0 && < 5.0.0",
+      "Package": null
     },
     {
       "FileLocation": "(6-7)",
@@ -20,7 +21,8 @@
       "Key": "codekey",
       "Language": "",
       "File": null,
-      "Version": "≥ 5.0.0 && < 6.0.0"
+      "Version": "≥ 5.0.0 && < 6.0.0",
+      "Package": null
     }
   ],
   "errors": []

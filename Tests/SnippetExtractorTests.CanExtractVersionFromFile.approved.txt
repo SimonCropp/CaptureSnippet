@@ -9,7 +9,8 @@
       "Key": "codekey",
       "Language": "",
       "File": null,
-      "Version": "≥ 1.1.0"
+      "Version": "≥ 1.1.0",
+      "Package": null
     }
   ],
   "errors": []

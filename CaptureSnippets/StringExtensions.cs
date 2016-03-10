@@ -19,6 +19,11 @@ namespace CaptureSnippets
             }
         }
 
+        public static bool StartsWithLetter(this string value)
+        {
+            return char.IsLetter(value, 0);
+        }
+
         public static string RemoveWhitespace(this string input)
         {
             return new string(input.ToCharArray()

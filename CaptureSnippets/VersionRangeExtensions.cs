@@ -112,7 +112,6 @@ namespace CaptureSnippets
                     {
                         return minVersion.SimplePrint();
                     }
-
                 }
 
 

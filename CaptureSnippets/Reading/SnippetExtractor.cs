@@ -15,8 +15,9 @@ namespace CaptureSnippets
     {
         Func<string, VersionRange> versionFromFilePathExtractor = s =>
         {
-            throw new Exception("Failed to determin a version for a snippet. Please use the 'SnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor)' overload for to apply a fallback convention.");
+            throw new Exception("Failed to determine a version for a snippet. Please use the 'SnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor, Func<string, string> packageFromFilePathExtractor)' overload for to apply a fallback convention.");
         };
+        Func<string, string> packageFromFilePathExtractor = s => null;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
         const string LineEnding = "\r\n";
@@ -24,19 +25,18 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new insatnce of <see cref="SnippetExtractor"/>.
         /// </summary>
-        public SnippetExtractor()
+        /// <param name="versionFromFilePathExtractor">How to extract a <see cref="VersionRange"/> from a given file path.</param>
+        /// <param name="packageFromFilePathExtractor">How to extract a package from a given file path. Return null for unknown.</param>
+        public SnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor = null, Func<string, string> packageFromFilePathExtractor = null)
         {
-
-        }
-
-        /// <summary>
-        /// Initialise a new insatnce of <see cref="SnippetExtractor"/>.
-        /// </summary>
-        /// <param name="versionFromFilePathExtractor">How to extract a <see cref="VersionRange"/> from a given file path. Return null for unknown version.</param>
-        public SnippetExtractor(Func<string, VersionRange> versionFromFilePathExtractor)
-        {
-            Guard.AgainstNull(versionFromFilePathExtractor, "versionFromFilePathExtractor");
-            this.versionFromFilePathExtractor = versionFromFilePathExtractor;
+            if (versionFromFilePathExtractor != null)
+            {
+                this.versionFromFilePathExtractor = versionFromFilePathExtractor;
+            }
+            if (packageFromFilePathExtractor != null)
+            {
+                this.packageFromFilePathExtractor = packageFromFilePathExtractor;
+            }
         }
 
         [Time]
@@ -92,7 +92,8 @@ namespace CaptureSnippets
             var loopState = new LoopState();
             while (true)
             {
-                var line = await stringReader.ReadLine().ConfigureAwait(false);
+                var line = await stringReader.ReadLine()
+                    .ConfigureAwait(false);
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)
@@ -102,7 +103,8 @@ namespace CaptureSnippets
                             file: file,
                             line: loopState.StartLine.Value + 1,
                             key: loopState.CurrentKey,
-                            version: null));
+                            version: null,
+                            package: null));
                     }
                     break;
                 }
@@ -127,24 +129,27 @@ namespace CaptureSnippets
 
         static void IsStart(IndexReader stringReader, string trimmedLine, LoopState loopState)
         {
-            string version;
+            string suffix1;
+            string suffix2;
             string currentKey;
-            if (IsStartCode(trimmedLine, out currentKey, out version))
+            if (IsStartCode(trimmedLine, out currentKey, out suffix1, out suffix2))
             {
                 loopState.EndFunc = IsEndCode;
                 loopState.CurrentKey = currentKey;
                 loopState.IsInSnippet = true;
-                loopState.Version = version;
+                loopState.Suffix1 = suffix1;
+                loopState.Suffix2 = suffix2;
                 loopState.StartLine = stringReader.Index;
                 loopState.SnippetLines = new List<string>();
                 return;
             }
-            if (IsStartRegion(trimmedLine, out currentKey, out version))
+            if (IsStartRegion(trimmedLine, out currentKey, out suffix1, out suffix2))
             {
                 loopState.EndFunc = IsEndRegion;
                 loopState.CurrentKey = currentKey;
                 loopState.IsInSnippet = true;
-                loopState.Version = version;
+                loopState.Suffix1 = suffix1;
+                loopState.Suffix2 = suffix2;
                 loopState.StartLine = stringReader.Index;
                 loopState.SnippetLines = new List<string>();
             }
@@ -155,26 +160,30 @@ namespace CaptureSnippets
             VersionRange parsedVersion;
             var startRow = loopState.StartLine.Value + 1;
 
-            if (!TryParseVersion(file, loopState, out parsedVersion))
+            string package;
+            string error;
+            if (!TryParseVersionAndPackage(file, loopState, out parsedVersion, out package, out error))
             {
                 errors.Add(new ReadSnippetError(
-                    message: "Could not extract version",
+                    message: error,
                     file: file,
                     line: startRow,
                     key: loopState.CurrentKey,
-                    version: null));
+                    version: null,
+                    package: package));
                 return;
             }
             var value = ConvertLinesToValue(loopState.SnippetLines);
             if (value.IndexOfAny(invalidCharacters) > -1)
             {
-                var joinedInvalidChars = "'" + string.Join("', '", invalidCharacters) + "'";
+                var joinedInvalidChars = $@"'{string.Join("', '", invalidCharacters)}'";
                 errors.Add(new ReadSnippetError(
                     message: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by you copying code from MS Word or Outlook. Dont do that.",
                     file: file,
                     line: startRow,
                     key: loopState.CurrentKey,
-                    version: parsedVersion));
+                    version: parsedVersion,
+                    package: package));
             }
 
             var snippet = new ReadSnippet(
@@ -184,23 +193,87 @@ namespace CaptureSnippets
                 version: parsedVersion,
                 value: value,
                 file: file,
+                package: package,
                 language: language.ToLowerInvariant());
             snippets.Add(snippet);
         }
 
-        bool TryParseVersion(string file, LoopState loopState, out VersionRange parsedVersion)
+        bool TryParseVersionAndPackage(string file, LoopState loopState, out VersionRange parsedVersion, out string package, out string error)
         {
-            var stringVersion = loopState.Version;
-            if (stringVersion == null)
+            if (loopState.Suffix1 == null)
             {
-                parsedVersion = versionFromFilePathExtractor(file);
-                if (parsedVersion == null)
+                if (GetVersionFromExtractor(file, out parsedVersion, out error))
                 {
-                    throw new Exception("Null version received from 'versionFromFilePathExtractor'. Did you mean to use 'CaptureSnippets.Version.ExplicitEmpty'.");
+                    package = null;
+                    error = null;
+                    return true;
                 }
-                return true;
+                package = null;
+                return false;
             }
-            return VersionRangeParser.TryParseVersion(stringVersion, out parsedVersion);
+
+            if (loopState.Suffix2 == null)
+            {
+                if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out parsedVersion))
+                {
+                    package = null;
+                    error = null;
+                    return true;
+                }
+                if (loopState.Suffix1.StartsWithLetter())
+                {
+                    if (GetVersionFromExtractor(file, out parsedVersion, out error))
+                    {
+                        package = loopState.Suffix1;
+                        return true;
+                    }
+                    package = null;
+                    return false;
+                }
+                package = null;
+                error = $"Expected '{loopState.Suffix2}' to be either parsable as a version or a package (starts with a letter).";
+                return false;
+            }
+
+            if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out parsedVersion))
+            {
+                if (loopState.Suffix2.StartsWithLetter())
+                {
+                    package = loopState.Suffix2;
+                    error = null;
+                    return true;
+                }
+                error = $"Was able to parse '{loopState.Suffix1}' as a version. But a '{loopState.Suffix2}' is not a package, must starts with a letter.";
+                package = null;
+                return false;
+            }
+            if (VersionRangeParser.TryParseVersion(loopState.Suffix2, out parsedVersion))
+            {
+                if (loopState.Suffix1.StartsWithLetter())
+                {
+                    package = loopState.Suffix1;
+                    error = null;
+                    return true;
+                }
+                error = $"Was able to parse '{loopState.Suffix2}' as a version. But a '{loopState.Suffix1}' is not a package, must starts with a letter.";
+                package = null;
+                return false;
+            }
+            error = $"Was not able to parse either '{loopState.Suffix1}' or '{loopState.Suffix2}' as a version.";
+            package = null;
+            return false;
+        }
+
+        bool GetVersionFromExtractor(string file, out VersionRange versionRange, out string error)
+        {
+            versionRange = versionFromFilePathExtractor(file);
+            if (versionRange == null)
+            {
+                error ="Null version received from 'versionFromFilePathExtractor'.";
+                return false;
+            }
+            error = null;
+            return true;
         }
 
         static string ConvertLinesToValue(List<string> snippetLines)
@@ -221,61 +294,68 @@ namespace CaptureSnippets
             return line.IndexOf("endcode", StringComparison.Ordinal) >= 0;
         }
 
-        internal static bool IsStartRegion(string line, out string key, out string version)
+        internal static bool IsStartRegion(string line, out string key, out string suffix1, out string suffix2)
         {
-            return Extract(line, out key, out version, "#region");
-        }
-
-        internal static bool IsStartCode(string line, out string key, out string version)
-        {
-            return Extract(line, out key, out version, "startcode");
-        }
-
-        static bool Extract(string line, out string key, out string version, string prefix)
-        {
-            var startCodeIndex = line.IndexOf(prefix, StringComparison.Ordinal);
-            if (startCodeIndex == -1)
+            if (!line.StartsWith("#region", StringComparison.Ordinal))
             {
-                version = null;
-                key = null;
+                key = suffix2 = suffix1 = null;
                 return false;
             }
-            var startIndex = startCodeIndex + prefix.Length + 1;
+            var substring = line.Substring(8);
+            return TryExtractParts(out key, out suffix1, out suffix2, substring, line);
+        }
+
+        internal static bool IsStartCode(string line, out string key, out string suffix1, out string suffix2)
+        {
+            var startCodeIndex = line.IndexOf("startcode", StringComparison.Ordinal);
+            if (startCodeIndex == -1)
+            {
+                key = suffix2 = suffix1 = null;
+                return false;
+            }
+            var startIndex = startCodeIndex + 10;
             var substring = line.Substring(startIndex)
                 .TrimBackCommentChars();
+            return TryExtractParts(out key, out suffix1, out suffix2, substring, line);
+        }
+
+        static bool TryExtractParts(out string key, out string suffix1, out string suffix2, string substring, string line)
+        {
             var split = substring.SplitBySpace();
-            if (split.Length ==0)
+            if (split.Length == 0)
             {
-                throw new Exception("No Key could be derived.");
+                throw new Exception($"No Key could be derived. Line: '{line}'.");
             }
+            key = split[0];
+            ValidateKeyDoesNotStartOrEndWithSymbol(key);
             if (split.Length == 1)
             {
-                key = split[0];
-                ValidateDoesNotStartOrEndWIthSymbol(key);
-                version = null;
+                suffix2 = suffix1 = null;
                 return true;
             }
+            suffix1 = split[1];
             if (split.Length == 2)
             {
-                key = split[0];
-                ValidateDoesNotStartOrEndWIthSymbol(key);
-                version = split[1];
+                suffix2 = null;
+                return true;
+            }
+            if (split.Length == 3)
+            {
+                suffix2 = split[2];
                 return true;
             }
 
-            throw new Exception("Too many parts.");
+            throw new Exception($"Too many parts. Line: '{line}'.");
         }
 
-        static void ValidateDoesNotStartOrEndWIthSymbol(string key)
+        static void ValidateKeyDoesNotStartOrEndWithSymbol(string key)
         {
-            if (!char.IsLetterOrDigit(key, 0))
+            if (char.IsLetterOrDigit(key, 0) && char.IsLetterOrDigit(key, key.Length - 1))
             {
-                throw new Exception("Key should not start or end with symbols.");
+                return;
             }
-            if (!char.IsLetterOrDigit(key, key.Length - 1))
-            {
-                throw new Exception("Key should not start or end with symbols.");
-            }
+            throw new Exception("Key should not start or end with symbols.");
         }
+
     }
 }

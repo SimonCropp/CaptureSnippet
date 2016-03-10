@@ -10,17 +10,20 @@ public class SnippetExtractor_IsStartRegionTests
     public void CanExtractFromXml()
     {
         string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region CodeKey", out key, out version);
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region CodeKey", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey", key);
-        Assert.IsNull(version);
+        Assert.IsNull(suffix1);
+        Assert.IsNull(suffix2);
     }
 
     [Test]
     public void ShouldThrowForKeyStartingWithSymbolAndVersion()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region _key 6", out fake, out fake));
+        var exception = Assert.Throws<Exception>(() => 
+        SnippetExtractor.IsStartRegion("#region _key 6", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -28,14 +31,16 @@ public class SnippetExtractor_IsStartRegionTests
     public void ShouldThrowForKeyEndingWithSymbolAndVersion()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region key_ 6", out fake, out fake));
+        var exception = Assert.Throws<Exception>(() => 
+        SnippetExtractor.IsStartRegion("#region key_ 6", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
     [Test]
     public void ShouldThrowForKeyStartingWithSymbol()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region _key", out fake, out fake));
+        var exception = Assert.Throws<Exception>(() =>
+        SnippetExtractor.IsStartRegion("#region _key", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -43,7 +48,8 @@ public class SnippetExtractor_IsStartRegionTests
     public void ShouldThrowForKeyEndingWithSymbol()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region key_ ", out fake, out fake));
+        var exception = Assert.Throws<Exception>(() =>
+        SnippetExtractor.IsStartRegion("#region key_ ", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -52,48 +58,69 @@ public class SnippetExtractor_IsStartRegionTests
     public void ShouldIgnoreForNoKey()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartRegion("#region ", out fake, out fake));
-        Assert.AreEqual("No Key could be derived.", exception.Message);
+        var exception = Assert.Throws<Exception>(() =>
+        SnippetExtractor.IsStartRegion("#region ", out fake, out fake, out fake));
+        Assert.AreEqual("No Key could be derived. Line: '#region '.", exception.Message);
     }
 
     [Test]
     public void CanExtractFromXmlWithVersion()
     {
         string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region CodeKey 5", out key, out version);
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region CodeKey 5", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey",key);
-        Assert.AreEqual("5", version);
+        Assert.AreEqual("5", suffix1);
+        Assert.IsNull(suffix2);
     }
 
     [Test]
     public void CanExtractFromXmlWithExtraSpaces()
     {
         string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region  CodeKey   ", out key, out version);
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region  CodeKey   ", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey", key);
-        Assert.IsNull(version);
+        Assert.IsNull(suffix1);
+        Assert.IsNull(suffix2);
     }
 
     [Test]
-    public void CanExtractFromXmlWithExtraSpacesWithVersion()
+    public void CanExtractFromXmlWithExtraSpacesWithSuffix1()
     {
         string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region  CodeKey  v5    ", out key, out version);
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region  CodeKey  v5    ", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey", key);
-        Assert.AreEqual("v5", version);
+        Assert.AreEqual("v5", suffix1);
+        Assert.IsNull(suffix2);
+    }
+
+    [Test]
+    public void CanExtractFromXmlWithExtraSpacesWithSuffix1AndSuffix2()
+    {
+        string key;
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region  CodeKey  v5  package1  ", out key, out suffix1, out suffix2);
+        Assert.AreEqual("CodeKey", key);
+        Assert.AreEqual("v5", suffix1);
+        Assert.AreEqual("package1", suffix2);
     }
 
     [Test]
     public void CanExtractWithNoTrailingCharacters()
     {
         string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region CodeKey", out key, out version);
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region CodeKey", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey", key);
-        Assert.IsNull(version);
+        Assert.IsNull(suffix1);
+        Assert.IsNull(suffix2);
     }
 
 
@@ -101,20 +128,24 @@ public class SnippetExtractor_IsStartRegionTests
     public void CanExtractWithUnderScores()
     {
         string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region Code_Key", out key, out version);
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region Code_Key", out key, out suffix1, out suffix2);
         Assert.AreEqual("Code_Key", key);
-        Assert.IsNull(version);
+        Assert.IsNull(suffix1);
+        Assert.IsNull(suffix2);
     }
 
     [Test]
     public void CanExtractWithUnderScoresWithVersion()
     {
         string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region Code_Key 5", out key, out version);
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region Code_Key 5", out key, out suffix1, out suffix2);
         Assert.AreEqual("Code_Key", key);
-        Assert.AreEqual("5", version);
+        Assert.AreEqual("5", suffix1);
+        Assert.IsNull(suffix2);
     }
 
 
@@ -122,20 +153,24 @@ public class SnippetExtractor_IsStartRegionTests
     public void CanExtractWithDashes()
     {
         string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region Code-Key", out key, out version);
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region Code-Key", out key, out suffix1, out suffix2);
         Assert.AreEqual("Code-Key", key);
-        Assert.IsNull(version);
+        Assert.IsNull(suffix1);
+        Assert.IsNull(suffix2);
     }
 
     [Test]
     public void CanExtractWithDashesWithVersion()
     {
         string key;
-        string version;
-        SnippetExtractor.IsStartRegion("#region Code-Key 5", out key, out version);
+        string suffix1;
+        string suffix2;
+        SnippetExtractor.IsStartRegion("#region Code-Key 5", out key, out suffix1, out suffix2);
         Assert.AreEqual("Code-Key", key);
-        Assert.AreEqual("5", version);
+        Assert.AreEqual("5", suffix1);
+        Assert.IsNull(suffix2);
     }
 
 

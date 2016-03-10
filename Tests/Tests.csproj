@@ -88,17 +88,8 @@
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="MarkdownProcessor_TryExtractKeyFromLegacyTests.cs" />
-    <None Include="scenarios\07-LegacyFile\code.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Compile Include="VersionRangeExtensionsTests.cs" />
     <None Include="app.config" />
-    <None Include="scenarios\07-LegacyFile\input.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\07-LegacyFile\output.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="scenarios\03-WeirdCharacters\input.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

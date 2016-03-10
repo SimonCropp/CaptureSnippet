@@ -111,7 +111,8 @@ snippet: nonVersionedSnippet2
                 endLine: 1,
                 value: " ",
                 language: "c",
-                file: "unknown"),
+                file: "unknown",
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
                 version: VersionRange.All,
@@ -119,7 +120,8 @@ snippet: nonVersionedSnippet2
                 endLine: 1,
                 value: " ",
                 language: "c",
-                file: "unknown"),
+                file: "unknown",
+                package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         Verify("snippet: MissingKey", snippetGroups);
@@ -136,14 +138,16 @@ snippet: nonVersionedSnippet2
                 endLine: 1,
                 value: " ",
                 language: "c",
-                file: "unknown"),
+                file: "unknown",
+                package: "package1"),
             new ReadSnippet(key: "foundkey2",
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 value: " ",
                 language: "c",
-                file: "unknown"),
+                file: "unknown",
+                package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         Verify("snippet: MissingKey1\r\n\r\nsnippet: MissingKey2", snippetGroups);
@@ -161,7 +165,8 @@ snippet: nonVersionedSnippet2
                 startLine: 1,
                 endLine: 1,
                 language: "c",
-                file: null),
+                file: null,
+                package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
                 value: "Value2",
@@ -169,21 +174,24 @@ snippet: nonVersionedSnippet2
                 startLine: 1,
                 endLine: 1,
                 language: "c",
-                file: null),
+                file: null,
+                package: "package1"),
             new ReadSnippet(key: "foundkey3",
                 value: "Value3",
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
-                file: null),
+                file: null,
+                package: "package1"),
             new ReadSnippet(key: "foundkey4",
                 value: "Value4",
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
                 language: "c",
-                file: null),
+                file: null,
+                package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         var markdownContent = @"

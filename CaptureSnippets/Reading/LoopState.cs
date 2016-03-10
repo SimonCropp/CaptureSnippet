@@ -7,7 +7,6 @@ class LoopState
     {
         SnippetLines = null;
         CurrentKey = null;
-        Version = null;
         EndFunc = null;
         StartLine = null;
         IsInSnippet = false;
@@ -16,7 +15,8 @@ class LoopState
     public List<string> SnippetLines;
     public string CurrentKey;
 
-    public string Version;
+    public string Suffix1;
+    public string Suffix2;
     public Func<string, bool> EndFunc;
     public int? StartLine;
     public bool IsInSnippet;
