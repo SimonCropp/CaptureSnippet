@@ -1,8 +1,10 @@
-﻿using CaptureSnippets;
+﻿using ApprovalTests.Reporters;
+using CaptureSnippets;
 using NuGet.Versioning;
 using NUnit.Framework;
 
 [TestFixture]
+[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class VersionRangeExtensionsTests
 {
 

@@ -4,7 +4,7 @@
     "Package": null,
     "Key": "codekey",
     "Line": 3,
-    "File": null,
+    "Path": "path",
     "Message": "Snippet contains invalid characters ('“', '”', '—', '`'). This was probably caused by you copying code from MS Word or Outlook. Dont do that."
   }
 ]

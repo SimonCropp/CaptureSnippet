@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using CaptureSnippets;
+using ApprovalTests.Reporters;
 using NUnit.Framework;
 using ObjectApproval;
 
-
 [TestFixture]
+[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class StringExtensionTests
 {
     [Test]

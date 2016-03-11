@@ -12,7 +12,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new insatnce of <see cref="ReadSnippetError"/>.
         /// </summary>
-        public ReadSnippetError(VersionRange version, string key, int line, string file, string message, string package)
+        public ReadSnippetError(VersionRange version, string key, int line, string path, string message, string package)
         {
             Guard.AgainstNegativeAndZero(line, "line");
             Guard.AgainstNullAndEmpty(key, "key");
@@ -21,7 +21,7 @@ namespace CaptureSnippets
             Package = package;
             Key = key;
             Line = line;
-            File = file;
+            Path = path;
             Message = message;
         }
 
@@ -44,7 +44,7 @@ namespace CaptureSnippets
         /// <summary>
         /// The file path the error was encountered in.
         /// </summary>
-        public readonly string File;
+        public readonly string Path;
         /// <summary>
         /// A description of the error.
         /// </summary>
@@ -53,9 +53,9 @@ namespace CaptureSnippets
         public override string ToString()
         {
             var stringBuilder = new StringBuilder($"{Message}.");
-            if (File != null)
+            if (Path != null)
             {
-                stringBuilder.AppendFormat(" File: '{0}'.", File);
+                stringBuilder.AppendFormat(" File: '{0}'.", Path);
             }
             stringBuilder.AppendFormat(" Line: {0}.", Line);
             stringBuilder.AppendFormat(" Key: '{0}'.", Key);

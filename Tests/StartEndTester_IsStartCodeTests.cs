@@ -1,9 +1,10 @@
 ﻿using System;
-using CaptureSnippets;
+using ApprovalTests.Reporters;
 using NUnit.Framework;
 
 [TestFixture]
-public class SnippetExtractor_IsStartCodeTests
+[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
+public class StartEndTester_IsStartCodeTests
 {
 
     [Test]
@@ -13,7 +14,7 @@ public class SnippetExtractor_IsStartCodeTests
         string suffix1;
         string suffix2;
 
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey -->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey -->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix1);
@@ -24,7 +25,7 @@ public class SnippetExtractor_IsStartCodeTests
     public void ShouldThrowForNoKey()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartCode("<!-- startcode -->", out fake, out fake, out fake));
+        var exception = Assert.Throws<Exception>(() => StartEndTester.IsStartCode("<!-- startcode -->", out fake, out fake, out fake));
         Assert.AreEqual("No Key could be derived. Line: '<!-- startcode -->'.", exception.Message);
     }
 
@@ -32,7 +33,7 @@ public class SnippetExtractor_IsStartCodeTests
     public void ShouldThrowForNoKeyWithNoSpace()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => SnippetExtractor.IsStartCode("<!--startcode-->", out fake, out fake, out fake));
+        var exception = Assert.Throws<Exception>(() => StartEndTester.IsStartCode("<!--startcode-->", out fake, out fake, out fake));
         Assert.AreEqual("No Key could be derived. Line: '<!--startcode-->'.", exception.Message);
     }
 
@@ -42,7 +43,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey 5 -->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey 5 -->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix1);
@@ -55,7 +56,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey [1.0,2.0] package1 -->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey [1.0,2.0] package1 -->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("[1.0,2.0]", suffix1);
@@ -68,7 +69,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!--startcode CodeKey-->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!--startcode CodeKey-->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix1);
@@ -81,7 +82,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!--startcode CodeKey 5-->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!--startcode CodeKey 5-->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix1);
@@ -94,7 +95,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!--  startcode  CodeKey  -->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!--  startcode  CodeKey  -->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix1);
@@ -107,7 +108,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!--  startcode  CodeKey  v5  -->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!--  startcode  CodeKey  v5  -->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("v5", suffix1);
@@ -120,7 +121,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix1);
@@ -133,7 +134,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode CodeKey 5", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey 5", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix1);
@@ -146,7 +147,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode Code_Key -->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code_Key -->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code_Key", key);
         Assert.IsNull(suffix1);
@@ -159,7 +160,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode Code_Key 5 -->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code_Key 5 -->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code_Key", key);
         Assert.AreEqual("5", suffix1);
@@ -172,7 +173,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode Code-Key -->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code-Key -->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code-Key", key);
         Assert.IsNull(suffix1);
@@ -185,7 +186,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("<!-- startcode Code-Key 5 -->", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code-Key 5 -->", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code-Key", key);
         Assert.AreEqual("5", suffix1);
@@ -197,7 +198,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-            SnippetExtractor.IsStartCode("<!-- startcode _key 6 -->", out fake, out fake, out fake));
+            StartEndTester.IsStartCode("<!-- startcode _key 6 -->", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -206,7 +207,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-            SnippetExtractor.IsStartCode("<!-- startcode key_ 6 -->", out fake, out fake, out fake));
+            StartEndTester.IsStartCode("<!-- startcode key_ 6 -->", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -215,7 +216,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-            SnippetExtractor.IsStartCode("<!-- startcode _key-->", out fake, out fake, out fake));
+            StartEndTester.IsStartCode("<!-- startcode _key-->", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -224,7 +225,7 @@ public class SnippetExtractor_IsStartCodeTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-            SnippetExtractor.IsStartCode("<!-- startcode key_ -->", out fake, out fake, out fake));
+            StartEndTester.IsStartCode("<!-- startcode key_ -->", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -234,7 +235,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("/* startcode CodeKey 5 */", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("/* startcode CodeKey 5 */", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix1);
@@ -247,7 +248,7 @@ public class SnippetExtractor_IsStartCodeTests
         string key;
         string suffix1;
         string suffix2;
-        var isStartCode = SnippetExtractor.IsStartCode("/*startcode CodeKey 5*/", out key, out suffix1, out suffix2);
+        var isStartCode = StartEndTester.IsStartCode("/*startcode CodeKey 5*/", out key, out suffix1, out suffix2);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix1);

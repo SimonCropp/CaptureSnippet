@@ -10,7 +10,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new insatnce of <see cref="ReadSnippet"/>.
         /// </summary>
-        public ReadSnippet(int startLine, int endLine, string value, string key, string language, string file, VersionRange version, string package)
+        public ReadSnippet(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package)
         {
             Guard.AgainstNullAndEmpty(key, "key");
             Guard.AgainstUpperCase(key, "key");
@@ -25,7 +25,7 @@ namespace CaptureSnippets
             ValueHash = value.RemoveWhitespace().GetHashCode();
             Key = key;
             Language = language;
-            File = file;
+            Path = path;
             Version = version;
             Package = package;
         }
@@ -56,9 +56,9 @@ namespace CaptureSnippets
         /// </summary>
         public readonly string Language;
         /// <summary>
-        /// The file path the snippet was read from.
+        /// The path the snippet was read from.
         /// </summary>
-        public readonly string File;
+        public readonly string Path;
         /// <summary>
         /// The <see cref="VersionRange"/> that was inferred for the snippet.
         /// </summary>
@@ -69,6 +69,6 @@ namespace CaptureSnippets
         public readonly string Package;
 
 
-        public string FileLocation => $"{File}({StartLine}-{EndLine})";
+        public string FileLocation => $"{Path}({StartLine}-{EndLine})";
     }
 }

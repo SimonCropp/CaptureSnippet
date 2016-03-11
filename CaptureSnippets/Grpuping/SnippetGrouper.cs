@@ -125,7 +125,7 @@ namespace CaptureSnippets
                         new SnippetSource(
                             startLine: y.StartLine,
                             endLine: y.EndLine,
-                            file: y.File))));
+                            file: y.Path))));
         }
 
     }

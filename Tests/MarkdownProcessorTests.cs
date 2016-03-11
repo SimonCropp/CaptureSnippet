@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
 using NUnit.Framework;
@@ -9,6 +10,7 @@ using ObjectApproval;
 // ReSharper disable StringLiteralTypo
 
 [TestFixture]
+[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class MarkdownProcessorTests
 {
 
@@ -111,7 +113,7 @@ snippet: nonVersionedSnippet2
                 endLine: 1,
                 value: " ",
                 language: "c",
-                file: "unknown",
+                path: "unknown",
                 package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
@@ -120,7 +122,7 @@ snippet: nonVersionedSnippet2
                 endLine: 1,
                 value: " ",
                 language: "c",
-                file: "unknown",
+                path: "unknown",
                 package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
@@ -138,7 +140,7 @@ snippet: nonVersionedSnippet2
                 endLine: 1,
                 value: " ",
                 language: "c",
-                file: "unknown",
+                path: "unknown",
                 package: "package1"),
             new ReadSnippet(key: "foundkey2",
                 version: VersionRange.All,
@@ -146,7 +148,7 @@ snippet: nonVersionedSnippet2
                 endLine: 1,
                 value: " ",
                 language: "c",
-                file: "unknown",
+                path: "unknown",
                 package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
@@ -165,7 +167,7 @@ snippet: nonVersionedSnippet2
                 startLine: 1,
                 endLine: 1,
                 language: "c",
-                file: null,
+                path: null,
                 package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
@@ -174,7 +176,7 @@ snippet: nonVersionedSnippet2
                 startLine: 1,
                 endLine: 1,
                 language: "c",
-                file: null,
+                path: null,
                 package: "package1"),
             new ReadSnippet(key: "foundkey3",
                 value: "Value3",
@@ -182,7 +184,7 @@ snippet: nonVersionedSnippet2
                 startLine: 1,
                 endLine: 1,
                 language: "c",
-                file: null,
+                path: null,
                 package: "package1"),
             new ReadSnippet(key: "foundkey4",
                 value: "Value4",
@@ -190,7 +192,7 @@ snippet: nonVersionedSnippet2
                 startLine: 1,
                 endLine: 1,
                 language: "c",
-                file: null,
+                path: null,
                 package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();

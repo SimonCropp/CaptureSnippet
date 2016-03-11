@@ -1,9 +1,10 @@
 ﻿using System;
-using CaptureSnippets;
+using ApprovalTests.Reporters;
 using NUnit.Framework;
 
 [TestFixture]
-public class SnippetExtractor_IsStartRegionTests
+[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
+public class StartEndTester_IsStartRegionTests
 {
 
     [Test]
@@ -12,7 +13,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region CodeKey", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region CodeKey", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix1);
         Assert.IsNull(suffix2);
@@ -22,8 +23,8 @@ public class SnippetExtractor_IsStartRegionTests
     public void ShouldThrowForKeyStartingWithSymbolAndVersion()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => 
-        SnippetExtractor.IsStartRegion("#region _key 6", out fake, out fake, out fake));
+        var exception = Assert.Throws<Exception>(() =>
+        StartEndTester.IsStartRegion("#region _key 6", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -31,8 +32,8 @@ public class SnippetExtractor_IsStartRegionTests
     public void ShouldThrowForKeyEndingWithSymbolAndVersion()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => 
-        SnippetExtractor.IsStartRegion("#region key_ 6", out fake, out fake, out fake));
+        var exception = Assert.Throws<Exception>(() =>
+        StartEndTester.IsStartRegion("#region key_ 6", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
     [Test]
@@ -40,7 +41,7 @@ public class SnippetExtractor_IsStartRegionTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-        SnippetExtractor.IsStartRegion("#region _key", out fake, out fake, out fake));
+        StartEndTester.IsStartRegion("#region _key", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -49,7 +50,7 @@ public class SnippetExtractor_IsStartRegionTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-        SnippetExtractor.IsStartRegion("#region key_ ", out fake, out fake, out fake));
+        StartEndTester.IsStartRegion("#region key_ ", out fake, out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
     }
 
@@ -59,7 +60,7 @@ public class SnippetExtractor_IsStartRegionTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-        SnippetExtractor.IsStartRegion("#region ", out fake, out fake, out fake));
+        StartEndTester.IsStartRegion("#region ", out fake, out fake, out fake));
         Assert.AreEqual("No Key could be derived. Line: '#region '.", exception.Message);
     }
 
@@ -69,7 +70,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region CodeKey 5", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region CodeKey 5", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey",key);
         Assert.AreEqual("5", suffix1);
         Assert.IsNull(suffix2);
@@ -81,7 +82,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region  CodeKey   ", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region  CodeKey   ", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix1);
         Assert.IsNull(suffix2);
@@ -93,7 +94,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region  CodeKey  v5    ", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region  CodeKey  v5    ", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("v5", suffix1);
         Assert.IsNull(suffix2);
@@ -105,7 +106,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region  CodeKey  v5  package1  ", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region  CodeKey  v5  package1  ", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("v5", suffix1);
         Assert.AreEqual("package1", suffix2);
@@ -117,7 +118,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region CodeKey", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region CodeKey", out key, out suffix1, out suffix2);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix1);
         Assert.IsNull(suffix2);
@@ -130,7 +131,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region Code_Key", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region Code_Key", out key, out suffix1, out suffix2);
         Assert.AreEqual("Code_Key", key);
         Assert.IsNull(suffix1);
         Assert.IsNull(suffix2);
@@ -142,7 +143,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region Code_Key 5", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region Code_Key 5", out key, out suffix1, out suffix2);
         Assert.AreEqual("Code_Key", key);
         Assert.AreEqual("5", suffix1);
         Assert.IsNull(suffix2);
@@ -155,7 +156,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region Code-Key", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region Code-Key", out key, out suffix1, out suffix2);
         Assert.AreEqual("Code-Key", key);
         Assert.IsNull(suffix1);
         Assert.IsNull(suffix2);
@@ -167,7 +168,7 @@ public class SnippetExtractor_IsStartRegionTests
         string key;
         string suffix1;
         string suffix2;
-        SnippetExtractor.IsStartRegion("#region Code-Key 5", out key, out suffix1, out suffix2);
+        StartEndTester.IsStartRegion("#region Code-Key 5", out key, out suffix1, out suffix2);
         Assert.AreEqual("Code-Key", key);
         Assert.AreEqual("5", suffix1);
         Assert.IsNull(suffix2);

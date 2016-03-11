@@ -7,21 +7,17 @@ using NuGet.Versioning;
 
 class Sample
 {
-    void ConstructSnippetExtractorWIthCustomVersionInferer()
-    {
-        var snippetExtractor = new SnippetExtractor(InferVersion);
-    }
-
 
     async Task UseSnippetExtractor()
     {
-        // get files containing snippets
-        var filesToParse = Directory.EnumerateFiles(@"C:\path", "*.*", SearchOption.AllDirectories)
-            .Where(s => s.EndsWith(".vm") || s.EndsWith(".cs"));
 
-        // setup version convention and extract snippets from files
-        var snippetExtractor = new SnippetExtractor(InferVersion);
-        var readSnippets = await snippetExtractor.FromFiles(filesToParse);
+        // setup version convention and extract snippets from fi`les
+        var snippetExtractor = new DirectorySnippetExtractor(
+            versionExtractor: InferVersion,
+            packageExtractor: InferPackage,
+            includeDirectory: IncludeDirectory,
+            includeFile: IncludeFile);
+        var readSnippets = await snippetExtractor.FromDirectory(@"C:\path");
 
         // Grouping
         var snippetGroups = SnippetGrouper.Group(readSnippets)
@@ -46,19 +42,29 @@ class Sample
 
     }
 
-    static VersionRange InferVersion(string path)
+    bool IncludeDirectory(string directorypath)
     {
-        var directories = path.Split(Path.DirectorySeparatorChar)
-            .Reverse();
-        foreach (var directory in directories)
+        throw new System.NotImplementedException();
+    }
+
+    string InferPackage(string path, string parent)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    bool IncludeFile(string filepath)
+    {
+        return filepath.EndsWith(".vm") || filepath.EndsWith(".cs");
+    }
+
+    static VersionRange InferVersion(string path, VersionRange parent)
+    {
+        VersionRange version;
+        if (VersionRange.TryParse(path.Split('_').Last(), out version))
         {
-            VersionRange version;
-            if (VersionRange.TryParse(directory.Split('_').Last(), out version))
-            {
-                return version;
-            }
+            return version;
         }
 
-        return null;
+        return parent;
     }
 }

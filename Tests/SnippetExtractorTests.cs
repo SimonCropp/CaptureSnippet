@@ -1,11 +1,14 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
 using NUnit.Framework;
 using ObjectApproval;
 
 [TestFixture]
+[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class SnippetExtractorTests
 {
     [Test]
@@ -112,9 +115,13 @@ public class SnippetExtractorTests
         using (var stringReader = new StringReader(input))
         {
             var versionRange = new VersionRange(new NuGetVersion(1, 1, 0));
-            var extractor = new SnippetExtractor(s => versionRange);
-            var readSnippets = extractor.FromReader(stringReader).Result;
-            ObjectApprover.VerifyWithJson(readSnippets);
+            var snippets = new List<ReadSnippet>();
+            var errors = new List<ReadSnippetError>();
+            var extractor = new FileSnippetExtractor(errors,snippets, (x, y) => versionRange,(x, y) => null);
+            extractor.AppendFromReader(stringReader,"path",null,null)
+                .GetAwaiter()
+                .GetResult();
+            ObjectApprover.VerifyWithJson(new ReadSnippets(snippets, errors));
         }
     }
 
@@ -122,8 +129,12 @@ public class SnippetExtractorTests
     {
         using (var stringReader = new StringReader(contents))
         {
-            var extractor = new SnippetExtractor(s => VersionRange.All);
-            return await extractor.FromReader(stringReader);
+            var snippets = new List<ReadSnippet>();
+            var errors = new List<ReadSnippetError>();
+            var extractor = new FileSnippetExtractor(errors, snippets, (x, y) => VersionRange.All, (x, y) => null);
+            await extractor.AppendFromReader(stringReader, "path", null, null)
+                .ConfigureAwait(false);
+            return new ReadSnippets(snippets, errors);
         }
     }
 

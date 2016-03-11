@@ -1,7 +1,9 @@
+using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NUnit.Framework;
 
 [TestFixture]
+[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class MarkdownProcessor_TryExtractKeyFromLegacyTests
 {
 

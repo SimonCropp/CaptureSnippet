@@ -1,26 +1,26 @@
 ﻿{
   "snippets": [
     {
-      "FileLocation": "(3-4)",
+      "FileLocation": "path(3-4)",
       "ValueHash": -1342836223,
       "StartLine": 3,
       "EndLine": 4,
       "Value": "<configSections/>",
       "Key": "codekey",
       "Language": "",
-      "File": null,
+      "Path": "path",
       "Version": "≥ 2.0.0 && < 3.0.0",
       "Package": null
     },
     {
-      "FileLocation": "(6-7)",
+      "FileLocation": "path(6-7)",
       "ValueHash": -1342836223,
       "StartLine": 6,
       "EndLine": 7,
       "Value": "<configSections/>",
       "Key": "codekey",
       "Language": "",
-      "File": null,
+      "Path": "path",
       "Version": "≥ 2.0.0",
       "Package": null
     }

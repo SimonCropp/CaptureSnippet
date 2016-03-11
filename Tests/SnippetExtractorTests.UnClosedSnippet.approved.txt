@@ -4,7 +4,7 @@
     "Package": null,
     "Key": "codekey",
     "Line": 3,
-    "File": null,
+    "Path": "path",
     "Message": "Snippet was not closed"
   }
 ]

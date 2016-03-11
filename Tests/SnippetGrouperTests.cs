@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ApprovalTests;
+using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
 using NUnit.Framework;
 using ObjectApproval;
 
 [TestFixture]
+[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class SnippetGrouperTests
 {
-
 
     [Test]
     public void Mixing_null_and_non_null_versions()
@@ -22,7 +23,7 @@ public class SnippetGrouperTests
                 value: "1",
                 startLine: 1,
                 endLine: 1,
-                file: null,
+                path: null,
                 language: string.Empty,
                 package: "package1"),
             new ReadSnippet(
@@ -31,7 +32,7 @@ public class SnippetGrouperTests
                 value: "1",
                 startLine: 1,
                 endLine: 1,
-                file: null,
+                path: null,
                 language: string.Empty,
                 package: "package1"),
         };
@@ -51,7 +52,7 @@ public class SnippetGrouperTests
                 value: "1",
                 startLine: 1,
                 endLine: 1,
-                file: null,
+                path: null,
                 language: string.Empty,
                 package: "package1"),
             new ReadSnippet(
@@ -60,7 +61,7 @@ public class SnippetGrouperTests
                 value: "1",
                 startLine: 1,
                 endLine: 1,
-                file: null,
+                path: null,
                 language: string.Empty,
                 package: "package1"),
         };
@@ -80,7 +81,7 @@ public class SnippetGrouperTests
                 value: "1",
                 startLine: 1,
                 endLine: 1,
-                file: null,
+                path: null,
                 language: string.Empty,
                 package: "package1"),
             new ReadSnippet(
@@ -89,7 +90,7 @@ public class SnippetGrouperTests
                 value: "2",
                 startLine: 1,
                 endLine: 1,
-                file: null,
+                path: null,
                 language: string.Empty,
                 package: "package1"),
             new ReadSnippet(
@@ -98,7 +99,7 @@ public class SnippetGrouperTests
                 value: "3",
                 startLine: 1,
                 endLine: 1,
-                file: null,
+                path: null,
                 language: "cs",
                 package: "package1"),
             new ReadSnippet(
@@ -108,7 +109,7 @@ public class SnippetGrouperTests
                 value: "4",
                 startLine: 1,
                 endLine: 1,
-                file: string.Empty,
+                path: string.Empty,
                 package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
@@ -117,7 +118,7 @@ public class SnippetGrouperTests
                 value: "4",
                 startLine: 1,
                 endLine: 1,
-                file: string.Empty,
+                path: string.Empty,
                 package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
@@ -126,7 +127,7 @@ public class SnippetGrouperTests
                 value: "5",
                 startLine: 1,
                 endLine: 1,
-                file: string.Empty,
+                path: string.Empty,
                 package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
@@ -135,7 +136,7 @@ public class SnippetGrouperTests
                 value: "5",
                 startLine: 1,
                 endLine: 1,
-                file: string.Empty,
+                path: string.Empty,
                 package: "package1"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
@@ -153,7 +154,7 @@ public class SnippetGrouperTests
                 value: "code",
                 startLine: 1,
                 endLine: 1,
-                file: null, 
+                path: null, 
                 language: string.Empty,
                 package: "package1"),
             new ReadSnippet(
@@ -162,7 +163,7 @@ public class SnippetGrouperTests
                 value: "code",
                 startLine: 1,
                 endLine: 1,
-                file: null, 
+                path: null, 
                 language: string.Empty,
                 package: "package1"),
             new ReadSnippet(
@@ -171,7 +172,7 @@ public class SnippetGrouperTests
                 value: "code",
                 startLine: 1,
                 endLine: 1,
-                file: null, 
+                path: null, 
                 language: string.Empty,
                 package: "package1"),
         };
@@ -190,7 +191,7 @@ public class SnippetGrouperTests
                 value: "code",
                 startLine: 1,
                 endLine: 1,
-                file: null, 
+                path: null, 
                 language: string.Empty,
                 package: "package1")
         };

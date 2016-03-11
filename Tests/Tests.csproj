@@ -78,7 +78,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApprovalTestConfig.cs" />
     <Compile Include="CachedSnippetExtractorTests.cs" />
     <Compile Include="Converters\CachedSnippetsConverter.cs" />
     <Compile Include="Converters\ProcessResultConverter.cs" />
@@ -109,8 +108,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="SnippetExtractorTests.cs" />
-    <Compile Include="SnippetExtractor_IsStartRegionTests.cs" />
-    <Compile Include="SnippetExtractor_IsStartCodeTests.cs" />
+    <Compile Include="StartEndTester_IsStartRegionTests.cs" />
+    <Compile Include="StartEndTester_IsStartCodeTests.cs" />
     <Compile Include="SnippetGrouperTests.cs" />
     <Compile Include="Converters\VersionRangeConverter.cs" />
     <Compile Include="StringExtensions.cs" />

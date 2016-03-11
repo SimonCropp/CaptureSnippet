@@ -1,8 +1,10 @@
-﻿using CaptureSnippets;
+﻿using ApprovalTests.Reporters;
+using CaptureSnippets;
 using NUnit.Framework;
 // ReSharper disable StringLiteralTypo
 
 [TestFixture]
+[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class MarkdownProcessor_TryExtractKeyFromTests
 {
     

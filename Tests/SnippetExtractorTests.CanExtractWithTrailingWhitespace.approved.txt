@@ -1,14 +1,14 @@
 ﻿{
   "snippets": [
     {
-      "FileLocation": "(3-4)",
+      "FileLocation": "path(3-4)",
       "ValueHash": -32320816,
       "StartLine": 3,
       "EndLine": 4,
       "Value": "the code",
       "Key": "codekey",
       "Language": "",
-      "File": null,
+      "Path": "path",
       "Version": "all",
       "Package": null
     }
