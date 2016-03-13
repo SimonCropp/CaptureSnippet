@@ -11,23 +11,23 @@ namespace CaptureSnippets
     public class CachedSnippets : IEnumerable<SnippetGroup>
     {
         /// <summary>
-        /// Initialise a new insatnce of <see cref="CachedSnippets"/>.
+        /// Initialise a new instance of <see cref="CachedSnippets"/>.
         /// </summary>
-        public CachedSnippets(IEnumerable<SnippetGroup> snippetGroups, long ticks, IEnumerable<ReadSnippetError> readingErrors, IEnumerable<string> groupingErrors)
+        public CachedSnippets(IReadOnlyList<SnippetGroup> snippetGroups, long ticks, IReadOnlyList<ReadSnippet> readingErrors, IReadOnlyList<string> groupingErrors)
         {
             Guard.AgainstNull(snippetGroups, "snippetGroups");
             Guard.AgainstNull(readingErrors, "readingErrors");
             Guard.AgainstNull(groupingErrors, "groupingErrors");
             Guard.AgainstNegativeAndZero(ticks, "ticks");
-            SnippetGroups = snippetGroups.ToList();
-            ReadingErrors = readingErrors.ToList();
+            SnippetGroups = snippetGroups;
+            ReadingErrors = readingErrors;
             Ticks = ticks;
             GroupingErrors = groupingErrors;
         }
         /// <summary>
         /// The grouped snippets from the passed in directory.
         /// </summary>
-        public readonly IEnumerable<SnippetGroup> SnippetGroups;
+        public readonly IReadOnlyList<SnippetGroup> SnippetGroups;
 
         /// <summary>
         /// The ticks of the last file change in the passed in directory.
@@ -37,12 +37,12 @@ namespace CaptureSnippets
         /// <summary>
         /// Errors that occured as part of the grouping.
         /// </summary>
-        public readonly IEnumerable<string> GroupingErrors;
+        public readonly IReadOnlyList<string> GroupingErrors;
 
         /// <summary>
         /// Any errors found in the parsing of snippets.
         /// </summary>
-        public readonly IEnumerable<ReadSnippetError> ReadingErrors;
+        public readonly IReadOnlyList<ReadSnippet> ReadingErrors;
         
         /// <summary>
         /// Enumerates through the <see cref="SnippetGroups"/> but will first throw an exception if there are any errors in <see cref="ReadingErrors"/>.

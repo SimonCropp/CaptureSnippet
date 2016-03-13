@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace CaptureSnippets
@@ -14,15 +13,15 @@ namespace CaptureSnippets
         /// <summary>
         /// The snippets that were requested but not found.
         /// </summary>
-        public readonly IEnumerable<MissingSnippet> MissingSnippets;
+        public readonly IReadOnlyList<MissingSnippet> MissingSnippets;
 
         /// <summary>
-        /// Initialise a new insatnce of <see cref="MissingSnippetsException"/>.
+        /// Initialise a new instance of <see cref="MissingSnippetsException"/>.
         /// </summary>
-        public MissingSnippetsException(IEnumerable<MissingSnippet> missingSnippets)
+        public MissingSnippetsException(IReadOnlyList<MissingSnippet> missingSnippets)
         {
             Guard.AgainstNull(missingSnippets, "missingSnippets");
-            MissingSnippets = missingSnippets.ToList();
+            MissingSnippets = missingSnippets;
         }
 
         public override string ToString()

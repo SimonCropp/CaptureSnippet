@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace CaptureSnippets
 {
     public class GroupingException : Exception
     {
-        public readonly IEnumerable<string> Errors;
+        public readonly IReadOnlyList<string> Errors;
 
         /// <summary>
-        /// Initialise a new insatnce of <see cref="ReadSnippetsException"/>.
+        /// Initialise a new instance of <see cref="ReadSnippetsException"/>.
         /// </summary>
-        public GroupingException(IEnumerable<string> errors)
+        public GroupingException(IReadOnlyList<string> errors)
         {
             Guard.AgainstNull(errors, "errors");
-            Errors = errors.ToList();
+            Errors = errors;
         }
 
         public override string ToString()

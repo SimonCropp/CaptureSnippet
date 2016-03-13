@@ -16,8 +16,6 @@ class ReadSnippetsConverter : JsonConverter
         writer.WriteStartObject();
         writer.WritePropertyName("snippets");
         serializer.Serialize(writer, readSnippets.Snippets);
-        writer.WritePropertyName("errors");
-        serializer.Serialize(writer, readSnippets.Errors);
         writer.WriteEndObject();
     }
 

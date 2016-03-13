@@ -69,7 +69,6 @@
     <Compile Include="Reading\StartEndTester.cs" />
     <Compile Include="Reading\LoopState.cs" />
     <Compile Include="Reading\PackageExtractor.cs" />
-    <Compile Include="Reading\ReadSnippetError.cs" />
     <Compile Include="Grpuping\SnippetGroups.cs" />
     <Compile Include="Grpuping\GroupingException.cs" />
     <Compile Include="Reading\ReadSnippetsException.cs" />

@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading.Tasks;
 using MethodTimer;
 
@@ -63,7 +64,7 @@ namespace CaptureSnippets
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,
-                readingErrors: readSnippets.Errors,
+                readingErrors: readSnippets.GetSnippetsInError().ToList(),
                 groupingErrors: snippetGroups.Errors,
                 snippetGroups: snippetGroups.Groups);
             return directoryToSnippets[directory] = cachedSnippets;

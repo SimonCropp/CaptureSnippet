@@ -7,8 +7,31 @@ namespace CaptureSnippets
     /// </summary>
     public class ReadSnippet
     {
+
         /// <summary>
-        /// Initialise a new insatnce of <see cref="ReadSnippet"/>.
+        /// Initialise a new instance of <see cref="ReadSnippet"/>.
+        /// </summary>
+        public ReadSnippet(VersionRange version, string key, int lineNumberInError, string path, string error, string package)
+        {
+            Guard.AgainstNegativeAndZero(lineNumberInError, "lineNumberInError");
+            Guard.AgainstNullAndEmpty(key, "key");
+            Guard.AgainstNullAndEmpty(error, "error");
+            Version = version;
+            Package = package;
+            Key = key;
+            StartLine = lineNumberInError;
+            EndLine = lineNumberInError;
+            IsInError = true;
+            Path = path;
+            Error = error;
+        }
+
+        public readonly string Error;
+
+        public readonly bool IsInError;
+
+        /// <summary>
+        /// Initialise a new instance of <see cref="ReadSnippet"/>.
         /// </summary>
         public ReadSnippet(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package)
         {

@@ -11,12 +11,12 @@ namespace CaptureSnippets
     {
 
         /// <summary>
-        /// Converts <see cref="ReadSnippets.Errors"/> to a markdown string.
+        /// Converts <see cref="ReadSnippets.GetSnippetsInError"/> to a markdown string.
         /// </summary>
         public static string ErrorsAsMarkdown(this ReadSnippets readSnippets)
         {
             Guard.AgainstNull(readSnippets, "readSnippets");
-            return ErrorsAsMarkdown(readSnippets.Errors);
+            return ErrorsAsMarkdown(readSnippets.GetSnippetsInError());
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace CaptureSnippets
             return ErrorsAsMarkdown(cachedSnippets.ReadingErrors);
         }
 
-        static string ErrorsAsMarkdown(IEnumerable<ReadSnippetError> errors)
+        static string ErrorsAsMarkdown(IEnumerable<ReadSnippet> errors)
         {
             var readSnippetErrors = errors.ToList();
             if (!readSnippetErrors.Any())

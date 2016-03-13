@@ -70,7 +70,7 @@ namespace CaptureSnippets
             snippetGroup = new SnippetGroup(
                 key: key,
                 language: requiredLanguage,
-                versions: keyGroup);
+                versions: keyGroup.ToList());
             error = null;
             return true;
         }
@@ -118,14 +118,18 @@ namespace CaptureSnippets
                 }
             }
             return versions.Select(x =>
-                new VersionGroup(
+            {
+                var snippetSources = x.Snippets.Select(y =>
+                    new SnippetSource(
+                        startLine: y.StartLine,
+                        endLine: y.EndLine,
+                        file: y.Path))
+                        .ToList();
+                return new VersionGroup(
                     version: x.Range,
                     value: x.Value,
-                    sources: x.Snippets.Select(y =>
-                        new SnippetSource(
-                            startLine: y.StartLine,
-                            endLine: y.EndLine,
-                            file: y.Path))));
+                    sources: snippetSources);
+            });
         }
 
     }

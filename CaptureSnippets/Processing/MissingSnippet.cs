@@ -8,7 +8,7 @@ namespace CaptureSnippets
     public class MissingSnippet
     {
         /// <summary>
-        /// Initialise a new insatnce of <see cref="MissingSnippet"/>.
+        /// Initialise a new instance of <see cref="MissingSnippet"/>.
         /// </summary>
         public MissingSnippet(string key, int line)
         {

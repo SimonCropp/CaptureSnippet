@@ -1,10 +1,16 @@
 ﻿[
   {
-    "Version": null,
-    "Package": null,
+    "FileLocation": "path(3-3)",
+    "Error": "Snippet was not closed",
+    "IsInError": true,
+    "ValueHash": 0,
+    "StartLine": 3,
+    "EndLine": 3,
+    "Value": null,
     "Key": "codekey",
-    "Line": 3,
+    "Language": null,
     "Path": "path",
-    "Message": "Snippet was not closed"
+    "Version": null,
+    "Package": null
   }
 ]

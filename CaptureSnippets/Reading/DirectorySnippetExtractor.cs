@@ -37,14 +37,13 @@ namespace CaptureSnippets
         public async Task<ReadSnippets> FromDirectory(string directoryPath)
         {
             Guard.AgainstNull(directoryPath, "directoryPath");
-            var snippetErrors = new List<ReadSnippetError>();
             var readSnippets = new List<ReadSnippet>();
-            var snippetExtractor = new FileSnippetExtractor(snippetErrors, readSnippets, versionExtractor, packageExtractor);
+            var snippetExtractor = new FileSnippetExtractor(readSnippets, versionExtractor, packageExtractor);
             await FromDirectory(directoryPath, snippetExtractor, null, null);
-            return new ReadSnippets(readSnippets, snippetErrors);
+            return new ReadSnippets(readSnippets);
         }
 
-        async Task FromDirectory(string directoryPath, FileSnippetExtractor fileSnippetExtractor, string parentPackage, VersionRange parentVersion)
+        async Task FromDirectory(string directoryPath, FileSnippetExtractor fileExtractor, string parentPackage, VersionRange parentVersion)
         {
             var package = packageExtractor(directoryPath, parentPackage);
             var version = versionExtractor(directoryPath, parentVersion);
@@ -52,23 +51,23 @@ namespace CaptureSnippets
             {
                 if (includeDirectory(subDirectory))
                 {
-                    await FromDirectory(subDirectory, fileSnippetExtractor, package, version);
+                    await FromDirectory(subDirectory, fileExtractor, package, version);
                 }
             }
             foreach (var file in Directory.EnumerateFiles(directoryPath))
             {
                 if (includeFile(file))
                 {
-                    await FromFile(file, fileSnippetExtractor, package, version);
+                    await FromFile(file, fileExtractor, package, version);
                 }
             }
         }
 
-        async Task FromFile(string file, FileSnippetExtractor fileSnippetExtractor, string parentPackage, VersionRange parentVersion)
+        async Task FromFile(string file, FileSnippetExtractor fileExtractor, string parentPackage, VersionRange parentVersion)
         {
             using (var textReader = File.OpenText(file))
             {
-                await fileSnippetExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage)
+                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage)
                     .ConfigureAwait(false);
             }
         }

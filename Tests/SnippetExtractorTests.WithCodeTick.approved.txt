@@ -1,10 +1,16 @@
 ﻿[
   {
-    "Version": "all",
-    "Package": null,
+    "FileLocation": "path(3-3)",
+    "Error": "Snippet contains invalid characters ('“', '”', '—', '`'). This was probably caused by you copying code from MS Word or Outlook. Dont do that.",
+    "IsInError": true,
+    "ValueHash": 0,
+    "StartLine": 3,
+    "EndLine": 3,
+    "Value": null,
     "Key": "key",
-    "Line": 3,
+    "Language": null,
     "Path": "path",
-    "Message": "Snippet contains invalid characters ('“', '”', '—', '`'). This was probably caused by you copying code from MS Word or Outlook. Dont do that."
+    "Version": "all",
+    "Package": null
   }
 ]

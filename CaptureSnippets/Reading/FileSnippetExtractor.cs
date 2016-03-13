@@ -11,7 +11,6 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        List<ReadSnippetError> errors;
         List<ReadSnippet> snippets;
 
         VersionExtractor versionExtractor;
@@ -26,14 +25,11 @@ namespace CaptureSnippets
         /// <param name="snippets">The snippets to append to.</param>
         /// <param name="versionExtractor">How to extract a <see cref="VersionRange"/> from a given path.</param>
         /// <param name="packageExtractor">How to extract a package from a given path. Return null for unknown.</param>
-        /// <param name="errors">The errors to append to.</param>
-        public FileSnippetExtractor(List<ReadSnippetError> errors, List<ReadSnippet> snippets, VersionExtractor versionExtractor, PackageExtractor packageExtractor)
+        public FileSnippetExtractor(List<ReadSnippet> snippets, VersionExtractor versionExtractor, PackageExtractor packageExtractor)
         {
-            Guard.AgainstNull(errors, "errors");
             Guard.AgainstNull(snippets, "snippets");
             Guard.AgainstNull(versionExtractor, "versionExtractor");
             Guard.AgainstNull(snippets, "snippets");
-            this.errors = errors;
             this.snippets = snippets;
             this.versionExtractor = (path, parent) =>
             {
@@ -95,10 +91,10 @@ namespace CaptureSnippets
                 {
                     if (loopState.IsInSnippet)
                     {
-                        errors.Add(new ReadSnippetError(
-                            message: "Snippet was not closed",
+                        snippets.Add(new ReadSnippet(
+                            error: "Snippet was not closed",
                             path: path,
-                            line: loopState.StartLine.Value + 1,
+                            lineNumberInError: loopState.StartLine.Value + 1,
                             key: loopState.CurrentKey,
                             version: null,
                             package: null));
@@ -115,7 +111,9 @@ namespace CaptureSnippets
                         continue;
                     }
 
-                    TryAddSnippet(stringReader, path, loopState, language, parentVersion, parentPackage);
+                    var snippet = BuildSnippet(stringReader, path, loopState, language, parentVersion, parentPackage);
+
+                    snippets.Add(snippet);
                     loopState.Reset();
                     continue;
                 }
@@ -124,7 +122,7 @@ namespace CaptureSnippets
         }
 
 
-        void TryAddSnippet(IndexReader stringReader, string path, LoopState loopState, string language, VersionRange parentVersion, string parentPackage)
+        ReadSnippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language, VersionRange parentVersion, string parentPackage)
         {
             VersionRange parsedVersion;
             var startRow = loopState.StartLine.Value + 1;
@@ -133,29 +131,28 @@ namespace CaptureSnippets
             string error;
             if (!TryParseVersionAndPackage(path, loopState, parentVersion,parentPackage, out parsedVersion, out package, out error))
             {
-                errors.Add(new ReadSnippetError(
-                    message: error,
+                return new ReadSnippet(
+                    error: error,
                     path: path,
-                    line: startRow,
+                    lineNumberInError: startRow,
                     key: loopState.CurrentKey,
                     version: null,
-                    package: package));
-                return;
+                    package: package);
             }
             var value = ConvertLinesToValue(loopState.SnippetLines);
             if (value.IndexOfAny(invalidCharacters) > -1)
             {
                 var joinedInvalidChars = $@"'{string.Join("', '", invalidCharacters)}'";
-                errors.Add(new ReadSnippetError(
-                    message: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by you copying code from MS Word or Outlook. Dont do that.",
+                return new ReadSnippet(
+                    error: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by you copying code from MS Word or Outlook. Dont do that.",
                     path: path,
-                    line: startRow,
+                    lineNumberInError: startRow,
                     key: loopState.CurrentKey,
                     version: parsedVersion,
-                    package: package));
+                    package: package);
             }
 
-            var snippet = new ReadSnippet(
+            return new ReadSnippet(
                 startLine: startRow,
                 endLine: stringReader.Index,
                 key: loopState.CurrentKey.ToLowerInvariant(),
@@ -164,7 +161,6 @@ namespace CaptureSnippets
                 path: path,
                 package: package,
                 language: language.ToLowerInvariant());
-            snippets.Add(snippet);
         }
 
         bool TryParseVersionAndPackage(string path, LoopState loopState, VersionRange parentVersion, string parentPackage, out VersionRange parsedVersion, out string package, out string error)

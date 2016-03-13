@@ -2,6 +2,8 @@
   "snippets": [
     {
       "FileLocation": "path(3-4)",
+      "Error": null,
+      "IsInError": false,
       "ValueHash": -32320816,
       "StartLine": 3,
       "EndLine": 4,
@@ -12,6 +14,5 @@
       "Version": "≥ 4.0.0 && < 5.0.0",
       "Package": null
     }
-  ],
-  "errors": []
+  ]
 }

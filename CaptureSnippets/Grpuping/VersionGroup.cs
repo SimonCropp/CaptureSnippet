@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -11,15 +10,15 @@ namespace CaptureSnippets
     public class VersionGroup : IEnumerable<SnippetSource>
     {
         /// <summary>
-        /// Initialise a new insatnce of <see cref="VersionGroup"/>.
+        /// Initialise a new instance of <see cref="VersionGroup"/>.
         /// </summary>
-        public VersionGroup(VersionRange version, string value, IEnumerable<SnippetSource> sources)
+        public VersionGroup(VersionRange version, string value, IReadOnlyList<SnippetSource> sources)
         {
             Guard.AgainstNull(version,"version");
             Guard.AgainstNull(sources, "sources");
             Value = value;
             Version = version;
-            Sources = sources.ToList();
+            Sources = sources;
         }
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace CaptureSnippets
         /// <summary>
         /// All the snippets with a common <see cref="VersionRange"/>.
         /// </summary>
-        public readonly IEnumerable<SnippetSource> Sources;
+        public readonly IReadOnlyList<SnippetSource> Sources;
 
         /// <summary>
         /// Enumerates over <see cref="Sources"/>.

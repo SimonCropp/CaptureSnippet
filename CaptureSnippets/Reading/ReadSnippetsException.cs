@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace CaptureSnippets
 {
     public class ReadSnippetsException : Exception
     {
-        public readonly IEnumerable<ReadSnippetError> ReadSnippetErrors;
+        public readonly IReadOnlyList<ReadSnippet> ReadSnippetErrors;
 
         /// <summary>
-        /// Initialise a new insatnce of <see cref="ReadSnippetsException"/>.
+        /// Initialise a new instance of <see cref="ReadSnippetsException"/>.
         /// </summary>
-        public ReadSnippetsException(IEnumerable<ReadSnippetError> readSnippetErrors)
+        public ReadSnippetsException(IReadOnlyList<ReadSnippet> readSnippetErrors)
         {
             Guard.AgainstNull(readSnippetErrors, "readSnippetErrors");
-            ReadSnippetErrors = readSnippetErrors.ToList();
+            ReadSnippetErrors = readSnippetErrors;
         }
 
         public override string ToString()

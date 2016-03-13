@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CaptureSnippets
 {
@@ -10,16 +9,16 @@ namespace CaptureSnippets
     public class SnippetGroup : IEnumerable<VersionGroup>
     {
         /// <summary>
-        /// Initialise a new insatnce of <see cref="SnippetGroup"/>.
+        /// Initialise a new instance of <see cref="SnippetGroup"/>.
         /// </summary>
-        public SnippetGroup(string key, string language, IEnumerable<VersionGroup> versions)
+        public SnippetGroup(string key, string language, IReadOnlyList<VersionGroup> versions)
         {
             Guard.AgainstNull(key, "key");
             Guard.AgainstNull(versions, "versions");
             Guard.AgainstNull(language, "language");
             Guard.AgainstUpperCase(language, "language");
             Key = key;
-            Versions = versions.ToList();
+            Versions = versions;
             Language = language;
         }
 
@@ -35,7 +34,7 @@ namespace CaptureSnippets
         /// <summary>
         /// All the <see cref="VersionGroup"/>s with a common key.
         /// </summary>
-        public readonly IEnumerable<VersionGroup> Versions;
+        public readonly IReadOnlyList<VersionGroup> Versions;
 
         /// <summary>
         /// Enumerates over <see cref="Versions"/>.

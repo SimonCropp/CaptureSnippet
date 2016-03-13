@@ -10,22 +10,22 @@ namespace CaptureSnippets
     public class ProcessResult : IEnumerable<SnippetGroup>
     {
 
-        public ProcessResult(IEnumerable<SnippetGroup> usedSnippets, IEnumerable<MissingSnippet> missingSnippets)
+        public ProcessResult(IReadOnlyList<SnippetGroup> usedSnippets, IReadOnlyList<MissingSnippet> missingSnippets)
         {
             Guard.AgainstNull(usedSnippets, "usedSnippets");
             Guard.AgainstNull(missingSnippets, "missingSnippets");
-            UsedSnippets = usedSnippets.ToList();
-            MissingSnippets = missingSnippets.ToList();
+            UsedSnippets = usedSnippets;
+            MissingSnippets = missingSnippets;
         }
 
         /// <summary>
         ///   List of all snippets that the markdown file used. 
         /// </summary>
-        public readonly IEnumerable<SnippetGroup> UsedSnippets;
+        public readonly IReadOnlyList<SnippetGroup> UsedSnippets;
         /// <summary>
         ///   List of all snippets that the markdown file expected but did not exist in the input snippets.
         /// </summary>
-        public readonly IEnumerable<MissingSnippet> MissingSnippets;
+        public readonly IReadOnlyList<MissingSnippet> MissingSnippets;
 
 
         /// <summary>

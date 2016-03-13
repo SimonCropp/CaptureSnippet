@@ -7,7 +7,7 @@ namespace CaptureSnippets
     public class SnippetSource
     {
         /// <summary>
-        /// Initialise a new insatnce of <see cref="SnippetSource"/>.
+        /// Initialise a new instance of <see cref="SnippetSource"/>.
         /// </summary>
         public SnippetSource(int startLine, int endLine, string file)
         {
