@@ -84,7 +84,8 @@
     <Compile Include="Converters\ReadSnippetsConverter.cs" />
     <Compile Include="Converters\SnippetGroupConverter.cs" />
     <Compile Include="Converters\VersionGroupConverter.cs" />
-    <Compile Include="MarkdownProcessorTests.cs" />
+    <Compile Include="SimpleMarkdownProcessorTests.cs" />
+    <Compile Include="GroupedMarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="VersionRangeExtensionsTests.cs" />
     <None Include="app.config" />

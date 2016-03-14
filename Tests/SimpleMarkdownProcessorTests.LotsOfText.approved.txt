@@ -1,0 +1,88 @@
+﻿[
+  [],
+  [
+    {
+      "FileLocation": "(1-1)",
+      "Error": null,
+      "IsInError": false,
+      "ValueHash": -94803831,
+      "StartLine": 1,
+      "EndLine": 1,
+      "Value": "Value2",
+      "Key": "foundkey2",
+      "Language": "c",
+      "Path": null,
+      "Version": "all",
+      "Package": "package1"
+    },
+    {
+      "FileLocation": "(1-1)",
+      "Error": null,
+      "IsInError": false,
+      "ValueHash": -498088358,
+      "StartLine": 1,
+      "EndLine": 1,
+      "Value": "Value1",
+      "Key": "foundkey1",
+      "Language": "c",
+      "Path": null,
+      "Version": "all",
+      "Package": "package1"
+    },
+    {
+      "FileLocation": "(1-1)",
+      "Error": null,
+      "IsInError": false,
+      "ValueHash": -1660887772,
+      "StartLine": 1,
+      "EndLine": 1,
+      "Value": "Value3",
+      "Key": "foundkey3",
+      "Language": "c",
+      "Path": null,
+      "Version": "all",
+      "Package": "package1"
+    }
+  ],
+  "
+<!-- snippet: FoundKey2 -->
+```c
+Value2
+```
+<!-- snippet: FoundKey1 -->
+```c
+Value1
+```
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+<!-- snippet: FoundKey3 -->
+```c
+Value3
+```
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+kdjrngkjfncgdflkgmxdklfmgkdflxmg
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmgfkgjnfdjkgn
+dflkgmxdklfmgkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+dflkgmxdklfmdfgkjndfkjgngkdflxmg
+"
+]

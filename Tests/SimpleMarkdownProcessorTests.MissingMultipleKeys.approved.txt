@@ -1,0 +1,19 @@
+﻿[
+  [
+    {
+      "Key": "MissingKey1",
+      "Line": 1
+    },
+    {
+      "Key": "MissingKey2",
+      "Line": 3
+    }
+  ],
+  [],
+  "<!-- snippet: MissingKey1 -->
+** Could not find key 'MissingKey1' **
+
+<!-- snippet: MissingKey2 -->
+** Could not find key 'MissingKey2' **
+"
+]

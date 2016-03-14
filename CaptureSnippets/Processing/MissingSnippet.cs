@@ -3,7 +3,7 @@ using System.Text;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// Part of <see cref="ProcessResult"/>.
+    /// Part of <see cref="GroupedProcessResult"/>.
     /// </summary>
     public class MissingSnippet
     {

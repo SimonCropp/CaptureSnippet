@@ -12,14 +12,14 @@ namespace CaptureSnippets
     /// <summary>
     /// Merges <see cref="SnippetGroup"/>s with an input file/text.
     /// </summary>
-    public class MarkdownProcessor
+    public class GroupedMarkdownProcessor
     {
     
 
         /// <summary>
         /// Apply <paramref name="snippets"/> to <paramref name="textReader"/>.
         /// </summary>
-        public async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
+        public async Task<GroupedProcessResult> Apply(IEnumerable<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
         {
             Guard.AgainstNull(snippets, "snippets");
             Guard.AgainstNull(textReader, "textReader");
@@ -31,7 +31,7 @@ namespace CaptureSnippets
             }
         }
 
-        async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
+        async Task<GroupedProcessResult> Apply(IEnumerable<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
         {
             var snippets = availableSnippets.ToList();
             var missingSnippets = new List<MissingSnippet>();
@@ -68,7 +68,7 @@ namespace CaptureSnippets
                 }
                 usedSnippets.Add(snippetGroup);
             }
-            return new ProcessResult(missingSnippets: missingSnippets, usedSnippets: usedSnippets);
+            return new GroupedProcessResult(missingSnippets: missingSnippets, usedSnippets: usedSnippets);
         }
 
         /// <summary>

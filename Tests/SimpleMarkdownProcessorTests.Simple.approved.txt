@@ -1,0 +1,49 @@
+﻿[
+  [],
+  [
+    {
+      "FileLocation": "unknown(1-1)",
+      "Error": null,
+      "IsInError": false,
+      "ValueHash": -838004501,
+      "StartLine": 1,
+      "EndLine": 1,
+      "Value": "snippet1Value",
+      "Key": "snippet1",
+      "Language": "c",
+      "Path": "unknown",
+      "Version": "all",
+      "Package": "package1"
+    },
+    {
+      "FileLocation": "unknown(1-1)",
+      "Error": null,
+      "IsInError": false,
+      "ValueHash": 477187196,
+      "StartLine": 1,
+      "EndLine": 1,
+      "Value": "snippet2Value",
+      "Key": "snippet2",
+      "Language": "c",
+      "Path": "unknown",
+      "Version": "all",
+      "Package": "package1"
+    }
+  ],
+  "
+<!-- snippet: snippet1 -->
+```c
+snippet1Value
+```
+
+some text
+
+<!-- snippet: snippet2 -->
+```c
+snippet2Value
+```
+
+some other text
+
+"
+]
