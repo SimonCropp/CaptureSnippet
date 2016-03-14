@@ -1,8 +1,8 @@
 ﻿{
   "snippets": [
     {
-      "FileLocation": "path(3-3)",
-      "Error": "Snippet contains invalid characters ('“', '”', '—', '`'). This was probably caused by you copying code from MS Word or Outlook. Dont do that.",
+      "FileLocation": "path.cs(3-3)",
+      "Error": "Snippet contains invalid characters ('“', '”', '—', '`'). This was probably caused by copying code from MS Word or Outlook. Dont do that.",
       "IsInError": true,
       "ValueHash": 0,
       "StartLine": 3,
@@ -10,7 +10,7 @@
       "Value": null,
       "Key": "key",
       "Language": null,
-      "Path": "path",
+      "Path": "path.cs",
       "Version": "all",
       "Package": null
     }

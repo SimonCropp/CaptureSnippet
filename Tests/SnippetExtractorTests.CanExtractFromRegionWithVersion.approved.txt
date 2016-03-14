@@ -1,7 +1,7 @@
 ﻿{
   "snippets": [
     {
-      "FileLocation": "path(3-4)",
+      "FileLocation": "path.cs(3-4)",
       "Error": null,
       "IsInError": false,
       "ValueHash": -1253859824,
@@ -9,8 +9,8 @@
       "EndLine": 4,
       "Value": "The Code",
       "Key": "codekey",
-      "Language": "",
-      "Path": "path",
+      "Language": "cs",
+      "Path": "path.cs",
       "Version": "≥ 5.0.0 && < 6.0.0",
       "Package": null
     }

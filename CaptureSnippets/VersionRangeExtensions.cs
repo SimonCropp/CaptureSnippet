@@ -216,8 +216,9 @@ namespace CaptureSnippets
                     includeMaxVersion: maxInclusive);
                 return true;
             }
-
+            
             if ((range1.IsMaxInclusive || range2.IsMinInclusive) &&
+                range1.HasUpperBound &&
                 range1.MaxVersion.Equals(range2.MinVersion))
             {
                 newVersion = new VersionRange(
@@ -228,6 +229,7 @@ namespace CaptureSnippets
                 return true;
             }
             if ((range1.IsMinInclusive || range2.IsMaxInclusive) &&
+                range1.HasLowerBound &&
                 range1.MinVersion.Equals(range2.MaxVersion))
             {
                 newVersion = new VersionRange(

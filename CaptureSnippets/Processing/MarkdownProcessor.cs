@@ -43,7 +43,8 @@ namespace CaptureSnippets
             Guard.AgainstNull(writer, "writer");
             using (var reader = new IndexReader(textReader))
             {
-                return await Apply(snippets, writer, reader).ConfigureAwait(false);
+                return await Apply(snippets, writer, reader)
+                    .ConfigureAwait(false);
             }
         }
 
@@ -58,10 +59,12 @@ namespace CaptureSnippets
                 string key;
                 if (!keyReader(line, out key))
                 {
-                    await writer.WriteLineAsync(line).ConfigureAwait(false);
+                    await writer.WriteLineAsync(line)
+                        .ConfigureAwait(false);
                     continue;
                 }
-                await writer.WriteLineAsync($"<!-- snippet: {key} -->").ConfigureAwait(false);
+                await writer.WriteLineAsync($"<!-- snippet: {key} -->")
+                    .ConfigureAwait(false);
 
                 var snippetGroup = snippets.FirstOrDefault(x => x.Key == key);
                 if (snippetGroup == null)
@@ -69,11 +72,13 @@ namespace CaptureSnippets
                     var missingSnippet = new MissingSnippet(key: key, line: reader.Index);
                     missingSnippets.Add(missingSnippet);
                     var message = $"** Could not find key '{key}' **";
-                    await writer.WriteLineAsync(message).ConfigureAwait(false);
+                    await writer.WriteLineAsync(message)
+                        .ConfigureAwait(false);
                     continue;
                 }
 
-                await AppendGroup(snippetGroup, writer).ConfigureAwait(false);
+                await AppendGroup(snippetGroup, writer)
+                    .ConfigureAwait(false);
                 if (usedSnippets.Any(x => x.Key == snippetGroup.Key))
                 {
                     throw new Exception($"Duplicate use of the same snippet key '{snippetGroup.Key}'.");
@@ -86,14 +91,11 @@ namespace CaptureSnippets
         /// <summary>
         /// Method that can be override to control how an individual <see cref="SnippetGroup"/> is rendered.
         /// </summary>
-        public async Task AppendGroup(SnippetGroup snippetGroup, TextWriter writer)
+        public Task AppendGroup(SnippetGroup snippetGroup, TextWriter writer)
         {
             Guard.AgainstNull(snippetGroup, "snippetGroup");
             Guard.AgainstNull(writer, "writer");
-            foreach (var versionGroup in snippetGroup)
-            {
-                await AppendVersionGroup(writer, versionGroup,snippetGroup.Language).ConfigureAwait(false);
-            }
+            return Task.WhenAll(snippetGroup.Select(group => AppendVersionGroup(writer, group, snippetGroup.Language)));
         }
 
         public async Task AppendVersionGroup(TextWriter writer, VersionGroup versionGroup, string language)
@@ -105,12 +107,14 @@ namespace CaptureSnippets
             if (!versionGroup.Version.Equals(VersionRange.All))
             {
                 var message = $"#### Version '{versionGroup.Version.ToFriendlyString()}'";
-                await writer.WriteLineAsync(message).ConfigureAwait(false);
+                await writer.WriteLineAsync(message)
+                    .ConfigureAwait(false);
             }
             var format = $@"```{language}
 {versionGroup.Value}
 ```";
-            await writer.WriteLineAsync(format).ConfigureAwait(false);
+            await writer.WriteLineAsync(format)
+                .ConfigureAwait(false);
         }
 
     }

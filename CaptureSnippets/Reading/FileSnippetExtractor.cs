@@ -11,10 +11,8 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        List<ReadSnippet> snippets;
-
-        VersionExtractor versionExtractor;
-        PackageExtractor packageExtractor;
+        ExtractVersion extractVersion;
+        ExtractPackage extractPackage;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
         const string LineEnding = "\r\n";
@@ -22,27 +20,25 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
         /// </summary>
-        /// <param name="snippets">The snippets to append to.</param>
-        /// <param name="versionExtractor">How to extract a <see cref="VersionRange"/> from a given path.</param>
-        /// <param name="packageExtractor">How to extract a package from a given path. Return null for unknown.</param>
-        public FileSnippetExtractor(List<ReadSnippet> snippets, VersionExtractor versionExtractor, PackageExtractor packageExtractor)
+        /// <param name="extractVersion">How to extract a <see cref="VersionRange"/> from a given path.</param>
+        /// <param name="extractPackage">How to extract a package from a given path. Return null for unknown.</param>
+        public FileSnippetExtractor(ExtractVersion extractVersion, ExtractPackage extractPackage)
         {
-            Guard.AgainstNull(snippets, "snippets");
-            Guard.AgainstNull(versionExtractor, "versionExtractor");
-            Guard.AgainstNull(snippets, "snippets");
-            this.snippets = snippets;
-            this.versionExtractor = (path, parent) =>
+            Guard.AgainstNull(extractVersion, "versionExtractor");
+            Guard.AgainstNull(extractPackage, "packageExtractor");
+            this.extractVersion = (path, parent) =>
             {
-                var version = versionExtractor(path, parent);
+                path = path.Substring(0, path.LastIndexOf('.'));
+                var version = extractVersion(path, parent);
                 if (version == null)
                 {
                     throw new Exception($"VersionExtractor supplied null version for '{path}'.");
                 }
                 return version;
             };
-            this.packageExtractor = (path, parent) =>
+            this.extractPackage = (path, parent) =>
             {
-                var package = packageExtractor(path, parent);
+                var package = extractPackage(path, parent);
                 if (package.IsEmptyOrWhiteSpace())
                 {
                     throw new Exception($"PackageExtractor returned empty string for '{path}'.");
@@ -58,12 +54,12 @@ namespace CaptureSnippets
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
         /// <param name="parentVersion">The inherited <see cref="VersionRange"/>.</param>
         /// <param name="parentPackage">The inherited package name.</param>
-        public async Task AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, string parentPackage)
+        public async Task AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, string parentPackage, Action<ReadSnippet> callback)
         {
             Guard.AgainstNull(textReader, "textReader");
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippets(reader, path, parentVersion, parentPackage)
+                await GetSnippets(reader, path, parentVersion, parentPackage, callback)
                     .ConfigureAwait(false);
             }
         }
@@ -71,15 +67,11 @@ namespace CaptureSnippets
         static string GetLanguageFromPath(string path)
         {
             var extension = Path.GetExtension(path);
-            if (extension != null)
-            {
-                return extension.TrimStart('.');
-            }
-            return string.Empty;
+            return extension?.TrimStart('.') ?? string.Empty;
         }
 
 
-        async Task GetSnippets(IndexReader stringReader, string path, VersionRange parentVersion, string parentPackage)
+        async Task GetSnippets(IndexReader stringReader, string path, VersionRange parentVersion, string parentPackage, Action<ReadSnippet> callback)
         {
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();
@@ -91,7 +83,7 @@ namespace CaptureSnippets
                 {
                     if (loopState.IsInSnippet)
                     {
-                        snippets.Add(new ReadSnippet(
+                        callback(new ReadSnippet(
                             error: "Snippet was not closed",
                             path: path,
                             lineNumberInError: loopState.StartLine.Value + 1,
@@ -102,7 +94,9 @@ namespace CaptureSnippets
                     break;
                 }
 
-                var trimmedLine = line.Trim().Replace("  ", " ").ToLowerInvariant();
+                var trimmedLine = line.Trim()
+                    .Replace("  ", " ")
+                    .ToLowerInvariant();
                 if (loopState.IsInSnippet)
                 {
                     if (!loopState.EndFunc(trimmedLine))
@@ -113,7 +107,7 @@ namespace CaptureSnippets
 
                     var snippet = BuildSnippet(stringReader, path, loopState, language, parentVersion, parentPackage);
 
-                    snippets.Add(snippet);
+                    callback(snippet);
                     loopState.Reset();
                     continue;
                 }
@@ -144,7 +138,7 @@ namespace CaptureSnippets
             {
                 var joinedInvalidChars = $@"'{string.Join("', '", invalidCharacters)}'";
                 return new ReadSnippet(
-                    error: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by you copying code from MS Word or Outlook. Dont do that.",
+                    error: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by copying code from MS Word or Outlook. Dont do that.",
                     path: path,
                     lineNumberInError: startRow,
                     key: loopState.CurrentKey,
@@ -167,8 +161,8 @@ namespace CaptureSnippets
         {
             if (loopState.Suffix1 == null)
             {
-                parsedVersion = versionExtractor(path, parentVersion);
-                package = packageExtractor(path, parentPackage);
+                parsedVersion = extractVersion(path, parentVersion);
+                package = extractPackage(path, parentPackage);
                 error = null;
                 return true;
             }
@@ -178,7 +172,7 @@ namespace CaptureSnippets
                 // Suffix1 must be a version
                 if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out parsedVersion))
                 {
-                    package = packageExtractor(path, parentPackage);
+                    package = extractPackage(path, parentPackage);
                     error = null;
                     return true;
                 }
@@ -186,7 +180,7 @@ namespace CaptureSnippets
                 // Suffix1 must be a package
                 if (loopState.Suffix1.StartsWithLetter())
                 {
-                    parsedVersion = versionExtractor(path, parentVersion);
+                    parsedVersion = extractVersion(path, parentVersion);
                     package = loopState.Suffix1;
                     error = null;
                     return true;
@@ -233,7 +227,6 @@ namespace CaptureSnippets
                 .TrimIndentation();
             return string.Join(LineEnding, snippetValue);
         }
-
 
     }
 }

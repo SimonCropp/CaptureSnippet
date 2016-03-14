@@ -1,6 +1,6 @@
 ﻿[
   {
-    "FileLocation": "path(3-3)",
+    "FileLocation": "path.cs(3-3)",
     "Error": "Snippet was not closed",
     "IsInError": true,
     "ValueHash": 0,
@@ -9,7 +9,7 @@
     "Value": null,
     "Key": "codekey",
     "Language": null,
-    "Path": "path",
+    "Path": "path.cs",
     "Version": null,
     "Package": null
   }

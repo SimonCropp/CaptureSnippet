@@ -16,16 +16,16 @@ namespace CaptureSnippets
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="versionExtractor">The version convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
+        /// <param name="extractVersion">The version convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
-        public CachedSnippetExtractor(VersionExtractor versionExtractor, DirectoryIncluder includeDirectory, FileIncluder includeFile, PackageExtractor packageExtractor)
+        public CachedSnippetExtractor(ExtractVersion extractVersion, DirectoryIncluder includeDirectory, FileIncluder includeFile, ExtractPackage extractPackage)
         {
-            Guard.AgainstNull(versionExtractor, "versionExtractor");
-            Guard.AgainstNull(packageExtractor, "packageExtractor");
+            Guard.AgainstNull(extractVersion, "extractVersion");
+            Guard.AgainstNull(extractPackage, "extractPackage");
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
-            snippetExtractor = new DirectorySnippetExtractor(versionExtractor, packageExtractor, includeDirectory, includeFile);
+            snippetExtractor = new DirectorySnippetExtractor(extractVersion, extractPackage, includeDirectory, includeFile);
         }
 
         /// <summary>
@@ -60,7 +60,8 @@ namespace CaptureSnippets
 
         async Task<CachedSnippets> UpdateCache(string directory, long lastDirectoryWrite)
         {
-            var readSnippets = await snippetExtractor.FromDirectory(directory).ConfigureAwait(false);
+            var readSnippets = await snippetExtractor.FromDirectory(directory)
+                .ConfigureAwait(false);
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,

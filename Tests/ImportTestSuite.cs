@@ -29,11 +29,11 @@ public class ImportTestSuite
     async Task Run(string folder, string input, string expectedOutput)
     {
         var snippets = new List<ReadSnippet>();
-        var extractor = new FileSnippetExtractor(snippets, (x, y) => VersionRange.All, (x, y) => null);
+        var extractor = new FileSnippetExtractor((x, y) => VersionRange.All, (x, y) => null);
         var path = Path.Combine(folder, "code.cs");
         using (var textReader = File.OpenText(path))
         {
-            await extractor.AppendFromReader(textReader, path, VersionRange.All, null);
+            await extractor.AppendFromReader(textReader, path, VersionRange.All, null, snippets.Add);
         }
 
         var snippetGroups = SnippetGrouper.Group(snippets)

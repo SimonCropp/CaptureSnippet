@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using CaptureSnippets;
 
-static class StringExtensions
+static class Extensions
 {
     public static bool IsEmptyOrWhiteSpace(this string value)
     {
@@ -11,6 +14,24 @@ static class StringExtensions
             return false;
         }
         return value.All(char.IsWhiteSpace);
+    }
+    public static IEnumerable<string> AllDirectories(string directoryPath, DirectoryIncluder filter)
+    {
+        var stack = new Stack<string>();
+        stack.Push(directoryPath);
+        while (stack.Count != 0)
+        {
+            var current = stack.Pop();
+            if (!filter(current))
+            {
+                continue;
+            }
+            yield return current;
+            foreach (var child in Directory.EnumerateDirectories(current))
+            {
+                stack.Push(child);
+            }
+        }
     }
 
     public static IEnumerable<string> TrimIndentation(this IEnumerable<string> snippetLines)
@@ -33,9 +54,16 @@ static class StringExtensions
 
     public static string RemoveWhitespace(this string input)
     {
-        return new string(input.ToCharArray()
-            .Where(c => !char.IsWhiteSpace(c))
-            .ToArray());
+        var builder = new StringBuilder();
+        foreach (var c in input)
+        {
+            if (char.IsWhiteSpace(c))
+            {
+                continue;
+            }
+            builder.Append(c);
+        }
+        return builder.ToString();
     }
 
     public static string TrimBackCommentChars(this string input)

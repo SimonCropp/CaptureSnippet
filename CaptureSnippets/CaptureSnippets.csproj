@@ -68,7 +68,7 @@
     <Compile Include="Reading\FileIncluder.cs" />
     <Compile Include="Reading\StartEndTester.cs" />
     <Compile Include="Reading\LoopState.cs" />
-    <Compile Include="Reading\PackageExtractor.cs" />
+    <Compile Include="Reading\ExtractPackage.cs" />
     <Compile Include="Grpuping\SnippetGroups.cs" />
     <Compile Include="Grpuping\GroupingException.cs" />
     <Compile Include="Reading\ReadSnippetsException.cs" />
@@ -87,8 +87,8 @@
     <Compile Include="Processing\ProcessResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Grpuping\SnippetGrouper.cs" />
-    <Compile Include="Reading\VersionExtractor.cs" />
-    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Reading\ExtractVersion.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="VersionRangeExtensions.cs" />
     <Compile Include="VersionRangeParser.cs" />
   </ItemGroup>

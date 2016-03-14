@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Linq;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
@@ -16,17 +15,17 @@ public class CachedSnippetExtractorTests
         var directory = @"scenarios\".ToCurrentDirectory();
         //warmup 
         var snippetExtractor = new CachedSnippetExtractor(
-            versionExtractor: (x,y) => VersionRange.All, 
+            extractVersion: (x,y) => VersionRange.All, 
             includeDirectory: s => true, 
             includeFile: s => s.EndsWith(".cs"),
-            packageExtractor: (x, y) => null);
+            extractPackage: (x, y) => null);
         snippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
 
         var cachedSnippetExtractor = new CachedSnippetExtractor(
-            versionExtractor: (x, y) => VersionRange.All, 
+            extractVersion: (x, y) => VersionRange.All, 
             includeDirectory: s => true, 
             includeFile: s => s.EndsWith(".cs"),
-            packageExtractor: (x, y) => null);
+            extractPackage: (x, y) => null);
         var firstRun = Stopwatch.StartNew();
         cachedSnippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
         firstRun.Stop();
@@ -43,12 +42,12 @@ public class CachedSnippetExtractorTests
     {
         var directory = @"badsnippets".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(
-            versionExtractor: (x, y) => VersionRange.All, 
+            extractVersion: (x, y) => VersionRange.All, 
             includeDirectory: s => true, 
             includeFile: s => s.EndsWith(".cs"),
-            packageExtractor: (x, y) => null);
+            extractPackage: (x, y) => null);
         var readSnippets = cachedSnippetExtractor.FromDirectory(directory).Result;
-        Assert.AreEqual(1,readSnippets.GroupingErrors.Count());
+        Assert.AreEqual(1,readSnippets.GroupingErrors.Count);
     }
 
 }
