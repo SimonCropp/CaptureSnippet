@@ -149,7 +149,7 @@ namespace CaptureSnippets
             return new ReadSnippet(
                 startLine: startRow,
                 endLine: stringReader.Index,
-                key: loopState.CurrentKey.ToLowerInvariant(),
+                key: loopState.CurrentKey,
                 version: parsedVersion,
                 value: value,
                 path: path,
