@@ -86,7 +86,6 @@
     <Compile Include="Converters\VersionGroupConverter.cs" />
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="MarkdownProcessor_TryExtractKeyFromLegacyTests.cs" />
     <Compile Include="VersionRangeExtensionsTests.cs" />
     <None Include="app.config" />
     <None Include="scenarios\03-WeirdCharacters\input.md">

@@ -15,7 +15,7 @@ static class Extensions
         }
         return value.All(char.IsWhiteSpace);
     }
-    public static IEnumerable<string> AllDirectories(string directoryPath, DirectoryIncluder filter)
+    public static IEnumerable<string> AllDirectories(string directoryPath, IncludeDirectory filter)
     {
         var stack = new Stack<string>();
         stack.Push(directoryPath);

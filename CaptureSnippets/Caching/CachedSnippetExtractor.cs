@@ -19,7 +19,7 @@ namespace CaptureSnippets
         /// <param name="extractVersion">The version convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
-        public CachedSnippetExtractor(ExtractVersion extractVersion, DirectoryIncluder includeDirectory, FileIncluder includeFile, ExtractPackage extractPackage)
+        public CachedSnippetExtractor(ExtractVersion extractVersion, IncludeDirectory includeDirectory, FileIncluder includeFile, ExtractPackage extractPackage)
         {
             Guard.AgainstNull(extractVersion, "extractVersion");
             Guard.AgainstNull(extractPackage, "extractPackage");
