@@ -12,7 +12,7 @@ class ProcessResultConverter : JsonConverter
             return;
         }
 
-        var processResult = (GroupedProcessResult)value;
+        var processResult = (ProcessResult)value;
         writer.WriteStartObject();
         writer.WritePropertyName("missingSnippets");
         serializer.Serialize(writer, processResult.MissingSnippets);
@@ -28,6 +28,6 @@ class ProcessResultConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        return objectType == typeof(GroupedProcessResult);
+        return objectType == typeof(ProcessResult);
     }
 }

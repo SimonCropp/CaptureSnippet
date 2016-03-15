@@ -41,7 +41,7 @@ public class ImportTestSuite
 
         using (var reader = File.OpenText(input))
         {
-            var markdownProcessor = new GroupedMarkdownProcessor();
+            var markdownProcessor = new MarkdownProcessor();
             var stringBuilder = new StringBuilder();
             using (var writer = new StringWriter(stringBuilder))
             {

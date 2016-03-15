@@ -5,12 +5,12 @@ using System.Linq;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// The result of <see cref="GroupedMarkdownProcessor"/> Apply methods.
+    /// The result of <see cref="MarkdownProcessor"/> Apply methods.
     /// </summary>
-    public class SimpleProcessResult : IEnumerable<ReadSnippet>
+    public class ProcessResult : IEnumerable<SnippetGroup>
     {
 
-        public SimpleProcessResult(IReadOnlyList<ReadSnippet> usedSnippets, IReadOnlyList<MissingSnippet> missingSnippets)
+        public ProcessResult(IReadOnlyList<SnippetGroup> usedSnippets, IReadOnlyList<MissingSnippet> missingSnippets)
         {
             Guard.AgainstNull(usedSnippets, "usedSnippets");
             Guard.AgainstNull(missingSnippets, "missingSnippets");
@@ -21,7 +21,7 @@ namespace CaptureSnippets
         /// <summary>
         ///   List of all snippets that the markdown file used. 
         /// </summary>
-        public readonly IReadOnlyList<ReadSnippet> UsedSnippets;
+        public readonly IReadOnlyList<SnippetGroup> UsedSnippets;
         /// <summary>
         ///   List of all snippets that the markdown file expected but did not exist in the input snippets.
         /// </summary>
@@ -31,7 +31,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Enumerates through the <see cref="UsedSnippets"/> but will first throw an exception if there are any errors in <see cref="MissingSnippets"/>.
         /// </summary>
-        public IEnumerator<ReadSnippet> GetEnumerator()
+        public IEnumerator<SnippetGroup> GetEnumerator()
         {
             if (MissingSnippets.Any())
             {

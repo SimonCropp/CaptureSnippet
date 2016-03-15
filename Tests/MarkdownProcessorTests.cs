@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
@@ -10,49 +11,67 @@ using ObjectApproval;
 
 [TestFixture]
 [UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
-public class SimpleMarkdownProcessorTests
+public class MarkdownProcessorTests
 {
 
     [Test]
     public void Simple()
     {
-        var snippets = new List<ReadSnippet>
+        var availableSnippets = new List<SnippetGroup>
         {
-            new ReadSnippet(
-                key: "snippet2",
-                version: VersionRange.All,
-                startLine: 1,
-                endLine: 1,
-                value: "snippet2Value",
-                language: "c",
-                path: "unknown",
-                package: "package1"),
-            new ReadSnippet(
-                key: "snippet1",
-                version: VersionRange.All,
-                startLine: 1,
-                endLine: 1,
-                value: "snippet1Value",
-                language: "c",
-                path: "unknown",
-                package: "package1"),
+            new SnippetGroup(
+                language:"cs",
+                key: "versionedSnippet1",
+                versions: new List<VersionGroup>
+                {
+                    CreateVersionGroup(5),
+                    CreateVersionGroup(4),
+                }),
+            new SnippetGroup(
+                language:"cs",
+                key: "versionedSnippet2",
+                versions: new List<VersionGroup>
+                {
+                    CreateVersionGroup(3),
+                    CreateVersionGroup(2),
+                }),
+            new SnippetGroup(
+                language:"cs",
+                key: "nonVersionedSnippet1",
+                versions: new List<VersionGroup>
+                {
+                    CreateVersionGroup(5),
+                }),
+            new SnippetGroup(
+                language:"cs",
+                key: "nonVersionedSnippet2",
+                versions: new List<VersionGroup>
+                {
+                    CreateVersionGroup(5),
+                }),
         };
         var markdownContent = @"
-snippet: snippet1
+snippet: versionedSnippet1
 
 some text
 
-snippet: snippet2
+snippet: versionedSnippet2
 
 some other text
 
+snippet: nonVersionedSnippet1
+
+even more text
+
+snippet: nonVersionedSnippet2
+
 ";
-        Verify(markdownContent, snippets);
+        Verify(markdownContent, availableSnippets);
     }
 
-    static void Verify(string markdownContent, List<ReadSnippet> availableSnippets)
+    static void Verify(string markdownContent, List<SnippetGroup> availableSnippets)
     {
-        var processor = new SimpleMarkdownProcessor();
+        var processor = new MarkdownProcessor();
         var stringBuilder = new StringBuilder();
         using (var reader = new StringReader(markdownContent))
         using (var writer = new StringWriter(stringBuilder))
@@ -66,6 +85,21 @@ some other text
         }
     }
 
+
+    static VersionGroup CreateVersionGroup(int version)
+    {
+        return new VersionGroup(
+            version: new VersionRange(minVersion: new NuGetVersion(version, 0, 0)),
+            value: "Snippet_v" + version,
+            sources: new List<SnippetSource>
+            {
+                new SnippetSource(
+                    startLine: 1,
+                    endLine: 2,
+                    file: null
+                    )
+            });
+    }
 
     [Test]
     public void MissingKey()
@@ -91,7 +125,8 @@ some other text
                 path: "unknown",
                 package: "package1"),
         };
-        Verify("snippet: MissingKey", snippets);
+        var snippetGroups = SnippetGrouper.Group(snippets).ToList();
+        Verify("snippet: MissingKey", snippetGroups);
     }
 
     [Test]
@@ -116,7 +151,8 @@ some other text
                 path: "unknown",
                 package: "package1"),
         };
-        Verify("snippet: MissingKey1\r\n\r\nsnippet: MissingKey2", snippets);
+        var snippetGroups = SnippetGrouper.Group(snippets).ToList();
+        Verify("snippet: MissingKey1\r\n\r\nsnippet: MissingKey2", snippetGroups);
     }
 
 
@@ -159,6 +195,7 @@ some other text
                 path: null,
                 package: "package1"),
         };
+        var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         var markdownContent = @"
 snippet: FoundKey2
 snippet: FoundKey1
@@ -191,6 +228,6 @@ dflkgmxdklfmgkdflxmg
 dflkgmxdklfmdfgkjndfkjgngkdflxmg
 dflkgmxdklfmdfgkjndfkjgngkdflxmg
 ";
-        Verify(markdownContent, snippets);
+        Verify(markdownContent, snippetGroups);
     }
 }

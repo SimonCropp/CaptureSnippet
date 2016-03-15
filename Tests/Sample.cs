@@ -24,10 +24,10 @@ class Sample
             .ToList();
 
         // Merge with some markdown text
-        var markdownProcessor = new GroupedMarkdownProcessor();
+        var markdownProcessor = new MarkdownProcessor();
 
         //In this case the text will be extracted from a file path
-        GroupedProcessResult result;
+        ProcessResult result;
         using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
         using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
         {
