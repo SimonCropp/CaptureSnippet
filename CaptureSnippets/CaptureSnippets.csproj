@@ -65,7 +65,7 @@
     <Compile Include="InterpretErrors.cs" />
     <Compile Include="Processing\MissingSnippet.cs" />
     <Compile Include="Reading\IncludeDirectory.cs" />
-    <Compile Include="Reading\FileIncluder.cs" />
+    <Compile Include="Reading\IncludeFile.cs" />
     <Compile Include="Reading\StartEndTester.cs" />
     <Compile Include="Reading\LoopState.cs" />
     <Compile Include="Reading\ExtractPackage.cs" />

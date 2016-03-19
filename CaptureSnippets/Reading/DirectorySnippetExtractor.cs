@@ -17,7 +17,7 @@ namespace CaptureSnippets
         ExtractVersion extractVersion;
         ExtractPackage extractPackage;
         IncludeDirectory includeDirectory;
-        FileIncluder includeFile;
+        IncludeFile includeFile;
         FileSnippetExtractor fileExtractor;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="extractVersion">How to extract a <see cref="VersionRange"/> from a given path.</param>
         /// <param name="extractPackage">How to extract a package from a given file path. Return null for unknown.</param>
-        public DirectorySnippetExtractor(ExtractVersion extractVersion, ExtractPackage extractPackage, IncludeDirectory includeDirectory, FileIncluder includeFile)
+        public DirectorySnippetExtractor(ExtractVersion extractVersion, ExtractPackage extractPackage, IncludeDirectory includeDirectory, IncludeFile includeFile)
         {
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
