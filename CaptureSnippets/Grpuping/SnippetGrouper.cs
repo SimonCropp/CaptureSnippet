@@ -45,7 +45,7 @@ namespace CaptureSnippets
             }
 
             var keyGroup = ProcessKeyGroup(readSnippets)
-                .OrderBy(x => x.Version.VersionForCompare())
+                .OrderByDescending(x => x.Version.VersionForCompare())
                 .ToList();
             packageGroup = new PackageGroup(package, keyGroup);
             error = null;

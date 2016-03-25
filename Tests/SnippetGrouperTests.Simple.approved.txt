@@ -7,8 +7,8 @@
         "Package": "package1",
         "versions": [
           {
-            "version": "(≥ 1.2.0)",
-            "value": "1",
+            "version": "(≥ 1.4.0)",
+            "value": "2",
             "sources": [
               {
                 "StartLine": 1,
@@ -18,8 +18,8 @@
             ]
           },
           {
-            "version": "(≥ 1.4.0)",
-            "value": "2",
+            "version": "(≥ 1.2.0)",
+            "value": "1",
             "sources": [
               {
                 "StartLine": 1,
@@ -40,13 +40,18 @@
         "Package": "package1",
         "versions": [
           {
-            "version": "(≥ 1.3.0)",
-            "value": "3",
+            "version": "(≥ 1.6.0)",
+            "value": "5",
             "sources": [
               {
                 "StartLine": 1,
                 "EndLine": 1,
-                "File": null
+                "File": ""
+              },
+              {
+                "StartLine": 1,
+                "EndLine": 1,
+                "File": ""
               }
             ]
           },
@@ -67,18 +72,13 @@
             ]
           },
           {
-            "version": "(≥ 1.6.0)",
-            "value": "5",
+            "version": "(≥ 1.3.0)",
+            "value": "3",
             "sources": [
               {
                 "StartLine": 1,
                 "EndLine": 1,
-                "File": ""
-              },
-              {
-                "StartLine": 1,
-                "EndLine": 1,
-                "File": ""
+                "File": null
               }
             ]
           }
