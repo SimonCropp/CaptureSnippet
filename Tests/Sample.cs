@@ -23,15 +23,13 @@ class Sample
         var snippetGroups = SnippetGrouper.Group(readSnippets)
             .ToList();
 
-        // Merge with some markdown text
-        var markdownProcessor = new MarkdownProcessor();
-
+        
         //In this case the text will be extracted from a file path
         ProcessResult result;
         using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
         using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
         {
-            result = await markdownProcessor.Apply(snippetGroups, reader, writer);
+            result = await MarkdownProcessor.Apply(snippetGroups, reader, writer, SimpleMarkdownHandling.AppendGroup);
         }
 
         // List of all snippets that the markdown file expected but did not exist in the input snippets 
@@ -47,7 +45,7 @@ class Sample
         throw new System.NotImplementedException();
     }
 
-    string InferPackage(string path, string parent)
+    Result<string> InferPackage(string path, string parent)
     {
         throw new System.NotImplementedException();
     }
@@ -57,14 +55,13 @@ class Sample
         return filepath.EndsWith(".vm") || filepath.EndsWith(".cs");
     }
 
-    static VersionRange InferVersion(string path, VersionRange parent)
+    static Result<VersionRange> InferVersion(string path, VersionRange parent)
     {
         VersionRange version;
         if (VersionRange.TryParse(path.Split('_').Last(), out version))
         {
             return version;
         }
-
         return parent;
     }
 }

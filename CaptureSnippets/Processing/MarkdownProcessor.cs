@@ -3,35 +3,32 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
-    
 
     /// <summary>
     /// Merges <see cref="SnippetGroup"/>s with an input file/text.
     /// </summary>
-    public class MarkdownProcessor
+    public static class MarkdownProcessor
     {
-    
 
         /// <summary>
         /// Apply <paramref name="snippets"/> to <paramref name="textReader"/>.
         /// </summary>
-        public async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> snippets, TextReader textReader, TextWriter writer)
+        public static async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> snippets, TextReader textReader, TextWriter writer, AppendGroupToMarkdown appendGroupToMarkdown)
         {
             Guard.AgainstNull(snippets, "snippets");
             Guard.AgainstNull(textReader, "textReader");
             Guard.AgainstNull(writer, "writer");
             using (var reader = new IndexReader(textReader))
             {
-                return await Apply(snippets, writer, reader)
+                return await Apply(snippets, writer, reader, appendGroupToMarkdown)
                     .ConfigureAwait(false);
             }
         }
 
-        async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader)
+        static async Task<ProcessResult> Apply(IEnumerable<SnippetGroup> availableSnippets, TextWriter writer, IndexReader reader, AppendGroupToMarkdown appendGroupToMarkdown)
         {
             var snippets = availableSnippets.ToList();
             var missingSnippets = new List<MissingSnippet>();
@@ -60,7 +57,7 @@ namespace CaptureSnippets
                     continue;
                 }
 
-                await AppendGroup(snippetGroup, writer)
+                await appendGroupToMarkdown(snippetGroup, writer)
                     .ConfigureAwait(false);
                 if (usedSnippets.Any(x => x.Key == snippetGroup.Key))
                 {
@@ -69,35 +66,6 @@ namespace CaptureSnippets
                 usedSnippets.Add(snippetGroup);
             }
             return new ProcessResult(missingSnippets: missingSnippets, usedSnippets: usedSnippets);
-        }
-
-        /// <summary>
-        /// Method that can be override to control how an individual <see cref="SnippetGroup"/> is rendered.
-        /// </summary>
-        public Task AppendGroup(SnippetGroup snippetGroup, TextWriter writer)
-        {
-            Guard.AgainstNull(snippetGroup, "snippetGroup");
-            Guard.AgainstNull(writer, "writer");
-            return Task.WhenAll(snippetGroup.Select(group => AppendVersionGroup(writer, group, snippetGroup.Language)));
-        }
-
-        public async Task AppendVersionGroup(TextWriter writer, VersionGroup versionGroup, string language)
-        {
-            Guard.AgainstNull(versionGroup, "versionGroup");
-            Guard.AgainstNull(writer, "writer");
-            Guard.AgainstNullAndEmpty(language, "language");
-
-            if (!versionGroup.Version.Equals(VersionRange.All))
-            {
-                var message = $"#### Version '{versionGroup.Version.ToFriendlyString()}'";
-                await writer.WriteLineAsync(message)
-                    .ConfigureAwait(false);
-            }
-            var format = $@"```{language}
-{versionGroup.Value}
-```";
-            await writer.WriteLineAsync(format)
-                .ConfigureAwait(false);
         }
 
     }

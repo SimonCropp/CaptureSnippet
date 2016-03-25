@@ -20,34 +20,54 @@ public class MarkdownProcessorTests
         var availableSnippets = new List<SnippetGroup>
         {
             new SnippetGroup(
-                language:"cs",
+                language: "cs",
                 key: "versionedSnippet1",
-                versions: new List<VersionGroup>
+                packages: new List<PackageGroup>
                 {
-                    CreateVersionGroup(5),
-                    CreateVersionGroup(4),
+                    new PackageGroup(
+                        package: "package1",
+                        versions: new List<VersionGroup>
+                        {
+                            CreateVersionGroup(5),
+                            CreateVersionGroup(4),
+                        })
                 }),
             new SnippetGroup(
-                language:"cs",
+                language: "cs",
                 key: "versionedSnippet2",
-                versions: new List<VersionGroup>
+                packages: new List<PackageGroup>
                 {
-                    CreateVersionGroup(3),
-                    CreateVersionGroup(2),
+                    new PackageGroup(
+                        package: "package1",
+                        versions: new List<VersionGroup>
+                        {
+                            CreateVersionGroup(3),
+                            CreateVersionGroup(2),
+                        })
                 }),
             new SnippetGroup(
-                language:"cs",
+                language: "cs",
                 key: "nonVersionedSnippet1",
-                versions: new List<VersionGroup>
+                packages: new List<PackageGroup>
                 {
-                    CreateVersionGroup(5),
+                    new PackageGroup(
+                        package: "package1",
+                        versions: new List<VersionGroup>
+                        {
+                            CreateVersionGroup(5),
+                        })
                 }),
             new SnippetGroup(
-                language:"cs",
+                language: "cs",
                 key: "nonVersionedSnippet2",
-                versions: new List<VersionGroup>
+                packages: new List<PackageGroup>
                 {
-                    CreateVersionGroup(5),
+                    new PackageGroup(
+                        package: "package1",
+                        versions: new List<VersionGroup>
+                        {
+                            CreateVersionGroup(5),
+                        })
                 }),
         };
         var markdownContent = @"
@@ -71,12 +91,12 @@ snippet: nonVersionedSnippet2
 
     static void Verify(string markdownContent, List<SnippetGroup> availableSnippets)
     {
-        var processor = new MarkdownProcessor();
         var stringBuilder = new StringBuilder();
         using (var reader = new StringReader(markdownContent))
         using (var writer = new StringWriter(stringBuilder))
         {
-            var processResult = processor.Apply(availableSnippets, reader, writer).Result;
+            var processResult = MarkdownProcessor.Apply(availableSnippets, reader, writer, SimpleMarkdownHandling.AppendGroup)
+                .Result;
             var output = new object[]
             {
                 processResult.MissingSnippets, processResult.UsedSnippets, stringBuilder.ToString()

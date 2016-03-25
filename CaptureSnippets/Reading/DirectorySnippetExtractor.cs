@@ -18,6 +18,7 @@ namespace CaptureSnippets
         ExtractPackage extractPackage;
         IncludeDirectory includeDirectory;
         IncludeFile includeFile;
+        TranslatePackage translatePackage;
         FileSnippetExtractor fileExtractor;
 
         /// <summary>
@@ -25,7 +26,10 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="extractVersion">How to extract a <see cref="VersionRange"/> from a given path.</param>
         /// <param name="extractPackage">How to extract a package from a given file path. Return null for unknown.</param>
-        public DirectorySnippetExtractor(ExtractVersion extractVersion, ExtractPackage extractPackage, IncludeDirectory includeDirectory, IncludeFile includeFile)
+        /// <param name="includeFile">Used to filter files.</param>
+        /// <param name="translatePackage">How to translate a package alias to the full package name.</param>
+        /// <param name="includeDirectory">Used to filter directories.</param>
+        public DirectorySnippetExtractor(ExtractVersion extractVersion, ExtractPackage extractPackage, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
@@ -35,7 +39,8 @@ namespace CaptureSnippets
             this.extractPackage = extractPackage;
             this.includeDirectory = includeDirectory;
             this.includeFile = includeFile;
-            fileExtractor = new FileSnippetExtractor(extractVersion, extractPackage);
+            this.translatePackage = translatePackage;
+            fileExtractor = new FileSnippetExtractor(extractVersion, extractPackage, translatePackage);
         }
 
         [Time]
@@ -54,6 +59,7 @@ namespace CaptureSnippets
             public string Package;
             public VersionRange Version;
         }
+
         IEnumerable<Task> FromDirectory(string directoryPath, Action<ReadSnippet> add)
         {
             var cache = new Dictionary<string, VersionAndPackage>();

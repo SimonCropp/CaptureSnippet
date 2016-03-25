@@ -4,44 +4,45 @@ using System.Collections.Generic;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// A hierarchy of <see cref="SnippetSource"/>s grouped by Key > Version
+    /// A hierarchy of <see cref="SnippetSource"/>s grouped by Key > Package
     /// </summary>
-    public class SnippetGroup : IEnumerable<VersionGroup>
+    public class SnippetGroup : IEnumerable<PackageGroup>
     {
         /// <summary>
         /// Initialise a new instance of <see cref="SnippetGroup"/>.
         /// </summary>
-        public SnippetGroup(string key, string language, IReadOnlyList<VersionGroup> versions)
+        public SnippetGroup(string key, string language, IReadOnlyList<PackageGroup> packages)
         {
             Guard.AgainstNull(key, "key");
-            Guard.AgainstNull(versions, "versions");
+            Guard.AgainstNull(packages, "packages");
             Guard.AgainstNull(language, "language");
             Guard.AgainstUpperCase(language, "language");
             Key = key;
-            Versions = versions;
+            Packages = packages;
             Language = language;
         }
 
         /// <summary>
-        /// The key that all child <see cref="VersionGroup"/>s contain.
+        /// The key that all child <see cref="SnippetGroup"/>s contain.
         /// </summary>
         public readonly string Key;
+
         /// <summary>
         /// The language of the snippet, extracted from the file extension of the input file.
         /// </summary>
         public readonly string Language;
 
         /// <summary>
-        /// All the <see cref="VersionGroup"/>s with a common key.
+        /// All the <see cref="PackageGroup"/>s with a common key.
         /// </summary>
-        public readonly IReadOnlyList<VersionGroup> Versions;
+        public readonly IReadOnlyList<PackageGroup> Packages;
 
         /// <summary>
-        /// Enumerates over <see cref="Versions"/>.
+        /// Enumerates over <see cref="Packages"/>.
         /// </summary>
-        public IEnumerator<VersionGroup> GetEnumerator()
+        public IEnumerator<PackageGroup> GetEnumerator()
         {
-            return Versions.GetEnumerator();
+            return Packages.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

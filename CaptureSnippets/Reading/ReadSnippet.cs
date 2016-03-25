@@ -25,11 +25,6 @@ namespace CaptureSnippets
             Path = path;
             Error = error;
         }
-
-        public readonly string Error;
-
-        public readonly bool IsInError;
-
         /// <summary>
         /// Initialise a new instance of <see cref="ReadSnippet"/>.
         /// </summary>
@@ -41,7 +36,7 @@ namespace CaptureSnippets
             Guard.AgainstUpperCase(language, "language");
             Guard.AgainstNegativeAndZero(startLine, "startLine");
             Guard.AgainstNegativeAndZero(endLine, "endLine");
-           
+
             StartLine = startLine;
             EndLine = endLine;
             Value = value;
@@ -52,6 +47,11 @@ namespace CaptureSnippets
             Version = version;
             Package = package;
         }
+
+        public readonly string Error;
+
+        public readonly bool IsInError;
+
 
         /// <summary>
         /// A hash of the <see cref="Value"/>.

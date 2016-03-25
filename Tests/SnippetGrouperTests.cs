@@ -42,33 +42,98 @@ public class SnippetGrouperTests
     }
 
     [Test]
+    public void Duplicate_Key_different_package()
+    {
+        var snippets = new List<ReadSnippet>
+        {
+            new ReadSnippet(
+                key: "foundkey",
+                version: new VersionRange(new NuGetVersion (1, 2, 0)),
+                value: "1",
+                startLine: 1,
+                endLine: 1,
+                path: null,
+                language: string.Empty,
+                package: "packageA"),
+            new ReadSnippet(
+                key: "foundkey",
+                version: new VersionRange(new NuGetVersion (1, 2, 0)),
+                value: "1",
+                startLine: 1,
+                endLine: 1,
+                path: null,
+                language: string.Empty,
+                package: "packageB"),
+        };
+        var snippetGroups = SnippetGrouper.Group(snippets);
+        ObjectApprover.VerifyWithJson(snippetGroups.Groups);
+    }
+
+    [Test]
     public void Duplicate_Key()
     {
         var snippets = new List<ReadSnippet>
         {
             new ReadSnippet(
-                key: "foundkey1",
+                key: "foundkey",
                 version: new VersionRange(new NuGetVersion (1, 2, 0)),
                 value: "1",
                 startLine: 1,
                 endLine: 1,
                 path: null,
                 language: string.Empty,
-                package: "package1"),
+                package: "packageA"),
             new ReadSnippet(
-                key: "foundkey1",
+                key: "foundkey",
                 version: new VersionRange(new NuGetVersion (1, 2, 0)),
                 value: "1",
                 startLine: 1,
                 endLine: 1,
                 path: null,
                 language: string.Empty,
-                package: "package1"),
+                package: "packageA"),
         };
         var snippetGroups = SnippetGrouper.Group(snippets);
         var readSnippetError = snippetGroups.Errors.Single();
-        Approvals.Verify(readSnippetError);
+        ObjectApprover.VerifyWithJson(readSnippetError);
     }
+
+    //[Test]
+    //public void SortByPackage()
+    //{
+    //    var snippets = new List<ReadSnippet>
+    //    {
+    //        new ReadSnippet(
+    //            key: "key",
+    //            version: new VersionRange(new NuGetVersion (1, 0, 0)),
+    //            value: "1",
+    //            startLine: 1,
+    //            endLine: 1,
+    //            path: null,
+    //            language: string.Empty,
+    //            package: "package3"),
+    //        new ReadSnippet(
+    //            key: "key",
+    //            version: new VersionRange(new NuGetVersion (1, 0, 0)),
+    //            value: "3",
+    //            startLine: 1,
+    //            endLine: 1,
+    //            path: null,
+    //            language: "cs",
+    //            package: "package1"),
+    //        new ReadSnippet(
+    //            key: "key",
+    //            language: "cs",
+    //            version: new VersionRange(new NuGetVersion (1, 0, 0)),
+    //            value: "4",
+    //            startLine: 1,
+    //            endLine: 1,
+    //            path: string.Empty,
+    //            package: "package3"),
+    //    };
+    //    var snippetGroups = SnippetGrouper.Group(snippets,(key, packages) => ).ToList();
+    //    ObjectApprover.VerifyWithJson(snippetGroups);
+    //}
 
     [Test]
     public void Simple()

@@ -4,26 +4,31 @@
     {
       "key": "versionedSnippet1",
       "language": "cs",
-      "versions": [
+      "packages": [
         {
-          "version": "(≥ 5.0.0)",
-          "value": "Snippet_v5",
-          "sources": [
+          "Package": "package1",
+          "versions": [
             {
-              "StartLine": 1,
-              "EndLine": 2,
-              "File": null
-            }
-          ]
-        },
-        {
-          "version": "(≥ 4.0.0)",
-          "value": "Snippet_v4",
-          "sources": [
+              "version": "(≥ 5.0.0)",
+              "value": "Snippet_v5",
+              "sources": [
+                {
+                  "StartLine": 1,
+                  "EndLine": 2,
+                  "File": null
+                }
+              ]
+            },
             {
-              "StartLine": 1,
-              "EndLine": 2,
-              "File": null
+              "version": "(≥ 4.0.0)",
+              "value": "Snippet_v4",
+              "sources": [
+                {
+                  "StartLine": 1,
+                  "EndLine": 2,
+                  "File": null
+                }
+              ]
             }
           ]
         }
@@ -32,26 +37,31 @@
     {
       "key": "versionedSnippet2",
       "language": "cs",
-      "versions": [
+      "packages": [
         {
-          "version": "(≥ 3.0.0)",
-          "value": "Snippet_v3",
-          "sources": [
+          "Package": "package1",
+          "versions": [
             {
-              "StartLine": 1,
-              "EndLine": 2,
-              "File": null
-            }
-          ]
-        },
-        {
-          "version": "(≥ 2.0.0)",
-          "value": "Snippet_v2",
-          "sources": [
+              "version": "(≥ 3.0.0)",
+              "value": "Snippet_v3",
+              "sources": [
+                {
+                  "StartLine": 1,
+                  "EndLine": 2,
+                  "File": null
+                }
+              ]
+            },
             {
-              "StartLine": 1,
-              "EndLine": 2,
-              "File": null
+              "version": "(≥ 2.0.0)",
+              "value": "Snippet_v2",
+              "sources": [
+                {
+                  "StartLine": 1,
+                  "EndLine": 2,
+                  "File": null
+                }
+              ]
             }
           ]
         }
@@ -60,15 +70,20 @@
     {
       "key": "nonVersionedSnippet1",
       "language": "cs",
-      "versions": [
+      "packages": [
         {
-          "version": "(≥ 5.0.0)",
-          "value": "Snippet_v5",
-          "sources": [
+          "Package": "package1",
+          "versions": [
             {
-              "StartLine": 1,
-              "EndLine": 2,
-              "File": null
+              "version": "(≥ 5.0.0)",
+              "value": "Snippet_v5",
+              "sources": [
+                {
+                  "StartLine": 1,
+                  "EndLine": 2,
+                  "File": null
+                }
+              ]
             }
           ]
         }
@@ -77,15 +92,20 @@
     {
       "key": "nonVersionedSnippet2",
       "language": "cs",
-      "versions": [
+      "packages": [
         {
-          "version": "(≥ 5.0.0)",
-          "value": "Snippet_v5",
-          "sources": [
+          "Package": "package1",
+          "versions": [
             {
-              "StartLine": 1,
-              "EndLine": 2,
-              "File": null
+              "version": "(≥ 5.0.0)",
+              "value": "Snippet_v5",
+              "sources": [
+                {
+                  "StartLine": 1,
+                  "EndLine": 2,
+                  "File": null
+                }
+              ]
             }
           ]
         }
@@ -94,11 +114,12 @@
   ],
   "
 <!-- snippet: versionedSnippet1 -->
-#### Version '≥ 5.0.0'
+### Package: 'package1'
+#### Version: '≥ 5.0.0'
 ```cs
 Snippet_v5
 ```
-#### Version '≥ 4.0.0'
+#### Version: '≥ 4.0.0'
 ```cs
 Snippet_v4
 ```
@@ -106,11 +127,12 @@ Snippet_v4
 some text
 
 <!-- snippet: versionedSnippet2 -->
-#### Version '≥ 3.0.0'
+### Package: 'package1'
+#### Version: '≥ 3.0.0'
 ```cs
 Snippet_v3
 ```
-#### Version '≥ 2.0.0'
+#### Version: '≥ 2.0.0'
 ```cs
 Snippet_v2
 ```
@@ -118,7 +140,8 @@ Snippet_v2
 some other text
 
 <!-- snippet: nonVersionedSnippet1 -->
-#### Version '≥ 5.0.0'
+### Package: 'package1'
+#### Version: '≥ 5.0.0'
 ```cs
 Snippet_v5
 ```
@@ -126,7 +149,8 @@ Snippet_v5
 even more text
 
 <!-- snippet: nonVersionedSnippet2 -->
-#### Version '≥ 5.0.0'
+### Package: 'package1'
+#### Version: '≥ 5.0.0'
 ```cs
 Snippet_v5
 ```

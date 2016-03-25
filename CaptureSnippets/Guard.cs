@@ -43,4 +43,17 @@ static class Guard
             throw new ArgumentNullException(argumentName);
         }
     }
+
+
+    public static void AgainstEmpty(string value, string argumentName)
+    {
+        if (value == null)
+        {
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new ArgumentException("Cannot be only whitespace.", argumentName);
+        }
+    }
 }

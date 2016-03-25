@@ -1,4 +1,4 @@
 namespace CaptureSnippets
 {
-    public delegate string ExtractPackage(string path, string parent);
+    public delegate Result<string> ExtractPackage(string path, string parentPackage);
 }

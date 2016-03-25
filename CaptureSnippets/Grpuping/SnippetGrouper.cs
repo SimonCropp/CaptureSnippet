@@ -6,7 +6,7 @@ namespace CaptureSnippets
 {
     public static class SnippetGrouper
     {
-        public static SnippetGroups Group(IEnumerable<ReadSnippet> snippets)
+        public static SnippetGroups Group(IEnumerable<ReadSnippet> snippets, ConvertPackageGroupToList convertPackageGroupToList = null)
         {
             Guard.AgainstNull(snippets, "snippets");
 
@@ -16,63 +16,115 @@ namespace CaptureSnippets
             {
                 string error;
                 SnippetGroup snippetGroup;
-                if (TryGetGroup(grouping.Key, grouping.ToList(), out snippetGroup, out error))
+                if (TryGetSnippetGroup(grouping.Key, grouping.ToList(), convertPackageGroupToList, out snippetGroup, out error))
                 {
                     groups.Add(snippetGroup);
+                    continue;
                 }
-                else
-                {
-                    errors.Add(error);
-                }
+                errors.Add(error);
             }
             return new SnippetGroups(groups, errors);
         }
 
-        static bool TryGetGroup(string key, List<ReadSnippet> readSnippets, out SnippetGroup snippetGroup, out string error)
+        static bool TryGetPackageGroup(string key, string package, List<ReadSnippet> readSnippets, out PackageGroup packageGroup, out string error)
         {
-            var requiredLanguage = readSnippets.Select(x => x.Language).First();
-            if (readSnippets.Any(x => x.Language != requiredLanguage))
+            packageGroup = null;
+
+            if (ContainsDuplicateVersion(readSnippets))
             {
-                error = $"All languages of a give key must be equivalent. Key='{key}'.";
-                snippetGroup = null;
+                var files = string.Join("\r\n", readSnippets.Select(x => x.FileLocation));
+                error = $"Duplicate version detected. Key='{key}'. Package='{package}'. Files=\r\n{files}";
                 return false;
             }
 
-            foreach (var snippet in readSnippets)
-            {
-                var snippetVersion = snippet.Version;
-                var snippets = readSnippets.Where(x => x.Version.Equals(snippetVersion))
-                    .ToList();
-                if (snippets.Count > 1)
-                {
-                    var files = string.Join("\r\n", snippets.Select(x => x.FileLocation));
-                    error = $"Duplicate key detected. Key='{key}'. Version='{snippets.First().Version.PrettyPrint()}'. Files=\r\n{files}";
-                    snippetGroup = null;
-                    return false;
-                }
-            }
-
-            var containsAllVersionRanges = readSnippets.Any(x=>x.Version.Equals(VersionRange.All));
-            var containsNonAllVersionRanges = readSnippets.Any(x=>!x.Version.Equals(VersionRange.All));
-
-            if (containsAllVersionRanges && containsNonAllVersionRanges)
+            if (ContainsVersionConflictsWithAll(readSnippets))
             {
                 var files = string.Join("\r\n", readSnippets.Select(x => x.FileLocation));
                 error = $"Cannot mix 'all' versions and specific versions. Key='{key}'. Files=\r\n{files}";
-                snippetGroup = null;
                 return false;
             }
 
-
             var keyGroup = ProcessKeyGroup(readSnippets)
-                .OrderByDescending(x => x.Version.VersionForCompare());
-
-            snippetGroup = new SnippetGroup(
-                key: key,
-                language: requiredLanguage,
-                versions: keyGroup.ToList());
+                .OrderBy(x => x.Version.VersionForCompare())
+                .ToList();
+            packageGroup = new PackageGroup(package, keyGroup);
             error = null;
             return true;
+        }
+
+        static bool ContainsDuplicateVersion(List<ReadSnippet> readSnippets)
+        {
+            return readSnippets.Select(snippet => snippet.Version)
+                .Select(snippetVersion => readSnippets.Where(x => x.Version.Equals(snippetVersion)))
+                .Any(snippets => snippets.Count() > 1);
+        }
+
+        static bool ContainsVersionConflictsWithAll(List<ReadSnippet> readSnippets)
+        {
+            var containsAllVersionRanges = readSnippets.Any(x => x.Version.Equals(VersionRange.All));
+            var containsNonAllVersionRanges = readSnippets.Any(x => !x.Version.Equals(VersionRange.All));
+            return containsAllVersionRanges && containsNonAllVersionRanges;
+        }
+
+        static bool TryGetSnippetGroup(string key, List<ReadSnippet> readSnippets, ConvertPackageGroupToList convertPackageGroupToList, out SnippetGroup snippetGroup, out string error)
+        {
+            snippetGroup = null;
+            error = null;
+            if (LanguagesAreInConsistent(readSnippets))
+            {
+                error = $"All languages of a give key must be equivalent. Key='{key}'.";
+                return false;
+            }
+            if (MixesEmptyPackageWithNonEmpty(readSnippets))
+            {
+                error = $"Mixes empty packages with non empty packages. Key='{key}'.";
+                return false;
+            }
+            var packageGroups = new List<PackageGroup>();
+
+            foreach (var package in readSnippets.GroupBy(x => x.Package))
+            {
+                PackageGroup packageGroup;
+                if (!TryGetPackageGroup(key, package.Key, package.ToList(), out packageGroup, out error))
+                {
+                    return false;
+                }
+                packageGroups.Add(packageGroup);
+            }
+
+
+            if (convertPackageGroupToList == null)
+            {
+                snippetGroup = new SnippetGroup(
+                    key: key,
+                    language: readSnippets.First().Language,
+                    packages: packageGroups);
+                return true;
+            }
+            var result = convertPackageGroupToList(key, packageGroups);
+            if (!result.Success)
+            {
+                error = $"Could not convert PackageGroup to list. Key='{key}'." + result.ErrorMessage;
+                return false;
+            }
+            snippetGroup = new SnippetGroup(
+                key: key,
+                language: readSnippets.First().Language,
+                packages: result.Value);
+            return true;
+        }
+
+        static bool MixesEmptyPackageWithNonEmpty(List<ReadSnippet> readSnippets)
+        {
+            var containsNullPackages = readSnippets.Any(x => x.Package == null);
+            var containsNonNullPackages = readSnippets.Any(x => x.Package != null);
+            return containsNullPackages && containsNonNullPackages;
+        }
+
+        static bool LanguagesAreInConsistent(List<ReadSnippet> readSnippets)
+        {
+            var requiredLanguage = readSnippets.First().Language;
+            return readSnippets.Any(x => x.Language != requiredLanguage);
         }
 
 
@@ -98,17 +150,19 @@ namespace CaptureSnippets
                         var right = versions[j];
 
                         VersionRange newVersion;
-                        if (VersionRangeExtensions.CanMerge(left.Range, right.Range, out newVersion))
+                        if (!VersionRangeExtensions.CanMerge(left.Range, right.Range, out newVersion))
                         {
-                            if (left.ValueHash == right.ValueHash)
-                            {
-                                left.Range = newVersion;
-                                left.Snippets.AddRange(right.Snippets);
-                                versions.RemoveAt(j);
-                                mergeOccured = true;
-                                j--;
-                            }
+                            continue;
                         }
+                        if (left.ValueHash != right.ValueHash)
+                        {
+                            continue;
+                        }
+                        left.Range = newVersion;
+                        left.Snippets.AddRange(right.Snippets);
+                        versions.RemoveAt(j);
+                        mergeOccured = true;
+                        j--;
                     }
                 }
 
@@ -117,20 +171,22 @@ namespace CaptureSnippets
                     break;
                 }
             }
-            return versions.Select(x =>
-            {
-                var snippetSources = x.Snippets.Select(y =>
+            return versions.Select(ConstructVersionGroup);
+        }
+
+        static VersionGroup ConstructVersionGroup(MergedSnippets mergedSnippets)
+        {
+            var snippetSources = mergedSnippets.Snippets
+                .Select(y =>
                     new SnippetSource(
                         startLine: y.StartLine,
                         endLine: y.EndLine,
                         file: y.Path))
-                        .ToList();
-                return new VersionGroup(
-                    version: x.Range,
-                    value: x.Value,
-                    sources: snippetSources);
-            });
+                .ToList();
+            return new VersionGroup(
+                version: mergedSnippets.Range,
+                value: mergedSnippets.Value,
+                sources: snippetSources);
         }
-
     }
 }

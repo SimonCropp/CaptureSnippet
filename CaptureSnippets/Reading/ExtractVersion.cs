@@ -2,5 +2,5 @@ using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
-    public delegate VersionRange ExtractVersion(string fileOrDirectoryPath, VersionRange parent);
+    public delegate Result<VersionRange> ExtractVersion(string fileOrDirectoryPath, VersionRange parent);
 }

@@ -1,0 +1,40 @@
+﻿[
+  {
+    "key": "foundkey",
+    "language": "",
+    "packages": [
+      {
+        "Package": "packageA",
+        "versions": [
+          {
+            "version": "(≥ 1.2.0)",
+            "value": "1",
+            "sources": [
+              {
+                "StartLine": 1,
+                "EndLine": 1,
+                "File": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Package": "packageB",
+        "versions": [
+          {
+            "version": "(≥ 1.2.0)",
+            "value": "1",
+            "sources": [
+              {
+                "StartLine": 1,
+                "EndLine": 1,
+                "File": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

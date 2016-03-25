@@ -4,15 +4,20 @@
     {
       "key": "foundkey2",
       "language": "c",
-      "versions": [
+      "packages": [
         {
-          "version": "",
-          "value": "Value2",
-          "sources": [
+          "Package": "package1",
+          "versions": [
             {
-              "StartLine": 1,
-              "EndLine": 1,
-              "File": null
+              "version": "",
+              "value": "Value2",
+              "sources": [
+                {
+                  "StartLine": 1,
+                  "EndLine": 1,
+                  "File": null
+                }
+              ]
             }
           ]
         }
@@ -21,15 +26,20 @@
     {
       "key": "foundkey1",
       "language": "c",
-      "versions": [
+      "packages": [
         {
-          "version": "",
-          "value": "Value1",
-          "sources": [
+          "Package": "package1",
+          "versions": [
             {
-              "StartLine": 1,
-              "EndLine": 1,
-              "File": null
+              "version": "",
+              "value": "Value1",
+              "sources": [
+                {
+                  "StartLine": 1,
+                  "EndLine": 1,
+                  "File": null
+                }
+              ]
             }
           ]
         }
@@ -38,15 +48,20 @@
     {
       "key": "foundkey3",
       "language": "c",
-      "versions": [
+      "packages": [
         {
-          "version": "",
-          "value": "Value3",
-          "sources": [
+          "Package": "package1",
+          "versions": [
             {
-              "StartLine": 1,
-              "EndLine": 1,
-              "File": null
+              "version": "",
+              "value": "Value3",
+              "sources": [
+                {
+                  "StartLine": 1,
+                  "EndLine": 1,
+                  "File": null
+                }
+              ]
             }
           ]
         }
@@ -55,10 +70,12 @@
   ],
   "
 <!-- snippet: FoundKey2 -->
+### Package: 'package1'
 ```c
 Value2
 ```
 <!-- snippet: FoundKey1 -->
+### Package: 'package1'
 ```c
 Value1
 ```
@@ -76,6 +93,7 @@ kdjrngkjfncgdflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 <!-- snippet: FoundKey3 -->
+### Package: 'package1'
 ```c
 Value3
 ```

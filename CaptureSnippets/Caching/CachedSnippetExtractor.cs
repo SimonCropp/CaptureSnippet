@@ -10,6 +10,7 @@ namespace CaptureSnippets
     /// </summary>
     public class CachedSnippetExtractor
     {
+        ConvertPackageGroupToList convertPackageGroupToList;
         DirectorySnippetExtractor snippetExtractor;
         ConcurrentDictionary<string, CachedSnippets> directoryToSnippets = new ConcurrentDictionary<string, CachedSnippets>();
 
@@ -19,8 +20,10 @@ namespace CaptureSnippets
         /// <param name="extractVersion">The version convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
-        public CachedSnippetExtractor(ExtractVersion extractVersion, IncludeDirectory includeDirectory, IncludeFile includeFile, ExtractPackage extractPackage)
+        /// <param name="extractPackage">The package convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
+        public CachedSnippetExtractor(ExtractVersion extractVersion, IncludeDirectory includeDirectory, IncludeFile includeFile, ExtractPackage extractPackage, ConvertPackageGroupToList convertPackageGroupToList=null)
         {
+            this.convertPackageGroupToList = convertPackageGroupToList;
             Guard.AgainstNull(extractVersion, "extractVersion");
             Guard.AgainstNull(extractPackage, "extractPackage");
             Guard.AgainstNull(includeDirectory, "includeDirectory");
@@ -62,7 +65,7 @@ namespace CaptureSnippets
         {
             var readSnippets = await snippetExtractor.FromDirectory(directory)
                 .ConfigureAwait(false);
-            var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets);
+            var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets, convertPackageGroupToList);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,
                 readingErrors: readSnippets.GetSnippetsInError().ToList(),

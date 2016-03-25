@@ -11,6 +11,7 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
+        TranslatePackage translatePackage;
         ExtractVersion extractVersion;
         ExtractPackage extractPackage;
 
@@ -22,29 +23,52 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="extractVersion">How to extract a <see cref="VersionRange"/> from a given path.</param>
         /// <param name="extractPackage">How to extract a package from a given path. Return null for unknown.</param>
-        public FileSnippetExtractor(ExtractVersion extractVersion, ExtractPackage extractPackage)
+        /// <param name="translatePackage">How to translate a package alias to the full package name.</param>
+        public FileSnippetExtractor(ExtractVersion extractVersion, ExtractPackage extractPackage, TranslatePackage translatePackage = null)
         {
-            Guard.AgainstNull(extractVersion, "versionExtractor");
-            Guard.AgainstNull(extractPackage, "packageExtractor");
-            this.extractVersion = (path, parent) =>
+            Guard.AgainstNull(extractVersion, "extractVersion");
+            Guard.AgainstNull(extractPackage, "extractPackage");
+            if (translatePackage == null)
             {
-                path = path.Substring(0, path.LastIndexOf('.'));
-                var version = extractVersion(path, parent);
-                if (version == null)
-                {
-                    throw new Exception($"VersionExtractor supplied null version for '{path}'.");
-                }
-                return version;
-            };
-            this.extractPackage = (path, parent) =>
+                this.translatePackage = alias => alias;
+            }
+            else
             {
-                var package = extractPackage(path, parent);
-                if (package.IsEmptyOrWhiteSpace())
-                {
-                    throw new Exception($"PackageExtractor returned empty string for '{path}'.");
-                }
-                return package;
-            };
+                this.translatePackage = alias => InvokeTranslatePackage(translatePackage, alias);
+            }
+            this.extractVersion = (path, parent) => InvokeExtractVersion(extractVersion, path, parent);
+            this.extractPackage = (path, parent) => InvokeExtractPackage(extractPackage, path, parent);
+        }
+
+        static Result<string> InvokeExtractPackage(ExtractPackage extractPackage, string path, string parent)
+        {
+            var result = extractPackage(path, parent);
+            if (result.Success && result.Value.IsEmptyOrWhiteSpace())
+            {
+                return Result<string>.Failed($"ExtractPackage returned empty string for '{path}'.");
+            }
+            return result;
+        }
+
+        static Result<VersionRange> InvokeExtractVersion(ExtractVersion extractVersion, string path, VersionRange parent)
+        {
+            path = path.Substring(0, path.LastIndexOf('.'));
+            var result = extractVersion(path, parent);
+            if (result.Success && result.Value == null)
+            {
+                return Result<VersionRange>.Failed($"ExtractVersion supplied null version for '{path}'.");
+            }
+            return result;
+        }
+
+        static Result<string> InvokeTranslatePackage(TranslatePackage translatePackage, string alias)
+        {
+            var result = translatePackage(alias);
+            if (result.Success && string.IsNullOrWhiteSpace(result.Value))
+            {
+                return  Result<string>.Failed($"TranslatePackage supplied an empty package for '{alias}'.");
+            }
+            return result;
         }
 
 
@@ -52,6 +76,7 @@ namespace CaptureSnippets
         /// Read from a <see cref="TextReader"/>.
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
+        /// <param name="path">The current path so extract <see cref="ReadSnippet"/>s from.</param>
         /// <param name="parentVersion">The inherited <see cref="VersionRange"/>.</param>
         /// <param name="parentPackage">The inherited package name.</param>
         public async Task AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, string parentPackage, Action<ReadSnippet> callback)
@@ -123,7 +148,7 @@ namespace CaptureSnippets
 
             string package;
             string error;
-            if (!TryParseVersionAndPackage(path, loopState, parentVersion,parentPackage, out parsedVersion, out package, out error))
+            if (!TryParseVersionAndPackage(path, loopState, parentVersion, parentPackage, out parsedVersion, out package, out error))
             {
                 return new ReadSnippet(
                     error: error,
@@ -146,6 +171,22 @@ namespace CaptureSnippets
                     package: package);
             }
 
+            string translatedPackage = null;
+            if (package != null)
+            {
+                var translateResult = translatePackage(package);
+                if (!translateResult.Success)
+                {
+                    return new ReadSnippet(
+                        error: $"Failed to translate package. Error: {translateResult.ErrorMessage}.",
+                        path: path,
+                        lineNumberInError: startRow,
+                        key: loopState.CurrentKey,
+                        version: parsedVersion,
+                        package: package);
+                }
+                translatedPackage = translateResult.Value;
+            }
             return new ReadSnippet(
                 startLine: startRow,
                 endLine: stringReader.Index,
@@ -153,7 +194,7 @@ namespace CaptureSnippets
                 version: parsedVersion,
                 value: value,
                 path: path,
-                package: package,
+                package: translatedPackage,
                 language: language.ToLowerInvariant());
         }
 

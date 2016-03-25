@@ -15,7 +15,7 @@ public class CachedSnippetExtractorTests
         var directory = @"scenarios\".ToCurrentDirectory();
         //warmup 
         var snippetExtractor = new CachedSnippetExtractor(
-            extractVersion: (x,y) => VersionRange.All, 
+            extractVersion: (x, y) => VersionRange.All, 
             includeDirectory: s => true, 
             includeFile: s => s.EndsWith(".cs"),
             extractPackage: (x, y) => null);

@@ -13,7 +13,7 @@ using NUnit.Framework;
 public class ImportTestSuite
 {
     [Test]
-    public void RunScenarios()
+    public async void RunScenarios()
     {
         var directory = @"scenarios\".ToCurrentDirectory();
         var folders = Directory.GetDirectories(directory);
@@ -22,7 +22,7 @@ public class ImportTestSuite
         {
             var input = Path.Combine(folder, "input.md");
             var output = Path.Combine(folder, "output.md");
-            Run(folder, input, output).GetAwaiter().GetResult();
+            await Run(folder, input, output);
         }
     }
 
@@ -41,11 +41,10 @@ public class ImportTestSuite
 
         using (var reader = File.OpenText(input))
         {
-            var markdownProcessor = new MarkdownProcessor();
             var stringBuilder = new StringBuilder();
             using (var writer = new StringWriter(stringBuilder))
             {
-                await markdownProcessor.Apply(snippetGroups, reader, writer);
+                await MarkdownProcessor.Apply(snippetGroups, reader, writer, SimpleMarkdownHandling.AppendGroup);
             }
 
             var expected = File.ReadAllText(expectedOutput).FixNewLines();

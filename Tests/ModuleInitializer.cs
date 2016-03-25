@@ -8,6 +8,7 @@ public static class ModuleInitializer
         converters.Add(new VersionRangeConverter());
         converters.Add(new CachedSnippetsConverter());
         converters.Add(new SnippetGroupConverter());
+        converters.Add(new PackageGroupConverter());
         converters.Add(new ProcessResultConverter());
         converters.Add(new ReadSnippetsConverter());
         converters.Add(new VersionGroupConverter());
