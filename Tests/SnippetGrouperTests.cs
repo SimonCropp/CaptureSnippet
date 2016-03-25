@@ -98,42 +98,42 @@ public class SnippetGrouperTests
         ObjectApprover.VerifyWithJson(readSnippetError);
     }
 
-    //[Test]
-    //public void SortByPackage()
-    //{
-    //    var snippets = new List<ReadSnippet>
-    //    {
-    //        new ReadSnippet(
-    //            key: "key",
-    //            version: new VersionRange(new NuGetVersion (1, 0, 0)),
-    //            value: "1",
-    //            startLine: 1,
-    //            endLine: 1,
-    //            path: null,
-    //            language: string.Empty,
-    //            package: "package3"),
-    //        new ReadSnippet(
-    //            key: "key",
-    //            version: new VersionRange(new NuGetVersion (1, 0, 0)),
-    //            value: "3",
-    //            startLine: 1,
-    //            endLine: 1,
-    //            path: null,
-    //            language: "cs",
-    //            package: "package1"),
-    //        new ReadSnippet(
-    //            key: "key",
-    //            language: "cs",
-    //            version: new VersionRange(new NuGetVersion (1, 0, 0)),
-    //            value: "4",
-    //            startLine: 1,
-    //            endLine: 1,
-    //            path: string.Empty,
-    //            package: "package3"),
-    //    };
-    //    var snippetGroups = SnippetGrouper.Group(snippets,(key, packages) => ).ToList();
-    //    ObjectApprover.VerifyWithJson(snippetGroups);
-    //}
+    [Test]
+    public void SortByPackage()
+    {
+        var snippets = new List<ReadSnippet>
+        {
+            new ReadSnippet(
+                key: "key",
+                version: new VersionRange(new NuGetVersion (1, 0, 0)),
+                value: "1",
+                startLine: 1,
+                endLine: 1,
+                path: null,
+                language: string.Empty,
+                package: "package3"),
+            new ReadSnippet(
+                key: "key",
+                version: new VersionRange(new NuGetVersion (1, 0, 0)),
+                value: "3",
+                startLine: 1,
+                endLine: 1,
+                path: null,
+                language: string.Empty,
+                package: "package1"),
+            new ReadSnippet(
+                key: "key",
+                language: string.Empty,
+                version: new VersionRange(new NuGetVersion (1, 0, 0)),
+                value: "4",
+                startLine: 1,
+                endLine: 1,
+                path: string.Empty,
+                package: "package2"),
+        };
+        var snippetGroups = SnippetGrouper.Group(snippets, (key, packages) => packages.OrderBy(x=>x.Package).ToList()).ToList();
+        ObjectApprover.VerifyWithJson(snippetGroups);
+    }
 
     [Test]
     public void Simple()

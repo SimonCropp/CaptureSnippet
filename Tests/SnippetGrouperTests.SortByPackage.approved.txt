@@ -1,0 +1,56 @@
+﻿[
+  {
+    "key": "key",
+    "language": "",
+    "packages": [
+      {
+        "Package": "package1",
+        "versions": [
+          {
+            "version": "(≥ 1.0.0)",
+            "value": "3",
+            "sources": [
+              {
+                "StartLine": 1,
+                "EndLine": 1,
+                "File": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Package": "package2",
+        "versions": [
+          {
+            "version": "(≥ 1.0.0)",
+            "value": "4",
+            "sources": [
+              {
+                "StartLine": 1,
+                "EndLine": 1,
+                "File": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Package": "package3",
+        "versions": [
+          {
+            "version": "(≥ 1.0.0)",
+            "value": "1",
+            "sources": [
+              {
+                "StartLine": 1,
+                "EndLine": 1,
+                "File": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
