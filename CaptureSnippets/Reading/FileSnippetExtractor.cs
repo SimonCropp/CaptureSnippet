@@ -84,8 +84,7 @@ namespace CaptureSnippets
             Guard.AgainstNull(textReader, "textReader");
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippets(reader, path, parentVersion, parentPackage, callback)
-                    .ConfigureAwait(false);
+                await GetSnippets(reader, path, parentVersion, parentPackage, callback);
             }
         }
 
@@ -102,8 +101,7 @@ namespace CaptureSnippets
             var loopState = new LoopState();
             while (true)
             {
-                var line = await stringReader.ReadLine()
-                    .ConfigureAwait(false);
+                var line = await stringReader.ReadLine();
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)

@@ -63,8 +63,7 @@ namespace CaptureSnippets
 
         async Task<CachedSnippets> UpdateCache(string directory, long lastDirectoryWrite)
         {
-            var readSnippets = await snippetExtractor.FromDirectory(directory)
-                .ConfigureAwait(false);
+            var readSnippets = await snippetExtractor.FromDirectory(directory);
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets, convertPackageGroupToList);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,

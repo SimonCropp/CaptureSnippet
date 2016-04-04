@@ -130,8 +130,7 @@ public class SnippetExtractorTests
         {
             var snippets = new List<ReadSnippet>();
             var extractor = new FileSnippetExtractor((x, y) => VersionRange.All, (x, y) => null);
-            await extractor.AppendFromReader(stringReader, "path.cs", null, null, snippets.Add)
-                .ConfigureAwait(false);
+            await extractor.AppendFromReader(stringReader, "path.cs", null, null, snippets.Add);
             return new ReadSnippets(snippets);
         }
     }
