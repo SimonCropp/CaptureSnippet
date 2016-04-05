@@ -23,7 +23,8 @@ namespace CaptureSnippets
             Guard.AgainstNull(writer, "writer");
             using (var reader = new IndexReader(textReader))
             {
-                return await Apply(snippets, writer, reader, appendGroupToMarkdown);
+                return await Apply(snippets, writer, reader, appendGroupToMarkdown)
+                    .ConfigureAwait(false);
             }
         }
 
@@ -33,15 +34,17 @@ namespace CaptureSnippets
             var missingSnippets = new List<MissingSnippet>();
             var usedSnippets = new List<SnippetGroup>();
             string line;
-            while ((line = await reader.ReadLine()) != null)
+            while ((line = await reader.ReadLine().ConfigureAwait(false)) != null)
             {
                 string key;
                 if (!ImportKeyReader.TryExtractKeyFromLine(line, out key))
                 {
-                    await writer.WriteLineAsync(line);
+                    await writer.WriteLineAsync(line)
+                        .ConfigureAwait(false);
                     continue;
                 }
-                await writer.WriteLineAsync($"<!-- snippet: {key} -->");
+                await writer.WriteLineAsync($"<!-- snippet: {key} -->")
+                    .ConfigureAwait(false);
 
                 var snippetGroup = snippets.FirstOrDefault(x => x.Key == key);
                 if (snippetGroup == null)
@@ -49,11 +52,13 @@ namespace CaptureSnippets
                     var missingSnippet = new MissingSnippet(key: key, line: reader.Index);
                     missingSnippets.Add(missingSnippet);
                     var message = $"** Could not find key '{key}' **";
-                    await writer.WriteLineAsync(message);
+                    await writer.WriteLineAsync(message)
+                        .ConfigureAwait(false);
                     continue;
                 }
 
-                await appendGroupToMarkdown(snippetGroup, writer);
+                await appendGroupToMarkdown(snippetGroup, writer)
+                    .ConfigureAwait(false);
                 if (usedSnippets.Any(x => x.Key == snippetGroup.Key))
                 {
                     throw new Exception($"Duplicate use of the same snippet key '{snippetGroup.Key}'.");

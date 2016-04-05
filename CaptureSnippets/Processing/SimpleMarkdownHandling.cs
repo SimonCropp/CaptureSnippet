@@ -31,11 +31,13 @@ namespace CaptureSnippets
             if (packageGroup.Package != null)
             {
                 var message = $"### Package: '{packageGroup.Package}'";
-                await writer.WriteLineAsync(message);
+                await writer.WriteLineAsync(message)
+                    .ConfigureAwait(false);
             }
             foreach (var version in packageGroup.Versions)
             {
-                await AppendVersionGroup(writer, version, language);
+                await AppendVersionGroup(writer, version, language)
+                    .ConfigureAwait(false);
             }
         }
 
@@ -44,12 +46,14 @@ namespace CaptureSnippets
             if (!versionGroup.Version.Equals(VersionRange.All))
             {
                 var message = $"#### Version: '{versionGroup.Version.ToFriendlyString()}'";
-                await writer.WriteLineAsync(message);
+                await writer.WriteLineAsync(message)
+                    .ConfigureAwait(false);
             }
             var format = $@"```{language}
 {versionGroup.Value}
 ```";
-            await writer.WriteLineAsync(format);
+            await writer.WriteLineAsync(format)
+                .ConfigureAwait(false);
         }
 
     }

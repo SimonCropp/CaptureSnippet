@@ -48,7 +48,8 @@ namespace CaptureSnippets
         {
             Guard.AgainstNull(directoryPath, "directoryPath");
             var snippets = new ConcurrentBag<ReadSnippet>();
-            await Task.WhenAll(FromDirectory(directoryPath, snippets.Add));
+            await Task.WhenAll(FromDirectory(directoryPath, snippets.Add))
+                .ConfigureAwait(false);
             var readOnlyList = snippets.ToList();
             return new ReadSnippets(readOnlyList);
         }
@@ -87,7 +88,8 @@ namespace CaptureSnippets
         {
             using (var textReader = File.OpenText(file))
             {
-                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, callback);
+                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, callback)
+                    .ConfigureAwait(false);
             }
         }
 
