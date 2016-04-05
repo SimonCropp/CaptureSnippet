@@ -108,12 +108,14 @@ snippet: nonVersionedSnippet2
 
     static VersionGroup CreateVersionGroup(int version)
     {
+        var versionRange = new VersionRange(minVersion: new NuGetVersion(version, 0, 0));
         return new VersionGroup(
-            version: new VersionRange(minVersion: new NuGetVersion(version, 0, 0)),
+            version: versionRange,
             value: "Snippet_v" + version,
             sources: new List<SnippetSource>
             {
                 new SnippetSource(
+                    version: versionRange,
                     startLine: 1,
                     endLine: 2,
                     file: null

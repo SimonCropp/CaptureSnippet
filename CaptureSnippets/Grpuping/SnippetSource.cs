@@ -1,3 +1,5 @@
+using NuGet.Versioning;
+
 namespace CaptureSnippets
 {
     /// <summary>
@@ -9,17 +11,23 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="SnippetSource"/>.
         /// </summary>
-        public SnippetSource(int startLine, int endLine, string file)
+        public SnippetSource(int startLine, int endLine, string file, VersionRange version)
         {
             Guard.AgainstNegativeAndZero(startLine, "startLine");
             Guard.AgainstNegativeAndZero(endLine, "endLine");
+            Guard.AgainstNull(version, "version");
             File = file;
             StartLine = startLine;
+            Version = version;
             EndLine = endLine;
         }
 
         /// <summary>
-        /// The line the snippets started on
+        /// The <see cref="VersionRange"/> for the snippet.
+        /// </summary>
+        public readonly VersionRange Version;
+        /// <summary>
+        /// The line the snippets started on.
         /// </summary>
         public readonly int StartLine;
         /// <summary>

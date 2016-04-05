@@ -11,6 +11,7 @@
             "value": "3",
             "sources": [
               {
+                "Version": "≥ 1.0.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null
@@ -27,6 +28,7 @@
             "value": "4",
             "sources": [
               {
+                "Version": "≥ 1.0.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
@@ -43,6 +45,7 @@
             "value": "1",
             "sources": [
               {
+                "Version": "≥ 1.0.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null

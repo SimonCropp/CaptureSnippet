@@ -256,7 +256,7 @@ public class SnippetGrouperTests
                 value: "code",
                 startLine: 1,
                 endLine: 1,
-                path: null, 
+                path: null,
                 language: string.Empty,
                 package: "package1")
         };

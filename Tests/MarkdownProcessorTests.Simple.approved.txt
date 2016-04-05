@@ -13,6 +13,7 @@
               "value": "Snippet_v5",
               "sources": [
                 {
+                  "Version": "≥ 5.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -24,6 +25,7 @@
               "value": "Snippet_v4",
               "sources": [
                 {
+                  "Version": "≥ 4.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -46,6 +48,7 @@
               "value": "Snippet_v3",
               "sources": [
                 {
+                  "Version": "≥ 3.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -57,6 +60,7 @@
               "value": "Snippet_v2",
               "sources": [
                 {
+                  "Version": "≥ 2.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -79,6 +83,7 @@
               "value": "Snippet_v5",
               "sources": [
                 {
+                  "Version": "≥ 5.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -101,6 +106,7 @@
               "value": "Snippet_v5",
               "sources": [
                 {
+                  "Version": "≥ 5.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null

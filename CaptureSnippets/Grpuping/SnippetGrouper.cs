@@ -179,6 +179,7 @@ namespace CaptureSnippets
             var snippetSources = mergedSnippets.Snippets
                 .Select(y =>
                     new SnippetSource(
+                        version: y.Version,
                         startLine: y.StartLine,
                         endLine: y.EndLine,
                         file: y.Path))

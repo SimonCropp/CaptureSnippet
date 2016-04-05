@@ -13,6 +13,7 @@
               "value": "Value2",
               "sources": [
                 {
+                  "Version": "all",
                   "StartLine": 1,
                   "EndLine": 1,
                   "File": null
@@ -35,6 +36,7 @@
               "value": "Value1",
               "sources": [
                 {
+                  "Version": "all",
                   "StartLine": 1,
                   "EndLine": 1,
                   "File": null
@@ -57,6 +59,7 @@
               "value": "Value3",
               "sources": [
                 {
+                  "Version": "all",
                   "StartLine": 1,
                   "EndLine": 1,
                   "File": null

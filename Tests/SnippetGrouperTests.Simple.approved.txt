@@ -11,6 +11,7 @@
             "value": "2",
             "sources": [
               {
+                "Version": "≥ 1.4.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null
@@ -22,6 +23,7 @@
             "value": "1",
             "sources": [
               {
+                "Version": "≥ 1.2.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null
@@ -44,11 +46,13 @@
             "value": "5",
             "sources": [
               {
+                "Version": "≥ 1.6.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
               },
               {
+                "Version": "≥ 1.7.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
@@ -60,11 +64,13 @@
             "value": "4",
             "sources": [
               {
+                "Version": "≥ 1.4.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
               },
               {
+                "Version": "≥ 1.5.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
@@ -76,6 +82,7 @@
             "value": "3",
             "sources": [
               {
+                "Version": "≥ 1.3.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null
