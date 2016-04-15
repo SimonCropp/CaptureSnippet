@@ -116,8 +116,9 @@ public class SnippetExtractorTests
         {
             var versionRange = new VersionRange(new NuGetVersion(1, 1, 0));
             var snippets = new List<ReadSnippet>();
-            var extractor = new FileSnippetExtractor((x, y) => versionRange, (x, y) => null);
-            extractor.AppendFromReader(stringReader, "path.cs", null, null, snippets.Add)
+            var result = new SnippetMetaData(versionRange, null);
+            var extractor = new FileSnippetExtractor((x, y) => result);
+            extractor.AppendFromReader(stringReader, "path.cs", result, snippets.Add)
                 .GetAwaiter()
                 .GetResult();
             ObjectApprover.VerifyWithJson(new ReadSnippets(snippets));
@@ -129,8 +130,9 @@ public class SnippetExtractorTests
         using (var stringReader = new StringReader(contents))
         {
             var snippets = new List<ReadSnippet>();
-            var extractor = new FileSnippetExtractor((x, y) => VersionRange.All, (x, y) => null);
-            await extractor.AppendFromReader(stringReader, "path.cs", null, null, snippets.Add)
+            var result = new SnippetMetaData(VersionRange.All, null);
+            var extractor = new FileSnippetExtractor((x, y) => result);
+            await extractor.AppendFromReader(stringReader, "path.cs", result, snippets.Add)
                 .ConfigureAwait(false);
             return new ReadSnippets(snippets);
         }

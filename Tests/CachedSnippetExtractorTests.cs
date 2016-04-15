@@ -13,19 +13,18 @@ public class CachedSnippetExtractorTests
     public void SecondReadShouldBeFasterThanFirstRead()
     {
         var directory = @"scenarios\".ToCurrentDirectory();
-        //warmup 
+        //warmup
+        var result = new SnippetMetaData(VersionRange.All, null);
         var snippetExtractor = new CachedSnippetExtractor(
-            extractVersion: (x, y) => VersionRange.All, 
-            includeDirectory: s => true, 
-            includeFile: s => s.EndsWith(".cs"),
-            extractPackage: (x, y) => null);
+            extractMetaData: (x, y) => result,
+            includeDirectory: s => true,
+            includeFile: s => s.EndsWith(".cs"));
         snippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
 
         var cachedSnippetExtractor = new CachedSnippetExtractor(
-            extractVersion: (x, y) => VersionRange.All, 
-            includeDirectory: s => true, 
-            includeFile: s => s.EndsWith(".cs"),
-            extractPackage: (x, y) => null);
+            extractMetaData: (x, y) => result,
+            includeDirectory: s => true,
+            includeFile: s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
         cachedSnippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
         firstRun.Stop();
@@ -40,12 +39,12 @@ public class CachedSnippetExtractorTests
     [Test]
     public void EnsureErrorsAreReturned()
     {
+        var result = new SnippetMetaData(VersionRange.All, null);
         var directory = @"badsnippets".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(
-            extractVersion: (x, y) => VersionRange.All, 
-            includeDirectory: s => true, 
-            includeFile: s => s.EndsWith(".cs"),
-            extractPackage: (x, y) => null);
+            extractMetaData: (x, y) => result,
+            includeDirectory: s => true,
+            includeFile: s => s.EndsWith(".cs"));
         var readSnippets = cachedSnippetExtractor.FromDirectory(directory).Result;
         Assert.AreEqual(1,readSnippets.GroupingErrors.Count);
     }

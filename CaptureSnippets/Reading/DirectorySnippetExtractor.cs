@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MethodTimer;
-using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -14,33 +13,27 @@ namespace CaptureSnippets
     /// </summary>
     public class DirectorySnippetExtractor
     {
-        ExtractVersion extractVersion;
-        ExtractPackage extractPackage;
+        ExtractMetaData extractMetaData;
         IncludeDirectory includeDirectory;
         IncludeFile includeFile;
-        TranslatePackage translatePackage;
         FileSnippetExtractor fileExtractor;
 
         /// <summary>
         /// Initialise a new instance of <see cref="DirectorySnippetExtractor"/>.
         /// </summary>
-        /// <param name="extractVersion">How to extract a <see cref="VersionRange"/> from a given path.</param>
-        /// <param name="extractPackage">How to extract a package from a given file path. Return null for unknown.</param>
+        /// <param name="extractMetaData">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
         /// <param name="includeFile">Used to filter files.</param>
         /// <param name="translatePackage">How to translate a package alias to the full package name.</param>
         /// <param name="includeDirectory">Used to filter directories.</param>
-        public DirectorySnippetExtractor(ExtractVersion extractVersion, ExtractPackage extractPackage, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null)
+        public DirectorySnippetExtractor(ExtractMetaData extractMetaData, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
-            Guard.AgainstNull(extractVersion, "extractVersion");
-            Guard.AgainstNull(extractPackage, "extractPackage");
-            this.extractVersion = extractVersion;
-            this.extractPackage = extractPackage;
+            Guard.AgainstNull(extractMetaData, "extractMetaData");
+            this.extractMetaData = extractMetaData;
             this.includeDirectory = includeDirectory;
             this.includeFile = includeFile;
-            this.translatePackage = translatePackage;
-            fileExtractor = new FileSnippetExtractor(extractVersion, extractPackage, translatePackage);
+            fileExtractor = new FileSnippetExtractor(extractMetaData, translatePackage);
         }
 
         [Time]
@@ -54,41 +47,31 @@ namespace CaptureSnippets
             return new ReadSnippets(readOnlyList);
         }
 
-        class VersionAndPackage
-        {
-            public string Package;
-            public VersionRange Version;
-        }
 
         IEnumerable<Task> FromDirectory(string directoryPath, Action<ReadSnippet> add)
         {
-            var cache = new Dictionary<string, VersionAndPackage>();
+            var cache = new Dictionary<string, SnippetMetaData>();
             foreach (var subDirectory in Extensions.AllDirectories(directoryPath, includeDirectory)
                 .Where(s => includeDirectory(s)))
             {
                 var parent = Directory.GetParent(subDirectory).FullName;
-                VersionAndPackage parentInfo;
+                SnippetMetaData parentInfo;
                 cache.TryGetValue(parent, out parentInfo);
-                var package = extractPackage(subDirectory, parentInfo?.Package);
-                var version = extractVersion(subDirectory, parentInfo?.Version);
-                cache.Add(subDirectory, new VersionAndPackage
-                {
-                    Version = version,
-                    Package = package
-                });
+                var metaData = extractMetaData(subDirectory, parentInfo);
+                cache.Add(subDirectory, metaData);
                 foreach (var file in Directory.EnumerateFiles(subDirectory)
                     .Where(s => includeFile(s)))
                 {
-                    yield return FromFile(file, package, version, add);
+                    yield return FromFile(file, metaData, add);
                 }
             }
         }
 
-        async Task FromFile(string file, string parentPackage, VersionRange parentVersion, Action<ReadSnippet> callback)
+        async Task FromFile(string file, SnippetMetaData metaData, Action<ReadSnippet> callback)
         {
             using (var textReader = File.OpenText(file))
             {
-                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, callback)
+                await fileExtractor.AppendFromReader(textReader, file, metaData, callback)
                     .ConfigureAwait(false);
             }
         }

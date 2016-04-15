@@ -17,18 +17,16 @@ namespace CaptureSnippets
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="extractVersion">The version convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
+        /// <param name="extractMetaData">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
-        /// <param name="extractPackage">The package convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
-        public CachedSnippetExtractor(ExtractVersion extractVersion, IncludeDirectory includeDirectory, IncludeFile includeFile, ExtractPackage extractPackage, ConvertPackageGroupToList convertPackageGroupToList=null)
+        public CachedSnippetExtractor(ExtractMetaData extractMetaData, IncludeDirectory includeDirectory, IncludeFile includeFile, ConvertPackageGroupToList convertPackageGroupToList=null)
         {
             this.convertPackageGroupToList = convertPackageGroupToList;
-            Guard.AgainstNull(extractVersion, "extractVersion");
-            Guard.AgainstNull(extractPackage, "extractPackage");
+            Guard.AgainstNull(extractMetaData, "extractMetaData");
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
-            snippetExtractor = new DirectorySnippetExtractor(extractVersion, extractPackage, includeDirectory, includeFile);
+            snippetExtractor = new DirectorySnippetExtractor(extractMetaData, includeDirectory, includeFile);
         }
 
         /// <summary>
@@ -48,7 +46,7 @@ namespace CaptureSnippets
         {
             directory = directory.ToLower();
             var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
-           
+
             CachedSnippets cachedSnippets;
             if (!directoryToSnippets.TryGetValue(directory, out cachedSnippets))
             {

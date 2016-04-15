@@ -11,10 +11,10 @@ class Sample
     async Task UseSnippetExtractor()
     {
 
-        // setup version convention and extract snippets from fi`les
+        // setup version convention and extract snippets from files
+
         var snippetExtractor = new DirectorySnippetExtractor(
-            extractVersion: InferVersion,
-            extractPackage: InferPackage,
+            extractMetaData: InferMetaData,
             includeDirectory: IncludeDirectory,
             includeFile: IncludeFile);
         var readSnippets = await snippetExtractor.FromDirectory(@"C:\path");
@@ -23,7 +23,6 @@ class Sample
         var snippetGroups = SnippetGrouper.Group(readSnippets)
             .ToList();
 
-        
         //In this case the text will be extracted from a file path
         ProcessResult result;
         using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
@@ -32,7 +31,7 @@ class Sample
             result = await MarkdownProcessor.Apply(snippetGroups, reader, writer, SimpleMarkdownHandling.AppendGroup);
         }
 
-        // List of all snippets that the markdown file expected but did not exist in the input snippets 
+        // List of all snippets that the markdown file expected but did not exist in the input snippets
         var missingSnippets = result.MissingSnippets;
 
         // List of all snippets that the markdown file used
@@ -55,12 +54,13 @@ class Sample
         return filepath.EndsWith(".vm") || filepath.EndsWith(".cs");
     }
 
-    static Result<VersionRange> InferVersion(string path, VersionRange parent)
+    static Result<SnippetMetaData> InferMetaData(string path, SnippetMetaData parent)
     {
         VersionRange version;
-        if (VersionRange.TryParse(path.Split('_').Last(), out version))
+        var split = path.Split('_');
+        if (VersionRange.TryParse(split[1], out version))
         {
-            return version;
+            return new SnippetMetaData(version, split[0]);
         }
         return parent;
     }

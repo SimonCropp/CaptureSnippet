@@ -61,6 +61,7 @@
     <Compile Include="Grpuping\TryConvertPackageGroupToList.cs" />
     <Compile Include="Grpuping\MergedSnippets.cs" />
     <Compile Include="Grpuping\PackageGroup.cs" />
+    <Compile Include="Reading\ExtractMetaData.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Caching\CachedSnippets.cs" />
@@ -73,7 +74,6 @@
     <Compile Include="Reading\IncludeFile.cs" />
     <Compile Include="Reading\StartEndTester.cs" />
     <Compile Include="Reading\LoopState.cs" />
-    <Compile Include="Reading\ExtractPackage.cs" />
     <Compile Include="Grpuping\SnippetGroups.cs" />
     <Compile Include="Grpuping\GroupingException.cs" />
     <Compile Include="Reading\ReadSnippetsException.cs" />
@@ -92,7 +92,7 @@
     <Compile Include="Processing\ProcessResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Grpuping\SnippetGrouper.cs" />
-    <Compile Include="Reading\ExtractVersion.cs" />
+    <Compile Include="Reading\SnippetMetaData.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Reading\TranslatePackage.cs" />
     <Compile Include="VersionRangeExtensions.cs" />
