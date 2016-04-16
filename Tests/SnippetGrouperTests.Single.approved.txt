@@ -4,6 +4,7 @@
     "value": "code",
     "sources": [
       {
+        "FileLocation": "(1-1)",
         "Version": "≥ 1.2.0",
         "StartLine": 1,
         "EndLine": 1,

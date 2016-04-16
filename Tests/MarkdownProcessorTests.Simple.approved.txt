@@ -13,6 +13,7 @@
               "value": "Snippet_v5",
               "sources": [
                 {
+                  "FileLocation": "(1-2)",
                   "Version": "≥ 5.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
@@ -25,6 +26,7 @@
               "value": "Snippet_v4",
               "sources": [
                 {
+                  "FileLocation": "(1-2)",
                   "Version": "≥ 4.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
@@ -48,6 +50,7 @@
               "value": "Snippet_v3",
               "sources": [
                 {
+                  "FileLocation": "(1-2)",
                   "Version": "≥ 3.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
@@ -60,6 +63,7 @@
               "value": "Snippet_v2",
               "sources": [
                 {
+                  "FileLocation": "(1-2)",
                   "Version": "≥ 2.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
@@ -83,6 +87,7 @@
               "value": "Snippet_v5",
               "sources": [
                 {
+                  "FileLocation": "(1-2)",
                   "Version": "≥ 5.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
@@ -106,6 +111,7 @@
               "value": "Snippet_v5",
               "sources": [
                 {
+                  "FileLocation": "(1-2)",
                   "Version": "≥ 5.0.0",
                   "StartLine": 1,
                   "EndLine": 2,

@@ -13,6 +13,7 @@
               "value": "Value2",
               "sources": [
                 {
+                  "FileLocation": "(1-1)",
                   "Version": "all",
                   "StartLine": 1,
                   "EndLine": 1,
@@ -36,6 +37,7 @@
               "value": "Value1",
               "sources": [
                 {
+                  "FileLocation": "(1-1)",
                   "Version": "all",
                   "StartLine": 1,
                   "EndLine": 1,
@@ -59,6 +61,7 @@
               "value": "Value3",
               "sources": [
                 {
+                  "FileLocation": "(1-1)",
                   "Version": "all",
                   "StartLine": 1,
                   "EndLine": 1,
