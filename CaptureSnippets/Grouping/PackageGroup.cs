@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CaptureSnippets
 {
     /// <summary>
     /// A hierarchy of <see cref="VersionGroup"/>s grouped by Package > Version
     /// </summary>
+    [DebuggerDisplay("Package={Package}")]
     public class PackageGroup : IEnumerable<VersionGroup>
     {
         /// <summary>
@@ -24,7 +26,6 @@ namespace CaptureSnippets
         /// </summary>
         public readonly string Package;
 
-        
         /// <summary>
         /// All the <see cref="VersionGroup"/>s with a common key.
         /// </summary>

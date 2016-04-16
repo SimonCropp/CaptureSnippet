@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -6,6 +7,7 @@ namespace CaptureSnippets
     /// A snippet after it has been grouped by <see cref="SnippetGrouper"/>.
     /// </summary>
     /// <remarks>Note that <see cref="ReadSnippet.Version"/> and <see cref="ReadSnippet.Key"/> are not included since they can be infered by the grouping structure.</remarks>
+    [DebuggerDisplay("FileLocation={FileLocation}, Version={Version}")]
     public class SnippetSource
     {
         /// <summary>
@@ -38,5 +40,9 @@ namespace CaptureSnippets
         /// The file path the snippet was read from.
         /// </summary>
         public readonly string File;
+        /// <summary>
+        /// The <see cref="File"/>, <see cref="StartLine"/> and <see cref="EndLine"/> concatenated.
+        /// </summary>
+        public string FileLocation => $"{File}({StartLine}-{EndLine})";
     }
 }

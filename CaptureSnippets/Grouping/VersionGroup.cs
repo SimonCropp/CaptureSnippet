@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -7,6 +8,7 @@ namespace CaptureSnippets
     /// <summary>
     /// Allows <see cref="SnippetSource"/>s to be grouped by their <see cref="VersionRange"/>.
     /// </summary>
+    [DebuggerDisplay("Version={Version}, Value={Value}")]
     public class VersionGroup : IEnumerable<SnippetSource>
     {
         /// <summary>

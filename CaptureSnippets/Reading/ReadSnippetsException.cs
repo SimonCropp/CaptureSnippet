@@ -4,8 +4,14 @@ using System.Text;
 
 namespace CaptureSnippets
 {
+    /// <summary>
+    /// Thrown when there are <see cref="ReadSnippet"/>s in error.
+    /// </summary>
     public class ReadSnippetsException : Exception
     {
+        /// <summary>
+        /// The list of <see cref="ReadSnippet"/>s that are in error.
+        /// </summary>
         public readonly IReadOnlyList<ReadSnippet> ReadSnippetErrors;
 
         /// <summary>

@@ -43,7 +43,7 @@ namespace CaptureSnippets
         /// Any errors found in the parsing of snippets.
         /// </summary>
         public readonly IReadOnlyList<ReadSnippet> ReadingErrors;
-        
+
         /// <summary>
         /// Enumerates through the <see cref="SnippetGroups"/> but will first throw an exception if there are any errors in <see cref="ReadingErrors"/>.
         /// </summary>

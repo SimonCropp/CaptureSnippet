@@ -159,7 +159,7 @@ namespace CaptureSnippets
                     path: path,
                     lineNumberInError: startRow,
                     key: loopState.CurrentKey,
-                    version: metaData.VersionRange,
+                    version: metaData.Version,
                     package: metaData.Package);
             }
 
@@ -174,7 +174,7 @@ namespace CaptureSnippets
                         path: path,
                         lineNumberInError: startRow,
                         key: loopState.CurrentKey,
-                        version: metaData.VersionRange,
+                        version: metaData.Version,
                         package: metaData.Package);
                 }
                 translatedPackage = translateResult.Value;
@@ -183,7 +183,7 @@ namespace CaptureSnippets
                 startLine: startRow,
                 endLine: stringReader.Index,
                 key: loopState.CurrentKey,
-                version: metaData.VersionRange,
+                version: metaData.Version,
                 value: value,
                 path: path,
                 package: translatedPackage,
@@ -215,7 +215,7 @@ namespace CaptureSnippets
                 // Suffix1 must be a package
                 if (loopState.Suffix1.StartsWithLetter())
                 {
-                    parsedMetaData = new SnippetMetaData(metaDataForPath.VersionRange, loopState.Suffix1);
+                    parsedMetaData = new SnippetMetaData(metaDataForPath.Version, loopState.Suffix1);
                     error = null;
                     return true;
                 }

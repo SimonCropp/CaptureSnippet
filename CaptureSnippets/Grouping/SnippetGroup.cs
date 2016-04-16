@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CaptureSnippets
 {
     /// <summary>
     /// A hierarchy of <see cref="SnippetSource"/>s grouped by Key > Package
     /// </summary>
+    [DebuggerDisplay("Key={Key}, Language={Language}")]
     public class SnippetGroup : IEnumerable<PackageGroup>
     {
         /// <summary>

@@ -1,16 +1,18 @@
+using System.Diagnostics;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
+    [DebuggerDisplay("Version={Version}, Package={Package}")]
     public class SnippetMetaData
     {
-        public readonly VersionRange VersionRange;
+        public readonly VersionRange Version;
         public readonly string Package;
 
-        public SnippetMetaData(VersionRange versionRange, string package)
+        public SnippetMetaData(VersionRange version, string package)
         {
-            Guard.AgainstNull(versionRange, "versionRange");
-            VersionRange = versionRange;
+            Guard.AgainstNull(version, "version");
+            Version = version;
             Package = package;
         }
     }

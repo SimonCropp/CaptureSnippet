@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
+[DebuggerDisplay("CurrentKey={CurrentKey}, Suffix1={Suffix1}, Suffix2={Suffix2}, IsInSnippet={IsInSnippet}")]
 class LoopState
 {
     public void Reset()

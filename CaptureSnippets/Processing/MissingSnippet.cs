@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 
 namespace CaptureSnippets
@@ -5,6 +6,7 @@ namespace CaptureSnippets
     /// <summary>
     /// Part of <see cref="ProcessResult"/>.
     /// </summary>
+    [DebuggerDisplay("Key={Key}, Line={Line}")]
     public class MissingSnippet
     {
         /// <summary>
