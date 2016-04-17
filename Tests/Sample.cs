@@ -54,7 +54,7 @@ class Sample
         return filepath.EndsWith(".vm") || filepath.EndsWith(".cs");
     }
 
-    static Result<SnippetMetaData> InferMetaData(string path, SnippetMetaData parent)
+    static Result<SnippetMetaData> InferMetaData(string rootPath, string path, SnippetMetaData parent)
     {
         VersionRange version;
         var split = path.Split('_');

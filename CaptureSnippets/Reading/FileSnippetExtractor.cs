@@ -33,14 +33,14 @@ namespace CaptureSnippets
             {
                 this.translatePackage = alias => InvokeTranslatePackage(translatePackage, alias);
             }
-            this.extractMetaData = (path, parent) => InvokeExtractVersion(extractMetaData, path, parent);
+            this.extractMetaData = (rootPath, path, parent) => InvokeExtractVersion(extractMetaData, rootPath, path, parent);
         }
 
 
-        static Result<SnippetMetaData> InvokeExtractVersion(ExtractMetaData extractMetaData, string path, SnippetMetaData parent)
+        static Result<SnippetMetaData> InvokeExtractVersion(ExtractMetaData extractMetaData, string rootPath, string path, SnippetMetaData parent)
         {
             path = path.Substring(0, path.LastIndexOf('.'));
-            var result = extractMetaData(path, parent);
+            var result = extractMetaData(rootPath, path, parent);
             if (result.Success)
             {
                 if (result.Value == null)
@@ -72,12 +72,12 @@ namespace CaptureSnippets
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
         /// <param name="path">The current path so extract <see cref="ReadSnippet"/>s from.</param>
         /// <param name="parentMetaData">The inherited <see cref="SnippetMetaData"/>.</param>
-        public async Task AppendFromReader(TextReader textReader, string path, SnippetMetaData parentMetaData, Action<ReadSnippet> callback)
+        public async Task AppendFromReader(TextReader textReader, string rootPath, string path, SnippetMetaData parentMetaData, Action<ReadSnippet> callback)
         {
             Guard.AgainstNull(textReader, "textReader");
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippets(reader, path, parentMetaData, callback)
+                await GetSnippets(reader, rootPath, path, parentMetaData, callback)
                     .ConfigureAwait(false);
             }
         }
@@ -89,9 +89,9 @@ namespace CaptureSnippets
         }
 
 
-        async Task GetSnippets(IndexReader stringReader, string path, SnippetMetaData parentMetaData, Action<ReadSnippet> callback)
+        async Task GetSnippets(IndexReader stringReader, string rootPath, string path, SnippetMetaData parentMetaData, Action<ReadSnippet> callback)
         {
-            var metaDataForPath =  new Lazy<SnippetMetaData>(() => extractMetaData(path, parentMetaData).Value);
+            var metaDataForPath =  new Lazy<SnippetMetaData>(() => extractMetaData(rootPath, path, parentMetaData).Value);
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();
             while (true)

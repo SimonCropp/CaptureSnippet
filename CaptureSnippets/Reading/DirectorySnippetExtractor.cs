@@ -41,14 +41,14 @@ namespace CaptureSnippets
         {
             Guard.AgainstNull(directoryPath, "directoryPath");
             var snippets = new ConcurrentBag<ReadSnippet>();
-            await Task.WhenAll(FromDirectory(directoryPath, snippets.Add))
+            await Task.WhenAll(FromDirectory(directoryPath, directoryPath, snippets.Add))
                 .ConfigureAwait(false);
             var readOnlyList = snippets.ToList();
             return new ReadSnippets(readOnlyList);
         }
 
 
-        IEnumerable<Task> FromDirectory(string directoryPath, Action<ReadSnippet> add)
+        IEnumerable<Task> FromDirectory(string rootPath, string directoryPath, Action<ReadSnippet> add)
         {
             var cache = new Dictionary<string, SnippetMetaData>();
             foreach (var subDirectory in Extensions.AllDirectories(directoryPath, includeDirectory)
@@ -57,21 +57,21 @@ namespace CaptureSnippets
                 var parent = Directory.GetParent(subDirectory).FullName;
                 SnippetMetaData parentInfo;
                 cache.TryGetValue(parent, out parentInfo);
-                var metaData = extractMetaData(subDirectory, parentInfo);
+                var metaData = extractMetaData(rootPath, subDirectory, parentInfo);
                 cache.Add(subDirectory, metaData);
                 foreach (var file in Directory.EnumerateFiles(subDirectory)
                     .Where(s => includeFile(s)))
                 {
-                    yield return FromFile(file, metaData, add);
+                    yield return FromFile(rootPath, file, metaData, add);
                 }
             }
         }
 
-        async Task FromFile(string file, SnippetMetaData metaData, Action<ReadSnippet> callback)
+        async Task FromFile(string rootPath, string file, SnippetMetaData metaData, Action<ReadSnippet> callback)
         {
             using (var textReader = File.OpenText(file))
             {
-                await fileExtractor.AppendFromReader(textReader, file, metaData, callback)
+                await fileExtractor.AppendFromReader(textReader, rootPath, file, metaData, callback)
                     .ConfigureAwait(false);
             }
         }

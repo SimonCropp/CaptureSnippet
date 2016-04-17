@@ -31,11 +31,11 @@ public class ImportTestSuite
         var snippets = new List<ReadSnippet>();
         var snippetMetaData = new SnippetMetaData(VersionRange.All, null);
         var result = snippetMetaData;
-        var extractor = new FileSnippetExtractor((x, y) => result);
+        var extractor = new FileSnippetExtractor((x, y, z) => result);
         var path = Path.Combine(folder, "code.cs");
         using (var textReader = File.OpenText(path))
         {
-            await extractor.AppendFromReader(textReader, path, snippetMetaData, snippets.Add);
+            await extractor.AppendFromReader(textReader, folder, path, snippetMetaData, snippets.Add);
         }
 
         var snippetGroups = SnippetGrouper.Group(snippets)
