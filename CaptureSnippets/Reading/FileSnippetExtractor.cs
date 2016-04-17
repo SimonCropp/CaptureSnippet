@@ -91,6 +91,7 @@ namespace CaptureSnippets
 
         async Task GetSnippets(IndexReader stringReader, string path, SnippetMetaData parentMetaData, Action<ReadSnippet> callback)
         {
+            var metaDataForPath =  new Lazy<SnippetMetaData>(() => extractMetaData(path, parentMetaData).Value);
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();
             while (true)
@@ -123,7 +124,7 @@ namespace CaptureSnippets
                         continue;
                     }
 
-                    var snippet = BuildSnippet(stringReader, path, loopState, language, parentMetaData);
+                    var snippet = BuildSnippet(stringReader, path, loopState, language, metaDataForPath);
 
                     callback(snippet);
                     loopState.Reset();
@@ -134,13 +135,13 @@ namespace CaptureSnippets
         }
 
 
-        ReadSnippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language, SnippetMetaData parentMetaData)
+        ReadSnippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language, Lazy<SnippetMetaData> metaDataForPath)
         {
             var startRow = loopState.StartLine.Value + 1;
 
             string error;
             SnippetMetaData metaData;
-            if (!TryParseVersionAndPackage(path, loopState, parentMetaData, out metaData, out error))
+            if (!TryParseVersionAndPackage(loopState, metaDataForPath, out metaData, out error))
             {
                 return new ReadSnippet(
                     error: error,
@@ -190,10 +191,10 @@ namespace CaptureSnippets
                 language: language.ToLowerInvariant());
         }
 
-        bool TryParseVersionAndPackage(string path, LoopState loopState, SnippetMetaData parentMetaData, out SnippetMetaData parsedMetaData, out string error)
+        bool TryParseVersionAndPackage(LoopState loopState, Lazy<SnippetMetaData> lazyMetaDataForPath, out SnippetMetaData parsedMetaData, out string error)
         {
+            var metaDataForPath = lazyMetaDataForPath.Value;
             parsedMetaData = null;
-            var metaDataForPath = extractMetaData(path, parentMetaData).Value;
             if (loopState.Suffix1 == null)
             {
                 parsedMetaData = metaDataForPath;
