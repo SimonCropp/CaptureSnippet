@@ -35,7 +35,7 @@ namespace CaptureSnippets
         public readonly long Ticks;
 
         /// <summary>
-        /// Errors that occured as part of the grouping.
+        /// Errors that occurred as part of the grouping.
         /// </summary>
         public readonly IReadOnlyList<string> GroupingErrors;
 

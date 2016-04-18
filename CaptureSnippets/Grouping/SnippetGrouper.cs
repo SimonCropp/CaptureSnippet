@@ -140,7 +140,7 @@ namespace CaptureSnippets
 
             while (true)
             {
-                var mergeOccured = false;
+                var mergeOccurred = false;
 
                 for (var i = 0; i < versions.Count - 1; i++)
                 {
@@ -161,12 +161,12 @@ namespace CaptureSnippets
                         left.Range = newVersion;
                         left.Snippets.AddRange(right.Snippets);
                         versions.RemoveAt(j);
-                        mergeOccured = true;
+                        mergeOccurred = true;
                         j--;
                     }
                 }
 
-                if (!mergeOccured)
+                if (!mergeOccurred)
                 {
                     break;
                 }

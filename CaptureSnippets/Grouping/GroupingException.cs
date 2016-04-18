@@ -26,7 +26,7 @@ namespace CaptureSnippets
         {
             get
             {
-                var stringBuilder = new StringBuilder("Errors occured Grouping snippets:\r\n");
+                var stringBuilder = new StringBuilder("Errors occurred Grouping snippets:\r\n");
                 foreach (var error in Errors)
                 {
                     stringBuilder.AppendLine(error);

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>CaptureSnippets</id>
-    <version>$version$-beta06</version>
+    <version>$version$-beta07</version>
     <title>CaptureSnippets</title>
     <authors>Simon Cropp</authors>
     <owners>Simon Cropp</owners>

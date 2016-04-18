@@ -38,7 +38,7 @@ namespace CaptureSnippets
         {
             if (version.IsPrerelease)
             {
-                throw new Exception("Cannot decrement prerelease version");
+                throw new Exception("Cannot decrement pre-release version");
             }
             if (version.Patch > 0)
             {
@@ -49,6 +49,22 @@ namespace CaptureSnippets
                 return $"{version.Major}.{version.Minor - 1}.x";
             }
             return $"{version.Major - 1}.x";
+        }
+        public static SemanticVersion PreviousVersion2(this SemanticVersion version)
+        {
+            if (version.IsPrerelease)
+            {
+                throw new Exception("Cannot decrement pre-release version");
+            }
+            if (version.Patch > 0)
+            {
+                return new SemanticVersion(version.Major,version.Minor,version.Patch - 1);
+            }
+            if (version.Minor > 0)
+            {
+                return new SemanticVersion(version.Major, version.Minor-1, 0);
+            }
+            return new SemanticVersion(version.Major-1, 0, 0);
         }
 
         public static string SimplePrint(this NuGetVersion version)
@@ -146,21 +162,27 @@ namespace CaptureSnippets
                 sb.Append("N");
             }
 
-            sb.Append(" - ");
 
             if (range.HasUpperBound)
             {
                 if (range.IsMaxInclusive)
                 {
+                    sb.Append(" - ");
                     sb.Append(maxVersion.SimplePrint());
                 }
                 else
                 {
-                    sb.Append(maxVersion.PreviousVersion());
+                    var previousVersion2 = maxVersion.PreviousVersion2();
+                    if (previousVersion2 > minVersion)
+                    {
+                        sb.Append(" - ");
+                        sb.Append(maxVersion.PreviousVersion());
+                    }
                 }
             }
             else
             {
+                sb.Append(" - ");
                 sb.Append("N");
             }
 
@@ -216,7 +238,7 @@ namespace CaptureSnippets
                     includeMaxVersion: maxInclusive);
                 return true;
             }
-            
+
             if ((range1.IsMaxInclusive || range2.IsMinInclusive) &&
                 range1.HasUpperBound &&
                 range1.MaxVersion.Equals(range2.MinVersion))
