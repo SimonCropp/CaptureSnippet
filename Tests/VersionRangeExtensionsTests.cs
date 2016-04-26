@@ -27,9 +27,9 @@ public class VersionRangeExtensionsTests
         var version2 = VersionRange.Parse("[2.0,3.0)");
         VersionRange newVersion;
         Assert.IsTrue(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
-        Assert.AreEqual("≥ 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+        Assert.AreEqual(">= 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
         Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
-        Assert.AreEqual("≥ 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+        Assert.AreEqual(">= 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
     }
 
     [Test]
@@ -39,9 +39,9 @@ public class VersionRangeExtensionsTests
         var version2 = VersionRange.Parse("(2.0,3.0)");
         VersionRange newVersion;
         Assert.IsTrue(VersionRangeExtensions.CanMerge(version1, version2, out newVersion));
-        Assert.AreEqual("≥ 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+        Assert.AreEqual(">= 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
         Assert.IsTrue(VersionRangeExtensions.CanMerge(version2, version1, out newVersion));
-        Assert.AreEqual("≥ 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
+        Assert.AreEqual(">= 1.0.0 && < 3.0.0", newVersion.ToFriendlyString());
     }
 
     [Test]

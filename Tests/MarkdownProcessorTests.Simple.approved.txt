@@ -9,12 +9,12 @@
           "Package": "package1",
           "versions": [
             {
-              "version": "(≥ 5.0.0)",
+              "version": "(>= 5.0.0)",
               "value": "Snippet_v5",
               "sources": [
                 {
                   "FileLocation": "(1-2)",
-                  "Version": "≥ 5.0.0",
+                  "Version": ">= 5.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -22,12 +22,12 @@
               ]
             },
             {
-              "version": "(≥ 4.0.0)",
+              "version": "(>= 4.0.0)",
               "value": "Snippet_v4",
               "sources": [
                 {
                   "FileLocation": "(1-2)",
-                  "Version": "≥ 4.0.0",
+                  "Version": ">= 4.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -46,12 +46,12 @@
           "Package": "package1",
           "versions": [
             {
-              "version": "(≥ 3.0.0)",
+              "version": "(>= 3.0.0)",
               "value": "Snippet_v3",
               "sources": [
                 {
                   "FileLocation": "(1-2)",
-                  "Version": "≥ 3.0.0",
+                  "Version": ">= 3.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -59,12 +59,12 @@
               ]
             },
             {
-              "version": "(≥ 2.0.0)",
+              "version": "(>= 2.0.0)",
               "value": "Snippet_v2",
               "sources": [
                 {
                   "FileLocation": "(1-2)",
-                  "Version": "≥ 2.0.0",
+                  "Version": ">= 2.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -83,12 +83,12 @@
           "Package": "package1",
           "versions": [
             {
-              "version": "(≥ 5.0.0)",
+              "version": "(>= 5.0.0)",
               "value": "Snippet_v5",
               "sources": [
                 {
                   "FileLocation": "(1-2)",
-                  "Version": "≥ 5.0.0",
+                  "Version": ">= 5.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -107,12 +107,12 @@
           "Package": "package1",
           "versions": [
             {
-              "version": "(≥ 5.0.0)",
+              "version": "(>= 5.0.0)",
               "value": "Snippet_v5",
               "sources": [
                 {
                   "FileLocation": "(1-2)",
-                  "Version": "≥ 5.0.0",
+                  "Version": ">= 5.0.0",
                   "StartLine": 1,
                   "EndLine": 2,
                   "File": null
@@ -127,11 +127,11 @@
   "
 <!-- snippet: versionedSnippet1 -->
 ### Package: 'package1'
-#### Version: '≥ 5.0.0'
+#### Version: '>= 5.0.0'
 ```cs
 Snippet_v5
 ```
-#### Version: '≥ 4.0.0'
+#### Version: '>= 4.0.0'
 ```cs
 Snippet_v4
 ```
@@ -140,11 +140,11 @@ some text
 
 <!-- snippet: versionedSnippet2 -->
 ### Package: 'package1'
-#### Version: '≥ 3.0.0'
+#### Version: '>= 3.0.0'
 ```cs
 Snippet_v3
 ```
-#### Version: '≥ 2.0.0'
+#### Version: '>= 2.0.0'
 ```cs
 Snippet_v2
 ```
@@ -153,7 +153,7 @@ some other text
 
 <!-- snippet: nonVersionedSnippet1 -->
 ### Package: 'package1'
-#### Version: '≥ 5.0.0'
+#### Version: '>= 5.0.0'
 ```cs
 Snippet_v5
 ```
@@ -162,7 +162,7 @@ even more text
 
 <!-- snippet: nonVersionedSnippet2 -->
 ### Package: 'package1'
-#### Version: '≥ 5.0.0'
+#### Version: '>= 5.0.0'
 ```cs
 Snippet_v5
 ```

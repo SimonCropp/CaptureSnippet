@@ -7,12 +7,12 @@
         "Package": "packageA",
         "versions": [
           {
-            "version": "(≥ 1.2.0)",
+            "version": "(>= 1.2.0)",
             "value": "1",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.2.0",
+                "Version": ">= 1.2.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null
@@ -25,12 +25,12 @@
         "Package": "packageB",
         "versions": [
           {
-            "version": "(≥ 1.2.0)",
+            "version": "(>= 1.2.0)",
             "value": "1",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.2.0",
+                "Version": ">= 1.2.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null

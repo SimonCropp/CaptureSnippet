@@ -7,12 +7,12 @@
         "Package": "package1",
         "versions": [
           {
-            "version": "(≥ 1.0.0)",
+            "version": "(>= 1.0.0)",
             "value": "3",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.0.0",
+                "Version": ">= 1.0.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null
@@ -25,12 +25,12 @@
         "Package": "package2",
         "versions": [
           {
-            "version": "(≥ 1.0.0)",
+            "version": "(>= 1.0.0)",
             "value": "4",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.0.0",
+                "Version": ">= 1.0.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
@@ -43,12 +43,12 @@
         "Package": "package3",
         "versions": [
           {
-            "version": "(≥ 1.0.0)",
+            "version": "(>= 1.0.0)",
             "value": "1",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.0.0",
+                "Version": ">= 1.0.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null

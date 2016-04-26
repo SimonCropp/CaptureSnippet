@@ -7,12 +7,12 @@
         "Package": "package1",
         "versions": [
           {
-            "version": "(≥ 1.4.0)",
+            "version": "(>= 1.4.0)",
             "value": "2",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.4.0",
+                "Version": ">= 1.4.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null
@@ -20,12 +20,12 @@
             ]
           },
           {
-            "version": "(≥ 1.2.0)",
+            "version": "(>= 1.2.0)",
             "value": "1",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.2.0",
+                "Version": ">= 1.2.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null
@@ -44,19 +44,19 @@
         "Package": "package1",
         "versions": [
           {
-            "version": "(≥ 1.6.0)",
+            "version": "(>= 1.6.0)",
             "value": "5",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.6.0",
+                "Version": ">= 1.6.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
               },
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.7.0",
+                "Version": ">= 1.7.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
@@ -64,19 +64,19 @@
             ]
           },
           {
-            "version": "(≥ 1.4.0)",
+            "version": "(>= 1.4.0)",
             "value": "4",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.4.0",
+                "Version": ">= 1.4.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
               },
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.5.0",
+                "Version": ">= 1.5.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": ""
@@ -84,12 +84,12 @@
             ]
           },
           {
-            "version": "(≥ 1.3.0)",
+            "version": "(>= 1.3.0)",
             "value": "3",
             "sources": [
               {
                 "FileLocation": "(1-1)",
-                "Version": "≥ 1.3.0",
+                "Version": ">= 1.3.0",
                 "StartLine": 1,
                 "EndLine": 1,
                 "File": null

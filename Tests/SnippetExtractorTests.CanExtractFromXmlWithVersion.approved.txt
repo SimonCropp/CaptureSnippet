@@ -11,7 +11,7 @@
       "Key": "codekey",
       "Language": "cs",
       "Path": "path.cs",
-      "Version": "≥ 5.0.0 && < 6.0.0",
+      "Version": ">= 5.0.0 && < 6.0.0",
       "Package": null
     }
   ]

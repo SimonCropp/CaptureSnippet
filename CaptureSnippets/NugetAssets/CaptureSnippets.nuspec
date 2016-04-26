@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>CaptureSnippets</id>
-    <version>$version$-beta07</version>
+    <version>$version$-beta08</version>
     <title>CaptureSnippets</title>
     <authors>Simon Cropp</authors>
     <owners>Simon Cropp</owners>
@@ -14,7 +14,7 @@
     <language>en-AU</language>
     <tags>CaptureSnippets</tags>
     <dependencies>
-      <dependency id="NuGet.Versioning" version="[3.3.0, 4.0.0)"/>
+      <dependency id="NuGet.Versioning" version="[3.4.0, 4.0.0)"/>
     </dependencies>
   </metadata>
 </package>
