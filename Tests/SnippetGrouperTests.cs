@@ -13,6 +13,34 @@ public class SnippetGrouperTests
 {
 
     [Test]
+    public void Mixing_null_and_non_null_packages()
+    {
+        var snippets = new List<ReadSnippet>
+        {
+            new ReadSnippet(
+                key: "key",
+                version: VersionRange.All,
+                value: "1",
+                startLine: 1,
+                endLine: 3,
+                path: @"c:\files\file2.txt",
+                language: string.Empty,
+                package: "package1"),
+            new ReadSnippet(
+                key: "key",
+                version:  VersionRange.All,
+                value: "1",
+                startLine: 4,
+                endLine: 5,
+                path: @"c:\files\file1.txt",
+                language: string.Empty,
+                package: null),
+        };
+        var snippetGroups = SnippetGrouper.Group(snippets);
+        var readSnippetError = snippetGroups.Errors.Single();
+        Approvals.Verify(readSnippetError);
+    }
+    [Test]
     public void Mixing_null_and_non_null_versions()
     {
         var snippets = new List<ReadSnippet>
@@ -219,7 +247,7 @@ public class SnippetGrouperTests
                 value: "code",
                 startLine: 1,
                 endLine: 1,
-                path: null, 
+                path: null,
                 language: string.Empty,
                 package: "package1"),
             new ReadSnippet(
@@ -228,7 +256,7 @@ public class SnippetGrouperTests
                 value: "code",
                 startLine: 1,
                 endLine: 1,
-                path: null, 
+                path: null,
                 language: string.Empty,
                 package: "package1"),
             new ReadSnippet(
@@ -237,7 +265,7 @@ public class SnippetGrouperTests
                 value: "code",
                 startLine: 1,
                 endLine: 1,
-                path: null, 
+                path: null,
                 language: string.Empty,
                 package: "package1"),
         };

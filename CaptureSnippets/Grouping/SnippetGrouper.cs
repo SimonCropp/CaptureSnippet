@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -75,9 +76,8 @@ namespace CaptureSnippets
                 error = $"All languages of a give key must be equivalent. Key='{key}'.";
                 return false;
             }
-            if (MixesEmptyPackageWithNonEmpty(readSnippets))
+            if (MixesEmptyPackageWithNonEmpty(readSnippets, out error))
             {
-                error = $"Mixes empty packages with non empty packages. Key='{key}'.";
                 return false;
             }
             var packageGroups = new List<PackageGroup>();
@@ -91,7 +91,6 @@ namespace CaptureSnippets
                 }
                 packageGroups.Add(packageGroup);
             }
-
 
             if (convertPackageGroupToList == null)
             {
@@ -114,11 +113,23 @@ namespace CaptureSnippets
             return true;
         }
 
-        static bool MixesEmptyPackageWithNonEmpty(List<ReadSnippet> readSnippets)
+
+        static bool MixesEmptyPackageWithNonEmpty(List<ReadSnippet> readSnippets, out string error)
         {
             var containsNullPackages = readSnippets.Any(x => x.Package == null);
             var containsNonNullPackages = readSnippets.Any(x => x.Package != null);
-            return containsNullPackages && containsNonNullPackages;
+            if (containsNullPackages && containsNonNullPackages)
+            {
+                var builder = new StringBuilder($"Mixes empty packages with non empty packages. Key='{readSnippets.First().Key}'.\r\nSnippets:\r\n");
+                foreach (var snippet in readSnippets)
+                {
+                    builder.AppendLine($"   Location: '{snippet.FileLocation}'. Package: {snippet.Package}");
+                }
+                error = builder.ToString();
+                return true;
+            }
+            error = null;
+            return false;
         }
 
         static bool LanguagesAreInConsistent(List<ReadSnippet> readSnippets)
@@ -126,7 +137,6 @@ namespace CaptureSnippets
             var requiredLanguage = readSnippets.First().Language;
             return readSnippets.Any(x => x.Language != requiredLanguage);
         }
-
 
         internal static IEnumerable<VersionGroup> ProcessKeyGroup(List<ReadSnippet> readSnippets)
         {
