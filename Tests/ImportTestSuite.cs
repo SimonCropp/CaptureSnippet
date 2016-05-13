@@ -13,7 +13,7 @@ using NUnit.Framework;
 public class ImportTestSuite
 {
     [Test]
-    public async void RunScenarios()
+    public async Task RunScenarios()
     {
         var directory = @"scenarios\".ToCurrentDirectory();
         var folders = Directory.GetDirectories(directory);
