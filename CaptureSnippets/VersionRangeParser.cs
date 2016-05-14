@@ -7,9 +7,29 @@ namespace CaptureSnippets
 
         public static bool TryParseVersion(string stringVersion, out VersionRange parsedVersion)
         {
-            if (stringVersion == "all")
+            if (stringVersion == "All")
             {
                 parsedVersion = VersionRange.All;
+                return true;
+            }
+            if (stringVersion == "AllFloating")
+            {
+                parsedVersion = VersionRange.AllFloating;
+                return true;
+            }
+            if (stringVersion == "AllStable")
+            {
+                parsedVersion = VersionRange.AllStable;
+                return true;
+            }
+            if (stringVersion == "AllStableFloating")
+            {
+                parsedVersion = VersionRange.AllStableFloating;
+                return true;
+            }
+            if (stringVersion == "None")
+            {
+                parsedVersion = VersionRange.None;
                 return true;
             }
             int intversion;

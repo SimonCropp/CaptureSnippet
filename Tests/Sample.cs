@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CaptureSnippets;
 using NuGet.Versioning;
 // ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedParameter.Local
 
 class Sample
 {
@@ -14,7 +15,7 @@ class Sample
         // setup version convention and extract snippets from files
 
         var snippetExtractor = new DirectorySnippetExtractor(
-            extractMetaData: InferMetaData,
+            extractMetaDataFromPath: InferMetaData,
             includeDirectory: IncludeDirectory,
             includeFile: IncludeFile);
         var readSnippets = await snippetExtractor.FromDirectory(@"C:\path");

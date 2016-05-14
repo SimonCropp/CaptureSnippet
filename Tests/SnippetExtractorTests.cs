@@ -125,13 +125,17 @@ public class SnippetExtractorTests
         }
     }
 
-    public async Task<ReadSnippets> FromText(string contents)
+    public async Task<ReadSnippets> FromText(string contents, ExtractMetaDataFromPath extractMetaDataFromPath = null, TranslatePackage translatePackage = null, ParseVersion parseVersion = null)
     {
         using (var stringReader = new StringReader(contents))
         {
             var snippets = new List<ReadSnippet>();
             var result = new SnippetMetaData(VersionRange.All, null);
-            var extractor = new FileSnippetExtractor((x, y, z) => result);
+            if (extractMetaDataFromPath == null)
+            {
+                extractMetaDataFromPath = (x, y, z) => result;
+            }
+            var extractor = new FileSnippetExtractor(extractMetaDataFromPath, translatePackage, parseVersion);
             await extractor.AppendFromReader(stringReader, null, "path.cs", result, snippets.Add)
                 .ConfigureAwait(false);
             return new ReadSnippets(snippets);
@@ -146,6 +150,18 @@ public class SnippetExtractorTests
   <configSections/>
   <!-- endcode -->";
         var snippets = FromText(input).Result;
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+    [Test]
+    public void CanOverrideInlineMetadataWithConvention()
+    {
+        var input = @"
+  <!-- startcode CodeKey 5 -->
+  <configSections/>
+  <!-- endcode -->";
+        var snippets = FromText(
+            contents: input,
+            parseVersion:(version, path, forPath) => VersionRange.Parse("10.5")).Result;
         ObjectApprover.VerifyWithJson(snippets);
     }
 

@@ -12,35 +12,53 @@ namespace CaptureSnippets
     public class FileSnippetExtractor
     {
         TranslatePackage translatePackage;
-        ExtractMetaData extractMetaData;
+        ExtractMetaDataFromPath extractMetaDataFromPath;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
+        ParseVersion parseVersion;
         const string LineEnding = "\r\n";
 
         /// <summary>
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
         /// </summary>
-        /// <param name="extractMetaData">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
+        /// <param name="extractMetaDataFromPath">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
         /// <param name="translatePackage">How to translate a package alias to the full package name.</param>
-        public FileSnippetExtractor(ExtractMetaData extractMetaData, TranslatePackage translatePackage = null)
+        /// <param name="parseVersion">Used to infer <see cref="VersionRange"/>. If null will default to <see cref="VersionRangeParser.TryParseVersion"/>.</param>
+        public FileSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, TranslatePackage translatePackage = null, ParseVersion parseVersion = null)
         {
-            Guard.AgainstNull(extractMetaData, "extractMetaData");
+            Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
             if (translatePackage == null)
             {
-                this.translatePackage = alias => alias;
+                this.translatePackage = (path,alias) => alias;
             }
             else
             {
-                this.translatePackage = alias => InvokeTranslatePackage(translatePackage, alias);
+                this.translatePackage = (path, alias) => InvokeTranslatePackage(translatePackage, path, alias);
             }
-            this.extractMetaData = (rootPath, path, parent) => InvokeExtractVersion(extractMetaData, rootPath, path, parent);
+            if (parseVersion == null)
+            {
+                this.parseVersion = (version, path, metaDataForPath) =>
+                {
+                    VersionRange parsedVersion;
+                    if (VersionRangeParser.TryParseVersion(version, out parsedVersion))
+                    {
+                        return parsedVersion;
+                    }
+                    return Result<VersionRange>.Failed("Failed to parse " + version);
+                };
+            }
+            else
+            {
+                this.parseVersion = parseVersion;
+            }
+            this.extractMetaDataFromPath = (rootPath, path, parent) => InvokeExtractVersion(extractMetaDataFromPath, rootPath, path, parent);
         }
 
 
-        static Result<SnippetMetaData> InvokeExtractVersion(ExtractMetaData extractMetaData, string rootPath, string path, SnippetMetaData parent)
+        static Result<SnippetMetaData> InvokeExtractVersion(ExtractMetaDataFromPath extractMetaDataFromPath, string rootPath, string path, SnippetMetaData parent)
         {
             path = path.Substring(0, path.LastIndexOf('.'));
-            var result = extractMetaData(rootPath, path, parent);
+            var result = extractMetaDataFromPath(rootPath, path, parent);
             if (result.Success)
             {
                 if (result.Value == null)
@@ -55,9 +73,9 @@ namespace CaptureSnippets
             return result;
         }
 
-        static Result<string> InvokeTranslatePackage(TranslatePackage translatePackage, string alias)
+        static Result<string> InvokeTranslatePackage(TranslatePackage translatePackage, string path, string alias)
         {
-            var result = translatePackage(alias);
+            var result = translatePackage(path, alias);
             if (result.Success && string.IsNullOrWhiteSpace(result.Value))
             {
                 return Result<string>.Failed($"TranslatePackage supplied an empty package for '{alias}'.");
@@ -91,7 +109,7 @@ namespace CaptureSnippets
 
         async Task GetSnippets(IndexReader stringReader, string rootPath, string path, SnippetMetaData parentMetaData, Action<ReadSnippet> callback)
         {
-            var metaDataForPath =  new Lazy<SnippetMetaData>(() => extractMetaData(rootPath, path, parentMetaData).Value);
+            var metaDataForPath =  new Lazy<SnippetMetaData>(() => extractMetaDataFromPath(rootPath, path, parentMetaData).Value);
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();
             while (true)
@@ -141,7 +159,7 @@ namespace CaptureSnippets
 
             string error;
             SnippetMetaData metaData;
-            if (!TryParseVersionAndPackage(loopState, metaDataForPath, out metaData, out error))
+            if (!TryParseVersionAndPackage(loopState, metaDataForPath, path, out metaData, out error))
             {
                 return new ReadSnippet(
                     error: error,
@@ -167,7 +185,7 @@ namespace CaptureSnippets
             string translatedPackage = null;
             if (metaData.Package != null)
             {
-                var translateResult = translatePackage(metaData.Package);
+                var translateResult = translatePackage(path, metaData.Package);
                 if (!translateResult.Success)
                 {
                     return new ReadSnippet(
@@ -191,7 +209,7 @@ namespace CaptureSnippets
                 language: language.ToLowerInvariant());
         }
 
-        bool TryParseVersionAndPackage(LoopState loopState, Lazy<SnippetMetaData> lazyMetaDataForPath, out SnippetMetaData parsedMetaData, out string error)
+        bool TryParseVersionAndPackage(LoopState loopState, Lazy<SnippetMetaData> lazyMetaDataForPath, string path, out SnippetMetaData parsedMetaData, out string error)
         {
             var metaDataForPath = lazyMetaDataForPath.Value;
             parsedMetaData = null;
@@ -202,13 +220,14 @@ namespace CaptureSnippets
                 return true;
             }
 
-            VersionRange parsedVersion;
+                Result<VersionRange> version;
             if (loopState.Suffix2 == null)
             {
                 // Suffix1 must be a version
-                if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out parsedVersion))
+                version = parseVersion(loopState.Suffix1, path, metaDataForPath);
+                if (version.Success)
                 {
-                    parsedMetaData = new SnippetMetaData(parsedVersion, metaDataForPath.Package);
+                    parsedMetaData = new SnippetMetaData(version, metaDataForPath.Package);
                     error = null;
                     return true;
                 }
@@ -220,15 +239,16 @@ namespace CaptureSnippets
                     error = null;
                     return true;
                 }
-                error = $"Expected '{loopState.Suffix2}' to be either parsable as a version or a package (starts with a letter).";
+                error = $"Expected '{loopState.Suffix2}' to be either parsable as a version or a package (starts with a letter). Version parsing ErrorMessage: {version.ErrorMessage}";
                 return false;
             }
 
-            if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out parsedVersion))
+            version = parseVersion(loopState.Suffix1, path, metaDataForPath);
+            if (version.Success)
             {
                 if (loopState.Suffix2.StartsWithLetter())
                 {
-                    parsedMetaData = new SnippetMetaData(parsedVersion, loopState.Suffix2);
+                    parsedMetaData = new SnippetMetaData(version, loopState.Suffix2);
                     error = null;
                     return true;
                 }
@@ -236,18 +256,19 @@ namespace CaptureSnippets
                 return false;
             }
 
-            if (VersionRangeParser.TryParseVersion(loopState.Suffix2, out parsedVersion))
+            version = parseVersion(loopState.Suffix2, path, metaDataForPath);
+            if (version.Success)
             {
                 if (loopState.Suffix1.StartsWithLetter())
                 {
-                    parsedMetaData = new SnippetMetaData(parsedVersion, loopState.Suffix1);
+                    parsedMetaData = new SnippetMetaData(version, loopState.Suffix1);
                     error = null;
                     return true;
                 }
                 error = $"Was able to parse '{loopState.Suffix2}' as a version. But a '{loopState.Suffix1}' is not a package, must starts with a letter.";
                 return false;
             }
-            error = $"Was not able to parse either '{loopState.Suffix1}' or '{loopState.Suffix2}' as a version.";
+            error = $"Was not able to parse either '{loopState.Suffix1}' or '{loopState.Suffix2}' as a version. ErrorMessage: {version.ErrorMessage}";
             return false;
         }
 

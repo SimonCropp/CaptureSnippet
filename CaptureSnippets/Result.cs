@@ -27,7 +27,7 @@ namespace CaptureSnippets
             {
                 if (!Success)
                 {
-                    throw new Exception("Cane access Value when not Success.");
+                    throw new Exception("Can't access Value when not Success.");
                 }
                 return value;
             }

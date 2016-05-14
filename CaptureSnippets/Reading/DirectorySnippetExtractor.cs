@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MethodTimer;
+using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -13,7 +14,7 @@ namespace CaptureSnippets
     /// </summary>
     public class DirectorySnippetExtractor
     {
-        ExtractMetaData extractMetaData;
+        ExtractMetaDataFromPath extractMetaDataFromPath;
         IncludeDirectory includeDirectory;
         IncludeFile includeFile;
         FileSnippetExtractor fileExtractor;
@@ -21,19 +22,20 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="DirectorySnippetExtractor"/>.
         /// </summary>
-        /// <param name="extractMetaData">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
+        /// <param name="extractMetaDataFromPath">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
         /// <param name="includeFile">Used to filter files.</param>
         /// <param name="translatePackage">How to translate a package alias to the full package name.</param>
         /// <param name="includeDirectory">Used to filter directories.</param>
-        public DirectorySnippetExtractor(ExtractMetaData extractMetaData, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null)
+        /// <param name="parseVersion">Used to infer <see cref="VersionRange"/>. If null will default to <see cref="VersionRangeParser.TryParseVersion"/>.</param>
+        public DirectorySnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null, ParseVersion parseVersion = null)
         {
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
-            Guard.AgainstNull(extractMetaData, "extractMetaData");
-            this.extractMetaData = extractMetaData;
+            Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
+            this.extractMetaDataFromPath = extractMetaDataFromPath;
             this.includeDirectory = includeDirectory;
             this.includeFile = includeFile;
-            fileExtractor = new FileSnippetExtractor(extractMetaData, translatePackage);
+            fileExtractor = new FileSnippetExtractor(extractMetaDataFromPath, translatePackage, parseVersion);
         }
 
         [Time]
@@ -57,7 +59,7 @@ namespace CaptureSnippets
                 var parent = Directory.GetParent(subDirectory).FullName;
                 SnippetMetaData parentInfo;
                 cache.TryGetValue(parent, out parentInfo);
-                var metaData = extractMetaData(rootPath, subDirectory, parentInfo);
+                var metaData = extractMetaDataFromPath(rootPath, subDirectory, parentInfo);
                 cache.Add(subDirectory, metaData);
                 foreach (var file in Directory.EnumerateFiles(subDirectory)
                     .Where(s => includeFile(s)))

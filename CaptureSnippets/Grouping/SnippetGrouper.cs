@@ -53,7 +53,7 @@ namespace CaptureSnippets
             return true;
         }
 
-        static bool ContainsDuplicateVersion(List<ReadSnippet> readSnippets)
+        internal static bool ContainsDuplicateVersion(List<ReadSnippet> readSnippets)
         {
             return readSnippets.Select(snippet => snippet.Version)
                 .Select(snippetVersion => readSnippets.Where(x => x.Version.Equals(snippetVersion)))
