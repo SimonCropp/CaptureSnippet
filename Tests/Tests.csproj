@@ -88,7 +88,6 @@
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="VersionRangeExtensionsTests.cs" />
-    <None Include="app.config" />
     <None Include="scenarios\03-WeirdCharacters\input.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
