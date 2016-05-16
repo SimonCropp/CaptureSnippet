@@ -85,8 +85,12 @@
     <Compile Include="Converters\PackageGroupConverter.cs" />
     <Compile Include="Converters\SnippetGroupConverter.cs" />
     <Compile Include="Converters\VersionGroupConverter.cs" />
+    <Content Include="DirectorySnippetExtractor\1.1\2.2\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="DirectorySnippetExtractor\DirectorySnippetExtractorTests.cs" />
     <Compile Include="VersionRangeExtensionsTests.cs" />
     <None Include="scenarios\03-WeirdCharacters\input.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -176,7 +180,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DirectorySnippetExtractor\1.1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DirectorySnippetExtractor\Ignore\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

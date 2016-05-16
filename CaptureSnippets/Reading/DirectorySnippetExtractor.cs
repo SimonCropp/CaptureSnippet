@@ -53,8 +53,7 @@ namespace CaptureSnippets
         IEnumerable<Task> FromDirectory(string rootPath, string directoryPath, Action<ReadSnippet> add)
         {
             var cache = new Dictionary<string, SnippetMetaData>();
-            foreach (var subDirectory in Extensions.AllDirectories(directoryPath, includeDirectory)
-                .Where(s => includeDirectory(s)))
+            foreach (var subDirectory in Extensions.AllDirectories(directoryPath, includeDirectory))
             {
                 var parent = Directory.GetParent(subDirectory).FullName;
                 SnippetMetaData parentInfo;

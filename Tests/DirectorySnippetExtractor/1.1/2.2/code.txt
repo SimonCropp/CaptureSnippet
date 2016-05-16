@@ -1,0 +1,3 @@
+﻿startcode mycodesnippet2 2.0 package2
+Some code
+endcode
