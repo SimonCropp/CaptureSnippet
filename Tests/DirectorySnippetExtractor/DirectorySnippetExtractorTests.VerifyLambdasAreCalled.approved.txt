@@ -18,14 +18,6 @@
         "Version": "all",
         "Package": "package"
       },
-      "Path": "root\\1.1\code",
-      "RootDirectory": "root\"
-    },
-    {
-      "Parent": {
-        "Version": "all",
-        "Package": "package"
-      },
       "Path": "root\\1.1\2.2",
       "RootDirectory": "root\"
     },
@@ -35,6 +27,14 @@
         "Package": "package"
       },
       "Path": "root\\1.1\2.2\code",
+      "RootDirectory": "root\"
+    },
+    {
+      "Parent": {
+        "Version": "all",
+        "Package": "package"
+      },
+      "Path": "root\\1.1\code",
       "RootDirectory": "root\"
     }
   ],
@@ -51,34 +51,34 @@
   ],
   "IncludeFiles": [
     {
-      "Path": "root\\1.1\code.txt"
+      "Path": "root\\1.1\2.2\code.txt"
     },
     {
-      "Path": "root\\1.1\2.2\code.txt"
+      "Path": "root\\1.1\code.txt"
     }
   ],
   "TranslatePackages": [
     {
-      "Path": "root\\1.1\code.txt",
-      "Alias": "package1"
-    },
-    {
       "Path": "root\\1.1\2.2\code.txt",
       "Alias": "package2"
+    },
+    {
+      "Path": "root\\1.1\code.txt",
+      "Alias": "package1"
     }
   ],
   "ParseVersions": [
     {
-      "Version": "1.0",
-      "Path": "root\\1.1\code.txt",
+      "Version": "2.0",
+      "Path": "root\\1.1\2.2\code.txt",
       "MetaDataForParentPath": {
         "Version": "all",
         "Package": "package"
       }
     },
     {
-      "Version": "2.0",
-      "Path": "root\\1.1\2.2\code.txt",
+      "Version": "1.0",
+      "Path": "root\\1.1\code.txt",
       "MetaDataForParentPath": {
         "Version": "all",
         "Package": "package"

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
@@ -50,11 +51,19 @@ public class DirectorySnippetExtractorTests
 
     public class TestResult
     {
-        public List<CapturedExtractMetaData> ExtractMetaDatas = new List<CapturedExtractMetaData>();
-        public List<CapturedIncludeDirectory> IncludeDirectories = new List<CapturedIncludeDirectory>();
-        public List<CapturedIncludeFile> IncludeFiles = new List<CapturedIncludeFile>();
-        public List<CapturedTranslatePackage> TranslatePackages = new List<CapturedTranslatePackage>();
-        public List<CapturedParseVersion> ParseVersions = new List<CapturedParseVersion>();
+        public Sorted<CapturedExtractMetaData> ExtractMetaDatas = new Sorted<CapturedExtractMetaData>(_ => _.Path);
+        public Sorted<CapturedIncludeDirectory> IncludeDirectories = new Sorted<CapturedIncludeDirectory>(_ => _.Path);
+        public Sorted<CapturedIncludeFile> IncludeFiles = new Sorted<CapturedIncludeFile>(_ => _.Path);
+        public Sorted<CapturedTranslatePackage> TranslatePackages = new Sorted<CapturedTranslatePackage>(_ => _.Path);
+        public Sorted<CapturedParseVersion> ParseVersions = new Sorted<CapturedParseVersion>(_ => _.Path);
+    }
+
+    public class Sorted<T> : SortedSet<T>
+    {
+        public Sorted(Func<T,string> func):base(Comparer<T>.Create((data1, data2) => func(data1).CompareTo(func(data2))))
+        {
+
+        }
     }
 
     public class CapturedExtractMetaData
