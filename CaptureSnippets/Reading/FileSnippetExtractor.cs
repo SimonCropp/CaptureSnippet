@@ -11,7 +11,6 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        TranslatePackage translatePackage;
         ExtractMetaDataFromPath extractMetaDataFromPath;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
@@ -22,19 +21,10 @@ namespace CaptureSnippets
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
         /// </summary>
         /// <param name="extractMetaDataFromPath">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
-        /// <param name="translatePackage">How to translate a package alias to the full package name.</param>
         /// <param name="parseVersion">Used to infer <see cref="VersionRange"/>. If null will default to <see cref="VersionRangeParser.TryParseVersion"/>.</param>
-        public FileSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, TranslatePackage translatePackage = null, ParseVersion parseVersion = null)
+        public FileSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, ParseVersion parseVersion = null)
         {
             Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
-            if (translatePackage == null)
-            {
-                this.translatePackage = (path,alias) => alias;
-            }
-            else
-            {
-                this.translatePackage = (path, alias) => InvokeTranslatePackage(translatePackage, path, alias);
-            }
             if (parseVersion == null)
             {
                 this.parseVersion = (version, path, metaDataForPath) =>
@@ -69,16 +59,6 @@ namespace CaptureSnippets
                 {
                     return Result<SnippetMetaData>.Failed($"ExtractMetaData returned empty string for '{path}'.");
                 }
-            }
-            return result;
-        }
-
-        static Result<string> InvokeTranslatePackage(TranslatePackage translatePackage, string path, string alias)
-        {
-            var result = translatePackage(path, alias);
-            if (result.Success && string.IsNullOrWhiteSpace(result.Value))
-            {
-                return Result<string>.Failed($"TranslatePackage supplied an empty package for '{alias}'.");
             }
             return result;
         }
@@ -182,22 +162,6 @@ namespace CaptureSnippets
                     package: metaData.Package);
             }
 
-            string translatedPackage = null;
-            if (metaData.Package != null)
-            {
-                var translateResult = translatePackage(path, metaData.Package);
-                if (!translateResult.Success)
-                {
-                    return new ReadSnippet(
-                        error: $"Failed to translate package. Error: {translateResult.ErrorMessage}.",
-                        path: path,
-                        lineNumberInError: startRow,
-                        key: loopState.CurrentKey,
-                        version: metaData.Version,
-                        package: metaData.Package);
-                }
-                translatedPackage = translateResult.Value;
-            }
             return new ReadSnippet(
                 startLine: startRow,
                 endLine: stringReader.Index,
@@ -205,7 +169,7 @@ namespace CaptureSnippets
                 version: metaData.Version,
                 value: value,
                 path: path,
-                package: translatedPackage,
+                package: metaData.Package,
                 language: language.ToLowerInvariant());
         }
 

@@ -22,14 +22,13 @@ namespace CaptureSnippets
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
         /// <param name="parseVersion">Used to infer <see cref="VersionRange"/>. If null will default to <see cref="VersionRangeParser.TryParseVersion"/>.</param>
-        /// <param name="translatePackage">How to translate a package alias to the full package name.</param>
-        public CachedSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null, ParseVersion parseVersion=null, ConvertPackageGroupToList convertPackageGroupToList = null)
+        public CachedSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, ParseVersion parseVersion=null, ConvertPackageGroupToList convertPackageGroupToList = null)
         {
             this.convertPackageGroupToList = convertPackageGroupToList;
             Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
-            snippetExtractor = new DirectorySnippetExtractor(extractMetaDataFromPath, includeDirectory, includeFile,translatePackage,parseVersion );
+            snippetExtractor = new DirectorySnippetExtractor(extractMetaDataFromPath, includeDirectory, includeFile, parseVersion );
         }
 
         /// <summary>

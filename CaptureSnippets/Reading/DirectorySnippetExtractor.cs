@@ -24,10 +24,9 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="extractMetaDataFromPath">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
         /// <param name="includeFile">Used to filter files.</param>
-        /// <param name="translatePackage">How to translate a package alias to the full package name.</param>
         /// <param name="includeDirectory">Used to filter directories.</param>
         /// <param name="parseVersion">Used to infer <see cref="VersionRange"/>. If null will default to <see cref="VersionRangeParser.TryParseVersion"/>.</param>
-        public DirectorySnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null, ParseVersion parseVersion = null)
+        public DirectorySnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, ParseVersion parseVersion = null)
         {
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
@@ -35,7 +34,7 @@ namespace CaptureSnippets
             this.extractMetaDataFromPath = extractMetaDataFromPath;
             this.includeDirectory = includeDirectory;
             this.includeFile = includeFile;
-            fileExtractor = new FileSnippetExtractor(extractMetaDataFromPath, translatePackage, parseVersion);
+            fileExtractor = new FileSnippetExtractor(extractMetaDataFromPath, parseVersion);
         }
 
         [Time]

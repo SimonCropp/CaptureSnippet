@@ -125,7 +125,7 @@ public class SnippetExtractorTests
         }
     }
 
-    public async Task<ReadSnippets> FromText(string contents, ExtractMetaDataFromPath extractMetaDataFromPath = null, TranslatePackage translatePackage = null, ParseVersion parseVersion = null)
+    public async Task<ReadSnippets> FromText(string contents, ExtractMetaDataFromPath extractMetaDataFromPath = null, ParseVersion parseVersion = null)
     {
         using (var stringReader = new StringReader(contents))
         {
@@ -135,7 +135,7 @@ public class SnippetExtractorTests
             {
                 extractMetaDataFromPath = (x, y, z) => result;
             }
-            var extractor = new FileSnippetExtractor(extractMetaDataFromPath, translatePackage, parseVersion);
+            var extractor = new FileSnippetExtractor(extractMetaDataFromPath, parseVersion);
             await extractor.AppendFromReader(stringReader, null, "path.cs", result, snippets.Add)
                 .ConfigureAwait(false);
             return new ReadSnippets(snippets);

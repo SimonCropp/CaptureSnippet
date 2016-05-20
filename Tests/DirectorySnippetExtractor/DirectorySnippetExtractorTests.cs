@@ -33,11 +33,6 @@ public class DirectorySnippetExtractorTests
                 result.IncludeFiles.Add(new CapturedIncludeFile {Path = path});
                 return true;
             },
-            translatePackage: (path, alias) =>
-            {
-                result.TranslatePackages.Add(new CapturedTranslatePackage {Path = path, Alias = alias});
-                return alias;
-            },
             parseVersion: (version, path, metaDataForParentPath) =>
             {
                 result.ParseVersions.Add(new CapturedParseVersion {Version = version, Path = path, MetaDataForParentPath = metaDataForParentPath});
@@ -54,7 +49,6 @@ public class DirectorySnippetExtractorTests
         public Sorted<CapturedExtractMetaData> ExtractMetaDatas = new Sorted<CapturedExtractMetaData>(_ => _.Path);
         public Sorted<CapturedIncludeDirectory> IncludeDirectories = new Sorted<CapturedIncludeDirectory>(_ => _.Path);
         public Sorted<CapturedIncludeFile> IncludeFiles = new Sorted<CapturedIncludeFile>(_ => _.Path);
-        public Sorted<CapturedTranslatePackage> TranslatePackages = new Sorted<CapturedTranslatePackage>(_ => _.Path);
         public Sorted<CapturedParseVersion> ParseVersions = new Sorted<CapturedParseVersion>(_ => _.Path);
     }
 
@@ -81,12 +75,6 @@ public class DirectorySnippetExtractorTests
     public class CapturedIncludeFile
     {
         public string Path;
-    }
-
-    public class CapturedTranslatePackage
-    {
-        public string Path;
-        public string Alias;
     }
 
     public class CapturedParseVersion
