@@ -56,23 +56,5 @@
     {
       "Path": "root\\1.1\code.txt"
     }
-  ],
-  "ParseVersions": [
-    {
-      "Version": "2.0",
-      "Path": "root\\1.1\2.2\code.txt",
-      "MetaDataForParentPath": {
-        "Version": "all",
-        "Package": "package"
-      }
-    },
-    {
-      "Version": "1.0",
-      "Path": "root\\1.1\code.txt",
-      "MetaDataForParentPath": {
-        "Version": "all",
-        "Package": "package"
-      }
-    }
   ]
 }

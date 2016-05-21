@@ -62,7 +62,6 @@
     <Compile Include="Grouping\MergedSnippets.cs" />
     <Compile Include="Grouping\PackageGroup.cs" />
     <Compile Include="Reading\ExtractMetaDataFromPath.cs" />
-    <Compile Include="Reading\ParseVersion.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Caching\CachedSnippets.cs" />

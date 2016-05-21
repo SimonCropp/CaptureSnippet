@@ -14,33 +14,15 @@ namespace CaptureSnippets
         ExtractMetaDataFromPath extractMetaDataFromPath;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
-        ParseVersion parseVersion;
         const string LineEnding = "\r\n";
 
         /// <summary>
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
         /// </summary>
         /// <param name="extractMetaDataFromPath">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
-        /// <param name="parseVersion">Used to infer <see cref="VersionRange"/>. If null will default to <see cref="VersionRangeParser.TryParseVersion"/>.</param>
-        public FileSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, ParseVersion parseVersion = null)
+        public FileSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath)
         {
             Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
-            if (parseVersion == null)
-            {
-                this.parseVersion = (version, path, metaDataForPath) =>
-                {
-                    VersionRange parsedVersion;
-                    if (VersionRangeParser.TryParseVersion(version, out parsedVersion))
-                    {
-                        return parsedVersion;
-                    }
-                    return Result<VersionRange>.Failed("Failed to parse " + version);
-                };
-            }
-            else
-            {
-                this.parseVersion = parseVersion;
-            }
             this.extractMetaDataFromPath = (rootPath, path, parent) => InvokeExtractVersion(extractMetaDataFromPath, rootPath, path, parent);
         }
 
@@ -139,7 +121,7 @@ namespace CaptureSnippets
 
             string error;
             SnippetMetaData metaData;
-            if (!TryParseVersionAndPackage(loopState, metaDataForPath, path, out metaData, out error))
+            if (!TryParseVersionAndPackage(loopState, metaDataForPath, out metaData, out error))
             {
                 return new ReadSnippet(
                     error: error,
@@ -173,7 +155,7 @@ namespace CaptureSnippets
                 language: language.ToLowerInvariant());
         }
 
-        bool TryParseVersionAndPackage(LoopState loopState, Lazy<SnippetMetaData> lazyMetaDataForPath, string path, out SnippetMetaData parsedMetaData, out string error)
+        bool TryParseVersionAndPackage(LoopState loopState, Lazy<SnippetMetaData> lazyMetaDataForPath, out SnippetMetaData parsedMetaData, out string error)
         {
             var metaDataForPath = lazyMetaDataForPath.Value;
             parsedMetaData = null;
@@ -184,12 +166,11 @@ namespace CaptureSnippets
                 return true;
             }
 
-                Result<VersionRange> version;
+                VersionRange version;
             if (loopState.Suffix2 == null)
             {
                 // Suffix1 must be a version
-                version = parseVersion(loopState.Suffix1, path, metaDataForPath);
-                if (version.Success)
+                if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out version))
                 {
                     parsedMetaData = new SnippetMetaData(version, metaDataForPath.Package);
                     error = null;
@@ -203,12 +184,11 @@ namespace CaptureSnippets
                     error = null;
                     return true;
                 }
-                error = $"Expected '{loopState.Suffix2}' to be either parsable as a version or a package (starts with a letter). Version parsing ErrorMessage: {version.ErrorMessage}";
+                error = $"Expected '{loopState.Suffix2}' to be either parsable as a version or a package (starts with a letter).";
                 return false;
             }
 
-            version = parseVersion(loopState.Suffix1, path, metaDataForPath);
-            if (version.Success)
+            if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out version))
             {
                 if (loopState.Suffix2.StartsWithLetter())
                 {
@@ -220,8 +200,7 @@ namespace CaptureSnippets
                 return false;
             }
 
-            version = parseVersion(loopState.Suffix2, path, metaDataForPath);
-            if (version.Success)
+            if (VersionRangeParser.TryParseVersion(loopState.Suffix2, out version))
             {
                 if (loopState.Suffix1.StartsWithLetter())
                 {
@@ -232,7 +211,7 @@ namespace CaptureSnippets
                 error = $"Was able to parse '{loopState.Suffix2}' as a version. But a '{loopState.Suffix1}' is not a package, must starts with a letter.";
                 return false;
             }
-            error = $"Was not able to parse either '{loopState.Suffix1}' or '{loopState.Suffix2}' as a version. ErrorMessage: {version.ErrorMessage}";
+            error = $"Was not able to parse either '{loopState.Suffix1}' or '{loopState.Suffix2}' as a version.";
             return false;
         }
 

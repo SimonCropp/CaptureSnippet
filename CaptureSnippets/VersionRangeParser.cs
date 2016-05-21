@@ -32,16 +32,24 @@ namespace CaptureSnippets
                 parsedVersion = VersionRange.None;
                 return true;
             }
-            int intversion;
-            if (int.TryParse(stringVersion, out intversion))
+            int majorPart;
+            if (int.TryParse(stringVersion, out majorPart))
             {
-                var semanticVersion = new NuGetVersion(intversion, 0, 0);
                 parsedVersion = new VersionRange(
-                    minVersion: semanticVersion,
+                    minVersion: new NuGetVersion(majorPart, 0, 0),
                     includeMinVersion: true,
-                    maxVersion: new NuGetVersion(intversion + 1, 0, 0),
-                    includeMaxVersion: false
-                    );
+                    maxVersion: new NuGetVersion(majorPart + 1, 0, 0),
+                    includeMaxVersion: false);
+                return true;
+            }
+            NuGetVersion minVersion;
+            if (NuGetVersion.TryParse(stringVersion, out minVersion))
+            {
+                parsedVersion = new VersionRange(
+                    minVersion: minVersion,
+                    includeMinVersion: true,
+                    maxVersion: new NuGetVersion(minVersion.Major + 1, 0, 0),
+                    includeMaxVersion: false);
                 return true;
             }
             return VersionRange.TryParse(stringVersion, out parsedVersion);

@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MethodTimer;
-using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -25,8 +24,7 @@ namespace CaptureSnippets
         /// <param name="extractMetaDataFromPath">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
         /// <param name="includeFile">Used to filter files.</param>
         /// <param name="includeDirectory">Used to filter directories.</param>
-        /// <param name="parseVersion">Used to infer <see cref="VersionRange"/>. If null will default to <see cref="VersionRangeParser.TryParseVersion"/>.</param>
-        public DirectorySnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, ParseVersion parseVersion = null)
+        public DirectorySnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile)
         {
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
@@ -34,7 +32,7 @@ namespace CaptureSnippets
             this.extractMetaDataFromPath = extractMetaDataFromPath;
             this.includeDirectory = includeDirectory;
             this.includeFile = includeFile;
-            fileExtractor = new FileSnippetExtractor(extractMetaDataFromPath, parseVersion);
+            fileExtractor = new FileSnippetExtractor(extractMetaDataFromPath);
         }
 
         [Time]
