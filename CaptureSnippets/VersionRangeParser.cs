@@ -1,3 +1,4 @@
+using System;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -5,7 +6,49 @@ namespace CaptureSnippets
     public static class VersionRangeParser
     {
 
-        public static bool TryParseVersion(string stringVersion, out VersionRange parsedVersion)
+        public static bool TryParseVersion(string stringVersion, out VersionRange parsedVersion, string pretext = null)
+        {
+            Guard.AgainstEmpty(pretext, "pretext");
+            if (pretext == null)
+            {
+                return TryParseStable(stringVersion, out parsedVersion);
+            }
+
+            return TryParseUnstable(stringVersion, out parsedVersion, pretext);
+        }
+
+        static bool TryParseUnstable(string stringVersion, out VersionRange parsedVersion, string pretext)
+        {
+            int majorPart;
+            if (int.TryParse(stringVersion, out majorPart))
+            {
+                var releaseLabels = new[]
+                {
+                    pretext
+                };
+                parsedVersion = new VersionRange(
+                    minVersion: new NuGetVersion(majorPart, 0, 0, releaseLabels, null),
+                    includeMinVersion: true,
+                    maxVersion: new NuGetVersion(majorPart + 1, 0, 0),
+                    includeMaxVersion: false);
+                return true;
+            }
+            NuGetVersion minVersion;
+            var valueWithPre = $"{stringVersion}-{pretext}";
+            if (NuGetVersion.TryParse(valueWithPre, out minVersion))
+            {
+                parsedVersion = new VersionRange(
+                    minVersion: minVersion,
+                    includeMinVersion: true,
+                    maxVersion: new NuGetVersion(minVersion.Major + 1, 0, 0),
+                    includeMaxVersion: false);
+                return true;
+            }
+            var message = $"Could not use prerelease.txt to parse a SemanticVersion. Value attempted:'{valueWithPre}'.";
+            throw new Exception(message);
+        }
+
+        static bool TryParseStable(string stringVersion, out VersionRange parsedVersion)
         {
             if (stringVersion == "All")
             {

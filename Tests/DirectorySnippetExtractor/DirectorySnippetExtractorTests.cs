@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
@@ -14,45 +15,43 @@ public class DirectorySnippetExtractorTests
     [Test]
     public void VerifyLambdasAreCalled()
     {
+        var extractMetaDatas = new ConcurrentBag<CapturedExtractMetaData>();
+        var includeDirectories = new ConcurrentBag<CapturedIncludeDirectory>();
+        var includeFiles = new ConcurrentBag<CapturedIncludeFile>();
         var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor");
         var snippetMetaData = new SnippetMetaData(VersionRange.All, "package");
         var result = new TestResult();
         var extractor = new DirectorySnippetExtractor(
             extractMetaDataFromPath: (rootDirectory, path, parent) =>
             {
-                result.ExtractMetaDatas.Add(new CapturedExtractMetaData {RootDirectory = rootDirectory, Path = path, Parent = parent});
+                extractMetaDatas.Add(new CapturedExtractMetaData {RootDirectory = rootDirectory, Path = path, Parent = parent});
                 return snippetMetaData;
             },
             includeDirectory: path =>
             {
-                result.IncludeDirectories.Add(new CapturedIncludeDirectory {Path = path});
+                includeDirectories.Add(new CapturedIncludeDirectory {Path = path});
                 return true;
             },
             includeFile: path =>
             {
-                result.IncludeFiles.Add(new CapturedIncludeFile {Path = path});
+                includeFiles.Add(new CapturedIncludeFile {Path = path});
                 return true;
             }
             );
         extractor.FromDirectory(targetDirectory)
             .GetAwaiter()
             .GetResult();
-        ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\",@"\").Replace(targetDirectory, @"root\"));
+        result.IncludeFiles = includeFiles.OrderBy(file => file.Path).ToList();
+        result.IncludeDirectories = includeDirectories.OrderBy(file => file.Path).ToList();
+        result.ExtractMetaDatas = extractMetaDatas.OrderBy(file => file.Path).ToList();
+        ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(targetDirectory, @"root\"));
     }
 
     public class TestResult
     {
-        public Sorted<CapturedExtractMetaData> ExtractMetaDatas = new Sorted<CapturedExtractMetaData>(_ => _.Path);
-        public Sorted<CapturedIncludeDirectory> IncludeDirectories = new Sorted<CapturedIncludeDirectory>(_ => _.Path);
-        public Sorted<CapturedIncludeFile> IncludeFiles = new Sorted<CapturedIncludeFile>(_ => _.Path);
-    }
-
-    public class Sorted<T> : SortedSet<T>
-    {
-        public Sorted(Func<T,string> func):base(Comparer<T>.Create((data1, data2) => func(data1).CompareTo(func(data2))))
-        {
-
-        }
+        public List<CapturedExtractMetaData> ExtractMetaDatas;
+        public List<CapturedIncludeDirectory> IncludeDirectories;
+        public List<CapturedIncludeFile> IncludeFiles;
     }
 
     public class CapturedExtractMetaData
