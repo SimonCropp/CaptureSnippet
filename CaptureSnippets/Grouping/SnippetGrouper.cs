@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -100,16 +101,20 @@ namespace CaptureSnippets
                     packages: packageGroups);
                 return true;
             }
-            var result = convertPackageGroupToList(key, packageGroups);
-            if (!result.Success)
+            IReadOnlyList<PackageGroup> result;
+            try
             {
-                error = $"Could not convert PackageGroup to list. Key='{key}'." + result.ErrorMessage;
-                return false;
+                result = convertPackageGroupToList(key, packageGroups);
+            }
+            catch (Exception exception)
+            {
+                error = $"Could not convert PackageGroup to list. Key='{key}'.";
+                throw new Exception(error, exception);
             }
             snippetGroup = new SnippetGroup(
                 key: key,
                 language: readSnippets.First().Language,
-                packages: result.Value);
+                packages: result);
             return true;
         }
 
