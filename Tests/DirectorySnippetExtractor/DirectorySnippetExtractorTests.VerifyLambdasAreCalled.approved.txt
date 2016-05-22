@@ -1,24 +1,19 @@
 ﻿{
   "ExtractMetaDatas": [
     {
-      "Path": "root\",
-      "RootDirectory": "root\"
+      "Path": "root\"
     },
     {
-      "Path": "root\\1.1",
-      "RootDirectory": "root\\1.1"
+      "Path": "root\\1.1"
     },
     {
-      "Path": "root\\1.1\2.2",
-      "RootDirectory": "root\\1.1\2.2"
+      "Path": "root\\1.1\2.2"
     },
     {
-      "Path": "root\\1.1\2.2\code",
-      "RootDirectory": "root\"
+      "Path": "root\\1.1\2.2\code"
     },
     {
-      "Path": "root\\1.1\code",
-      "RootDirectory": "root\"
+      "Path": "root\\1.1\code"
     }
   ],
   "IncludeDirectories": [
@@ -35,6 +30,14 @@
     },
     {
       "Path": "root\\1.1\code.txt"
+    }
+  ],
+  "TranslatePackages": [
+    {
+      "Alias": "package1"
+    },
+    {
+      "Alias": "package2"
     }
   ]
 }

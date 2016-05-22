@@ -20,13 +20,13 @@ namespace CaptureSnippets
         /// <param name="extractMetaDataFromPath">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
-        public CachedSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, ConvertPackageGroupToList convertPackageGroupToList = null)
+        public CachedSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null, ConvertPackageGroupToList convertPackageGroupToList = null)
         {
             this.convertPackageGroupToList = convertPackageGroupToList;
             Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
-            snippetExtractor = new DirectorySnippetExtractor(extractMetaDataFromPath, includeDirectory, includeFile);
+            snippetExtractor = new DirectorySnippetExtractor(extractMetaDataFromPath, includeDirectory, includeFile, translatePackage);
         }
 
         /// <summary>

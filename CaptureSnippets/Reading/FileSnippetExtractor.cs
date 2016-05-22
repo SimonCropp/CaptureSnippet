@@ -12,6 +12,7 @@ namespace CaptureSnippets
     public class FileSnippetExtractor
     {
         ExtractMetaDataFromPath extractMetaDataFromPath;
+        TranslatePackage translatePackage;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
         const string LineEnding = "\r\n";
@@ -20,10 +21,18 @@ namespace CaptureSnippets
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
         /// </summary>
         /// <param name="extractMetaDataFromPath">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
-        public FileSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath)
+        public FileSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
             this.extractMetaDataFromPath = extractMetaDataFromPath;
+            if (translatePackage != null)
+            {
+                this.translatePackage = translatePackage;
+            }
+            else
+            {
+                this.translatePackage = alias => alias;
+            }
         }
 
         /// <summary>
@@ -31,12 +40,12 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
         /// <param name="path">The current path so extract <see cref="ReadSnippet"/>s from.</param>
-        public async Task AppendFromReader(TextReader textReader, string rootPath, string path, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
+        public async Task AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
         {
             Guard.AgainstNull(textReader, "textReader");
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippets(reader, rootPath, path, parentVersion, parentPackage, callback)
+                await GetSnippets(reader, path, parentVersion, parentPackage, callback)
                     .ConfigureAwait(false);
             }
         }
@@ -48,13 +57,13 @@ namespace CaptureSnippets
         }
 
 
-        async Task GetSnippets(IndexReader stringReader, string rootPath, string path, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
+        async Task GetSnippets(IndexReader stringReader, string path, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
         {
             VersionRange fileVersion;
             Package filePackage;
             var pathWithoutExtension = path.Substring(0, path.LastIndexOf('.'));
             var metaDataFromPath = extractMetaDataFromPath;
-            MetadataExtractor.ExtractVersionAndPackage(rootPath, parentVersion, parentPackage, metaDataFromPath, pathWithoutExtension, out fileVersion, out filePackage);
+            MetadataExtractor.ExtractVersionAndPackage(parentVersion, parentPackage, metaDataFromPath, pathWithoutExtension, out fileVersion, out filePackage);
 
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();
@@ -162,7 +171,7 @@ namespace CaptureSnippets
                 if (loopState.Suffix1.StartsWithLetter())
                 {
                     snippetVersion = fileVersion;
-                    snippetPackage = loopState.Suffix1;
+                    snippetPackage = translatePackage(loopState.Suffix1);
                     error = null;
                     return true;
                 }
@@ -175,7 +184,7 @@ namespace CaptureSnippets
                 if (loopState.Suffix2.StartsWithLetter())
                 {
                     snippetVersion = version;
-                    snippetPackage = loopState.Suffix2;
+                    snippetPackage = translatePackage(loopState.Suffix2);
                     error = null;
                     return true;
                 }
@@ -188,7 +197,7 @@ namespace CaptureSnippets
                 if (loopState.Suffix1.StartsWithLetter())
                 {
                     snippetVersion = version;
-                    snippetPackage = loopState.Suffix1;
+                    snippetPackage = translatePackage(loopState.Suffix1);
                     error = null;
                     return true;
                 }

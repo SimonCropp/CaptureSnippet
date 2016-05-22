@@ -25,7 +25,7 @@ namespace CaptureSnippets
         /// <param name="extractMetaDataFromPath">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
         /// <param name="includeFile">Used to filter files.</param>
         /// <param name="includeDirectory">Used to filter directories.</param>
-        public DirectorySnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile)
+        public DirectorySnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
@@ -33,54 +33,54 @@ namespace CaptureSnippets
             this.extractMetaDataFromPath = extractMetaDataFromPath;
             this.includeDirectory = includeDirectory;
             this.includeFile = includeFile;
-            fileExtractor = new FileSnippetExtractor(extractMetaDataFromPath);
+            fileExtractor = new FileSnippetExtractor(extractMetaDataFromPath, translatePackage);
         }
 
         [Time]
-        public async Task<ReadSnippets> FromDirectory(string directoryPath)
+        public async Task<ReadSnippets> FromDirectory(string directoryPath, VersionRange rootVersionRange = null, Package rootPackage = null)
         {
             Guard.AgainstNull(directoryPath, "directoryPath");
             var snippets = new ConcurrentBag<ReadSnippet>();
-            await Task.WhenAll(FromDirectory(directoryPath, directoryPath,null,null, snippets.Add))
+            await Task.WhenAll(FromDirectory(directoryPath, rootVersionRange, rootPackage, snippets.Add))
                 .ConfigureAwait(false);
             var readOnlyList = snippets.ToList();
             return new ReadSnippets(readOnlyList);
         }
 
 
-        IEnumerable<Task> FromDirectory(string rootPath, string directoryPath, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> add)
+        IEnumerable<Task> FromDirectory(string directoryPath, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> add)
         {
             VersionRange directoryVersion;
             Package directoryPackage;
-            MetadataExtractor.ExtractVersionAndPackage(directoryPath, parentVersion, parentPackage, extractMetaDataFromPath, directoryPath, out directoryVersion, out directoryPackage);
+            MetadataExtractor.ExtractVersionAndPackage(parentVersion, parentPackage, extractMetaDataFromPath, directoryPath, out directoryVersion, out directoryPackage);
             if (directoryVersion == null)
             {
-                throw new Exception("Cannot us parent version for root directory.");
+                throw new Exception("Null version not allowed.");
             }
             if (directoryPackage == null)
             {
-                throw new Exception("Cannot us parent package for root directory.");
+                throw new Exception("Null package not allowed.");
             }
             foreach (var file in Directory.EnumerateFiles(directoryPath)
                    .Where(s => includeFile(s)))
             {
-                yield return FromFile(rootPath, file, directoryVersion, directoryPackage, add);
+                yield return FromFile(file, directoryVersion, directoryPackage, add);
             }
             foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
                 .Where(s => includeDirectory(s)))
             {
-                foreach (var task in FromDirectory(rootPath, subDirectory, directoryVersion, directoryPackage, add))
+                foreach (var task in FromDirectory(subDirectory, directoryVersion, directoryPackage, add))
                 {
                     yield return task;
                 }
             }
         }
 
-        async Task FromFile(string rootPath, string file, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
+        async Task FromFile(string file, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
         {
             using (var textReader = File.OpenText(file))
             {
-                await fileExtractor.AppendFromReader(textReader, rootPath, file, parentVersion, parentPackage, callback)
+                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, callback)
                     .ConfigureAwait(false);
             }
         }

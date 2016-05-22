@@ -18,15 +18,15 @@ public class DirectorySnippetExtractorTests
         var extractMetaDatas = new ConcurrentBag<CapturedExtractMetaData>();
         var includeDirectories = new ConcurrentBag<CapturedIncludeDirectory>();
         var includeFiles = new ConcurrentBag<CapturedIncludeFile>();
+        var translatePackages = new ConcurrentBag<CapturedTranslatePackage>();
         var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor");
         var snippetMetaData = SnippetMetaData.With(VersionRange.All, "package");
         var result = new TestResult();
         var extractor = new DirectorySnippetExtractor(
-            extractMetaDataFromPath: (rootDirectory, path) =>
+            extractMetaDataFromPath: path =>
             {
                 var capturedExtractMetaData = new CapturedExtractMetaData
                 {
-                    RootDirectory = rootDirectory,
                     Path = path
                 };
                 extractMetaDatas.Add(capturedExtractMetaData);
@@ -41,6 +41,11 @@ public class DirectorySnippetExtractorTests
             {
                 includeFiles.Add(new CapturedIncludeFile {Path = path});
                 return true;
+            },
+            translatePackage: alias =>
+            {
+                translatePackages.Add(new CapturedTranslatePackage {Alias = alias});
+                return alias;
             }
             );
         extractor.FromDirectory(targetDirectory)
@@ -49,7 +54,13 @@ public class DirectorySnippetExtractorTests
         result.IncludeFiles = includeFiles.OrderBy(file => file.Path).ToList();
         result.IncludeDirectories = includeDirectories.OrderBy(file => file.Path).ToList();
         result.ExtractMetaDatas = extractMetaDatas.OrderBy(file => file.Path).ToList();
+        result.TranslatePackages = translatePackages.OrderBy(file => file.Alias).ToList();
         ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(targetDirectory, @"root\"));
+    }
+
+    public class CapturedTranslatePackage
+    {
+        public string Alias;
     }
 
     public class TestResult
@@ -57,12 +68,12 @@ public class DirectorySnippetExtractorTests
         public List<CapturedExtractMetaData> ExtractMetaDatas;
         public List<CapturedIncludeDirectory> IncludeDirectories;
         public List<CapturedIncludeFile> IncludeFiles;
+        public List<CapturedTranslatePackage> TranslatePackages;
     }
 
     public class CapturedExtractMetaData
     {
         public string Path;
-        public string RootDirectory;
     }
 
     public class CapturedIncludeDirectory

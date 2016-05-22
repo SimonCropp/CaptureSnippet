@@ -95,6 +95,7 @@
     <Compile Include="Grouping\SnippetGrouper.cs" />
     <Compile Include="Reading\SnippetMetaData.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Reading\TranslatePackage.cs" />
     <Compile Include="VersionRangeExtensions.cs" />
     <Compile Include="VersionRangeParser.cs" />
   </ItemGroup>

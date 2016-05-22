@@ -1,4 +1,4 @@
 namespace CaptureSnippets
 {
-    public delegate SnippetMetaData ExtractMetaDataFromPath(string rootDirectory, string fileOrDirectoryPath);
+    public delegate SnippetMetaData ExtractMetaDataFromPath(string fileOrDirectoryPath);
 }

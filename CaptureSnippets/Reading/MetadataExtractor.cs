@@ -5,9 +5,9 @@ namespace CaptureSnippets
 {
     static class MetadataExtractor
     {
-        public static void ExtractVersionAndPackage(string rootPath, VersionRange parentVersion, Package parentPackage, ExtractMetaDataFromPath metaDataFromPath, string path, out VersionRange version, out Package package)
+        public static void ExtractVersionAndPackage(VersionRange parentVersion, Package parentPackage, ExtractMetaDataFromPath metaDataFromPath, string path, out VersionRange version, out Package package)
         {
-            var metaDataForPath = metaDataFromPath(rootPath, path);
+            var metaDataForPath = metaDataFromPath(path);
             if (metaDataForPath == null)
             {
                 throw new Exception("ExtractMetaDataFromPath cannot return null.");

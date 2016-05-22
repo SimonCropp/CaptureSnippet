@@ -16,13 +16,13 @@ public class CachedSnippetExtractorTests
         //warmup
         var result = SnippetMetaData.With(VersionRange.All, Package.None);
         var snippetExtractor = new CachedSnippetExtractor(
-            extractMetaDataFromPath: (x, y) => result,
+            extractMetaDataFromPath: y => result,
             includeDirectory: s => true,
             includeFile: s => s.EndsWith(".cs"));
         snippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
 
         var cachedSnippetExtractor = new CachedSnippetExtractor(
-            extractMetaDataFromPath: (x, y) => result,
+            extractMetaDataFromPath: y => result,
             includeDirectory: s => true,
             includeFile: s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
@@ -42,7 +42,7 @@ public class CachedSnippetExtractorTests
         var result = SnippetMetaData.With(VersionRange.All, Package.None);
         var directory = @"badsnippets".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(
-            extractMetaDataFromPath: (x, y) => result,
+            extractMetaDataFromPath: y => result,
             includeDirectory: s => true,
             includeFile: s => s.EndsWith(".cs"));
         var readSnippets = cachedSnippetExtractor.FromDirectory(directory).Result;
