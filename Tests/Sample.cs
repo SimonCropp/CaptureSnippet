@@ -45,7 +45,7 @@ class Sample
         throw new System.NotImplementedException();
     }
 
-    Result<string> InferPackage(string path, string parent)
+    Package InferPackage(string path, string parent)
     {
         throw new System.NotImplementedException();
     }
@@ -55,14 +55,14 @@ class Sample
         return filepath.EndsWith(".vm") || filepath.EndsWith(".cs");
     }
 
-    static Result<SnippetMetaData> InferMetaData(string rootPath, string path, SnippetMetaData parent)
+    static SnippetMetaData InferMetaData(string rootPath, string path)
     {
         VersionRange version;
         var split = path.Split('_');
         if (VersionRange.TryParse(split[1], out version))
         {
-            return new SnippetMetaData(version, split[0]);
+            return SnippetMetaData.With(version, split[0]);
         }
-        return parent;
+        return SnippetMetaData.WithParent();
     }
 }

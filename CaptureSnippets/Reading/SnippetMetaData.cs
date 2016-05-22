@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using NuGet.Versioning;
 
@@ -6,15 +7,64 @@ namespace CaptureSnippets
     [DebuggerDisplay("Version={Version}, Package={Package}")]
     public class SnippetMetaData
     {
-        public readonly VersionRange Version;
-        public readonly Package Package;
 
-        public SnippetMetaData(VersionRange version, Package package)
+        public readonly bool UseParentVersion;
+        public readonly bool UseParentPackage;
+
+        SnippetMetaData(VersionRange version, Package package, bool useParentVersion, bool useParentPackage)
         {
-            Guard.AgainstNull(package, "package");
+            this.version = version;
+            this.package = package;
+            UseParentVersion = useParentVersion;
+            UseParentPackage = useParentPackage;
+        }
+
+        Package package;
+        public Package Package
+        {
+            get
+            {
+                if (UseParentPackage)
+                {
+                    throw new Exception("Cannot access Version when UseParentPackage.");
+                }
+                return package;
+            }
+        }
+
+        VersionRange version;
+        public VersionRange Version
+        {
+            get
+            {
+                if (UseParentVersion)
+                {
+                    throw new Exception("Cannot access Version when UseParentVersion.");
+                }
+                return version;
+            }
+        }
+
+        public static SnippetMetaData With(VersionRange version, Package package)
+        {
             Guard.AgainstNull(version, "version");
-            Version = version;
-            Package = package;
+            Guard.AgainstNull(package, "package");
+            return new SnippetMetaData(version, package, false, false);
+        }
+
+        public static SnippetMetaData WithParentVersion(Package package)
+        {
+            return new SnippetMetaData(null, package, true, false);
+        }
+
+        public static SnippetMetaData WithParentPackage(VersionRange version)
+        {
+            return new SnippetMetaData(version, null, false, true);
+        }
+
+        public static SnippetMetaData WithParent()
+        {
+            return new SnippetMetaData(null, null, true, true);
         }
     }
 }

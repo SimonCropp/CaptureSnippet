@@ -116,9 +116,9 @@ public class SnippetExtractorTests
         {
             var versionRange = new VersionRange(new NuGetVersion(1, 1, 0));
             var snippets = new List<ReadSnippet>();
-            var result = new SnippetMetaData(versionRange, Package.None);
-            var extractor = new FileSnippetExtractor((x, y, z) => result);
-            extractor.AppendFromReader(stringReader, null, "path.cs", result, snippets.Add)
+            var result = SnippetMetaData.With(versionRange, Package.None);
+            var extractor = new FileSnippetExtractor((x, y) => result);
+            extractor.AppendFromReader(stringReader, null, "path.cs", versionRange, Package.None, snippets.Add)
                 .GetAwaiter()
                 .GetResult();
             ObjectApprover.VerifyWithJson(snippets.Single());
@@ -130,13 +130,13 @@ public class SnippetExtractorTests
         using (var stringReader = new StringReader(contents))
         {
             var snippets = new List<ReadSnippet>();
-            var result = new SnippetMetaData(VersionRange.All, Package.None);
+            var result = SnippetMetaData.With(VersionRange.All, Package.None);
             if (extractMetaDataFromPath == null)
             {
-                extractMetaDataFromPath = (x, y, z) => result;
+                extractMetaDataFromPath = (x, y) => result;
             }
             var extractor = new FileSnippetExtractor(extractMetaDataFromPath);
-            extractor.AppendFromReader(stringReader, null, "path.cs", result, snippets.Add).GetAwaiter().GetResult();
+            extractor.AppendFromReader(stringReader, null, "path.cs", VersionRange.All, Package.None, snippets.Add).GetAwaiter().GetResult();
             return snippets;
         }
     }

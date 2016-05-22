@@ -1,38 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
-using CaptureSnippets;
 
 static class Extensions
 {
-    public static bool IsEmptyOrWhiteSpace(this string value)
-    {
-        if (value == null)
-        {
-            return false;
-        }
-        return value.All(char.IsWhiteSpace);
-    }
-    public static IEnumerable<string> AllDirectories(string directoryPath, IncludeDirectory filter)
-    {
-        var stack = new Stack<string>();
-        stack.Push(directoryPath);
-        while (stack.Count != 0)
-        {
-            var current = stack.Pop();
-            if (!filter(current))
-            {
-                continue;
-            }
-            yield return current;
-            foreach (var child in Directory.EnumerateDirectories(current))
-            {
-                stack.Push(child);
-            }
-        }
-    }
 
     public static IEnumerable<string> TrimIndentation(this IEnumerable<string> snippetLines)
     {
@@ -97,13 +69,6 @@ static class Extensions
         return new string(array);
     }
 
-    public static string Reverse(this string s)
-    {
-        var charArray = s.ToCharArray();
-        Array.Reverse(charArray);
-        return new string(charArray);
-    }
-
     public static IEnumerable<string> ExcludeEmptyPaddingLines(this IEnumerable<string> snippetLines)
     {
         var list = snippetLines.ToList();
@@ -141,11 +106,6 @@ static class Extensions
     public static string TrimTrailingNewLine(this string target)
     {
         return target.TrimEnd('\r', '\n');
-    }
-
-    public static bool IsMdCodeDelimiter(this string line)
-    {
-        return line.StartsWith("```");
     }
 
 }

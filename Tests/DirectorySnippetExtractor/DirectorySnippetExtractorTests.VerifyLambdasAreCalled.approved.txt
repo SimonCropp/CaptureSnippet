@@ -1,47 +1,27 @@
 ﻿{
   "ExtractMetaDatas": [
     {
-      "Parent": null,
       "Path": "root\",
       "RootDirectory": "root\"
     },
     {
-      "Parent": {
-        "Version": "all",
-        "Package": "package"
-      },
       "Path": "root\\1.1",
-      "RootDirectory": "root\"
+      "RootDirectory": "root\\1.1"
     },
     {
-      "Parent": {
-        "Version": "all",
-        "Package": "package"
-      },
       "Path": "root\\1.1\2.2",
-      "RootDirectory": "root\"
+      "RootDirectory": "root\\1.1\2.2"
     },
     {
-      "Parent": {
-        "Version": "all",
-        "Package": "package"
-      },
       "Path": "root\\1.1\2.2\code",
       "RootDirectory": "root\"
     },
     {
-      "Parent": {
-        "Version": "all",
-        "Package": "package"
-      },
       "Path": "root\\1.1\code",
       "RootDirectory": "root\"
     }
   ],
   "IncludeDirectories": [
-    {
-      "Path": "root\"
-    },
     {
       "Path": "root\\1.1"
     },

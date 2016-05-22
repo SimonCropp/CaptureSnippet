@@ -19,12 +19,17 @@ public class DirectorySnippetExtractorTests
         var includeDirectories = new ConcurrentBag<CapturedIncludeDirectory>();
         var includeFiles = new ConcurrentBag<CapturedIncludeFile>();
         var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor");
-        var snippetMetaData = new SnippetMetaData(VersionRange.All, "package");
+        var snippetMetaData = SnippetMetaData.With(VersionRange.All, "package");
         var result = new TestResult();
         var extractor = new DirectorySnippetExtractor(
-            extractMetaDataFromPath: (rootDirectory, path, parent) =>
+            extractMetaDataFromPath: (rootDirectory, path) =>
             {
-                extractMetaDatas.Add(new CapturedExtractMetaData {RootDirectory = rootDirectory, Path = path, Parent = parent});
+                var capturedExtractMetaData = new CapturedExtractMetaData
+                {
+                    RootDirectory = rootDirectory,
+                    Path = path
+                };
+                extractMetaDatas.Add(capturedExtractMetaData);
                 return snippetMetaData;
             },
             includeDirectory: path =>
@@ -56,7 +61,6 @@ public class DirectorySnippetExtractorTests
 
     public class CapturedExtractMetaData
     {
-        public SnippetMetaData Parent;
         public string Path;
         public string RootDirectory;
     }

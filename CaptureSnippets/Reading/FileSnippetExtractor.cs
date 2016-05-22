@@ -23,37 +23,20 @@ namespace CaptureSnippets
         public FileSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath)
         {
             Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
-            this.extractMetaDataFromPath = (rootPath, path, parent) => InvokeExtractVersion(extractMetaDataFromPath, rootPath, path, parent);
+            this.extractMetaDataFromPath = extractMetaDataFromPath;
         }
-
-
-        static Result<SnippetMetaData> InvokeExtractVersion(ExtractMetaDataFromPath extractMetaDataFromPath, string rootPath, string path, SnippetMetaData parent)
-        {
-            path = path.Substring(0, path.LastIndexOf('.'));
-            var result = extractMetaDataFromPath(rootPath, path, parent);
-            if (result.Success)
-            {
-                if (result.Value == null)
-                {
-                    return Result<SnippetMetaData>.Failed($"ExtractMetaData supplied null for '{path}'.");
-                }
-            }
-            return result;
-        }
-
 
         /// <summary>
         /// Read from a <see cref="TextReader"/>.
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
         /// <param name="path">The current path so extract <see cref="ReadSnippet"/>s from.</param>
-        /// <param name="parentMetaData">The inherited <see cref="SnippetMetaData"/>.</param>
-        public async Task AppendFromReader(TextReader textReader, string rootPath, string path, SnippetMetaData parentMetaData, Action<ReadSnippet> callback)
+        public async Task AppendFromReader(TextReader textReader, string rootPath, string path, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
         {
             Guard.AgainstNull(textReader, "textReader");
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippets(reader, rootPath, path, parentMetaData, callback)
+                await GetSnippets(reader, rootPath, path, parentVersion, parentPackage, callback)
                     .ConfigureAwait(false);
             }
         }
@@ -65,9 +48,14 @@ namespace CaptureSnippets
         }
 
 
-        async Task GetSnippets(IndexReader stringReader, string rootPath, string path, SnippetMetaData parentMetaData, Action<ReadSnippet> callback)
+        async Task GetSnippets(IndexReader stringReader, string rootPath, string path, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
         {
-            var metaDataForPath =  new Lazy<SnippetMetaData>(() => extractMetaDataFromPath(rootPath, path, parentMetaData).Value);
+            VersionRange fileVersion;
+            Package filePackage;
+            var pathWithoutExtension = path.Substring(0, path.LastIndexOf('.'));
+            var metaDataFromPath = extractMetaDataFromPath;
+            MetadataExtractor.ExtractVersionAndPackage(rootPath, parentVersion, parentPackage, metaDataFromPath, pathWithoutExtension, out fileVersion, out filePackage);
+
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();
             while (true)
@@ -98,7 +86,7 @@ namespace CaptureSnippets
                         continue;
                     }
 
-                    var snippet = BuildSnippet(stringReader, path, loopState, language, metaDataForPath);
+                    var snippet = BuildSnippet(stringReader, path, loopState, language, fileVersion, filePackage);
 
                     callback(snippet);
                     loopState.Reset();
@@ -109,13 +97,14 @@ namespace CaptureSnippets
         }
 
 
-        ReadSnippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language, Lazy<SnippetMetaData> metaDataForPath)
+        ReadSnippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language, VersionRange fileVersion, Package filePackage)
         {
             var startRow = loopState.StartLine.Value + 1;
 
             string error;
-            SnippetMetaData metaData;
-            if (!TryParseVersionAndPackage(loopState, metaDataForPath, out metaData, out error))
+            Package snippetPackage;
+            VersionRange snippetVersion;
+            if (!TryParseVersionAndPackage(loopState, fileVersion,filePackage, out snippetVersion, out snippetPackage, out error))
             {
                 return new ReadSnippet(
                     error: error,
@@ -138,31 +127,33 @@ namespace CaptureSnippets
                 startLine: startRow,
                 endLine: stringReader.Index,
                 key: loopState.CurrentKey,
-                version: metaData.Version,
+                version: snippetVersion,
                 value: value,
                 path: path,
-                package: metaData.Package,
+                package: snippetPackage,
                 language: language.ToLowerInvariant());
         }
 
-        bool TryParseVersionAndPackage(LoopState loopState, Lazy<SnippetMetaData> lazyMetaDataForPath, out SnippetMetaData parsedMetaData, out string error)
+        bool TryParseVersionAndPackage(LoopState loopState, VersionRange fileVersion, Package filePackage, out VersionRange snippetVersion, out Package snippetPackage, out string error)
         {
-            var metaDataForPath = lazyMetaDataForPath.Value;
-            parsedMetaData = null;
+            snippetVersion = null;
+            snippetPackage = null;
             if (loopState.Suffix1 == null)
             {
-                parsedMetaData = metaDataForPath;
+                snippetVersion = fileVersion;
+                snippetPackage = filePackage;
                 error = null;
                 return true;
             }
 
-                VersionRange version;
+            VersionRange version;
             if (loopState.Suffix2 == null)
             {
-                // Suffix1 must be a version
+                // Suffix1 could be a version
                 if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out version))
                 {
-                    parsedMetaData = new SnippetMetaData(version, metaDataForPath.Package);
+                    snippetVersion = version;
+                    snippetPackage = filePackage;
                     error = null;
                     return true;
                 }
@@ -170,7 +161,8 @@ namespace CaptureSnippets
                 // Suffix1 must be a package
                 if (loopState.Suffix1.StartsWithLetter())
                 {
-                    parsedMetaData = new SnippetMetaData(metaDataForPath.Version, loopState.Suffix1);
+                    snippetVersion = fileVersion;
+                    snippetPackage = loopState.Suffix1;
                     error = null;
                     return true;
                 }
@@ -182,7 +174,8 @@ namespace CaptureSnippets
             {
                 if (loopState.Suffix2.StartsWithLetter())
                 {
-                    parsedMetaData = new SnippetMetaData(version, loopState.Suffix2);
+                    snippetVersion = version;
+                    snippetPackage = loopState.Suffix2;
                     error = null;
                     return true;
                 }
@@ -194,7 +187,8 @@ namespace CaptureSnippets
             {
                 if (loopState.Suffix1.StartsWithLetter())
                 {
-                    parsedMetaData = new SnippetMetaData(version, loopState.Suffix1);
+                    snippetVersion = version;
+                    snippetPackage = loopState.Suffix1;
                     error = null;
                     return true;
                 }
@@ -212,6 +206,5 @@ namespace CaptureSnippets
                 .TrimIndentation();
             return string.Join(LineEnding, snippetValue);
         }
-
     }
 }
