@@ -7,10 +7,11 @@ namespace CaptureSnippets
     public class SnippetMetaData
     {
         public readonly VersionRange Version;
-        public readonly string Package;
+        public readonly Package Package;
 
-        public SnippetMetaData(VersionRange version, string package)
+        public SnippetMetaData(VersionRange version, Package package)
         {
+            Guard.AgainstNull(package, "package");
             Guard.AgainstNull(version, "version");
             Version = version;
             Package = package;

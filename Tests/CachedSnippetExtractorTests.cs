@@ -39,7 +39,7 @@ public class CachedSnippetExtractorTests
     [Test]
     public void EnsureErrorsAreReturned()
     {
-        var result = new SnippetMetaData(VersionRange.All, null);
+        var result = new SnippetMetaData(VersionRange.All, Package.None);
         var directory = @"badsnippets".ToCurrentDirectory();
         var cachedSnippetExtractor = new CachedSnippetExtractor(
             extractMetaDataFromPath: (x, y, z) => result,

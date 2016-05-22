@@ -1,32 +1,22 @@
-﻿{
-  "snippets": [
-    {
-      "FileLocation": "path.cs(3-4)",
-      "Error": null,
-      "IsInError": false,
-      "ValueHash": -1342836223,
-      "StartLine": 3,
-      "EndLine": 4,
-      "Value": "<configSections/>",
-      "Key": "codekey",
-      "Language": "cs",
-      "Path": "path.cs",
-      "Version": ">= 2.0.0 && < 3.0.0",
-      "Package": null
-    },
-    {
-      "FileLocation": "path.cs(6-7)",
-      "Error": null,
-      "IsInError": false,
-      "ValueHash": -1342836223,
-      "StartLine": 6,
-      "EndLine": 7,
-      "Value": "<configSections/>",
-      "Key": "codekey",
-      "Language": "cs",
-      "Path": "path.cs",
-      "Version": ">= 2.0.0 && < 3.0.0",
-      "Package": null
-    }
-  ]
-}
+﻿[
+  {
+    "Key": "codekey",
+    "Language": "cs",
+    "Package": "None",
+    "Version": ">= 2.0.0 && < 3.0.0",
+    "Value": "<configSections/>",
+    "Error": null,
+    "FileLocation": "path.cs(3-4)",
+    "IsInError": false
+  },
+  {
+    "Key": "codekey",
+    "Language": "cs",
+    "Package": "None",
+    "Version": ">= 2.0.0 && < 3.0.0",
+    "Value": "<configSections/>",
+    "Error": null,
+    "FileLocation": "path.cs(6-7)",
+    "IsInError": false
+  }
+]

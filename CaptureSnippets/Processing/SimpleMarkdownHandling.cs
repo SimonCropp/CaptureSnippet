@@ -28,7 +28,7 @@ namespace CaptureSnippets
 
         static async Task AppendPackageGroup(TextWriter writer, PackageGroup packageGroup, string language)
         {
-            if (packageGroup.Package != null)
+            if (packageGroup.Package != Package.None)
             {
                 var message = $"### Package: '{packageGroup.Package}'";
                 await writer.WriteLineAsync(message)

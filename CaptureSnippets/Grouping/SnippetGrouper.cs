@@ -28,14 +28,14 @@ namespace CaptureSnippets
             return new SnippetGroups(groups, errors);
         }
 
-        static bool TryGetPackageGroup(string key, string package, List<ReadSnippet> readSnippets, out PackageGroup packageGroup, out string error)
+        static bool TryGetPackageGroup(string key, Package package, List<ReadSnippet> readSnippets, out PackageGroup packageGroup, out string error)
         {
             packageGroup = null;
 
             if (ContainsDuplicateVersion(readSnippets))
             {
                 var files = string.Join("\r\n", readSnippets.Select(x => x.FileLocation));
-                error = $"Duplicate version detected. Key='{key}'. Package='{package}'. Files=\r\n{files}";
+                error = $"Duplicate version detected. Key='{key}'. Package='{package.ValueOrNone}'. Files=\r\n{files}";
                 return false;
             }
 
@@ -83,10 +83,11 @@ namespace CaptureSnippets
             }
             var packageGroups = new List<PackageGroup>();
 
-            foreach (var package in readSnippets.GroupBy(x => x.Package))
+            foreach (var package in readSnippets.GroupBy(x => x.Package.ValueOrNone, snippet => snippet))
             {
                 PackageGroup packageGroup;
-                if (!TryGetPackageGroup(key, package.Key, package.ToList(), out packageGroup, out error))
+                var snippets = package.ToList();
+                if (!TryGetPackageGroup(key, snippets.First().Package, snippets, out packageGroup, out error))
                 {
                     return false;
                 }
@@ -121,14 +122,14 @@ namespace CaptureSnippets
 
         static bool MixesEmptyPackageWithNonEmpty(List<ReadSnippet> readSnippets, out string error)
         {
-            var containsNullPackages = readSnippets.Any(x => x.Package == null);
-            var containsNonNullPackages = readSnippets.Any(x => x.Package != null);
-            if (containsNullPackages && containsNonNullPackages)
+            var containsNonePackages = readSnippets.Any(x => x.Package == Package.None);
+            var containsNonNonePackages = readSnippets.Any(x => x.Package != Package.None);
+            if (containsNonePackages && containsNonNonePackages)
             {
                 var builder = new StringBuilder($"Mixes empty packages with non empty packages. Key='{readSnippets.First().Key}'.\r\nSnippets:\r\n");
                 foreach (var snippet in readSnippets)
                 {
-                    builder.AppendLine($"   Location: '{snippet.FileLocation}'. Package: {snippet.Package}");
+                    builder.AppendLine($"   Location: '{snippet.FileLocation}'. Package: {snippet.Package.ValueOrNone}");
                 }
                 error = builder.ToString();
                 return true;

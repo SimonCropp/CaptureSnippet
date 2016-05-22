@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using NuGet.Versioning;
 
@@ -6,20 +7,18 @@ namespace CaptureSnippets
     /// <summary>
     /// A sub item of <see cref="ReadSnippets"/>.
     /// </summary>
-    [DebuggerDisplay("Key={Key}, FileLocation={FileLocation}, Error={Error}, Package={Package}")]
+    [DebuggerDisplay("Key={Key}, FileLocation={FileLocation}, Error={Error}, Package={Package.ValueOrNone}")]
     public class ReadSnippet
     {
 
         /// <summary>
         /// Initialise a new instance of <see cref="ReadSnippet"/>.
         /// </summary>
-        public ReadSnippet(VersionRange version, string key, int lineNumberInError, string path, string error, string package)
+        public ReadSnippet(string key, int lineNumberInError, string path, string error)
         {
             Guard.AgainstNegativeAndZero(lineNumberInError, "lineNumberInError");
             Guard.AgainstNullAndEmpty(key, "key");
             Guard.AgainstNullAndEmpty(error, "error");
-            Version = version;
-            Package = package;
             Key = key;
             StartLine = lineNumberInError;
             EndLine = lineNumberInError;
@@ -31,11 +30,12 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="ReadSnippet"/>.
         /// </summary>
-        public ReadSnippet(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package)
+        public ReadSnippet(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, Package package)
         {
             Guard.AgainstNullAndEmpty(key, "key");
             Guard.AgainstUpperCase(key, "key");
             Guard.AgainstNull(language, "language");
+            Guard.AgainstNull(package, "package");
             Guard.AgainstUpperCase(language, "language");
             Guard.AgainstNegativeAndZero(startLine, "startLine");
             Guard.AgainstNegativeAndZero(endLine, "endLine");
@@ -47,8 +47,8 @@ namespace CaptureSnippets
             Key = key;
             Language = language;
             Path = path;
-            Version = version;
-            Package = package;
+            this.version = version;
+            this.package = package;
         }
 
         public readonly string Error;
@@ -91,19 +91,44 @@ namespace CaptureSnippets
         /// </summary>
         public readonly string Path;
 
-        /// <summary>
-        /// The <see cref="VersionRange"/> that was inferred for the snippet.
-        /// </summary>
-        public readonly VersionRange Version;
+        VersionRange version;
 
-        /// <summary>
-        /// The Package that was inferred for the snippet.
-        /// </summary>
-        public readonly string Package;
+        Package package;
+
 
         /// <summary>
         /// The <see cref="Path"/>, <see cref="StartLine"/> and <see cref="EndLine"/> concatenated.
         /// </summary>
         public string FileLocation => $"{Path}({StartLine}-{EndLine})";
+
+        /// <summary>
+        /// The <see cref="VersionRange"/> that was inferred for the snippet.
+        /// </summary>
+        public VersionRange Version
+        {
+            get
+            {
+                if (IsInError)
+                {
+                    throw new Exception("Cannot access Version when IsInError.");
+                }
+                return version;
+            }
+        }
+
+        /// <summary>
+        /// The Package that was inferred for the snippet.
+        /// </summary>
+        public Package Package
+        {
+            get
+            {
+                if (IsInError)
+                {
+                    throw new Exception("Cannot access Package when IsInError.");
+                }
+                return package;
+            }
+        }
     }
 }

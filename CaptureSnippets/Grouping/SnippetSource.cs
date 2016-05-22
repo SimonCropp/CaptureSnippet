@@ -6,7 +6,7 @@ namespace CaptureSnippets
     /// <summary>
     /// A snippet after it has been grouped by <see cref="SnippetGrouper"/>.
     /// </summary>
-    /// <remarks>Note that <see cref="ReadSnippet.Version"/> and <see cref="ReadSnippet.Key"/> are not included since they can be infered by the grouping structure.</remarks>
+    /// <remarks>Note that <see cref="ReadSnippet.version"/> and <see cref="ReadSnippet.Key"/> are not included since they can be infered by the grouping structure.</remarks>
     [DebuggerDisplay("FileLocation={FileLocation}, Version={Version}")]
     public class SnippetSource
     {

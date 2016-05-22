@@ -7,15 +7,15 @@ namespace CaptureSnippets
     /// <summary>
     /// A hierarchy of <see cref="VersionGroup"/>s grouped by Package > Version
     /// </summary>
-    [DebuggerDisplay("Package={Package}")]
+    [DebuggerDisplay("Package={Package.ValueOrNone}")]
     public class PackageGroup : IEnumerable<VersionGroup>
     {
         /// <summary>
         /// Initialise a new instance of <see cref="PackageGroup"/>.
         /// </summary>
-        public PackageGroup(string package, IReadOnlyList<VersionGroup> versions)
+        public PackageGroup(Package package, IReadOnlyList<VersionGroup> versions)
         {
-            Guard.AgainstEmpty(package, "package");
+            Guard.AgainstNull(package, "package");
             Guard.AgainstNull(versions, "versions");
             Package = package;
             Versions = versions;
@@ -24,7 +24,7 @@ namespace CaptureSnippets
         /// <summary>
         /// The key that all child <see cref="VersionGroup"/>s contain.
         /// </summary>
-        public readonly string Package;
+        public readonly Package Package;
 
         /// <summary>
         /// All the <see cref="VersionGroup"/>s with a common key.

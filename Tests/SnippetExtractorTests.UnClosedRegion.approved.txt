@@ -1,16 +1,8 @@
 ﻿[
   {
-    "FileLocation": "path.cs(3-3)",
-    "Error": "Snippet was not closed",
-    "IsInError": true,
-    "ValueHash": 0,
-    "StartLine": 3,
-    "EndLine": 3,
-    "Value": null,
     "Key": "codekey",
-    "Language": null,
-    "Path": "path.cs",
-    "Version": null,
-    "Package": null
+    "Error": "Snippet was not closed",
+    "FileLocation": "path.cs(3-3)",
+    "IsInError": true
   }
 ]

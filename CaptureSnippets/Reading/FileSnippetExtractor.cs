@@ -37,10 +37,6 @@ namespace CaptureSnippets
                 {
                     return Result<SnippetMetaData>.Failed($"ExtractMetaData supplied null for '{path}'.");
                 }
-                if (result.Value.Package.IsEmptyOrWhiteSpace())
-                {
-                    return Result<SnippetMetaData>.Failed($"ExtractMetaData returned empty string for '{path}'.");
-                }
             }
             return result;
         }
@@ -86,9 +82,7 @@ namespace CaptureSnippets
                             error: "Snippet was not closed",
                             path: path,
                             lineNumberInError: loopState.StartLine.Value + 1,
-                            key: loopState.CurrentKey,
-                            version: null,
-                            package: null));
+                            key: loopState.CurrentKey));
                     }
                     break;
                 }
@@ -127,9 +121,7 @@ namespace CaptureSnippets
                     error: error,
                     path: path,
                     lineNumberInError: startRow,
-                    key: loopState.CurrentKey,
-                    version: null,
-                    package: metaData.Package);
+                    key: loopState.CurrentKey);
             }
             var value = ConvertLinesToValue(loopState.SnippetLines);
             if (value.IndexOfAny(invalidCharacters) > -1)
@@ -139,9 +131,7 @@ namespace CaptureSnippets
                     error: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by copying code from MS Word or Outlook. Dont do that.",
                     path: path,
                     lineNumberInError: startRow,
-                    key: loopState.CurrentKey,
-                    version: metaData.Version,
-                    package: metaData.Package);
+                    key: loopState.CurrentKey);
             }
 
             return new ReadSnippet(

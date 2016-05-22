@@ -65,7 +65,9 @@ namespace CaptureSnippets
                 }
                 usedSnippets.Add(snippetGroup);
             }
-            return new ProcessResult(missingSnippets: missingSnippets, usedSnippets: usedSnippets);
+            return new ProcessResult(
+                missingSnippets: missingSnippets,
+                usedSnippets: usedSnippets);
         }
 
     }

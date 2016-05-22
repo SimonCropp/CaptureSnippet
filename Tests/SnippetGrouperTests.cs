@@ -34,7 +34,7 @@ public class SnippetGrouperTests
                 endLine: 5,
                 path: @"c:\files\file1.txt",
                 language: string.Empty,
-                package: null),
+                package: Package.None),
         };
         var snippetGroups = SnippetGrouper.Group(snippets);
         var readSnippetError = snippetGroups.Errors.Single();

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
+using System.Linq;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
@@ -18,7 +18,7 @@ public class SnippetExtractorTests
   <!-- startcode key -->
   —
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -29,8 +29,8 @@ public class SnippetExtractorTests
   <!-- startcode key -->
   “
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
-        ObjectApprover.VerifyWithJson(snippets.Snippets);
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
@@ -40,8 +40,8 @@ public class SnippetExtractorTests
   <!-- startcode key -->
   ”
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
-        ObjectApprover.VerifyWithJson(snippets.Snippets);
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
@@ -51,8 +51,8 @@ public class SnippetExtractorTests
   <!-- startcode key -->
   `
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
-        ObjectApprover.VerifyWithJson(snippets.Snippets);
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
@@ -65,7 +65,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 2.0-->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -76,8 +76,8 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey-->
   foo`bar`
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
-        ObjectApprover.VerifyWithJson(snippets.Snippets);
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
@@ -90,7 +90,7 @@ public class SnippetExtractorTests
   #region CodeKey 5
   The Code
   #endregion";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -101,7 +101,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -116,29 +116,28 @@ public class SnippetExtractorTests
         {
             var versionRange = new VersionRange(new NuGetVersion(1, 1, 0));
             var snippets = new List<ReadSnippet>();
-            var result = new SnippetMetaData(versionRange, null);
+            var result = new SnippetMetaData(versionRange, Package.None);
             var extractor = new FileSnippetExtractor((x, y, z) => result);
             extractor.AppendFromReader(stringReader, null, "path.cs", result, snippets.Add)
                 .GetAwaiter()
                 .GetResult();
-            ObjectApprover.VerifyWithJson(new ReadSnippets(snippets));
+            ObjectApprover.VerifyWithJson(snippets.Single());
         }
     }
 
-    public async Task<ReadSnippets> FromText(string contents, ExtractMetaDataFromPath extractMetaDataFromPath = null)
+    public List<ReadSnippet> FromText(string contents, ExtractMetaDataFromPath extractMetaDataFromPath = null)
     {
         using (var stringReader = new StringReader(contents))
         {
             var snippets = new List<ReadSnippet>();
-            var result = new SnippetMetaData(VersionRange.All, null);
+            var result = new SnippetMetaData(VersionRange.All, Package.None);
             if (extractMetaDataFromPath == null)
             {
                 extractMetaDataFromPath = (x, y, z) => result;
             }
             var extractor = new FileSnippetExtractor(extractMetaDataFromPath);
-            await extractor.AppendFromReader(stringReader, null, "path.cs", result, snippets.Add)
-                .ConfigureAwait(false);
-            return new ReadSnippets(snippets);
+            extractor.AppendFromReader(stringReader, null, "path.cs", result, snippets.Add).GetAwaiter().GetResult();
+            return snippets;
         }
     }
 
@@ -149,7 +148,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey 5 -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -160,7 +159,7 @@ public class SnippetExtractorTests
   #region CodeKey 5 package1
   The code
   #endregion";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -171,7 +170,7 @@ public class SnippetExtractorTests
   #region CodeKey package1 5
   The code
   #endregion";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -182,7 +181,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey All -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -193,7 +192,7 @@ public class SnippetExtractorTests
   <!-- startcode CodeKey [1.0,2.0] -->
   <configSections/>
   <!-- endcode -->";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -203,8 +202,8 @@ public class SnippetExtractorTests
         var input = @"
   <!-- startcode CodeKey -->
   <configSections/>";
-        var snippets = FromText(input).Result;
-        ObjectApprover.VerifyWithJson(snippets.Snippets);
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
@@ -213,8 +212,8 @@ public class SnippetExtractorTests
         var input = @"
   <!-- startcode CodeKey 5 -->
   <configSections/>";
-        var snippets = FromText(input).Result;
-        ObjectApprover.VerifyWithJson(snippets.Snippets);
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
@@ -223,8 +222,8 @@ public class SnippetExtractorTests
         var input = @"
   #region CodeKey
   <configSections/>";
-        var snippets = FromText(input).Result;
-        ObjectApprover.VerifyWithJson(snippets.Snippets);
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
@@ -233,8 +232,8 @@ public class SnippetExtractorTests
         var input = @"
   #region CodeKey 5
   <configSections/>";
-        var snippets = FromText(input).Result;
-        ObjectApprover.VerifyWithJson(snippets.Snippets);
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
     }
 
     [Test]
@@ -244,7 +243,7 @@ public class SnippetExtractorTests
   #region CodeKey
   The Code
   #endregion";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -255,7 +254,7 @@ public class SnippetExtractorTests
   #region CodeKey 5
   The Code
   #endregion";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -266,7 +265,7 @@ public class SnippetExtractorTests
   // startcode CodeKey
   the code
   // endcode ";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -277,7 +276,7 @@ public class SnippetExtractorTests
   // startcode CodeKey 6
   the code
   // endcode ";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -288,7 +287,7 @@ public class SnippetExtractorTests
   <!--startcode CodeKey-->
   <configSections/>
   <!--endcode-->";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -299,7 +298,7 @@ public class SnippetExtractorTests
   <!--startcode CodeKey 6-->
   <configSections/>
   <!--endcode-->";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -310,7 +309,7 @@ public class SnippetExtractorTests
   // startcode CodeKey
   the code
   // endcode   ";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 
@@ -321,7 +320,7 @@ public class SnippetExtractorTests
   // startcode CodeKey 4
   the code
   // endcode   ";
-        var snippets = FromText(input).Result;
+        var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
 }

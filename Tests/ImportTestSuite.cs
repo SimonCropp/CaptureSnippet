@@ -29,7 +29,7 @@ public class ImportTestSuite
     async Task Run(string folder, string input, string expectedOutput)
     {
         var snippets = new List<ReadSnippet>();
-        var snippetMetaData = new SnippetMetaData(VersionRange.All, null);
+        var snippetMetaData = new SnippetMetaData(VersionRange.All, Package.None);
         var result = snippetMetaData;
         var extractor = new FileSnippetExtractor((x, y, z) => result);
         var path = Path.Combine(folder, "code.cs");

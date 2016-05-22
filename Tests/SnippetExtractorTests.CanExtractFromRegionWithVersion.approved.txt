@@ -1,18 +1,12 @@
-﻿{
-  "snippets": [
-    {
-      "FileLocation": "path.cs(3-4)",
-      "Error": null,
-      "IsInError": false,
-      "ValueHash": -1253859824,
-      "StartLine": 3,
-      "EndLine": 4,
-      "Value": "The Code",
-      "Key": "codekey",
-      "Language": "cs",
-      "Path": "path.cs",
-      "Version": ">= 5.0.0 && < 6.0.0",
-      "Package": null
-    }
-  ]
-}
+﻿[
+  {
+    "Key": "codekey",
+    "Language": "cs",
+    "Package": "None",
+    "Version": ">= 5.0.0 && < 6.0.0",
+    "Value": "The Code",
+    "Error": null,
+    "FileLocation": "path.cs(3-4)",
+    "IsInError": false
+  }
+]

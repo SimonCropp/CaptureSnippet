@@ -9,8 +9,10 @@ public static class ModuleInitializer
         converters.Add(new CachedSnippetsConverter());
         converters.Add(new SnippetGroupConverter());
         converters.Add(new PackageGroupConverter());
+        converters.Add(new PackageConverter());
         converters.Add(new ProcessResultConverter());
         converters.Add(new ReadSnippetsConverter());
+        converters.Add(new ReadSnippetConverter());
         converters.Add(new VersionGroupConverter());
     }
 }

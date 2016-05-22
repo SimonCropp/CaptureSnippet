@@ -11,7 +11,6 @@ class ReadSnippetsConverter : JsonConverter
             writer.WriteValue("null");
             return;
         }
-
         var readSnippets = (ReadSnippets)value;
         writer.WriteStartObject();
         writer.WritePropertyName("snippets");
