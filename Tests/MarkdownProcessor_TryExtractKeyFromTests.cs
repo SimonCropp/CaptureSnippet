@@ -12,7 +12,7 @@ public class MarkdownProcessor_TryExtractKeyFromTests
     public void MissingSpaces()
     {
         string key;
-        ImportKeyReader.TryExtractKeyFromLine("snippet:mycodesnippet", out key);
+        SnippetKeyReader.TryExtractKeyFromLine("snippet:mycodesnippet", out key);
         Assert.AreEqual("mycodesnippet", key);
     }
     
@@ -21,7 +21,7 @@ public class MarkdownProcessor_TryExtractKeyFromTests
     public void WithDashes()
     {
         string key;
-        ImportKeyReader.TryExtractKeyFromLine("snippet:my-code-snippet", out key);
+        SnippetKeyReader.TryExtractKeyFromLine("snippet:my-code-snippet", out key);
         Assert.AreEqual("my-code-snippet", key);
     }
     
@@ -29,7 +29,7 @@ public class MarkdownProcessor_TryExtractKeyFromTests
     public void Simple()
     {
         string key;
-        ImportKeyReader.TryExtractKeyFromLine("snippet:mycodesnippet", out key);
+        SnippetKeyReader.TryExtractKeyFromLine("snippet:mycodesnippet", out key);
         Assert.AreEqual("mycodesnippet", key);
     }
 
@@ -37,7 +37,7 @@ public class MarkdownProcessor_TryExtractKeyFromTests
     public void ExtraSpace()
     {
         string key;
-        ImportKeyReader.TryExtractKeyFromLine("snippet:  mycodesnippet   ", out key);
+        SnippetKeyReader.TryExtractKeyFromLine("snippet:  mycodesnippet   ", out key);
         Assert.AreEqual("mycodesnippet", key);
     }
 }

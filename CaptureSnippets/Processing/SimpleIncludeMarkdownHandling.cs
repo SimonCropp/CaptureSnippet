@@ -8,25 +8,21 @@ namespace CaptureSnippets
     /// <summary>
     /// Simple markdown handling to be passed to <see cref="MarkdownProcessor"/>.
     /// </summary>
-    public static class SimpleMarkdownHandling
+    public static class SimpleIncludeMarkdownHandling
     {
 
-        /// <summary>
-        /// Method that can be override to control how an individual <see cref="SnippetGroup"/> is rendered.
-        /// </summary>
-        public static async Task AppendGroup(SnippetGroup snippetGroup, TextWriter writer)
+        public static async Task AppendGroup(IncludeGroup group, TextWriter writer)
         {
-            Guard.AgainstNull(snippetGroup, "snippetGroup");
+            Guard.AgainstNull(group, "group");
             Guard.AgainstNull(writer, "writer");
 
-            var language = snippetGroup.Language;
-            foreach (var packageGroup in snippetGroup)
+            foreach (var package in group)
             {
-                await AppendPackageGroup(writer, packageGroup, language);
+                await AppendPackageGroup(writer, package);
             }
         }
 
-        static async Task AppendPackageGroup(TextWriter writer, PackageGroup packageGroup, string language)
+        static async Task AppendPackageGroup(TextWriter writer, IncludePackageGroup packageGroup)
         {
             if (packageGroup.Package != Package.None)
             {
@@ -36,12 +32,12 @@ namespace CaptureSnippets
             }
             foreach (var version in packageGroup.Versions)
             {
-                await AppendVersionGroup(writer, version, language)
+                await AppendVersionGroup(writer, version)
                     .ConfigureAwait(false);
             }
         }
 
-        static async Task AppendVersionGroup(TextWriter writer, VersionGroup versionGroup, string language)
+        static async Task AppendVersionGroup(TextWriter writer, IncludeVersionGroup versionGroup)
         {
             if (!versionGroup.Version.Equals(VersionRange.All))
             {
@@ -49,10 +45,7 @@ namespace CaptureSnippets
                 await writer.WriteLineAsync(message)
                     .ConfigureAwait(false);
             }
-            var format = $@"```{language}
-{versionGroup.Value}
-```";
-            await writer.WriteLineAsync(format)
+            await writer.WriteLineAsync(versionGroup.Value)
                 .ConfigureAwait(false);
         }
 

@@ -5,11 +5,11 @@ using NuGet.Versioning;
 namespace CaptureSnippets
 {
     [DebuggerDisplay("Range={Range}, Value={Value}")]
-    class MergedSnippets
+    class MergedIncludes
     {
         public VersionRange Range;
         public int ValueHash;
         public string Value;
-        public List<ReadSnippet> Snippets;
+        public List<ReadInclude> Items;
     }
 }

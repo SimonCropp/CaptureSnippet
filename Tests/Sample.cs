@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CaptureSnippets;
@@ -15,7 +17,7 @@ class Sample
         // setup version convention and extract snippets from files
 
         var snippetExtractor = new DirectorySnippetExtractor(
-            extractMetaDataFromPath: InferMetaData,
+            extractVersionAndPackageFromPath: InferVersionAndPath,
             includeDirectory: IncludeDirectory,
             includeFile: IncludeFile);
         var readSnippets = await snippetExtractor.FromDirectory(@"C:\path");
@@ -26,14 +28,19 @@ class Sample
 
         //In this case the text will be extracted from a file path
         ProcessResult result;
+        var markdownProcessor = new MarkdownProcessor(
+            snippets: snippetGroups,
+            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup,
+            includes: new List<IncludeGroup>(),
+            appendIncludeGroup: (group, writer) => { throw new Exception(); });
         using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
         using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
         {
-            result = await MarkdownProcessor.Apply(snippetGroups, reader, writer, SimpleMarkdownHandling.AppendGroup);
+            result = await markdownProcessor.Apply(reader, writer);
         }
 
         // List of all snippets that the markdown file expected but did not exist in the input snippets
-        var missingSnippets = result.MissingSnippets;
+        var missingSnippets = result.Missing;
 
         // List of all snippets that the markdown file used
         var usedSnippets = result.UsedSnippets;
@@ -55,14 +62,14 @@ class Sample
         return filepath.EndsWith(".vm") || filepath.EndsWith(".cs");
     }
 
-    static SnippetMetaData InferMetaData(string path)
+    static VersionAndPackage InferVersionAndPath(string path)
     {
         VersionRange version;
         var split = path.Split('_');
         if (VersionRange.TryParse(split[1], out version))
         {
-            return SnippetMetaData.With(version, split[0]);
+            return VersionAndPackage.With(version, split[0]);
         }
-        return SnippetMetaData.WithParent();
+        return VersionAndPackage.WithParent();
     }
 }

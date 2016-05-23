@@ -11,7 +11,7 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        ExtractMetaDataFromPath extractMetaDataFromPath;
+        ExtractVersionAndPackageFromPath extractVersionAndPackageFromPath;
         TranslatePackage translatePackage;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
@@ -20,11 +20,11 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
         /// </summary>
-        /// <param name="extractMetaDataFromPath">How to extract a <see cref="SnippetMetaData"/> from a given path.</param>
-        public FileSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, TranslatePackage translatePackage = null)
+        /// <param name="extractVersionAndPackageFromPath">How to extract a <see cref="VersionAndPackage"/> from a given path.</param>
+        public FileSnippetExtractor(ExtractVersionAndPackageFromPath extractVersionAndPackageFromPath, TranslatePackage translatePackage = null)
         {
-            Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
-            this.extractMetaDataFromPath = extractMetaDataFromPath;
+            Guard.AgainstNull(extractVersionAndPackageFromPath, "extractMetaData");
+            this.extractVersionAndPackageFromPath = extractVersionAndPackageFromPath;
             if (translatePackage != null)
             {
                 this.translatePackage = translatePackage;
@@ -61,9 +61,7 @@ namespace CaptureSnippets
         {
             VersionRange fileVersion;
             Package filePackage;
-            var pathWithoutExtension = path.Substring(0, path.LastIndexOf('.'));
-            var metaDataFromPath = extractMetaDataFromPath;
-            MetadataExtractor.ExtractVersionAndPackage(parentVersion, parentPackage, metaDataFromPath, pathWithoutExtension, out fileVersion, out filePackage);
+            VersionAndPackageExtractor.ExtractVersionAndPackageForFile(parentVersion, parentPackage, extractVersionAndPackageFromPath, path, out fileVersion, out filePackage);
 
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();

@@ -7,12 +7,12 @@ namespace CaptureSnippets
     /// Part of <see cref="ProcessResult"/>.
     /// </summary>
     [DebuggerDisplay("Key={Key}, Line={Line}")]
-    public class MissingSnippet
+    public class MissingSnippetOrInclude
     {
         /// <summary>
-        /// Initialise a new instance of <see cref="MissingSnippet"/>.
+        /// Initialise a new instance of <see cref="MissingSnippetOrInclude"/>.
         /// </summary>
-        public MissingSnippet(string key, int line)
+        public MissingSnippetOrInclude(string key, int line)
         {
             Guard.AgainstNullAndEmpty(key,"key");
             Guard.AgainstNegativeAndZero(line, "line");
@@ -20,18 +20,18 @@ namespace CaptureSnippets
             Line = line;
         }
         /// <summary>
-        /// The key of the missing snippet.
+        /// The key of the missing snippet or include.
         /// </summary>
         public readonly string Key;
 
         /// <summary>
-        /// The line number in the input text where the snippet was expected to be injected.
+        /// The line number in the input text where the snippet or include was expected to be injected.
         /// </summary>
         public readonly int Line;
 
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder("Missing Snippet. ");
+            var stringBuilder = new StringBuilder("Missing Snippet or Include. ");
             stringBuilder.AppendFormat(" Line: {0}.", Line);
             stringBuilder.AppendFormat(" Key: '{0}'.", Key);
             return stringBuilder.ToString();

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tests</RootNamespace>
     <AssemblyName>Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <TargetFrameworkProfile />
@@ -84,16 +84,32 @@
     <Compile Include="Converters\ProcessResultConverter.cs" />
     <Compile Include="Converters\ReadSnippetConverter.cs" />
     <Compile Include="Converters\ReadSnippetsConverter.cs" />
-    <Compile Include="Converters\PackageGroupConverter.cs" />
+    <Compile Include="Converters\SnippetPackageGroupConverter.cs" />
     <Compile Include="Converters\SnippetGroupConverter.cs" />
-    <Compile Include="Converters\VersionGroupConverter.cs" />
+    <Compile Include="Converters\SnippetVersionGroupConverter.cs" />
     <Content Include="DirectorySnippetExtractor\1.1\2.2\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Compile Include="Includes\IncludeProcessorTest.cs" />
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="DirectorySnippetExtractor\DirectorySnippetExtractorTests.cs" />
     <Compile Include="VersionRangeExtensionsTests.cs" />
+    <None Include="Includes\infinite.include.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Includes\key.include.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Includes\miXedCase.iNclude.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Includes\nested.child.include.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Includes\nested.parent.include.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="scenarios\03-WeirdCharacters\input.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

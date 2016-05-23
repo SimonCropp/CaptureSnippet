@@ -5,44 +5,36 @@ using System.Diagnostics;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// A hierarchy of <see cref="SnippetSource"/>s grouped by Key > Package
+    /// A hierarchy of <see cref="IncludeSource"/>s grouped by Key > Package
     /// </summary>
-    [DebuggerDisplay("Key={Key}, Language={Language}")]
-    public class SnippetGroup : IEnumerable<PackageGroup>
+    [DebuggerDisplay("Key={Key}")]
+    public class IncludeGroup : IEnumerable<IncludePackageGroup>
     {
         /// <summary>
         /// Initialise a new instance of <see cref="SnippetGroup"/>.
         /// </summary>
-        public SnippetGroup(string key, string language, IReadOnlyList<PackageGroup> packages)
+        public IncludeGroup(string key, IReadOnlyList<IncludePackageGroup> packages)
         {
             Guard.AgainstNull(key, "key");
             Guard.AgainstNull(packages, "packages");
-            Guard.AgainstNull(language, "language");
-            Guard.AgainstUpperCase(language, "language");
             Key = key;
             Packages = packages;
-            Language = language;
         }
 
         /// <summary>
-        /// The key that all child <see cref="SnippetGroup"/>s contain.
+        /// The key that all child <see cref="IncludeGroup"/>s contain.
         /// </summary>
         public readonly string Key;
 
         /// <summary>
-        /// The language of the snippet, extracted from the file extension of the input file.
-        /// </summary>
-        public readonly string Language;
-
-        /// <summary>
         /// All the <see cref="PackageGroup"/>s with a common key.
         /// </summary>
-        public readonly IReadOnlyList<PackageGroup> Packages;
+        public readonly IReadOnlyList<IncludePackageGroup> Packages;
 
         /// <summary>
         /// Enumerates over <see cref="Packages"/>.
         /// </summary>
-        public IEnumerator<PackageGroup> GetEnumerator()
+        public IEnumerator<IncludePackageGroup> GetEnumerator()
         {
             return Packages.GetEnumerator();
         }

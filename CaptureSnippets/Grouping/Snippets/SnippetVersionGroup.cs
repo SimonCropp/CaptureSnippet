@@ -9,12 +9,12 @@ namespace CaptureSnippets
     /// Allows <see cref="SnippetSource"/>s to be grouped by their <see cref="VersionRange"/>.
     /// </summary>
     [DebuggerDisplay("Version={Version}, Value={Value}")]
-    public class VersionGroup : IEnumerable<SnippetSource>
+    public class SnippetVersionGroup : IEnumerable<SnippetSource>
     {
         /// <summary>
-        /// Initialise a new instance of <see cref="VersionGroup"/>.
+        /// Initialise a new instance of <see cref="SnippetVersionGroup"/>.
         /// </summary>
-        public VersionGroup(VersionRange version, string value, IReadOnlyList<SnippetSource> sources)
+        public SnippetVersionGroup(VersionRange version, string value, IReadOnlyList<SnippetSource> sources)
         {
             Guard.AgainstNull(version,"version");
             Guard.AgainstNull(sources, "sources");

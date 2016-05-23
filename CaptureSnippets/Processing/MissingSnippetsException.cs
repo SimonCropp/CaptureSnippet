@@ -6,19 +6,19 @@ namespace CaptureSnippets
 {
 
     /// <summary>
-    /// Thrown for then <see cref="MissingSnippets"/> exist.
+    /// Thrown for when <see cref="MissingSnippets"/> exist.
     /// </summary>
     public class MissingSnippetsException : Exception
     {
         /// <summary>
         /// The snippets that were requested but not found.
         /// </summary>
-        public readonly IReadOnlyList<MissingSnippet> MissingSnippets;
+        public readonly IReadOnlyList<MissingSnippetOrInclude> MissingSnippets;
 
         /// <summary>
         /// Initialise a new instance of <see cref="MissingSnippetsException"/>.
         /// </summary>
-        public MissingSnippetsException(IReadOnlyList<MissingSnippet> missingSnippets)
+        public MissingSnippetsException(IReadOnlyList<MissingSnippetOrInclude> missingSnippets)
         {
             Guard.AgainstNull(missingSnippets, "missingSnippets");
             MissingSnippets = missingSnippets;

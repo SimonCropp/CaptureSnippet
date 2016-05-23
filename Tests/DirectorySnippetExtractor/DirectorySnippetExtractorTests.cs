@@ -15,21 +15,21 @@ public class DirectorySnippetExtractorTests
     [Test]
     public void VerifyLambdasAreCalled()
     {
-        var extractMetaDatas = new ConcurrentBag<CapturedExtractMetaData>();
+        var versionAndPaths = new ConcurrentBag<CapturedVersionAndPath>();
         var includeDirectories = new ConcurrentBag<CapturedIncludeDirectory>();
         var includeFiles = new ConcurrentBag<CapturedIncludeFile>();
         var translatePackages = new ConcurrentBag<CapturedTranslatePackage>();
         var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor");
-        var snippetMetaData = SnippetMetaData.With(VersionRange.All, "package");
+        var snippetMetaData = VersionAndPackage.With(VersionRange.All, "package");
         var result = new TestResult();
         var extractor = new DirectorySnippetExtractor(
-            extractMetaDataFromPath: path =>
+            extractVersionAndPackageFromPath: path =>
             {
-                var capturedExtractMetaData = new CapturedExtractMetaData
+                var versionAndPath = new CapturedVersionAndPath
                 {
                     Path = path
                 };
-                extractMetaDatas.Add(capturedExtractMetaData);
+                versionAndPaths.Add(versionAndPath);
                 return snippetMetaData;
             },
             includeDirectory: path =>
@@ -53,7 +53,7 @@ public class DirectorySnippetExtractorTests
             .GetResult();
         result.IncludeFiles = includeFiles.OrderBy(file => file.Path).ToList();
         result.IncludeDirectories = includeDirectories.OrderBy(file => file.Path).ToList();
-        result.ExtractMetaDatas = extractMetaDatas.OrderBy(file => file.Path).ToList();
+        result.VersionAndPaths = versionAndPaths.OrderBy(file => file.Path).ToList();
         result.TranslatePackages = translatePackages.OrderBy(file => file.Alias).ToList();
         ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(targetDirectory, @"root\"));
     }
@@ -65,13 +65,13 @@ public class DirectorySnippetExtractorTests
 
     public class TestResult
     {
-        public List<CapturedExtractMetaData> ExtractMetaDatas;
+        public List<CapturedVersionAndPath> VersionAndPaths;
         public List<CapturedIncludeDirectory> IncludeDirectories;
         public List<CapturedIncludeFile> IncludeFiles;
         public List<CapturedTranslatePackage> TranslatePackages;
     }
 
-    public class CapturedExtractMetaData
+    public class CapturedVersionAndPath
     {
         public string Path;
     }

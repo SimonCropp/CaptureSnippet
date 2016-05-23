@@ -116,7 +116,7 @@ public class SnippetExtractorTests
         {
             var versionRange = new VersionRange(new NuGetVersion(1, 1, 0));
             var snippets = new List<ReadSnippet>();
-            var result = SnippetMetaData.With(versionRange, Package.None);
+            var result = VersionAndPackage.With(versionRange, Package.None);
             var extractor = new FileSnippetExtractor(y => result);
             extractor.AppendFromReader(stringReader, "path.cs", versionRange, Package.None, snippets.Add)
                 .GetAwaiter()
@@ -125,17 +125,17 @@ public class SnippetExtractorTests
         }
     }
 
-    public List<ReadSnippet> FromText(string contents, ExtractMetaDataFromPath extractMetaDataFromPath = null)
+    public List<ReadSnippet> FromText(string contents, ExtractVersionAndPackageFromPath extractVersionAndPackageFromPath = null)
     {
         using (var stringReader = new StringReader(contents))
         {
             var snippets = new List<ReadSnippet>();
-            var result = SnippetMetaData.With(VersionRange.All, Package.None);
-            if (extractMetaDataFromPath == null)
+            var result = VersionAndPackage.With(VersionRange.All, Package.None);
+            if (extractVersionAndPackageFromPath == null)
             {
-                extractMetaDataFromPath = y => result;
+                extractVersionAndPackageFromPath = y => result;
             }
-            var extractor = new FileSnippetExtractor(extractMetaDataFromPath);
+            var extractor = new FileSnippetExtractor(extractVersionAndPackageFromPath);
             extractor.AppendFromReader(stringReader, "path.cs", VersionRange.All, Package.None, snippets.Add).GetAwaiter().GetResult();
             return snippets;
         }

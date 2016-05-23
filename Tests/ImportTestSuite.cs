@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ public class ImportTestSuite
     async Task Run(string folder, string input, string expectedOutput)
     {
         var snippets = new List<ReadSnippet>();
-        var snippetMetaData = SnippetMetaData.With(VersionRange.All, Package.None);
+        var snippetMetaData = VersionAndPackage.With(VersionRange.All, Package.None);
         var result = snippetMetaData;
         var extractor = new FileSnippetExtractor(y => result);
         var path = Path.Combine(folder, "code.cs");
@@ -41,12 +42,17 @@ public class ImportTestSuite
         var snippetGroups = SnippetGrouper.Group(snippets)
             .ToList();
 
+        var markdownProcessor = new MarkdownProcessor(
+            snippets: snippetGroups,
+            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup,
+            includes: new List<IncludeGroup>(),
+            appendIncludeGroup: (group, writer) => {throw new Exception();} );
         using (var reader = File.OpenText(input))
         {
             var stringBuilder = new StringBuilder();
             using (var writer = new StringWriter(stringBuilder))
             {
-                await MarkdownProcessor.Apply(snippetGroups, reader, writer, SimpleMarkdownHandling.AppendGroup);
+                await markdownProcessor.Apply(reader, writer);
             }
 
             var expected = File.ReadAllText(expectedOutput).FixNewLines();

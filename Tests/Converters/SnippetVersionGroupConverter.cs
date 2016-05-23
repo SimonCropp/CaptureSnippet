@@ -2,7 +2,7 @@ using System;
 using CaptureSnippets;
 using Newtonsoft.Json;
 
-class PackageGroupConverter : JsonConverter
+class SnippetVersionGroupConverter : JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
@@ -12,12 +12,14 @@ class PackageGroupConverter : JsonConverter
             return;
         }
 
-        var snippetGroup = (PackageGroup)value;
+        var versionGroup = (SnippetVersionGroup)value;
         writer.WriteStartObject();
-        writer.WritePropertyName("Package");
-        writer.WriteValue(snippetGroup.Package);
-        writer.WritePropertyName("versions");
-        serializer.Serialize(writer, snippetGroup.Versions);
+        writer.WritePropertyName("version");
+        writer.WriteValue(versionGroup.Version.PrettyPrint());
+        writer.WritePropertyName("value");
+        writer.WriteValue(versionGroup.Value);
+        writer.WritePropertyName("sources");
+        serializer.Serialize(writer, versionGroup.Sources);
         writer.WriteEndObject();
     }
 
@@ -28,6 +30,6 @@ class PackageGroupConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        return objectType == typeof(PackageGroup);
+        return objectType == typeof(SnippetVersionGroup);
     }
 }

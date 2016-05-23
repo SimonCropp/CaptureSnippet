@@ -5,15 +5,15 @@ using System.Diagnostics;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// A hierarchy of <see cref="VersionGroup"/>s grouped by Package > Version
+    /// A hierarchy of <see cref="IncludeVersionGroup"/>s grouped by Package > Version
     /// </summary>
     [DebuggerDisplay("Package={Package.ValueOrNone}")]
-    public class PackageGroup : IEnumerable<VersionGroup>
+    public class IncludePackageGroup : IEnumerable<IncludeVersionGroup>
     {
         /// <summary>
         /// Initialise a new instance of <see cref="PackageGroup"/>.
         /// </summary>
-        public PackageGroup(Package package, IReadOnlyList<VersionGroup> versions)
+        public IncludePackageGroup(Package package, IReadOnlyList<IncludeVersionGroup> versions)
         {
             Guard.AgainstNull(package, "package");
             Guard.AgainstNull(versions, "versions");
@@ -22,19 +22,19 @@ namespace CaptureSnippets
         }
 
         /// <summary>
-        /// The key that all child <see cref="VersionGroup"/>s contain.
+        /// The key that all child <see cref="IncludeVersionGroup"/>s contain.
         /// </summary>
         public readonly Package Package;
 
         /// <summary>
-        /// All the <see cref="VersionGroup"/>s with a common key.
+        /// All the <see cref="IncludeVersionGroup"/>s with a common key.
         /// </summary>
-        public readonly IReadOnlyList<VersionGroup> Versions;
+        public readonly IReadOnlyList<IncludeVersionGroup> Versions;
 
         /// <summary>
-        /// Enumerates over <see cref="Versions"/>.
+        /// Enumerates over <see cref="IncludeVersions"/>.
         /// </summary>
-        public IEnumerator<VersionGroup> GetEnumerator()
+        public IEnumerator<IncludeVersionGroup> GetEnumerator()
         {
             return Versions.GetEnumerator();
         }

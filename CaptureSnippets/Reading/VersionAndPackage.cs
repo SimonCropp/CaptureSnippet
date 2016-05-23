@@ -4,14 +4,14 @@ using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
-    [DebuggerDisplay("Version={Version}, Package={Package}")]
-    public class SnippetMetaData
+    [DebuggerDisplay("Version={Version}, Package={Package.ValueOrNone}")]
+    public class VersionAndPackage
     {
 
         public readonly bool UseParentVersion;
         public readonly bool UseParentPackage;
 
-        SnippetMetaData(VersionRange version, Package package, bool useParentVersion, bool useParentPackage)
+        VersionAndPackage(VersionRange version, Package package, bool useParentVersion, bool useParentPackage)
         {
             this.version = version;
             this.package = package;
@@ -45,26 +45,26 @@ namespace CaptureSnippets
             }
         }
 
-        public static SnippetMetaData With(VersionRange version, Package package)
+        public static VersionAndPackage With(VersionRange version, Package package)
         {
             Guard.AgainstNull(version, "version");
             Guard.AgainstNull(package, "package");
-            return new SnippetMetaData(version, package, false, false);
+            return new VersionAndPackage(version, package, false, false);
         }
 
-        public static SnippetMetaData WithParentVersion(Package package)
+        public static VersionAndPackage WithParentVersion(Package package)
         {
-            return new SnippetMetaData(null, package, true, false);
+            return new VersionAndPackage(null, package, true, false);
         }
 
-        public static SnippetMetaData WithParentPackage(VersionRange version)
+        public static VersionAndPackage WithParentPackage(VersionRange version)
         {
-            return new SnippetMetaData(version, null, false, true);
+            return new VersionAndPackage(version, null, false, true);
         }
 
-        public static SnippetMetaData WithParent()
+        public static VersionAndPackage WithParent()
         {
-            return new SnippetMetaData(null, null, true, true);
+            return new VersionAndPackage(null, null, true, true);
         }
     }
 }

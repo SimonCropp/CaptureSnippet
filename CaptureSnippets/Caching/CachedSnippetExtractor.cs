@@ -10,23 +10,23 @@ namespace CaptureSnippets
     /// </summary>
     public class CachedSnippetExtractor
     {
-        ConvertPackageGroupToList convertPackageGroupToList;
+        ConvertSnippetPackageGroupToList convertSnippetPackageGroupToList;
         DirectorySnippetExtractor snippetExtractor;
         ConcurrentDictionary<string, CachedSnippets> directoryToSnippets = new ConcurrentDictionary<string, CachedSnippets>();
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="extractMetaDataFromPath">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
+        /// <param name="extractVersionAndPackageFromPath">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
-        public CachedSnippetExtractor(ExtractMetaDataFromPath extractMetaDataFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null, ConvertPackageGroupToList convertPackageGroupToList = null)
+        public CachedSnippetExtractor(ExtractVersionAndPackageFromPath extractVersionAndPackageFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null, ConvertSnippetPackageGroupToList convertSnippetPackageGroupToList = null)
         {
-            this.convertPackageGroupToList = convertPackageGroupToList;
-            Guard.AgainstNull(extractMetaDataFromPath, "extractMetaData");
+            this.convertSnippetPackageGroupToList = convertSnippetPackageGroupToList;
+            Guard.AgainstNull(extractVersionAndPackageFromPath, "extractMetaData");
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
-            snippetExtractor = new DirectorySnippetExtractor(extractMetaDataFromPath, includeDirectory, includeFile, translatePackage);
+            snippetExtractor = new DirectorySnippetExtractor(extractVersionAndPackageFromPath, includeDirectory, includeFile, translatePackage);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace CaptureSnippets
         {
             var readSnippets = await snippetExtractor.FromDirectory(directory)
                 .ConfigureAwait(false);
-            var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets, convertPackageGroupToList);
+            var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets, convertSnippetPackageGroupToList);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,
                 readingErrors: readSnippets.GetSnippetsInError().ToList(),

@@ -9,7 +9,7 @@ namespace CaptureSnippets
         public readonly IReadOnlyList<string> Errors;
 
         /// <summary>
-        /// Initialise a new instance of <see cref="ReadSnippetsException"/>.
+        /// Initialise a new instance of <see cref="GroupingException"/>.
         /// </summary>
         public GroupingException(IReadOnlyList<string> errors)
         {
@@ -26,7 +26,7 @@ namespace CaptureSnippets
         {
             get
             {
-                var stringBuilder = new StringBuilder("Errors occurred Grouping snippets:\r\n");
+                var stringBuilder = new StringBuilder("Errors occurred Grouping:\r\n");
                 foreach (var error in Errors)
                 {
                     stringBuilder.AppendLine(error);

@@ -14,10 +14,12 @@ class ProcessResultConverter : JsonConverter
 
         var processResult = (ProcessResult)value;
         writer.WriteStartObject();
-        writer.WritePropertyName("missingSnippets");
-        serializer.Serialize(writer, processResult.MissingSnippets);
+        writer.WritePropertyName("missing");
+        serializer.Serialize(writer, processResult.Missing);
         writer.WritePropertyName("usedSnippets");
         serializer.Serialize(writer, processResult.UsedSnippets);
+        writer.WritePropertyName("usedIncludes");
+        serializer.Serialize(writer, processResult.UsedIncludes);
         writer.WriteEndObject();
     }
 

@@ -5,7 +5,7 @@ using System.Linq;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// The result of an <see cref="SnippetExtractor"/> From methods.
+    /// The result of <see cref="FileSnippetExtractor"/>.
     /// </summary>
     public class ReadSnippets : IEnumerable<ReadSnippet>
     {
@@ -32,7 +32,7 @@ namespace CaptureSnippets
         }
 
         /// <summary>
-        /// Enumerates through the <see cref="Snippets"/> but will first throw an exception if there are any errors in <see cref="Errors"/>.
+        /// Enumerates through the <see cref="Snippets"/> but will first throw an exception if there are any <see cref="ReadSnippet.IsInError"/>.
         /// </summary>
         public IEnumerator<ReadSnippet> GetEnumerator()
         {
