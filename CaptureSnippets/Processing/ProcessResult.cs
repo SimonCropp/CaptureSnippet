@@ -10,9 +10,9 @@ namespace CaptureSnippets
 
         public ProcessResult(IReadOnlyList<SnippetGroup> usedSnippets, IReadOnlyList<IncludeGroup> usedIncludes, IReadOnlyList<MissingKey> missing)
         {
-            Guard.AgainstNull(usedSnippets, "usedSnippets");
-            Guard.AgainstNull(usedIncludes, "usedIncludes");
-            Guard.AgainstNull(missing, "missing");
+            Guard.AgainstNull(usedSnippets, nameof(usedSnippets));
+            Guard.AgainstNull(usedIncludes, nameof(usedIncludes));
+            Guard.AgainstNull(missing, nameof(missing));
             UsedSnippets = usedSnippets;
             UsedIncludes = usedIncludes;
             Missing = missing;

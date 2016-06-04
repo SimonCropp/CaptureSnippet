@@ -15,9 +15,9 @@ namespace CaptureSnippets
         /// </summary>
         public SnippetSource(int startLine, int endLine, string file, VersionRange version)
         {
-            Guard.AgainstNegativeAndZero(startLine, "startLine");
-            Guard.AgainstNegativeAndZero(endLine, "endLine");
-            Guard.AgainstNull(version, "version");
+            Guard.AgainstNegativeAndZero(startLine, nameof(startLine));
+            Guard.AgainstNegativeAndZero(endLine, nameof(endLine));
+            Guard.AgainstNull(version, nameof(version));
             File = file;
             StartLine = startLine;
             Version = version;

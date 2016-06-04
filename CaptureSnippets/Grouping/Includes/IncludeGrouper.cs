@@ -10,7 +10,7 @@ namespace CaptureSnippets
     {
         public static IncludeGroups Group(IEnumerable<ReadInclude> readItems, ConvertIncludePackageGroupToList convertPackageGroupToList = null)
         {
-            Guard.AgainstNull(readItems, "readItems");
+            Guard.AgainstNull(readItems, nameof(readItems));
 
             var groups = new List<IncludeGroup>();
             var errors = new List<string>();

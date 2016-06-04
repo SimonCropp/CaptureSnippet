@@ -46,20 +46,20 @@ namespace CaptureSnippets
 
         public static PathData With(VersionRange version, Package package)
         {
-            Guard.AgainstNull(version, "version");
-            Guard.AgainstNull(package, "package");
+            Guard.AgainstNull(version, nameof(version));
+            Guard.AgainstNull(package, nameof(package));
             return new PathData(version, package, false, false);
         }
 
         public static PathData WithParentVersion(Package package)
         {
-            Guard.AgainstNull(package, "package");
+            Guard.AgainstNull(package, nameof(package));
             return new PathData(null, package, true, false);
         }
 
         public static PathData WithParentPackage(VersionRange version)
         {
-            Guard.AgainstNull(version, "version");
+            Guard.AgainstNull(version, nameof(version));
             return new PathData(version, null, false, true);
         }
 

@@ -14,7 +14,7 @@ namespace CaptureSnippets
         /// </summary>
         public ReadIncludes(IReadOnlyList<ReadInclude> includes)
         {
-            Guard.AgainstNull(includes, "includes");
+            Guard.AgainstNull(includes, nameof(includes));
             Includes = includes;
         }
 

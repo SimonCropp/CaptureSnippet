@@ -16,8 +16,8 @@ public class DirectorySnippetExtractorTests
     public void VerifyLambdasAreCalled()
     {
         var versionAndPaths = new ConcurrentBag<CapturedVersionAndPath>();
-        var includeDirectories = new ConcurrentBag<CapturedIncludeDirectory>();
-        var includeFiles = new ConcurrentBag<CapturedIncludeFile>();
+        var directories = new ConcurrentBag<CapturedDirectory>();
+        var files = new ConcurrentBag<CapturedFile>();
         var translatePackages = new ConcurrentBag<CapturedTranslatePackage>();
         var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor");
         var data = PathData.With(VersionRange.All, "package");
@@ -32,14 +32,14 @@ public class DirectorySnippetExtractorTests
                 versionAndPaths.Add(versionAndPath);
                 return data;
             },
-            includeDirectory: path =>
+            directoryFilter: path =>
             {
-                includeDirectories.Add(new CapturedIncludeDirectory {Path = path});
+                directories.Add(new CapturedDirectory {Path = path});
                 return true;
             },
-            includeFile: path =>
+            fileFilter: path =>
             {
-                includeFiles.Add(new CapturedIncludeFile {Path = path});
+                files.Add(new CapturedFile {Path = path});
                 return true;
             },
             translatePackage: alias =>
@@ -51,8 +51,8 @@ public class DirectorySnippetExtractorTests
         extractor.FromDirectory(targetDirectory)
             .GetAwaiter()
             .GetResult();
-        result.IncludeFiles = includeFiles.OrderBy(file => file.Path).ToList();
-        result.IncludeDirectories = includeDirectories.OrderBy(file => file.Path).ToList();
+        result.Files = files.OrderBy(file => file.Path).ToList();
+        result.Directories = directories.OrderBy(file => file.Path).ToList();
         result.VersionAndPaths = versionAndPaths.OrderBy(file => file.Path).ToList();
         result.TranslatePackages = translatePackages.OrderBy(file => file.Alias).ToList();
         ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(targetDirectory, @"root\"));
@@ -66,8 +66,8 @@ public class DirectorySnippetExtractorTests
     public class TestResult
     {
         public List<CapturedVersionAndPath> VersionAndPaths;
-        public List<CapturedIncludeDirectory> IncludeDirectories;
-        public List<CapturedIncludeFile> IncludeFiles;
+        public List<CapturedDirectory> Directories;
+        public List<CapturedFile> Files;
         public List<CapturedTranslatePackage> TranslatePackages;
     }
 
@@ -76,12 +76,12 @@ public class DirectorySnippetExtractorTests
         public string Path;
     }
 
-    public class CapturedIncludeDirectory
+    public class CapturedDirectory
     {
         public string Path;
     }
 
-    public class CapturedIncludeFile
+    public class CapturedFile
     {
         public string Path;
     }

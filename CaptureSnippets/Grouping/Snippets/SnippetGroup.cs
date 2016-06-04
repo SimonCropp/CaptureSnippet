@@ -15,10 +15,10 @@ namespace CaptureSnippets
         /// </summary>
         public SnippetGroup(string key, string language, IReadOnlyList<SnippetPackageGroup> packages)
         {
-            Guard.AgainstNull(key, "key");
-            Guard.AgainstNull(packages, "packages");
-            Guard.AgainstNull(language, "language");
-            Guard.AgainstUpperCase(language, "language");
+            Guard.AgainstNull(key, nameof(key));
+            Guard.AgainstNull(packages, nameof(packages));
+            Guard.AgainstNull(language, nameof(language));
+            Guard.AgainstUpperCase(language, nameof(language));
             Key = key;
             Packages = packages;
             Language = language;

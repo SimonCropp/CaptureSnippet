@@ -13,7 +13,7 @@ namespace CaptureSnippets
         /// </summary>
         public GroupingException(IReadOnlyList<string> errors)
         {
-            Guard.AgainstNull(errors, "errors");
+            Guard.AgainstNull(errors, nameof(errors));
             Errors = errors;
         }
 

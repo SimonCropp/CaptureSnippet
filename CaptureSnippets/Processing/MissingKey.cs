@@ -14,8 +14,8 @@ namespace CaptureSnippets
         /// </summary>
         public MissingKey(string key, int line)
         {
-            Guard.AgainstNullAndEmpty(key,"key");
-            Guard.AgainstNegativeAndZero(line, "line");
+            Guard.AgainstNullAndEmpty(key, nameof(key));
+            Guard.AgainstNegativeAndZero(line, nameof(line));
             Key = key;
             Line = line;
         }

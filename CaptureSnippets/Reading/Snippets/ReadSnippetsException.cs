@@ -19,7 +19,7 @@ namespace CaptureSnippets
         /// </summary>
         public ReadSnippetsException(IReadOnlyList<ReadSnippet> readSnippetErrors)
         {
-            Guard.AgainstNull(readSnippetErrors, "readSnippetErrors");
+            Guard.AgainstNull(readSnippetErrors, nameof(readSnippetErrors));
             ReadSnippetErrors = readSnippetErrors;
         }
 

@@ -20,7 +20,7 @@ namespace CaptureSnippets
         /// </summary>
         public MissingSnippetsException(IReadOnlyList<MissingKey> missingSnippets)
         {
-            Guard.AgainstNull(missingSnippets, "missingSnippets");
+            Guard.AgainstNull(missingSnippets, nameof(missingSnippets));
             MissingSnippets = missingSnippets;
         }
 

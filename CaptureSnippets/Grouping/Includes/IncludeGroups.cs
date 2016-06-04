@@ -14,8 +14,8 @@ namespace CaptureSnippets
         /// </summary>
         public IncludeGroups(IReadOnlyList<IncludeGroup> snippets, IReadOnlyList<string> errors)
         {
-            Guard.AgainstNull(snippets, "snippets");
-            Guard.AgainstNull(errors, "errors");
+            Guard.AgainstNull(snippets, nameof(snippets));
+            Guard.AgainstNull(errors, nameof(errors));
             Groups = snippets;
             Errors = errors;
         }

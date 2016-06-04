@@ -99,8 +99,8 @@
     <Compile Include="Processing\AppendSnippetGroupToMarkdown.cs" />
     <Compile Include="Processing\MarkdownProcessor.cs" />
     <Compile Include="Processing\MissingKey.cs" />
-    <Compile Include="Reading\Snippets\IncludeDirectory.cs" />
-    <Compile Include="Reading\Snippets\IncludeFile.cs" />
+    <Compile Include="Reading\Snippets\DirectoryFilter.cs" />
+    <Compile Include="Reading\Snippets\FileFilter.cs" />
     <Compile Include="Reading\Snippets\StartEndTester.cs" />
     <Compile Include="Reading\Snippets\LoopState.cs" />
     <Compile Include="Grouping\Snippets\SnippetGroups.cs" />

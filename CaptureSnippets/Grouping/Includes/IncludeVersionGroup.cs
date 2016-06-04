@@ -16,8 +16,8 @@ namespace CaptureSnippets
         /// </summary>
         public IncludeVersionGroup(VersionRange version, string value, IReadOnlyList<IncludeSource> sources)
         {
-            Guard.AgainstNull(version,"version");
-            Guard.AgainstNull(sources, "sources");
+            Guard.AgainstNull(version, nameof(version));
+            Guard.AgainstNull(sources, nameof(sources));
             this.value = value;
             Version = version;
             Sources = sources;

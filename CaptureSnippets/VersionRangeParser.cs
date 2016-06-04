@@ -8,7 +8,7 @@ namespace CaptureSnippets
 
         public static bool TryParseVersion(string stringVersion, out VersionRange parsedVersion, string pretext = null)
         {
-            Guard.AgainstEmpty(pretext, "pretext");
+            Guard.AgainstEmpty(pretext, nameof(pretext));
             if (pretext == null)
             {
                 return TryParseStable(stringVersion, out parsedVersion);

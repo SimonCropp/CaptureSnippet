@@ -23,7 +23,7 @@ namespace CaptureSnippets
         /// <param name="extractPathData">How to extract a <see cref="PathData"/> from a given path.</param>
         public FileSnippetExtractor(ExtractPathData extractPathData, TranslatePackage translatePackage = null)
         {
-            Guard.AgainstNull(extractPathData, "extractPathData");
+            Guard.AgainstNull(extractPathData, nameof(extractPathData));
             this.extractPathData = extractPathData;
             if (translatePackage != null)
             {
@@ -42,7 +42,8 @@ namespace CaptureSnippets
         /// <param name="path">The current path so extract <see cref="ReadSnippet"/>s from.</param>
         public async Task AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
         {
-            Guard.AgainstNull(textReader, "textReader");
+            Guard.AgainstNull(textReader, nameof(textReader));
+            Guard.AgainstNull(callback, nameof(callback));
             using (var reader = new IndexReader(textReader))
             {
                 await GetSnippets(reader, path, parentVersion, parentPackage, callback);

@@ -15,7 +15,7 @@ namespace CaptureSnippets
         /// </summary>
         public IncludeSource(string file, VersionRange version)
         {
-            Guard.AgainstNull(version, "version");
+            Guard.AgainstNull(version, nameof(version));
             File = file;
             Version = version;
         }

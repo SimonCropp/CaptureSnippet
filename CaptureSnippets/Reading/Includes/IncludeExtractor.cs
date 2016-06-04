@@ -15,8 +15,8 @@ namespace CaptureSnippets
 
         public IncludeExtractor(ExtractIncludeData extractIncludeData, ExtractPathData extractPathData, TranslatePackage translatePackage = null)
         {
-            Guard.AgainstNull(extractIncludeData, "extractIncludeData");
-            Guard.AgainstNull(extractPathData, "extractPathData");
+            Guard.AgainstNull(extractIncludeData, nameof(extractIncludeData));
+            Guard.AgainstNull(extractPathData, nameof(extractPathData));
             this.extractIncludeData = extractIncludeData;
             this.extractPathData = extractPathData;
             if (translatePackage != null)
@@ -32,7 +32,7 @@ namespace CaptureSnippets
         [Time]
         public ReadIncludes FromDirectory(string directoryPath, VersionRange rootVersionRange = null, Package rootPackage = null)
         {
-            Guard.AgainstNull(directoryPath, "directoryPath");
+            Guard.AgainstNull(directoryPath, nameof(directoryPath));
             var list = InnerFromDirectory(directoryPath, rootVersionRange, rootPackage).ToList();
             return new ReadIncludes(list);
         }

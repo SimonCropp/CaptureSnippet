@@ -15,10 +15,10 @@ namespace CaptureSnippets
         /// </summary>
         public CachedIncludes(IReadOnlyList<IncludeGroup> includeGroups, long ticks, IReadOnlyList<ReadInclude> readingErrors, IReadOnlyList<string> groupingErrors)
         {
-            Guard.AgainstNull(includeGroups, "includeGroups");
-            Guard.AgainstNull(readingErrors, "readingErrors");
-            Guard.AgainstNull(groupingErrors, "groupingErrors");
-            Guard.AgainstNegativeAndZero(ticks, "ticks");
+            Guard.AgainstNull(includeGroups, nameof(includeGroups));
+            Guard.AgainstNull(readingErrors, nameof(readingErrors));
+            Guard.AgainstNull(groupingErrors, nameof(groupingErrors));
+            Guard.AgainstNegativeAndZero(ticks, nameof(ticks));
             IncludeGroups = includeGroups;
             ReadingErrors = readingErrors;
             Ticks = ticks;

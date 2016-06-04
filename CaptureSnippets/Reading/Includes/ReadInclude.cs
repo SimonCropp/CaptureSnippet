@@ -29,9 +29,9 @@ namespace CaptureSnippets
         /// </summary>
         public ReadInclude(string key, string value, string path, VersionRange version, Package package)
         {
-            Guard.AgainstNullAndEmpty(key, "key");
-            Guard.AgainstUpperCase(key, "key");
-            Guard.AgainstNull(package, "package");
+            Guard.AgainstNullAndEmpty(key, nameof(key));
+            Guard.AgainstUpperCase(key, nameof(key));
+            Guard.AgainstNull(package, nameof(package));
             Value = value;
             ValueHash = value.RemoveWhitespace().GetHashCode();
             Key = key;

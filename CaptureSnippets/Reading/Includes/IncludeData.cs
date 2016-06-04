@@ -49,23 +49,23 @@ namespace CaptureSnippets
 
         public static IncludeData With(string key,VersionRange version, Package package)
         {
-            Guard.AgainstNullAndEmpty(key, "key");
-            Guard.AgainstNull(version, "version");
-            Guard.AgainstNull(package, "package");
+            Guard.AgainstNullAndEmpty(key, nameof(key));
+            Guard.AgainstNull(version, nameof(version));
+            Guard.AgainstNull(package, nameof(package));
             return new IncludeData(key, version, package, false, false);
         }
 
         public static IncludeData WithParentVersion(string key,Package package)
         {
-            Guard.AgainstNullAndEmpty(key, "key");
-            Guard.AgainstNull(package, "package");
+            Guard.AgainstNullAndEmpty(key, nameof(key));
+            Guard.AgainstNull(package, nameof(package));
             return new IncludeData(key, null, package, true, false);
         }
 
         public static IncludeData WithParentPackage(string key, VersionRange version)
         {
-            Guard.AgainstNullAndEmpty(key, "key");
-            Guard.AgainstNull(version, "version");
+            Guard.AgainstNullAndEmpty(key, nameof(key));
+            Guard.AgainstNull(version, nameof(version));
             return new IncludeData(key, version, null, false, true);
         }
 

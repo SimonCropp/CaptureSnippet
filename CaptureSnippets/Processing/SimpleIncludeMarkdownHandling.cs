@@ -13,8 +13,8 @@ namespace CaptureSnippets
 
         public static async Task AppendGroup(IncludeGroup group, TextWriter writer)
         {
-            Guard.AgainstNull(group, "group");
-            Guard.AgainstNull(writer, "writer");
+            Guard.AgainstNull(group, nameof(group));
+            Guard.AgainstNull(writer, nameof(writer));
 
             foreach (var package in group)
             {

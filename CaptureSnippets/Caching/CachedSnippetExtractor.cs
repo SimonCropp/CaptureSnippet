@@ -18,15 +18,15 @@ namespace CaptureSnippets
         /// Constructor.
         /// </summary>
         /// <param name="extractData">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
-        /// <param name="includeDirectory">Directories to include.</param>
-        /// <param name="includeFile">Files to include.</param>
-        public CachedSnippetExtractor(ExtractPathData extractData, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null, ConvertSnippetPackageGroupToList convertToList = null)
+        /// <param name="directoryFilter">Directories to include.</param>
+        /// <param name="fileFilter">Files to include.</param>
+        public CachedSnippetExtractor(ExtractPathData extractData, DirectoryFilter directoryFilter, FileFilter fileFilter, TranslatePackage translatePackage = null, ConvertSnippetPackageGroupToList convertToList = null)
         {
             this.convertToList = convertToList;
-            Guard.AgainstNull(extractData, "extractData");
-            Guard.AgainstNull(includeDirectory, "includeDirectory");
-            Guard.AgainstNull(includeFile, "includeFile");
-            extractor = new DirectorySnippetExtractor(extractData, includeDirectory, includeFile, translatePackage);
+            Guard.AgainstNull(extractData, nameof(extractData));
+            Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
+            Guard.AgainstNull(fileFilter, nameof(fileFilter));
+            extractor = new DirectorySnippetExtractor(extractData, directoryFilter, fileFilter, translatePackage);
         }
 
         /// <summary>

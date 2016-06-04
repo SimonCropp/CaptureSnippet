@@ -15,8 +15,8 @@ namespace CaptureSnippets
         /// </summary>
         public SnippetPackageGroup(Package package, IReadOnlyList<SnippetVersionGroup> versions)
         {
-            Guard.AgainstNull(package, "package");
-            Guard.AgainstNull(versions, "versions");
+            Guard.AgainstNull(package, nameof(package));
+            Guard.AgainstNull(versions, nameof(versions));
             Package = package;
             Versions = versions;
         }

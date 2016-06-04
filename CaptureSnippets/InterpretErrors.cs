@@ -15,7 +15,7 @@ namespace CaptureSnippets
         /// </summary>
         public static string ErrorsAsMarkdown(this ReadSnippets readSnippets)
         {
-            Guard.AgainstNull(readSnippets, "readSnippets");
+            Guard.AgainstNull(readSnippets, nameof(readSnippets));
             return ErrorsAsMarkdown(readSnippets.GetSnippetsInError());
         }
 
@@ -24,7 +24,7 @@ namespace CaptureSnippets
         /// </summary>
         public static string ErrorsAsMarkdown(this CachedSnippets cachedSnippets)
         {
-            Guard.AgainstNull(cachedSnippets, "cachedSnippets");
+            Guard.AgainstNull(cachedSnippets, nameof(cachedSnippets));
             return ErrorsAsMarkdown(cachedSnippets.ReadingErrors);
         }
 
@@ -51,7 +51,7 @@ namespace CaptureSnippets
         /// </summary>
         public static string ErrorsAsMarkdown(this ProcessResult processResult)
         {
-            Guard.AgainstNull(processResult, "processResult");
+            Guard.AgainstNull(processResult, nameof(processResult));
             var missingSnippets = processResult.Missing.ToList();
             if (!missingSnippets.Any())
             {

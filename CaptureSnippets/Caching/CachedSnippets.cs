@@ -15,10 +15,10 @@ namespace CaptureSnippets
         /// </summary>
         public CachedSnippets(IReadOnlyList<SnippetGroup> snippetGroups, long ticks, IReadOnlyList<ReadSnippet> readingErrors, IReadOnlyList<string> groupingErrors)
         {
-            Guard.AgainstNull(snippetGroups, "snippetGroups");
-            Guard.AgainstNull(readingErrors, "readingErrors");
-            Guard.AgainstNull(groupingErrors, "groupingErrors");
-            Guard.AgainstNegativeAndZero(ticks, "ticks");
+            Guard.AgainstNull(snippetGroups, nameof(snippetGroups));
+            Guard.AgainstNull(readingErrors, nameof(readingErrors));
+            Guard.AgainstNull(groupingErrors, nameof(groupingErrors));
+            Guard.AgainstNegativeAndZero(ticks, nameof(ticks));
             SnippetGroups = snippetGroups;
             ReadingErrors = readingErrors;
             Ticks = ticks;

@@ -15,31 +15,31 @@ namespace CaptureSnippets
     public class DirectorySnippetExtractor
     {
         ExtractPathData extractPathData;
-        IncludeDirectory includeDirectory;
-        IncludeFile includeFile;
+        DirectoryFilter directoryFilter;
+        FileFilter fileFilter;
         FileSnippetExtractor fileExtractor;
 
         /// <summary>
         /// Initialise a new instance of <see cref="DirectorySnippetExtractor"/>.
         /// </summary>
         /// <param name="extractPathData">How to extract a <see cref="PathData"/> from a given path.</param>
-        /// <param name="includeFile">Used to filter files.</param>
-        /// <param name="includeDirectory">Used to filter directories.</param>
-        public DirectorySnippetExtractor(ExtractPathData extractPathData, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null)
+        /// <param name="fileFilter">Used to filter files.</param>
+        /// <param name="directoryFilter">Used to filter directories.</param>
+        public DirectorySnippetExtractor(ExtractPathData extractPathData, DirectoryFilter directoryFilter, FileFilter fileFilter, TranslatePackage translatePackage = null)
         {
-            Guard.AgainstNull(includeDirectory, "includeDirectory");
-            Guard.AgainstNull(includeFile, "includeFile");
-            Guard.AgainstNull(extractPathData, "extractPathData");
+            Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
+            Guard.AgainstNull(fileFilter, nameof(fileFilter));
+            Guard.AgainstNull(extractPathData, nameof(extractPathData));
             this.extractPathData = extractPathData;
-            this.includeDirectory = includeDirectory;
-            this.includeFile = includeFile;
+            this.directoryFilter = directoryFilter;
+            this.fileFilter = fileFilter;
             fileExtractor = new FileSnippetExtractor(extractPathData, translatePackage);
         }
 
         [Time]
         public async Task<ReadSnippets> FromDirectory(string directoryPath, VersionRange rootVersionRange = null, Package rootPackage = null)
         {
-            Guard.AgainstNull(directoryPath, "directoryPath");
+            Guard.AgainstNull(directoryPath, nameof(directoryPath));
             var snippets = new ConcurrentBag<ReadSnippet>();
             await Task.WhenAll(FromDirectory(directoryPath, rootVersionRange, rootPackage, snippets.Add));
             return new ReadSnippets(snippets.ToList());
@@ -52,12 +52,12 @@ namespace CaptureSnippets
             Package directoryPackage;
             PathDataExtractor.ExtractData(parentVersion, parentPackage, extractPathData, directoryPath, out directoryVersion, out directoryPackage);
             foreach (var file in Directory.EnumerateFiles(directoryPath)
-                   .Where(s => includeFile(s)))
+                   .Where(s => fileFilter(s)))
             {
                 yield return FromFile(file, directoryVersion, directoryPackage, add);
             }
             foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
-                .Where(s => includeDirectory(s)))
+                .Where(s => directoryFilter(s)))
             {
                 foreach (var task in FromDirectory(subDirectory, directoryVersion, directoryPackage, add))
                 {

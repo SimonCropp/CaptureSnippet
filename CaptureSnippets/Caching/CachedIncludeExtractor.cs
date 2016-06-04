@@ -18,8 +18,8 @@ namespace CaptureSnippets
         /// <param name="extractPathData">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
         public CachedIncludeExtractor(ExtractIncludeData extractIncludeData, ExtractPathData extractPathData, TranslatePackage translatePackage = null)
         {
-            Guard.AgainstNull(extractPathData, "extractPathData");
-            Guard.AgainstNull(extractIncludeData, "extractIncludeData");
+            Guard.AgainstNull(extractPathData, nameof(extractPathData));
+            Guard.AgainstNull(extractIncludeData, nameof(extractIncludeData));
             extractor = new IncludeExtractor(extractIncludeData, extractPathData, translatePackage);
         }
 

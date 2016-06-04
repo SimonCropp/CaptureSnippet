@@ -24,10 +24,10 @@ namespace CaptureSnippets
             IEnumerable<IncludeGroup> includes,
             AppendIncludeGroupToMarkdown appendIncludeGroup)
         {
-            Guard.AgainstNull(snippets, "snippets");
-            Guard.AgainstNull(appendSnippetGroup, "appendSnippetGroup");
-            Guard.AgainstNull(includes, "includes");
-            Guard.AgainstNull(appendIncludeGroup, "appendIncludeGroup");
+            Guard.AgainstNull(snippets, nameof(snippets));
+            Guard.AgainstNull(appendSnippetGroup, nameof(appendSnippetGroup));
+            Guard.AgainstNull(includes, nameof(includes));
+            Guard.AgainstNull(appendIncludeGroup, nameof(appendIncludeGroup));
             this.includes = includes.ToList();
             var includesWithAll = GetIncludesWithAll(this.includes).ToList();
             ProcessNestedIncludes(includesWithAll, this.includes);
@@ -139,8 +139,8 @@ namespace CaptureSnippets
         /// </summary>
         public async Task<ProcessResult> Apply(TextReader textReader, TextWriter writer)
         {
-            Guard.AgainstNull(textReader, "textReader");
-            Guard.AgainstNull(writer, "writer");
+            Guard.AgainstNull(textReader, nameof(textReader));
+            Guard.AgainstNull(writer, nameof(writer));
             using (var reader = new IndexReader(textReader))
             {
                 return await Apply(writer, reader);

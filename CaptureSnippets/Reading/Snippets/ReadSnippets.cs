@@ -14,7 +14,7 @@ namespace CaptureSnippets
         /// </summary>
         public ReadSnippets(IReadOnlyList<ReadSnippet> snippets)
         {
-            Guard.AgainstNull(snippets, "snippets");
+            Guard.AgainstNull(snippets, nameof(snippets));
             Snippets = snippets;
         }
 

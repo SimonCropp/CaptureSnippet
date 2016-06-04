@@ -15,8 +15,8 @@ namespace CaptureSnippets
         /// </summary>
         public IncludePackageGroup(Package package, IReadOnlyList<IncludeVersionGroup> versions)
         {
-            Guard.AgainstNull(package, "package");
-            Guard.AgainstNull(versions, "versions");
+            Guard.AgainstNull(package, nameof(package));
+            Guard.AgainstNull(versions, nameof(versions));
             Package = package;
             Versions = versions;
         }
@@ -32,7 +32,7 @@ namespace CaptureSnippets
         public readonly IReadOnlyList<IncludeVersionGroup> Versions;
 
         /// <summary>
-        /// Enumerates over <see cref="IncludeVersions"/>.
+        /// Enumerates over <see cref="Versions"/>.
         /// </summary>
         public IEnumerator<IncludeVersionGroup> GetEnumerator()
         {

@@ -18,14 +18,14 @@ public class CachedSnippetExtractorTests
         var result = PathData.With(VersionRange.All, Package.Undefined);
         var extractor = new CachedSnippetExtractor(
             extractData: y => result,
-            includeDirectory: s => true,
-            includeFile: s => s.EndsWith(".cs"));
+            directoryFilter: s => true,
+            fileFilter: s => s.EndsWith(".cs"));
         await extractor.FromDirectory(directory);
 
         extractor = new CachedSnippetExtractor(
             extractData: y => result,
-            includeDirectory: s => true,
-            includeFile: s => s.EndsWith(".cs"));
+            directoryFilter: s => true,
+            fileFilter: s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
         await extractor.FromDirectory(directory);
         firstRun.Stop();
@@ -44,8 +44,8 @@ public class CachedSnippetExtractorTests
         var directory = "badsnippets".ToCurrentDirectory();
         var extractor = new CachedSnippetExtractor(
             extractData: y => result,
-            includeDirectory: s => true,
-            includeFile: s => s.EndsWith(".cs"));
+            directoryFilter: s => true,
+            fileFilter: s => s.EndsWith(".cs"));
         var read = await extractor.FromDirectory(directory);
         Assert.AreEqual(1, read.GroupingErrors.Count);
     }

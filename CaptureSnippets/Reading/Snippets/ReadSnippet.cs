@@ -16,9 +16,9 @@ namespace CaptureSnippets
         /// </summary>
         public ReadSnippet(string key, int lineNumberInError, string path, string error)
         {
-            Guard.AgainstNegativeAndZero(lineNumberInError, "lineNumberInError");
-            Guard.AgainstNullAndEmpty(key, "key");
-            Guard.AgainstNullAndEmpty(error, "error");
+            Guard.AgainstNegativeAndZero(lineNumberInError, nameof(lineNumberInError));
+            Guard.AgainstNullAndEmpty(key, nameof(key));
+            Guard.AgainstNullAndEmpty(error, nameof(error));
             Key = key;
             StartLine = lineNumberInError;
             EndLine = lineNumberInError;
@@ -32,13 +32,13 @@ namespace CaptureSnippets
         /// </summary>
         public ReadSnippet(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, Package package)
         {
-            Guard.AgainstNullAndEmpty(key, "key");
-            Guard.AgainstUpperCase(key, "key");
-            Guard.AgainstNull(language, "language");
-            Guard.AgainstNull(package, "package");
-            Guard.AgainstUpperCase(language, "language");
-            Guard.AgainstNegativeAndZero(startLine, "startLine");
-            Guard.AgainstNegativeAndZero(endLine, "endLine");
+            Guard.AgainstNullAndEmpty(key, nameof(key));
+            Guard.AgainstUpperCase(key, nameof(key));
+            Guard.AgainstNull(language, nameof(language));
+            Guard.AgainstNull(package, nameof(package));
+            Guard.AgainstUpperCase(language, nameof(language));
+            Guard.AgainstNegativeAndZero(startLine, nameof(startLine));
+            Guard.AgainstNegativeAndZero(endLine, nameof(endLine));
 
             StartLine = startLine;
             EndLine = endLine;

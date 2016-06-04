@@ -15,8 +15,8 @@ namespace CaptureSnippets
         /// </summary>
         public IncludeGroup(string key, IReadOnlyList<IncludePackageGroup> packages)
         {
-            Guard.AgainstNull(key, "key");
-            Guard.AgainstNull(packages, "packages");
+            Guard.AgainstNull(key, nameof(key));
+            Guard.AgainstNull(packages, nameof(packages));
             Key = key;
             Packages = packages;
         }
@@ -27,7 +27,7 @@ namespace CaptureSnippets
         public readonly string Key;
 
         /// <summary>
-        /// All the <see cref="PackageGroup"/>s with a common key.
+        /// All the <see cref="IncludePackageGroup"/>s with a common key.
         /// </summary>
         public readonly IReadOnlyList<IncludePackageGroup> Packages;
 
