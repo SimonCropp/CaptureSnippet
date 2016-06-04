@@ -11,7 +11,7 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        ExtractVersionAndPackageFromPath extractVersionAndPackageFromPath;
+        ExtractPathData extractPathData;
         TranslatePackage translatePackage;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
@@ -20,11 +20,11 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
         /// </summary>
-        /// <param name="extractVersionAndPackageFromPath">How to extract a <see cref="VersionAndPackage"/> from a given path.</param>
-        public FileSnippetExtractor(ExtractVersionAndPackageFromPath extractVersionAndPackageFromPath, TranslatePackage translatePackage = null)
+        /// <param name="extractPathData">How to extract a <see cref="PathData"/> from a given path.</param>
+        public FileSnippetExtractor(ExtractPathData extractPathData, TranslatePackage translatePackage = null)
         {
-            Guard.AgainstNull(extractVersionAndPackageFromPath, "extractMetaData");
-            this.extractVersionAndPackageFromPath = extractVersionAndPackageFromPath;
+            Guard.AgainstNull(extractPathData, "extractPathData");
+            this.extractPathData = extractPathData;
             if (translatePackage != null)
             {
                 this.translatePackage = translatePackage;
@@ -45,8 +45,7 @@ namespace CaptureSnippets
             Guard.AgainstNull(textReader, "textReader");
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippets(reader, path, parentVersion, parentPackage, callback)
-                    .ConfigureAwait(false);
+                await GetSnippets(reader, path, parentVersion, parentPackage, callback);
             }
         }
 
@@ -61,14 +60,13 @@ namespace CaptureSnippets
         {
             VersionRange fileVersion;
             Package filePackage;
-            VersionAndPackageExtractor.ExtractVersionAndPackageForFile(parentVersion, parentPackage, extractVersionAndPackageFromPath, path, out fileVersion, out filePackage);
+            PathDataExtractor.ExtractDataForFile(parentVersion, parentPackage, extractPathData, path, out fileVersion, out filePackage);
 
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();
             while (true)
             {
-                var line = await stringReader.ReadLine()
-                    .ConfigureAwait(false);
+                var line = await stringReader.ReadLine();
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)
@@ -111,7 +109,7 @@ namespace CaptureSnippets
             string error;
             Package snippetPackage;
             VersionRange snippetVersion;
-            if (!TryParseVersionAndPackage(loopState, fileVersion,filePackage, out snippetVersion, out snippetPackage, out error))
+            if (!TryParseVersionAndPackage(loopState, fileVersion, filePackage, out snippetVersion, out snippetPackage, out error))
             {
                 return new ReadSnippet(
                     error: error,

@@ -20,11 +20,11 @@ class GroupingHelper
         return containsAllVersionRanges && containsNonAllVersionRanges;
     }
 
-    internal static bool ContainsEmptyWithNonEmptyPackage(IEnumerable<Package> enumerable)
+    internal static bool ContainsUndefinedWithNonUndefinedPackage(IEnumerable<Package> enumerable)
     {
         var packages = enumerable.ToList();
-        var containsNonePackages = packages.Any(x => x == Package.None);
-        var containsNonNonePackages = packages.Any(x => x != Package.None);
-        return containsNonePackages && containsNonNonePackages;
+        var containsUndefinedPackages = packages.Any(x => x == Package.Undefined);
+        var containsNonUndefinedPackages = packages.Any(x => x != Package.Undefined);
+        return containsUndefinedPackages && containsNonUndefinedPackages;
     }
 }

@@ -1,5 +1,0 @@
-﻿
-<!-- include: key -->
-key
-include
-contents

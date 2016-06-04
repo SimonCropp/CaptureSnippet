@@ -17,7 +17,7 @@ class Sample
         // setup version convention and extract snippets from files
 
         var snippetExtractor = new DirectorySnippetExtractor(
-            extractVersionAndPackageFromPath: InferVersionAndPath,
+            extractPathData: InferVersionAndPath,
             includeDirectory: IncludeDirectory,
             includeFile: IncludeFile);
         var readSnippets = await snippetExtractor.FromDirectory(@"C:\path");
@@ -62,14 +62,14 @@ class Sample
         return filepath.EndsWith(".vm") || filepath.EndsWith(".cs");
     }
 
-    static VersionAndPackage InferVersionAndPath(string path)
+    static PathData InferVersionAndPath(string path)
     {
         VersionRange version;
         var split = path.Split('_');
         if (VersionRange.TryParse(split[1], out version))
         {
-            return VersionAndPackage.With(version, split[0]);
+            return PathData.With(version, split[0]);
         }
-        return VersionAndPackage.WithParent();
+        return PathData.WithParent();
     }
 }

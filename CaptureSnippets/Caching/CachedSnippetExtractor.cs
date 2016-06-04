@@ -10,32 +10,32 @@ namespace CaptureSnippets
     /// </summary>
     public class CachedSnippetExtractor
     {
-        ConvertSnippetPackageGroupToList convertSnippetPackageGroupToList;
-        DirectorySnippetExtractor snippetExtractor;
-        ConcurrentDictionary<string, CachedSnippets> directoryToSnippets = new ConcurrentDictionary<string, CachedSnippets>();
+        ConvertSnippetPackageGroupToList convertToList;
+        DirectorySnippetExtractor extractor;
+        ConcurrentDictionary<string, CachedSnippets> cache = new ConcurrentDictionary<string, CachedSnippets>();
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="extractVersionAndPackageFromPath">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
+        /// <param name="extractData">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
         /// <param name="includeDirectory">Directories to include.</param>
         /// <param name="includeFile">Files to include.</param>
-        public CachedSnippetExtractor(ExtractVersionAndPackageFromPath extractVersionAndPackageFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null, ConvertSnippetPackageGroupToList convertSnippetPackageGroupToList = null)
+        public CachedSnippetExtractor(ExtractPathData extractData, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null, ConvertSnippetPackageGroupToList convertToList = null)
         {
-            this.convertSnippetPackageGroupToList = convertSnippetPackageGroupToList;
-            Guard.AgainstNull(extractVersionAndPackageFromPath, "extractMetaData");
+            this.convertToList = convertToList;
+            Guard.AgainstNull(extractData, "extractData");
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
-            snippetExtractor = new DirectorySnippetExtractor(extractVersionAndPackageFromPath, includeDirectory, includeFile, translatePackage);
+            extractor = new DirectorySnippetExtractor(extractData, includeDirectory, includeFile, translatePackage);
         }
 
         /// <summary>
         /// Attempts to remove and return the the cached value for <paramref name="directory"/> from the underlying <see cref="ConcurrentDictionary{TKey,TValue}"/> using <see cref="ConcurrentDictionary{TKey,TValue}.TryRemove"/>.
         /// </summary>
         [Time]
-        public bool TryRemoveDirectory(string directory, out CachedSnippets cachedSnippets)
+        public bool TryRemoveDirectory(string directory, out CachedSnippets cached)
         {
-            return directoryToSnippets.TryRemove(directory, out cachedSnippets);
+            return cache.TryRemove(directory, out cached);
         }
 
         /// <summary>
@@ -47,29 +47,28 @@ namespace CaptureSnippets
             directory = directory.ToLower();
             var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
 
-            CachedSnippets cachedSnippets;
-            if (!directoryToSnippets.TryGetValue(directory, out cachedSnippets))
+            CachedSnippets cached;
+            if (!cache.TryGetValue(directory, out cached))
             {
                 return UpdateCache(directory, lastDirectoryWrite);
             }
-            if (cachedSnippets.Ticks != lastDirectoryWrite)
+            if (cached.Ticks != lastDirectoryWrite)
             {
                 return UpdateCache(directory, lastDirectoryWrite);
             }
-            return Task.FromResult(cachedSnippets);
+            return Task.FromResult(cached);
         }
 
         async Task<CachedSnippets> UpdateCache(string directory, long lastDirectoryWrite)
         {
-            var readSnippets = await snippetExtractor.FromDirectory(directory)
-                .ConfigureAwait(false);
-            var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets, convertSnippetPackageGroupToList);
+            var readSnippets = await extractor.FromDirectory(directory);
+            var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets, convertToList);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,
                 readingErrors: readSnippets.GetSnippetsInError().ToList(),
                 groupingErrors: snippetGroups.Errors,
                 snippetGroups: snippetGroups.Groups);
-            return directoryToSnippets[directory] = cachedSnippets;
+            return cache[directory] = cachedSnippets;
         }
 
     }

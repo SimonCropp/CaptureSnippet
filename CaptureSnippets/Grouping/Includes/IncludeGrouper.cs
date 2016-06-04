@@ -35,7 +35,7 @@ namespace CaptureSnippets
             if (GroupingHelper.ContainsDuplicateVersion(readItems.Select(x=>x.Version)))
             {
                 var files = string.Join("\r\n", readItems.Select(x => x.Path));
-                error = $"Duplicate version detected. Key='{key}'. Package='{package.ValueOrNone}'. Files=\r\n{files}";
+                error = $"Duplicate version detected. Key='{key}'. Package='{package.ValueOrUndefined}'. Files=\r\n{files}";
                 return false;
             }
 
@@ -63,7 +63,7 @@ namespace CaptureSnippets
             }
             var packageGroups = new List<IncludePackageGroup>();
 
-            foreach (var package in readItems.GroupBy(x => x.Package.ValueOrNone, snippet => snippet))
+            foreach (var package in readItems.GroupBy(x => x.Package.ValueOrUndefined, snippet => snippet))
             {
                 IncludePackageGroup packageGroup;
                 var itemsForPackage = package.ToList();
@@ -100,7 +100,7 @@ namespace CaptureSnippets
 
         static bool MixesEmptyPackageWithNonEmpty(List<ReadInclude> readItems, out string error)
         {
-            if (!GroupingHelper.ContainsEmptyWithNonEmptyPackage(readItems.Select(x => x.Package)))
+            if (!GroupingHelper.ContainsUndefinedWithNonUndefinedPackage(readItems.Select(x => x.Package)))
             {
                 error = null;
                 return false;
@@ -108,7 +108,7 @@ namespace CaptureSnippets
             var builder = new StringBuilder($"Mixes empty packages with non empty packages. Key='{readItems.First().Key}'.\r\nItems:\r\n");
             foreach (var item in readItems)
             {
-                builder.AppendLine($"   Location: '{item.Path}'. Package: {item.Package.ValueOrNone}");
+                builder.AppendLine($"   Location: '{item.Path}'. Package: {item.Package.ValueOrUndefined}");
             }
             error = builder.ToString();
             return true;

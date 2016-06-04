@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,7 +13,7 @@ using NUnit.Framework;
 public class IncludeProcessorTest
 {
 
-    string source = Path.Combine(TestContext.CurrentContext.TestDirectory, "Includes");
+    string source = Path.Combine(TestContext.CurrentContext.TestDirectory, @"IncludesProcessor\Includes");
 
     [Test]
     public async Task Simple()
@@ -27,8 +26,14 @@ include: key
 
     async Task<string> Process(string markdownContent)
     {
-        var versionAndPackage = VersionAndPackage.With(VersionRange.All, Package.None);
-        var extractor = new IncludeExtractor(path => versionAndPackage);
+        var pathData = PathData.With(VersionRange.All, Package.Undefined);
+        var extractor = new IncludeExtractor(path =>
+        {
+            var key = Path.GetFileName(path)
+                .ToLowerInvariant()
+                .Replace(".include", "");
+            return IncludeData.With(key, VersionRange.All, Package.Undefined);
+        }, _ => pathData);
         var readIncludes = extractor.FromDirectory(source);
         var includeGroups = IncludeGrouper.Group(readIncludes);
         var processor = new MarkdownProcessor(

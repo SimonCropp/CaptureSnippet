@@ -7,12 +7,12 @@ namespace CaptureSnippets
     /// Part of <see cref="ProcessResult"/>.
     /// </summary>
     [DebuggerDisplay("Key={Key}, Line={Line}")]
-    public class MissingSnippetOrInclude
+    public class MissingKey
     {
         /// <summary>
-        /// Initialise a new instance of <see cref="MissingSnippetOrInclude"/>.
+        /// Initialise a new instance of <see cref="MissingKey"/>.
         /// </summary>
-        public MissingSnippetOrInclude(string key, int line)
+        public MissingKey(string key, int line)
         {
             Guard.AgainstNullAndEmpty(key,"key");
             Guard.AgainstNegativeAndZero(line, "line");

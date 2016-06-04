@@ -40,6 +40,10 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ConfigureAwait, Version=1.0.0.0, Culture=neutral, PublicKeyToken=233850a516558a98, processorArchitecture=MSIL">
+      <HintPath>..\packages\ConfigureAwait.Fody.1.0.0\lib\portable-net45+wp8+win+wpa81\ConfigureAwait.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="MethodTimer, Version=1.15.10.0, Culture=neutral, PublicKeyToken=cb1364609f40a1dc, processorArchitecture=MSIL">
       <HintPath>..\packages\MethodTimer.Fody.1.15.10.0\lib\dotnet\MethodTimer.dll</HintPath>
       <Private>False</Private>
@@ -57,7 +61,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ConfigureAwaitConfig.cs">
+      <Link>ConfigureAwaitConfig.cs</Link>
+    </Compile>
+    <Compile Include="Caching\CachedIncludeExtractor.cs" />
     <Compile Include="Caching\CachedSnippetExtractor.cs" />
+    <Compile Include="Caching\CachedIncludes.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Grouping\Includes\ConvertIncludePackageGroupToList.cs" />
     <Compile Include="Grouping\Includes\MergedIncludes.cs" />
     <Compile Include="Grouping\Includes\IncludePackageGroup.cs" />
@@ -67,17 +77,20 @@
     <Compile Include="Grouping\Includes\IncludeVersionGroup.cs" />
     <Compile Include="Grouping\GroupingHelper.cs" />
     <Compile Include="Grouping\Includes\IncludeGrouper.cs" />
-    <Compile Include="Grouping\Snippets\ConvertSnippetPackageGroupToList.cs" />
     <Compile Include="Grouping\Snippets\MergedSnippets.cs" />
     <Compile Include="Grouping\Snippets\SnippetPackageGroup.cs" />
     <Compile Include="Processing\IncludeKeyReader.cs" />
     <Compile Include="Processing\SimpleIncludeMarkdownHandling.cs" />
+    <Compile Include="Reading\Includes\ExtractIncludeData.cs" />
     <Compile Include="Reading\Includes\IncludeExtractor.cs" />
-    <Compile Include="Reading\ExtractVersionAndPackageFromPath.cs" />
+    <Compile Include="Reading\ExtractPathData.cs" />
     <Compile Include="Reading\Includes\ReadInclude.cs" />
     <Compile Include="Reading\Includes\ReadIncludes.cs" />
     <Compile Include="Reading\Includes\ReadIncludesException.cs" />
-    <Compile Include="Reading\VersionAndPackageExtractor.cs" />
+    <Compile Include="Reading\Includes\IncludeDataExtractor.cs" />
+    <Compile Include="Reading\Snippets\ConvertSnippetPackageGroupToList.cs" />
+    <Compile Include="Reading\PathData.cs" />
+    <Compile Include="Reading\PathDataExtractor.cs" />
     <Compile Include="Reading\Snippets\Package.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Caching\CachedSnippets.cs" />
@@ -85,7 +98,7 @@
     <Compile Include="InterpretErrors.cs" />
     <Compile Include="Processing\AppendSnippetGroupToMarkdown.cs" />
     <Compile Include="Processing\MarkdownProcessor.cs" />
-    <Compile Include="Processing\MissingSnippetOrInclude.cs" />
+    <Compile Include="Processing\MissingKey.cs" />
     <Compile Include="Reading\Snippets\IncludeDirectory.cs" />
     <Compile Include="Reading\Snippets\IncludeFile.cs" />
     <Compile Include="Reading\Snippets\StartEndTester.cs" />
@@ -108,7 +121,7 @@
     <Compile Include="Processing\ProcessResult.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Grouping\Snippets\SnippetGrouper.cs" />
-    <Compile Include="Reading\VersionAndPackage.cs" />
+    <Compile Include="Reading\Includes\IncludeData.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Reading\TranslatePackage.cs" />
     <Compile Include="VersionRangeExtensions.cs" />

@@ -8,7 +8,7 @@ namespace CaptureSnippets
     public class ProcessResult
     {
 
-        public ProcessResult(IReadOnlyList<SnippetGroup> usedSnippets, IReadOnlyList<IncludeGroup> usedIncludes, IReadOnlyList<MissingSnippetOrInclude> missing)
+        public ProcessResult(IReadOnlyList<SnippetGroup> usedSnippets, IReadOnlyList<IncludeGroup> usedIncludes, IReadOnlyList<MissingKey> missing)
         {
             Guard.AgainstNull(usedSnippets, "usedSnippets");
             Guard.AgainstNull(usedIncludes, "usedIncludes");
@@ -31,7 +31,7 @@ namespace CaptureSnippets
         /// <summary>
         ///   List of all snippets that the markdown file expected but did not exist in the input snippets.
         /// </summary>
-        public readonly IReadOnlyList<MissingSnippetOrInclude> Missing;
+        public readonly IReadOnlyList<MissingKey> Missing;
 
     }
 }

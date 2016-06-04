@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
@@ -10,26 +11,26 @@ public class CachedSnippetExtractorTests
 {
     [Test]
     [Explicit]
-    public void SecondReadShouldBeFasterThanFirstRead()
+    public async Task SecondReadShouldBeFasterThanFirstRead()
     {
-        var directory = @"scenarios\".ToCurrentDirectory();
+        var directory = "scenarios".ToCurrentDirectory();
         //warmup
-        var result = VersionAndPackage.With(VersionRange.All, Package.None);
-        var snippetExtractor = new CachedSnippetExtractor(
-            extractVersionAndPackageFromPath: y => result,
+        var result = PathData.With(VersionRange.All, Package.Undefined);
+        var extractor = new CachedSnippetExtractor(
+            extractData: y => result,
             includeDirectory: s => true,
             includeFile: s => s.EndsWith(".cs"));
-        snippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
+        await extractor.FromDirectory(directory);
 
-        var cachedSnippetExtractor = new CachedSnippetExtractor(
-            extractVersionAndPackageFromPath: y => result,
+        extractor = new CachedSnippetExtractor(
+            extractData: y => result,
             includeDirectory: s => true,
             includeFile: s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
-        cachedSnippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
+        await extractor.FromDirectory(directory);
         firstRun.Stop();
         var secondRun = Stopwatch.StartNew();
-        cachedSnippetExtractor.FromDirectory(directory).GetAwaiter().GetResult();
+        await extractor.FromDirectory(directory);
         secondRun.Stop();
         Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
         Trace.WriteLine(firstRun.ElapsedMilliseconds);
@@ -37,16 +38,16 @@ public class CachedSnippetExtractorTests
     }
 
     [Test]
-    public void EnsureErrorsAreReturned()
+    public async Task EnsureErrorsAreReturned()
     {
-        var result = VersionAndPackage.With(VersionRange.All, Package.None);
-        var directory = @"badsnippets".ToCurrentDirectory();
-        var cachedSnippetExtractor = new CachedSnippetExtractor(
-            extractVersionAndPackageFromPath: y => result,
+        var result = PathData.With(VersionRange.All, Package.Undefined);
+        var directory = "badsnippets".ToCurrentDirectory();
+        var extractor = new CachedSnippetExtractor(
+            extractData: y => result,
             includeDirectory: s => true,
             includeFile: s => s.EndsWith(".cs"));
-        var readSnippets = cachedSnippetExtractor.FromDirectory(directory).Result;
-        Assert.AreEqual(1,readSnippets.GroupingErrors.Count);
+        var read = await extractor.FromDirectory(directory);
+        Assert.AreEqual(1, read.GroupingErrors.Count);
     }
 
 }

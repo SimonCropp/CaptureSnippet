@@ -35,7 +35,7 @@ namespace CaptureSnippets
             if (GroupingHelper.ContainsDuplicateVersion(readItems.Select(x=>x.Version)))
             {
                 var files = string.Join("\r\n", readItems.Select(x => x.FileLocation));
-                error = $"Duplicate version detected. Key='{key}'. Package='{package.ValueOrNone}'. Files=\r\n{files}";
+                error = $"Duplicate version detected. Key='{key}'. Package='{package.ValueOrUndefined}'. Files=\r\n{files}";
                 return false;
             }
 
@@ -68,7 +68,7 @@ namespace CaptureSnippets
             }
             var packageGroups = new List<SnippetPackageGroup>();
 
-            foreach (var package in readItems.GroupBy(x => x.Package.ValueOrNone, snippet => snippet))
+            foreach (var package in readItems.GroupBy(x => x.Package.ValueOrUndefined, snippet => snippet))
             {
                 SnippetPackageGroup packageGroup;
                 var itemsForPackage = package.ToList();
@@ -84,7 +84,7 @@ namespace CaptureSnippets
                 group = new SnippetGroup(
                     key: key,
                     language: readItems.First().Language,
-                    packages: packageGroups);
+                    packages: packageGroups.OrderBy(_ => _.Package.ValueOrUndefined).ToList());
                 return true;
             }
             IReadOnlyList<SnippetPackageGroup> result;
@@ -107,7 +107,7 @@ namespace CaptureSnippets
 
         static bool MixesEmptyPackageWithNonEmpty(List<ReadSnippet> readItems, out string error)
         {
-            if (!GroupingHelper.ContainsEmptyWithNonEmptyPackage(readItems.Select(x => x.Package)))
+            if (!GroupingHelper.ContainsUndefinedWithNonUndefinedPackage(readItems.Select(x => x.Package)))
             {
                 error = null;
                 return false;
@@ -115,7 +115,7 @@ namespace CaptureSnippets
             var builder = new StringBuilder($"Mixes empty packages with non empty packages. Key='{readItems.First().Key}'.\r\nItems:\r\n");
             foreach (var item in readItems)
             {
-                builder.AppendLine($"   Location: '{item.FileLocation}'. Package: {item.Package.ValueOrNone}");
+                builder.AppendLine($"   Location: '{item.FileLocation}'. Package: {item.Package.ValueOrUndefined}");
             }
             error = builder.ToString();
             return true;

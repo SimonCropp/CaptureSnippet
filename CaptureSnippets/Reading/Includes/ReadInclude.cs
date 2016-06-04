@@ -7,7 +7,7 @@ namespace CaptureSnippets
     /// <summary>
     /// A sub item of <see cref="ReadInclude"/>.
     /// </summary>
-    [DebuggerDisplay("Key={Key}, Path={Path}, Error={Error}, Package={Package.ValueOrNone}")]
+    [DebuggerDisplay("Key={Key}, Path={Path}, Error={Error}, Package={Package.ValueOrUndefined}")]
     public class ReadInclude
     {
 

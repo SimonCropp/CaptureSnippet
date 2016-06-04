@@ -7,7 +7,7 @@ namespace CaptureSnippets
     /// <summary>
     /// A sub item of <see cref="ReadSnippets"/>.
     /// </summary>
-    [DebuggerDisplay("Key={Key}, FileLocation={FileLocation}, Error={Error}, Package={Package.ValueOrNone}")]
+    [DebuggerDisplay("Key={Key}, FileLocation={FileLocation}, Error={Error}, Package={Package.ValueOrUndefined}")]
     public class ReadSnippet
     {
 

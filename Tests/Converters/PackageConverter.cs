@@ -7,7 +7,7 @@ class PackageConverter : JsonConverter
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
         var package = (Package)value;
-        serializer.Serialize(writer, package.ValueOrNone);
+        serializer.Serialize(writer, package.ValueOrUndefined);
     }
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

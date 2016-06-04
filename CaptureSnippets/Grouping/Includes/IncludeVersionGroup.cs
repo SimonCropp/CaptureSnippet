@@ -8,7 +8,7 @@ namespace CaptureSnippets
     /// <summary>
     /// Allows <see cref="IncludeSource"/>s to be grouped by their <see cref="VersionRange"/>.
     /// </summary>
-    [DebuggerDisplay("Version={Version}, Value={Value}")]
+    [DebuggerDisplay("Version={Version}, Value={value}")]
     public class IncludeVersionGroup : IEnumerable<IncludeSource>
     {
         /// <summary>
@@ -18,7 +18,7 @@ namespace CaptureSnippets
         {
             Guard.AgainstNull(version,"version");
             Guard.AgainstNull(sources, "sources");
-            Value = value;
+            this.value = value;
             Version = version;
             Sources = sources;
         }
@@ -28,15 +28,24 @@ namespace CaptureSnippets
         /// </summary>
         public readonly VersionRange Version;
 
-        /// <summary>
-        /// The contents of the snippet
-        /// </summary>
-        public readonly string Value;
 
         /// <summary>
         /// All the includes with a common <see cref="VersionRange"/>.
         /// </summary>
         public readonly IReadOnlyList<IncludeSource> Sources;
+
+        /// <summary>
+        /// The contents of the snippet
+        /// </summary>
+        public string Value
+        {
+            get
+            {
+                return value;
+            }
+            internal set { this.value = value; }
+        }
+        string value;
 
         /// <summary>
         /// Enumerates over <see cref="Sources"/>.

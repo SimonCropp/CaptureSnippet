@@ -11,9 +11,9 @@
   ],
   [],
   "<!-- snippet: MissingKey1 -->
-** Could not find key 'MissingKey1' **
+** Could not find snippet 'MissingKey1' **
 
 <!-- snippet: MissingKey2 -->
-** Could not find key 'MissingKey2' **
+** Could not find snippet 'MissingKey2' **
 "
 ]

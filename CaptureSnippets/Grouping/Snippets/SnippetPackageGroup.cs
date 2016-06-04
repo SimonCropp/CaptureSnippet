@@ -7,7 +7,7 @@ namespace CaptureSnippets
     /// <summary>
     /// A hierarchy of <see cref="SnippetVersionGroup"/>s grouped by Package > Version
     /// </summary>
-    [DebuggerDisplay("Package={Package.ValueOrNone}")]
+    [DebuggerDisplay("Package={Package.ValueOrUndefined}")]
     public class SnippetPackageGroup : IEnumerable<SnippetVersionGroup>
     {
         /// <summary>

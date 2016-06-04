@@ -24,16 +24,14 @@ namespace CaptureSnippets
 
         static async Task AppendPackageGroup(TextWriter writer, IncludePackageGroup packageGroup)
         {
-            if (packageGroup.Package != Package.None)
+            if (packageGroup.Package != Package.Undefined)
             {
                 var message = $"### Package: '{packageGroup.Package}'";
-                await writer.WriteLineAsync(message)
-                    .ConfigureAwait(false);
+                await writer.WriteLineAsync(message);
             }
             foreach (var version in packageGroup.Versions)
             {
-                await AppendVersionGroup(writer, version)
-                    .ConfigureAwait(false);
+                await AppendVersionGroup(writer, version);
             }
         }
 
@@ -42,11 +40,9 @@ namespace CaptureSnippets
             if (!versionGroup.Version.Equals(VersionRange.All))
             {
                 var message = $"#### Version: '{versionGroup.Version.ToFriendlyString()}'";
-                await writer.WriteLineAsync(message)
-                    .ConfigureAwait(false);
+                await writer.WriteLineAsync(message);
             }
-            await writer.WriteLineAsync(versionGroup.Value)
-                .ConfigureAwait(false);
+            await writer.WriteLineAsync(versionGroup.Value);
         }
 
     }

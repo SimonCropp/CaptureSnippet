@@ -13,12 +13,12 @@ namespace CaptureSnippets
         /// <summary>
         /// The snippets that were requested but not found.
         /// </summary>
-        public readonly IReadOnlyList<MissingSnippetOrInclude> MissingSnippets;
+        public readonly IReadOnlyList<MissingKey> MissingSnippets;
 
         /// <summary>
         /// Initialise a new instance of <see cref="MissingSnippetsException"/>.
         /// </summary>
-        public MissingSnippetsException(IReadOnlyList<MissingSnippetOrInclude> missingSnippets)
+        public MissingSnippetsException(IReadOnlyList<MissingKey> missingSnippets)
         {
             Guard.AgainstNull(missingSnippets, "missingSnippets");
             MissingSnippets = missingSnippets;

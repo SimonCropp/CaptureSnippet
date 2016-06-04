@@ -34,7 +34,7 @@ public class SnippetGrouperTests
                 endLine: 5,
                 path: @"c:\files\file1.txt",
                 language: string.Empty,
-                package: Package.None),
+                package: Package.Undefined),
         };
         var snippetGroups = SnippetGrouper.Group(snippets);
         var readSnippetError = snippetGroups.Errors.Single();
@@ -159,7 +159,7 @@ public class SnippetGrouperTests
                 path: string.Empty,
                 package: "package2"),
         };
-        var snippetGroups = SnippetGrouper.Group(snippets, (key, packages) => packages.OrderBy(x=>x.Package).ToList()).ToList();
+        var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
     }
 

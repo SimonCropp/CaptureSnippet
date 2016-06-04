@@ -4,14 +4,13 @@ using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
-    [DebuggerDisplay("Version={Version}, Package={Package.ValueOrNone}")]
-    public class VersionAndPackage
+    [DebuggerDisplay("Version={Version}, Package={Package.ValueOrUndefined}")]
+    public class PathData
     {
-
         public readonly bool UseParentVersion;
         public readonly bool UseParentPackage;
 
-        VersionAndPackage(VersionRange version, Package package, bool useParentVersion, bool useParentPackage)
+        PathData(VersionRange version, Package package, bool useParentVersion, bool useParentPackage)
         {
             this.version = version;
             this.package = package;
@@ -45,26 +44,28 @@ namespace CaptureSnippets
             }
         }
 
-        public static VersionAndPackage With(VersionRange version, Package package)
+        public static PathData With(VersionRange version, Package package)
         {
             Guard.AgainstNull(version, "version");
             Guard.AgainstNull(package, "package");
-            return new VersionAndPackage(version, package, false, false);
+            return new PathData(version, package, false, false);
         }
 
-        public static VersionAndPackage WithParentVersion(Package package)
+        public static PathData WithParentVersion(Package package)
         {
-            return new VersionAndPackage(null, package, true, false);
+            Guard.AgainstNull(package, "package");
+            return new PathData(null, package, true, false);
         }
 
-        public static VersionAndPackage WithParentPackage(VersionRange version)
+        public static PathData WithParentPackage(VersionRange version)
         {
-            return new VersionAndPackage(version, null, false, true);
+            Guard.AgainstNull(version, "version");
+            return new PathData(version, null, false, true);
         }
 
-        public static VersionAndPackage WithParent()
+        public static PathData WithParent()
         {
-            return new VersionAndPackage(null, null, true, true);
+            return new PathData(null, null, true, true);
         }
     }
 }

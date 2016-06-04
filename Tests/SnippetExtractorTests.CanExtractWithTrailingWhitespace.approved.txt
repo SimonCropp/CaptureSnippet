@@ -2,7 +2,7 @@
   {
     "Key": "codekey",
     "Language": "cs",
-    "Package": "None",
+    "Package": "Undefined",
     "Version": "all",
     "Value": "the code",
     "Error": null,

@@ -9,12 +9,24 @@ namespace CaptureSnippets
 
     public class IncludeExtractor
     {
-        ExtractVersionAndPackageFromPath extractVersionAndPackage;
+        ExtractIncludeData extractIncludeData;
+        ExtractPathData extractPathData;
+        TranslatePackage translatePackage;
 
-        public IncludeExtractor(ExtractVersionAndPackageFromPath extractVersionAndPackage)
+        public IncludeExtractor(ExtractIncludeData extractIncludeData, ExtractPathData extractPathData, TranslatePackage translatePackage = null)
         {
-            Guard.AgainstNull(extractVersionAndPackage, "extractMetaData");
-            this.extractVersionAndPackage = extractVersionAndPackage;
+            Guard.AgainstNull(extractIncludeData, "extractIncludeData");
+            Guard.AgainstNull(extractPathData, "extractPathData");
+            this.extractIncludeData = extractIncludeData;
+            this.extractPathData = extractPathData;
+            if (translatePackage != null)
+            {
+                this.translatePackage = translatePackage;
+            }
+            else
+            {
+                this.translatePackage = alias => alias;
+            }
         }
 
         [Time]
@@ -29,7 +41,7 @@ namespace CaptureSnippets
         {
             VersionRange directoryVersion;
             Package directoryPackage;
-            VersionAndPackageExtractor.ExtractVersionAndPackage(parentVersion, parentPackage, extractVersionAndPackage, directoryPath, out directoryVersion, out directoryPackage);
+            PathDataExtractor.ExtractData(parentVersion, parentPackage, extractPathData, directoryPath, out directoryVersion, out directoryPackage);
 
             foreach (var file in Directory.EnumerateFiles(directoryPath, "*.include.md"))
             {
@@ -46,17 +58,21 @@ namespace CaptureSnippets
 
         ReadInclude ReadInclude(string file, VersionRange parentVersion, Package parentPackage)
         {
-            var key = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file))
-                .ToLowerInvariant();
+            //var key = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file))
+            //    .ToLowerInvariant();
             VersionRange fileVersion;
             Package filePackage;
-            VersionAndPackageExtractor.ExtractVersionAndPackageForFile(
+            string key;
+            IncludeDataExtractor.ExtractDataForFile(
                 parentVersion: parentVersion,
                 parentPackage: parentPackage,
-                extractVersionAndPackage: extractVersionAndPackage,
+                extractData: extractIncludeData,
                 path: file,
+                key: out key,
                 version: out fileVersion,
                 package: out filePackage);
+
+            filePackage = translatePackage(filePackage);
             return new ReadInclude(
                 key: key,
                 value: File.ReadAllText(file),

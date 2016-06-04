@@ -20,17 +20,17 @@ public class DirectorySnippetExtractorTests
         var includeFiles = new ConcurrentBag<CapturedIncludeFile>();
         var translatePackages = new ConcurrentBag<CapturedTranslatePackage>();
         var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor");
-        var snippetMetaData = VersionAndPackage.With(VersionRange.All, "package");
+        var data = PathData.With(VersionRange.All, "package");
         var result = new TestResult();
         var extractor = new DirectorySnippetExtractor(
-            extractVersionAndPackageFromPath: path =>
+            extractPathData: path =>
             {
                 var versionAndPath = new CapturedVersionAndPath
                 {
                     Path = path
                 };
                 versionAndPaths.Add(versionAndPath);
-                return snippetMetaData;
+                return data;
             },
             includeDirectory: path =>
             {

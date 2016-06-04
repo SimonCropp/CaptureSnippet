@@ -5,11 +5,11 @@ namespace CaptureSnippets
     public class Package:IComparable<Package>
     {
 
-        public string ValueOrNone => this == None ? "None" : Value;
+        public string ValueOrUndefined => this == Undefined ? "Undefined" : Value;
 
         string value;
 
-        public int CompareTo(Package other) => ValueOrNone.CompareTo(other.ValueOrNone);
+        public int CompareTo(Package other) => ValueOrUndefined.CompareTo(other.ValueOrUndefined);
 
         public override string ToString()
         {
@@ -20,22 +20,22 @@ namespace CaptureSnippets
         {
             get
             {
-                if (this == None)
+                if (this == Undefined)
                 {
-                    throw new Exception("Cannot access Value when is Package.None.");
+                    throw new Exception("Cannot access Value when is Package.All.");
                 }
                 return value;
             }
         }
 
-        public static Package None;
+        public static Package Undefined;
 
         public Package(string value)
         {
             Guard.AgainstNullAndEmpty(value, "package");
-            if (value == "None")
+            if (value == "Undefined")
             {
-                throw new ArgumentException("'None' is not an allowed value.", nameof(value));
+                throw new ArgumentException("'Undefined' is not an allowed value.", nameof(value));
             }
             this.value = value;
         }
@@ -47,14 +47,14 @@ namespace CaptureSnippets
 
         static Package()
         {
-            None = new Package();
+            Undefined = new Package();
         }
 
         public static implicit operator string(Package package)
         {
-            if (package == None)
+            if (package == Undefined)
             {
-                throw new Exception("Cannot convert Package.None to a string.");
+                throw new Exception("Cannot convert Package.Undefined to a string.");
             }
             return package.Value;
         }

@@ -14,7 +14,7 @@ namespace CaptureSnippets
     /// </summary>
     public class DirectorySnippetExtractor
     {
-        ExtractVersionAndPackageFromPath extractVersionAndPackageFromPath;
+        ExtractPathData extractPathData;
         IncludeDirectory includeDirectory;
         IncludeFile includeFile;
         FileSnippetExtractor fileExtractor;
@@ -22,18 +22,18 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="DirectorySnippetExtractor"/>.
         /// </summary>
-        /// <param name="extractVersionAndPackageFromPath">How to extract a <see cref="VersionAndPackage"/> from a given path.</param>
+        /// <param name="extractPathData">How to extract a <see cref="PathData"/> from a given path.</param>
         /// <param name="includeFile">Used to filter files.</param>
         /// <param name="includeDirectory">Used to filter directories.</param>
-        public DirectorySnippetExtractor(ExtractVersionAndPackageFromPath extractVersionAndPackageFromPath, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null)
+        public DirectorySnippetExtractor(ExtractPathData extractPathData, IncludeDirectory includeDirectory, IncludeFile includeFile, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(includeDirectory, "includeDirectory");
             Guard.AgainstNull(includeFile, "includeFile");
-            Guard.AgainstNull(extractVersionAndPackageFromPath, "extractMetaData");
-            this.extractVersionAndPackageFromPath = extractVersionAndPackageFromPath;
+            Guard.AgainstNull(extractPathData, "extractPathData");
+            this.extractPathData = extractPathData;
             this.includeDirectory = includeDirectory;
             this.includeFile = includeFile;
-            fileExtractor = new FileSnippetExtractor(extractVersionAndPackageFromPath, translatePackage);
+            fileExtractor = new FileSnippetExtractor(extractPathData, translatePackage);
         }
 
         [Time]
@@ -41,8 +41,7 @@ namespace CaptureSnippets
         {
             Guard.AgainstNull(directoryPath, "directoryPath");
             var snippets = new ConcurrentBag<ReadSnippet>();
-            await Task.WhenAll(FromDirectory(directoryPath, rootVersionRange, rootPackage, snippets.Add))
-                .ConfigureAwait(false);
+            await Task.WhenAll(FromDirectory(directoryPath, rootVersionRange, rootPackage, snippets.Add));
             return new ReadSnippets(snippets.ToList());
         }
 
@@ -51,7 +50,7 @@ namespace CaptureSnippets
         {
             VersionRange directoryVersion;
             Package directoryPackage;
-            VersionAndPackageExtractor.ExtractVersionAndPackage(parentVersion, parentPackage, extractVersionAndPackageFromPath, directoryPath, out directoryVersion, out directoryPackage);
+            PathDataExtractor.ExtractData(parentVersion, parentPackage, extractPathData, directoryPath, out directoryVersion, out directoryPackage);
             foreach (var file in Directory.EnumerateFiles(directoryPath)
                    .Where(s => includeFile(s)))
             {
@@ -71,8 +70,7 @@ namespace CaptureSnippets
         {
             using (var textReader = File.OpenText(file))
             {
-                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, callback)
-                    .ConfigureAwait(false);
+                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, callback);
             }
         }
 
