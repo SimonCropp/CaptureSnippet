@@ -8,11 +8,14 @@ public static class ModuleInitializer
         converters.Add(new VersionRangeConverter());
         converters.Add(new CachedSnippetsConverter());
         converters.Add(new SnippetGroupConverter());
+        converters.Add(new IncludeGroupConverter());
         converters.Add(new SnippetPackageGroupConverter());
         converters.Add(new PackageConverter());
         converters.Add(new ProcessResultConverter());
+        converters.Add(new ComponentConverter());
         converters.Add(new ReadSnippetsConverter());
         converters.Add(new ReadSnippetConverter());
+        converters.Add(new ReadIncludeConverter());
         converters.Add(new SnippetVersionGroupConverter());
     }
 }

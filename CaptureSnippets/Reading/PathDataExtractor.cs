@@ -6,13 +6,13 @@ namespace CaptureSnippets
     static class PathDataExtractor
     {
 
-        public static void ExtractDataForFile(VersionRange parentVersion, Package parentPackage, ExtractPathData extractPathData, string path, out VersionRange version, out Package package)
+        public static void ExtractDataForFile(VersionRange parentVersion, Package parentPackage, Component parentComponent, ExtractPathData extractPathData, string path, out VersionRange version, out Package package, out Component component)
         {
             var pathWithoutExtension = path.Substring(0, path.LastIndexOf('.'));
-            ExtractData(parentVersion, parentPackage, extractPathData, pathWithoutExtension, out version, out package);
+            ExtractData(parentVersion, parentPackage, parentComponent, extractPathData, pathWithoutExtension, out version, out package, out component);
         }
 
-        public static void ExtractData(VersionRange parentVersion, Package parentPackage, ExtractPathData extractPathData, string path, out VersionRange version, out Package package)
+        public static void ExtractData(VersionRange parentVersion, Package parentPackage, Component parentComponent, ExtractPathData extractPathData, string path, out VersionRange version, out Package package, out Component component)
         {
             var data = extractPathData(path);
             if (data == null)
@@ -42,6 +42,19 @@ namespace CaptureSnippets
                     throw new Exception("Null package not allowed.");
                 }
                 package = data.Package;
+            }
+
+            if (data.UseParentComponent)
+            {
+                component = parentComponent;
+            }
+            else
+            {
+                if (data.Component == null)
+                {
+                    throw new Exception("Null component not allowed.");
+                }
+                component = data.Component;
             }
         }
     }

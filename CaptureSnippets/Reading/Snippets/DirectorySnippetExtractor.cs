@@ -37,40 +37,41 @@ namespace CaptureSnippets
         }
 
         [Time]
-        public async Task<ReadSnippets> FromDirectory(string directoryPath, VersionRange rootVersionRange = null, Package rootPackage = null)
+        public async Task<ReadSnippets> FromDirectory(string directoryPath, VersionRange rootVersionRange = null, Package rootPackage = null, Component rootComponent = null)
         {
             Guard.AgainstNull(directoryPath, nameof(directoryPath));
             var snippets = new ConcurrentBag<ReadSnippet>();
-            await Task.WhenAll(FromDirectory(directoryPath, rootVersionRange, rootPackage, snippets.Add));
+            await Task.WhenAll(FromDirectory(directoryPath, rootVersionRange, rootPackage, rootComponent, snippets.Add));
             return new ReadSnippets(snippets.ToList());
         }
 
 
-        IEnumerable<Task> FromDirectory(string directoryPath, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> add)
+        IEnumerable<Task> FromDirectory(string directoryPath, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> add)
         {
             VersionRange directoryVersion;
             Package directoryPackage;
-            PathDataExtractor.ExtractData(parentVersion, parentPackage, extractPathData, directoryPath, out directoryVersion, out directoryPackage);
+            Component directoryComponent;
+            PathDataExtractor.ExtractData(parentVersion, parentPackage, parentComponent, extractPathData, directoryPath, out directoryVersion, out directoryPackage, out directoryComponent);
             foreach (var file in Directory.EnumerateFiles(directoryPath)
                    .Where(s => fileFilter(s)))
             {
-                yield return FromFile(file, directoryVersion, directoryPackage, add);
+                yield return FromFile(file, directoryVersion, directoryPackage, directoryComponent, add);
             }
             foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
                 .Where(s => directoryFilter(s)))
             {
-                foreach (var task in FromDirectory(subDirectory, directoryVersion, directoryPackage, add))
+                foreach (var task in FromDirectory(subDirectory, directoryVersion, directoryPackage, directoryComponent, add))
                 {
                     yield return task;
                 }
             }
         }
 
-        async Task FromFile(string file, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
+        async Task FromFile(string file, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
         {
             using (var textReader = File.OpenText(file))
             {
-                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, callback);
+                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, parentComponent, callback);
             }
         }
 

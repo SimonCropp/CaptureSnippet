@@ -40,13 +40,13 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
         /// <param name="path">The current path so extract <see cref="ReadSnippet"/>s from.</param>
-        public async Task AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
+        public async Task AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
         {
             Guard.AgainstNull(textReader, nameof(textReader));
             Guard.AgainstNull(callback, nameof(callback));
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippets(reader, path, parentVersion, parentPackage, callback);
+                await GetSnippets(reader, path, parentVersion, parentPackage, parentComponent, callback);
             }
         }
 
@@ -57,11 +57,12 @@ namespace CaptureSnippets
         }
 
 
-        async Task GetSnippets(IndexReader stringReader, string path, VersionRange parentVersion, Package parentPackage, Action<ReadSnippet> callback)
+        async Task GetSnippets(IndexReader stringReader, string path, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
         {
             VersionRange fileVersion;
             Package filePackage;
-            PathDataExtractor.ExtractDataForFile(parentVersion, parentPackage, extractPathData, path, out fileVersion, out filePackage);
+            Component fileComponent;
+            PathDataExtractor.ExtractDataForFile(parentVersion, parentPackage, parentComponent, extractPathData, path, out fileVersion, out filePackage, out fileComponent);
 
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();
@@ -92,7 +93,7 @@ namespace CaptureSnippets
                         continue;
                     }
 
-                    var snippet = BuildSnippet(stringReader, path, loopState, language, fileVersion, filePackage);
+                    var snippet = BuildSnippet(stringReader, path, loopState, language, fileVersion, filePackage, fileComponent);
 
                     callback(snippet);
                     loopState.Reset();
@@ -103,7 +104,7 @@ namespace CaptureSnippets
         }
 
 
-        ReadSnippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language, VersionRange fileVersion, Package filePackage)
+        ReadSnippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language, VersionRange fileVersion, Package filePackage, Component fileComponent)
         {
             var startRow = loopState.StartLine.Value + 1;
 
@@ -137,6 +138,7 @@ namespace CaptureSnippets
                 value: value,
                 path: path,
                 package: snippetPackage,
+                component: fileComponent,
                 language: language.ToLowerInvariant());
         }
 

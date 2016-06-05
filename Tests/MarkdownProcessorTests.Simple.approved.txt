@@ -4,6 +4,7 @@
     {
       "key": "versionedSnippet1",
       "language": "cs",
+      "component": "Undefined",
       "packages": [
         {
           "Package": "package1",
@@ -41,6 +42,7 @@
     {
       "key": "versionedSnippet2",
       "language": "cs",
+      "component": "Undefined",
       "packages": [
         {
           "Package": "package1",
@@ -78,6 +80,7 @@
     {
       "key": "nonVersionedSnippet1",
       "language": "cs",
+      "component": "Undefined",
       "packages": [
         {
           "Package": "package1",
@@ -102,6 +105,7 @@
     {
       "key": "nonVersionedSnippet2",
       "language": "cs",
+      "component": "Undefined",
       "packages": [
         {
           "Package": "package1",

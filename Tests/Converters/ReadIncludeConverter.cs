@@ -2,7 +2,7 @@ using System;
 using CaptureSnippets;
 using Newtonsoft.Json;
 
-class ReadSnippetConverter : JsonConverter
+class ReadIncludeConverter : JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
@@ -12,29 +12,25 @@ class ReadSnippetConverter : JsonConverter
             return;
         }
 
-        var readSnippet = (ReadSnippet)value;
+        var readInclude = (ReadInclude)value;
         writer.WriteStartObject();
         writer.WritePropertyName("Key");
-        serializer.Serialize(writer, readSnippet.Key);
-        if (!readSnippet.IsInError)
+        serializer.Serialize(writer, readInclude.Key);
+        if (!readInclude.IsInError)
         {
-            writer.WritePropertyName("Language");
-            serializer.Serialize(writer, readSnippet.Language);
             writer.WritePropertyName("Component");
-            serializer.Serialize(writer, readSnippet.Component.ValueOrUndefined);
+            serializer.Serialize(writer, readInclude.Component.ValueOrUndefined);
             writer.WritePropertyName("Package");
-            serializer.Serialize(writer, readSnippet.Package.ValueOrUndefined);
+            serializer.Serialize(writer, readInclude.Package.ValueOrUndefined);
             writer.WritePropertyName("Version");
-            serializer.Serialize(writer, readSnippet.Version);
+            serializer.Serialize(writer, readInclude.Version);
             writer.WritePropertyName("Value");
-            serializer.Serialize(writer, readSnippet.Value);
+            serializer.Serialize(writer, readInclude.Value);
         }
         writer.WritePropertyName("Error");
-        serializer.Serialize(writer, readSnippet.Error);
-        writer.WritePropertyName("FileLocation");
-        serializer.Serialize(writer, readSnippet.FileLocation);
+        serializer.Serialize(writer, readInclude.Error);
         writer.WritePropertyName("IsInError");
-        serializer.Serialize(writer, readSnippet.IsInError);
+        serializer.Serialize(writer, readInclude.IsInError);
         writer.WriteEndObject();
     }
 
@@ -45,6 +41,6 @@ class ReadSnippetConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        return objectType == typeof(ReadSnippet);
+        return objectType == typeof(ReadInclude);
     }
 }

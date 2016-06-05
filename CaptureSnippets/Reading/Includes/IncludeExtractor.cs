@@ -30,47 +30,49 @@ namespace CaptureSnippets
         }
 
         [Time]
-        public ReadIncludes FromDirectory(string directoryPath, VersionRange rootVersionRange = null, Package rootPackage = null)
+        public ReadIncludes FromDirectory(string directoryPath, VersionRange rootVersionRange = null, Package rootPackage = null, Component rootComponent = null)
         {
             Guard.AgainstNull(directoryPath, nameof(directoryPath));
-            var list = InnerFromDirectory(directoryPath, rootVersionRange, rootPackage).ToList();
+            var list = InnerFromDirectory(directoryPath, rootVersionRange, rootPackage, rootComponent).ToList();
             return new ReadIncludes(list);
         }
 
-        IEnumerable<ReadInclude> InnerFromDirectory(string directoryPath, VersionRange parentVersion, Package parentPackage)
+        IEnumerable<ReadInclude> InnerFromDirectory(string directoryPath, VersionRange parentVersion, Package parentPackage, Component parentComponent)
         {
             VersionRange directoryVersion;
             Package directoryPackage;
-            PathDataExtractor.ExtractData(parentVersion, parentPackage, extractPathData, directoryPath, out directoryVersion, out directoryPackage);
+            Component directoryComponent;
+            PathDataExtractor.ExtractData(parentVersion, parentPackage, parentComponent, extractPathData, directoryPath, out directoryVersion, out directoryPackage, out directoryComponent);
 
             foreach (var file in Directory.EnumerateFiles(directoryPath, "*.include.md"))
             {
-                yield return ReadInclude(file, directoryVersion, directoryPackage);
+                yield return ReadInclude(file, directoryVersion, directoryPackage, directoryComponent);
             }
             foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath))
             {
-                foreach (var readInclude in InnerFromDirectory(subDirectory, directoryVersion, directoryPackage))
+                foreach (var readInclude in InnerFromDirectory(subDirectory, directoryVersion, directoryPackage, directoryComponent))
                 {
                     yield return readInclude;
                 }
             }
         }
 
-        ReadInclude ReadInclude(string file, VersionRange parentVersion, Package parentPackage)
+        ReadInclude ReadInclude(string file, VersionRange parentVersion, Package parentPackage, Component parentComponent)
         {
-            //var key = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file))
-            //    .ToLowerInvariant();
             VersionRange fileVersion;
             Package filePackage;
+            Component fileComponent;
             string key;
             IncludeDataExtractor.ExtractDataForFile(
                 parentVersion: parentVersion,
                 parentPackage: parentPackage,
+                parentComponent: parentComponent,
                 extractData: extractIncludeData,
                 path: file,
                 key: out key,
                 version: out fileVersion,
-                package: out filePackage);
+                package: out filePackage,
+                component: out fileComponent);
 
             filePackage = translatePackage(filePackage);
             return new ReadInclude(
@@ -78,7 +80,8 @@ namespace CaptureSnippets
                 value: File.ReadAllText(file),
                 path: file,
                 version: fileVersion,
-                package: filePackage);
+                package: filePackage,
+                component: fileComponent);
         }
     }
 }

@@ -2,6 +2,7 @@
   {
     "key": "key",
     "language": "",
+    "component": "Undefined",
     "packages": [
       {
         "Package": "package1",

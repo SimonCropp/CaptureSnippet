@@ -22,6 +22,7 @@ public class MarkdownProcessorTests
         {
             new SnippetGroup(
                 language: "cs",
+                component:Component.Undefined,
                 key: "versionedSnippet1",
                 packages: new List<SnippetPackageGroup>
                 {
@@ -35,6 +36,7 @@ public class MarkdownProcessorTests
                 }),
             new SnippetGroup(
                 language: "cs",
+                component:Component.Undefined, 
                 key: "versionedSnippet2",
                 packages: new List<SnippetPackageGroup>
                 {
@@ -48,6 +50,7 @@ public class MarkdownProcessorTests
                 }),
             new SnippetGroup(
                 language: "cs",
+                component:Component.Undefined,
                 key: "nonVersionedSnippet1",
                 packages: new List<SnippetPackageGroup>
                 {
@@ -60,6 +63,7 @@ public class MarkdownProcessorTests
                 }),
             new SnippetGroup(
                 language: "cs",
+                component:Component.Undefined,
                 key: "nonVersionedSnippet2",
                 packages: new List<SnippetPackageGroup>
                 {
@@ -136,6 +140,7 @@ snippet: nonVersionedSnippet2
         {
             new ReadSnippet(
                 key: "foundkey1",
+                component:Component.Undefined,
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
@@ -145,6 +150,7 @@ snippet: nonVersionedSnippet2
                 package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
+                component:Component.Undefined,
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
@@ -162,7 +168,9 @@ snippet: nonVersionedSnippet2
     {
         var snippets = new List<ReadSnippet>
         {
-            new ReadSnippet(key: "foundkey1",
+            new ReadSnippet(
+                key: "foundkey1",
+                component:Component.Undefined,
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
@@ -170,7 +178,9 @@ snippet: nonVersionedSnippet2
                 language: "c",
                 path: "unknown",
                 package: "package1"),
-            new ReadSnippet(key: "foundkey2",
+            new ReadSnippet(
+                key: "foundkey2",
+                component:Component.Undefined,
                 version: VersionRange.All,
                 startLine: 1,
                 endLine: 1,
@@ -189,7 +199,9 @@ snippet: nonVersionedSnippet2
     {
         var snippets = new List<ReadSnippet>
         {
-            new ReadSnippet(key: "foundkey1",
+            new ReadSnippet(
+                key: "foundkey1",
+                component:Component.Undefined,
                 value: "Value1",
                 version: VersionRange.All,
                 startLine: 1,
@@ -199,6 +211,7 @@ snippet: nonVersionedSnippet2
                 package: "package1"),
             new ReadSnippet(
                 key: "foundkey2",
+                component:Component.Undefined,
                 value: "Value2",
                 version: VersionRange.All,
                 startLine: 1,
@@ -206,7 +219,9 @@ snippet: nonVersionedSnippet2
                 language: "c",
                 path: null,
                 package: "package1"),
-            new ReadSnippet(key: "foundkey3",
+            new ReadSnippet(
+                key: "foundkey3",
+                component:Component.Undefined,
                 value: "Value3",
                 version: VersionRange.All,
                 startLine: 1,
@@ -214,7 +229,9 @@ snippet: nonVersionedSnippet2
                 language: "c",
                 path: null,
                 package: "package1"),
-            new ReadSnippet(key: "foundkey4",
+            new ReadSnippet(
+                key: "foundkey4",
+                component:Component.Undefined,
                 value: "Value4",
                 version: VersionRange.All,
                 startLine: 1,

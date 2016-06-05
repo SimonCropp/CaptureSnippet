@@ -15,7 +15,7 @@ public class CachedSnippetExtractorTests
     {
         var directory = "scenarios".ToCurrentDirectory();
         //warmup
-        var result = PathData.With(VersionRange.All, Package.Undefined);
+        var result = PathData.With(VersionRange.All, Package.Undefined, Component.Undefined);
         var extractor = new CachedSnippetExtractor(
             extractData: y => result,
             directoryFilter: s => true,
@@ -40,7 +40,7 @@ public class CachedSnippetExtractorTests
     [Test]
     public async Task EnsureErrorsAreReturned()
     {
-        var result = PathData.With(VersionRange.All, Package.Undefined);
+        var result = PathData.With(VersionRange.All, Package.Undefined, Component.Undefined);
         var directory = "badsnippets".ToCurrentDirectory();
         var extractor = new CachedSnippetExtractor(
             extractData: y => result,

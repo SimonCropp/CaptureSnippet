@@ -2,6 +2,7 @@
   {
     "key": "foundkey",
     "language": "",
+    "component": "Undefined",
     "packages": [
       {
         "Package": "packageA",

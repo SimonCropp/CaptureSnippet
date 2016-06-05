@@ -88,10 +88,11 @@
     <Compile Include="Reading\Includes\ReadIncludes.cs" />
     <Compile Include="Reading\Includes\ReadIncludesException.cs" />
     <Compile Include="Reading\Includes\IncludeDataExtractor.cs" />
+    <Compile Include="Reading\Component.cs" />
     <Compile Include="Reading\Snippets\ConvertSnippetPackageGroupToList.cs" />
     <Compile Include="Reading\PathData.cs" />
     <Compile Include="Reading\PathDataExtractor.cs" />
-    <Compile Include="Reading\Snippets\Package.cs" />
+    <Compile Include="Reading\Package.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Caching\CachedSnippets.cs" />
     <Compile Include="DirectoryDateFinder.cs" />

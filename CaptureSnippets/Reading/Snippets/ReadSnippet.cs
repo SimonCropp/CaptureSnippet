@@ -7,7 +7,7 @@ namespace CaptureSnippets
     /// <summary>
     /// A sub item of <see cref="ReadSnippets"/>.
     /// </summary>
-    [DebuggerDisplay("Key={Key}, FileLocation={FileLocation}, Error={Error}, Package={Package.ValueOrUndefined}")]
+    [DebuggerDisplay("Key={Key}, FileLocation={FileLocation}, Error={Error}, Package={Package.ValueOrUndefined}, Component={Component.ValueOrUndefined}")]
     public class ReadSnippet
     {
 
@@ -30,12 +30,13 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="ReadSnippet"/>.
         /// </summary>
-        public ReadSnippet(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, Package package)
+        public ReadSnippet(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, Package package, Component component)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
             Guard.AgainstNull(language, nameof(language));
             Guard.AgainstNull(package, nameof(package));
+            Guard.AgainstNull(component, nameof(component));
             Guard.AgainstUpperCase(language, nameof(language));
             Guard.AgainstNegativeAndZero(startLine, nameof(startLine));
             Guard.AgainstNegativeAndZero(endLine, nameof(endLine));
@@ -49,6 +50,7 @@ namespace CaptureSnippets
             Path = path;
             this.version = version;
             this.package = package;
+            this.component = component;
         }
 
         public readonly string Error;
@@ -92,8 +94,8 @@ namespace CaptureSnippets
         public readonly string Path;
 
         VersionRange version;
-
         Package package;
+        Component component;
 
 
         /// <summary>
@@ -128,6 +130,21 @@ namespace CaptureSnippets
                     throw new Exception("Cannot access Package when IsInError.");
                 }
                 return package;
+            }
+        }
+
+        /// <summary>
+        /// The Component that was inferred for the snippet.
+        /// </summary>
+        public Component Component
+        {
+            get
+            {
+                if (IsInError)
+                {
+                    throw new Exception("Cannot access Component when IsInError.");
+                }
+                return component;
             }
         }
     }

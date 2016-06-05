@@ -19,6 +19,7 @@ public class SnippetGrouperTests
         {
             new ReadSnippet(
                 key: "key",
+                component:Component.Undefined,
                 version: VersionRange.All,
                 value: "1",
                 startLine: 1,
@@ -28,6 +29,7 @@ public class SnippetGrouperTests
                 package: "package1"),
             new ReadSnippet(
                 key: "key",
+                component:Component.Undefined,
                 version:  VersionRange.All,
                 value: "1",
                 startLine: 4,
@@ -47,6 +49,7 @@ public class SnippetGrouperTests
         {
             new ReadSnippet(
                 key: "key",
+                component:Component.Undefined,
                 version: new VersionRange(new NuGetVersion (1, 2, 0)),
                 value: "1",
                 startLine: 1,
@@ -56,6 +59,7 @@ public class SnippetGrouperTests
                 package: "package1"),
             new ReadSnippet(
                 key: "key",
+                component:Component.Undefined,
                 version:  VersionRange.All,
                 value: "1",
                 startLine: 1,
@@ -76,6 +80,7 @@ public class SnippetGrouperTests
         {
             new ReadSnippet(
                 key: "foundkey",
+                component:Component.Undefined,
                 version: new VersionRange(new NuGetVersion (1, 2, 0)),
                 value: "1",
                 startLine: 1,
@@ -85,6 +90,7 @@ public class SnippetGrouperTests
                 package: "packageA"),
             new ReadSnippet(
                 key: "foundkey",
+                component:Component.Undefined,
                 version: new VersionRange(new NuGetVersion (1, 2, 0)),
                 value: "1",
                 startLine: 1,
@@ -104,6 +110,7 @@ public class SnippetGrouperTests
         {
             new ReadSnippet(
                 key: "foundkey",
+                component:Component.Undefined,
                 version: new VersionRange(new NuGetVersion (1, 2, 0)),
                 value: "1",
                 startLine: 1,
@@ -113,6 +120,7 @@ public class SnippetGrouperTests
                 package: "packageA"),
             new ReadSnippet(
                 key: "foundkey",
+                component:Component.Undefined,
                 version: new VersionRange(new NuGetVersion (1, 2, 0)),
                 value: "1",
                 startLine: 1,
@@ -133,6 +141,7 @@ public class SnippetGrouperTests
         {
             new ReadSnippet(
                 key: "key",
+                component:Component.Undefined,
                 version: new VersionRange(new NuGetVersion (1, 0, 0)),
                 value: "1",
                 startLine: 1,
@@ -142,6 +151,7 @@ public class SnippetGrouperTests
                 package: "package3"),
             new ReadSnippet(
                 key: "key",
+                component:Component.Undefined,
                 version: new VersionRange(new NuGetVersion (1, 0, 0)),
                 value: "3",
                 startLine: 1,
@@ -151,6 +161,7 @@ public class SnippetGrouperTests
                 package: "package1"),
             new ReadSnippet(
                 key: "key",
+                component:Component.Undefined,
                 language: string.Empty,
                 version: new VersionRange(new NuGetVersion (1, 0, 0)),
                 value: "4",
@@ -176,7 +187,8 @@ public class SnippetGrouperTests
                 endLine: 1,
                 path: null,
                 language: string.Empty,
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
             new ReadSnippet(
                 key: "foundkey1",
                 version: new VersionRange(new NuGetVersion (1, 4, 0)),
@@ -185,7 +197,8 @@ public class SnippetGrouperTests
                 endLine: 1,
                 path: null,
                 language: string.Empty,
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
             new ReadSnippet(
                 key: "foundkey2",
                 version: new VersionRange(new NuGetVersion (1, 3, 0)),
@@ -194,7 +207,8 @@ public class SnippetGrouperTests
                 endLine: 1,
                 path: null,
                 language: "cs",
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
             new ReadSnippet(
                 key: "foundkey2",
                 language: "cs",
@@ -203,7 +217,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 path: string.Empty,
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
             new ReadSnippet(
                 key: "foundkey2",
                 language: "cs",
@@ -212,7 +227,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 path: string.Empty,
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
             new ReadSnippet(
                 key: "foundkey2",
                 language: "cs",
@@ -221,7 +237,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 path: string.Empty,
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
             new ReadSnippet(
                 key: "foundkey2",
                 language: "cs",
@@ -230,7 +247,8 @@ public class SnippetGrouperTests
                 startLine: 1,
                 endLine: 1,
                 path: string.Empty,
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
         };
         var snippetGroups = SnippetGrouper.Group(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
@@ -249,7 +267,8 @@ public class SnippetGrouperTests
                 endLine: 1,
                 path: null,
                 language: string.Empty,
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
             new ReadSnippet(
                 key: "foundkey1",
                 version: VersionRange.Parse("1.4.0"),
@@ -258,7 +277,8 @@ public class SnippetGrouperTests
                 endLine: 1,
                 path: null,
                 language: string.Empty,
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
             new ReadSnippet(
                 key: "foundkey1",
                 version: VersionRange.Parse("1.3.0"),
@@ -267,7 +287,8 @@ public class SnippetGrouperTests
                 endLine: 1,
                 path: null,
                 language: string.Empty,
-                package: "package1"),
+                package: "package1",
+                component:Component.Undefined),
         };
         var snippetGroups = SnippetGrouper.ProcessKeyGroup(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);
@@ -286,7 +307,8 @@ public class SnippetGrouperTests
                 endLine: 1,
                 path: null,
                 language: string.Empty,
-                package: "package1")
+                package: "package1",
+                component:Component.Undefined)
         };
         var snippetGroups = SnippetGrouper.ProcessKeyGroup(snippets).ToList();
         ObjectApprover.VerifyWithJson(snippetGroups);

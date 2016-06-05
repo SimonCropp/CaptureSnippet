@@ -7,7 +7,7 @@ namespace CaptureSnippets
     /// <summary>
     /// A sub item of <see cref="ReadInclude"/>.
     /// </summary>
-    [DebuggerDisplay("Key={Key}, Path={Path}, Error={Error}, Package={Package.ValueOrUndefined}")]
+    [DebuggerDisplay("Key={Key}, Path={Path}, Error={Error}, Package={Package.ValueOrUndefined}, Component={Component.ValueOrUndefined}")]
     public class ReadInclude
     {
 
@@ -27,15 +27,17 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="ReadSnippet"/>.
         /// </summary>
-        public ReadInclude(string key, string value, string path, VersionRange version, Package package)
+        public ReadInclude(string key, string value, string path, VersionRange version, Package package, Component component)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
             Guard.AgainstNull(package, nameof(package));
+            Guard.AgainstNull(component, nameof(component));
             Value = value;
             ValueHash = value.RemoveWhitespace().GetHashCode();
             Key = key;
             Path = path;
+            this.component = component;
             this.version = version;
             this.package = package;
         }
@@ -68,6 +70,7 @@ namespace CaptureSnippets
         VersionRange version;
 
         Package package;
+        Component component;
 
         /// <summary>
         /// The <see cref="VersionRange"/> that was inferred for the snippet.
@@ -84,6 +87,20 @@ namespace CaptureSnippets
             }
         }
 
+        /// <summary>
+        /// The Component that was inferred for the snippet.
+        /// </summary>
+        public Component Component
+        {
+            get
+            {
+                if (IsInError)
+                {
+                    throw new Exception("Cannot access Component when IsInError.");
+                }
+                return component;
+            }
+        }
         /// <summary>
         /// The Package that was inferred for the snippet.
         /// </summary>

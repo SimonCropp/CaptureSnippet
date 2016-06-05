@@ -26,13 +26,13 @@ include: key
 
     async Task<string> Process(string markdownContent)
     {
-        var pathData = PathData.With(VersionRange.All, Package.Undefined);
+        var pathData = PathData.With(VersionRange.All, Package.Undefined, Component.Undefined);
         var extractor = new IncludeExtractor(path =>
         {
             var key = Path.GetFileName(path)
                 .ToLowerInvariant()
                 .Replace(".include", "");
-            return IncludeData.With(key, VersionRange.All, Package.Undefined);
+            return IncludeData.With(key, VersionRange.All, Package.Undefined, Component.Undefined);
         }, _ => pathData);
         var readIncludes = extractor.FromDirectory(source);
         var includeGroups = IncludeGrouper.Group(readIncludes);

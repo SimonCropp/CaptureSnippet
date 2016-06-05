@@ -21,11 +21,11 @@ public class CachedIncludeExtractorTests
                 var split = path.Split('_');
                 if (split.Length == 1)
                 {
-                    return IncludeData.With(path, VersionRange.All, Package.Undefined);
+                    return IncludeData.With(path, VersionRange.All, Package.Undefined, Component.Undefined);
                 }
                 var key = split[0];
                 var package = split[1];
-                return IncludeData.With(key, VersionRange.All, package);
+                return IncludeData.With(key, VersionRange.All, package, Component.Undefined);
             },
             extractPathData: path => PathData.WithParent());
         var read = extractor.FromDirectory(directory);

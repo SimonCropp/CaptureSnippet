@@ -4,6 +4,7 @@
     {
       "key": "foundkey2",
       "language": "c",
+      "component": "Undefined",
       "packages": [
         {
           "Package": "package1",
@@ -28,6 +29,7 @@
     {
       "key": "foundkey1",
       "language": "c",
+      "component": "Undefined",
       "packages": [
         {
           "Package": "package1",
@@ -52,6 +54,7 @@
     {
       "key": "foundkey3",
       "language": "c",
+      "component": "Undefined",
       "packages": [
         {
           "Package": "package1",

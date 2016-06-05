@@ -6,13 +6,13 @@ namespace CaptureSnippets
     static class IncludeDataExtractor
     {
 
-        public static void ExtractDataForFile(VersionRange parentVersion, Package parentPackage, ExtractIncludeData extractData, string path, out string key, out VersionRange version, out Package package)
+        public static void ExtractDataForFile(VersionRange parentVersion, Package parentPackage, Component parentComponent, ExtractIncludeData extractData, string path, out string key, out VersionRange version, out Package package, out Component component)
         {
             var pathWithoutExtension = path.Substring(0, path.LastIndexOf('.'));
-            IncludeDataExtractor.ExtractData(parentVersion, parentPackage, extractData, pathWithoutExtension, out key, out version, out package);
+            ExtractData(parentVersion, parentPackage, parentComponent, extractData, pathWithoutExtension, out key, out version, out package, out component);
         }
 
-        public static void ExtractData(VersionRange parentVersion, Package parentPackage, ExtractIncludeData extractData, string path, out string key, out VersionRange version, out Package package)
+        public static void ExtractData(VersionRange parentVersion, Package parentPackage, Component parentComponent, ExtractIncludeData extractData, string path, out string key, out VersionRange version, out Package package, out Component component)
         {
             var data = extractData(path);
             if (data == null)
@@ -24,6 +24,20 @@ namespace CaptureSnippets
                 throw new Exception("ExtractIncludeDataFromPath cannot return an empty or null key.");
             }
             key = data.Key;
+
+            if (data.UseParentComponent)
+            {
+                component = parentComponent;
+            }
+            else
+            {
+                if (data.Component == null)
+                {
+                    throw new Exception("Null component not allowed.");
+                }
+                component = data.Component;
+            }
+
             if (data.UseParentVersion)
             {
                 version = parentVersion;
@@ -36,6 +50,7 @@ namespace CaptureSnippets
                 }
                 version = data.Version;
             }
+
             if (data.UseParentPackage)
             {
                 package = parentPackage;

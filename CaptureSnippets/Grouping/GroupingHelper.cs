@@ -15,16 +15,20 @@ class GroupingHelper
     internal static bool ContainsVersionConflictsWithAll(IEnumerable<VersionRange> versionRanges)
     {
         var list = versionRanges.ToList();
-        var containsAllVersionRanges = list.Any(x => x.Equals(VersionRange.All));
-        var containsNonAllVersionRanges = list.Any(x => !x.Equals(VersionRange.All));
-        return containsAllVersionRanges && containsNonAllVersionRanges;
+        var containsAll = list.Any(x => x.Equals(VersionRange.All));
+        var containsNonAll = list.Any(x => !x.Equals(VersionRange.All));
+        return containsAll && containsNonAll;
     }
 
     internal static bool ContainsUndefinedWithNonUndefinedPackage(IEnumerable<Package> enumerable)
     {
         var packages = enumerable.ToList();
-        var containsUndefinedPackages = packages.Any(x => x == Package.Undefined);
-        var containsNonUndefinedPackages = packages.Any(x => x != Package.Undefined);
-        return containsUndefinedPackages && containsNonUndefinedPackages;
+        var containsUndefined = packages.Any(x => x == Package.Undefined);
+        var containsNonUndefined = packages.Any(x => x != Package.Undefined);
+        return containsUndefined && containsNonUndefined;
+    }
+    internal static bool HasInconsistentComponents(IEnumerable<Component> enumerable)
+    {
+        return enumerable.Select(x=>x.ValueOrUndefined).Distinct().Count() > 1;
     }
 }

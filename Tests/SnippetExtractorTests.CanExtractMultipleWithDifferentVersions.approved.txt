@@ -2,6 +2,7 @@
   {
     "Key": "codekey",
     "Language": "cs",
+    "Component": "Undefined",
     "Package": "Undefined",
     "Version": ">= 4.0.0 && < 5.0.0",
     "Value": "<configSections/>",
@@ -12,6 +13,7 @@
   {
     "Key": "codekey",
     "Language": "cs",
+    "Component": "Undefined",
     "Package": "Undefined",
     "Version": ">= 5.0.0 && < 6.0.0",
     "Value": "The Code",

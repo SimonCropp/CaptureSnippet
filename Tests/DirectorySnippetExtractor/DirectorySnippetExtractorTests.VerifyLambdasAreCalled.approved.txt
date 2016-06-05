@@ -16,7 +16,7 @@
       "Path": "root\\1.1\code"
     }
   ],
-  "IncludeDirectories": [
+  "Directories": [
     {
       "Path": "root\\1.1"
     },
@@ -24,7 +24,7 @@
       "Path": "root\\1.1\2.2"
     }
   ],
-  "IncludeFiles": [
+  "Files": [
     {
       "Path": "root\\1.1\2.2\code.txt"
     },

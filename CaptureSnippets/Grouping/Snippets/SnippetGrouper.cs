@@ -79,11 +79,13 @@ namespace CaptureSnippets
                 packageGroups.Add(packageGroup);
             }
 
+            var first = readItems.First();
             if (convertPackageGroupToList == null)
             {
                 group = new SnippetGroup(
                     key: key,
-                    language: readItems.First().Language,
+                    component: first.Component,
+                    language: first.Language,
                     packages: packageGroups.OrderBy(_ => _.Package.ValueOrUndefined).ToList());
                 return true;
             }
@@ -99,7 +101,8 @@ namespace CaptureSnippets
             }
             group = new SnippetGroup(
                 key: key,
-                language: readItems.First().Language,
+                component:first.Component,
+                language: first.Language,
                 packages: result);
             return true;
         }

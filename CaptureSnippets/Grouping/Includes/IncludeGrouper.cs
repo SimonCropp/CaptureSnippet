@@ -32,7 +32,7 @@ namespace CaptureSnippets
         {
             packageGroup = null;
 
-            if (GroupingHelper.ContainsDuplicateVersion(readItems.Select(x=>x.Version)))
+            if (GroupingHelper.ContainsDuplicateVersion(readItems.Select(x => x.Version)))
             {
                 var files = string.Join("\r\n", readItems.Select(x => x.Path));
                 error = $"Duplicate version detected. Key='{key}'. Package='{package.ValueOrUndefined}'. Files=\r\n{files}";
@@ -61,6 +61,10 @@ namespace CaptureSnippets
             {
                 return false;
             }
+            if (HasInconsistentComponents(readItems, out error))
+            {
+                return false;
+            }
             var packageGroups = new List<IncludePackageGroup>();
 
             foreach (var package in readItems.GroupBy(x => x.Package.ValueOrUndefined, snippet => snippet))
@@ -78,7 +82,8 @@ namespace CaptureSnippets
             {
                 group = new IncludeGroup(
                     key: key,
-                    packages: packageGroups);
+                    packages: packageGroups,
+                    component: readItems.First().Component);
                 return true;
             }
             IReadOnlyList<IncludePackageGroup> result;
@@ -93,10 +98,27 @@ namespace CaptureSnippets
             }
             group = new IncludeGroup(
                 key: key,
-                packages: result);
+                packages: result,
+                component: readItems.First().Component);
             return true;
         }
 
+
+        static bool HasInconsistentComponents(List<ReadInclude> readItems, out string error)
+        {
+            if (!GroupingHelper.HasInconsistentComponents(readItems.Select(x => x.Component)))
+            {
+                error = null;
+                return false;
+            }
+            var builder = new StringBuilder($"Has inconsistent components. Key='{readItems.First().Key}'.\r\nItems:\r\n");
+            foreach (var item in readItems)
+            {
+                builder.AppendLine($"   Location: '{item.Path}'. Component: {item.Component.ValueOrUndefined}");
+            }
+            error = builder.ToString();
+            return true;
+        }
 
         static bool MixesEmptyPackageWithNonEmpty(List<ReadInclude> readItems, out string error)
         {
@@ -114,7 +136,7 @@ namespace CaptureSnippets
             return true;
         }
 
-        internal static IEnumerable<IncludeVersionGroup> ProcessKeyGroup(List<ReadInclude> readItems)
+        static IEnumerable<IncludeVersionGroup> ProcessKeyGroup(List<ReadInclude> readItems)
         {
             var versions = readItems.Select(x => new MergedIncludes
             {
@@ -122,7 +144,8 @@ namespace CaptureSnippets
                 ValueHash = x.ValueHash,
                 Value = x.Value,
                 Items = new List<ReadInclude> {x}
-            }).ToList();
+            })
+                .ToList();
 
             while (true)
             {

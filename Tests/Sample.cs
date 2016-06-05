@@ -68,7 +68,7 @@ class Sample
         var split = path.Split('_');
         if (VersionRange.TryParse(split[1], out version))
         {
-            return PathData.With(version, split[0]);
+            return PathData.With(version, split[0], Component.Undefined);
         }
         return PathData.WithParent();
     }
