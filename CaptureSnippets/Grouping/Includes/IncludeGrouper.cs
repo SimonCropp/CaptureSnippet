@@ -8,7 +8,7 @@ namespace CaptureSnippets
 {
     public static class IncludeGrouper
     {
-        public static IncludeGroups Group(IEnumerable<ReadInclude> readItems, ConvertIncludePackageGroupToList convertPackageGroupToList = null)
+        public static IncludeGroups Group(IEnumerable<ReadInclude> readItems, GetPackageOrderForComponent packageOrder = null)
         {
             Guard.AgainstNull(readItems, nameof(readItems));
 
@@ -18,7 +18,7 @@ namespace CaptureSnippets
             {
                 string error;
                 IncludeGroup group;
-                if (TryGetGroup(grouping.Key, grouping.ToList(), convertPackageGroupToList, out group, out error))
+                if (TryGetGroup(grouping.Key, grouping.ToList(), packageOrder, out group, out error))
                 {
                     groups.Add(group);
                     continue;
@@ -54,7 +54,7 @@ namespace CaptureSnippets
             return true;
         }
 
-        static bool TryGetGroup(string key, List<ReadInclude> readItems, ConvertIncludePackageGroupToList convertPackageGroupToList, out IncludeGroup group, out string error)
+        static bool TryGetGroup(string key, List<ReadInclude> readItems, GetPackageOrderForComponent packageOrder, out IncludeGroup group, out string error)
         {
             group = null;
             if (MixesEmptyPackageWithNonEmpty(readItems, out error))
@@ -78,32 +78,45 @@ namespace CaptureSnippets
                 packageGroups.Add(packageGroup);
             }
 
-            if (convertPackageGroupToList == null)
-            {
-                group = new IncludeGroup(
-                    key: key,
-                    packages: packageGroups,
-                    component: readItems.First().Component);
-                return true;
-            }
-            IReadOnlyList<IncludePackageGroup> result;
-            try
-            {
-                result = convertPackageGroupToList(key, packageGroups);
-            }
-            catch (Exception exception)
-            {
-                error = $"Could not convert PackageGroup to list. Key='{key}'.";
-                throw new Exception(error, exception);
-            }
+            var first = readItems.First();
+            var packages = GetOrderedPackages(key, packageOrder, first.Component, packageGroups).ToList();
             group = new IncludeGroup(
                 key: key,
-                packages: result,
-                component: readItems.First().Component);
+                packages: packages,
+                component: first.Component);
             return true;
         }
 
+        static IEnumerable<IncludePackageGroup> GetOrderedPackages(string key, GetPackageOrderForComponent packageOrder, Component component, List<IncludePackageGroup> packageGroups)
+        {
+            if (packageOrder == null || component == Component.Undefined)
+            {
+                return packageGroups.OrderBy(_ => _.Package.ValueOrUndefined);
+            }
+            List<string> result;
+            try
+            {
+                result = packageOrder(component).ToList();
+            }
+            catch (Exception exception)
+            {
+                var errorMessage = $"Error getting package order. Key='{key}', Component='{component}'.";
+                throw new Exception(errorMessage, exception);
+            }
 
+            return packageGroups.OrderBy(_ =>
+            {
+                try
+                {
+                    return result.IndexOf(_.Package.ValueOrUndefined);
+                }
+                catch (Exception exception)
+                {
+                    var errorMessage = $"Error getting package index. Key='{key}', Component='{component}', Package='{_.Package.ValueOrUndefined}'.";
+                    throw new Exception(errorMessage, exception);
+                }
+            });
+        }
         static bool HasInconsistentComponents(List<ReadInclude> readItems, out string error)
         {
             if (!GroupingHelper.HasInconsistentComponents(readItems.Select(x => x.Component)))

@@ -8,7 +8,7 @@ namespace CaptureSnippets
 {
     public static class SnippetGrouper
     {
-        public static SnippetGroups Group(IEnumerable<ReadSnippet> readItems, ConvertSnippetPackageGroupToList convertPackageGroupToList = null)
+        public static SnippetGroups Group(IEnumerable<ReadSnippet> readItems, GetPackageOrderForComponent packageOrder = null)
         {
             Guard.AgainstNull(readItems, nameof(readItems));
 
@@ -18,7 +18,7 @@ namespace CaptureSnippets
             {
                 string error;
                 SnippetGroup group;
-                if (TryGetGroup(grouping.Key, grouping.ToList(), convertPackageGroupToList, out group, out error))
+                if (TryGetGroup(grouping.Key, grouping.ToList(), packageOrder, out group, out error))
                 {
                     groups.Add(group);
                     continue;
@@ -54,7 +54,7 @@ namespace CaptureSnippets
             return true;
         }
 
-        static bool TryGetGroup(string key, List<ReadSnippet> readItems, ConvertSnippetPackageGroupToList convertPackageGroupToList, out SnippetGroup group, out string error)
+        static bool TryGetGroup(string key, List<ReadSnippet> readItems, GetPackageOrderForComponent packageOrder, out SnippetGroup group, out string error)
         {
             group = null;
             if (LanguagesAreInConsistent(readItems))
@@ -80,33 +80,45 @@ namespace CaptureSnippets
             }
 
             var first = readItems.First();
-            if (convertPackageGroupToList == null)
-            {
-                group = new SnippetGroup(
-                    key: key,
-                    component: first.Component,
-                    language: first.Language,
-                    packages: packageGroups.OrderBy(_ => _.Package.ValueOrUndefined).ToList());
-                return true;
-            }
-            IReadOnlyList<SnippetPackageGroup> result;
-            try
-            {
-                result = convertPackageGroupToList(key, packageGroups);
-            }
-            catch (Exception exception)
-            {
-                error = $"Could not convert PackageGroup to list. Key='{key}'.";
-                throw new Exception(error, exception);
-            }
+            var packages = GetOrderedPackages(key, packageOrder, first.Component, packageGroups).ToList();
             group = new SnippetGroup(
                 key: key,
-                component:first.Component,
+                component: first.Component,
                 language: first.Language,
-                packages: result);
+                packages: packages);
             return true;
         }
 
+        static IEnumerable<SnippetPackageGroup> GetOrderedPackages(string key, GetPackageOrderForComponent packageOrder, Component component, List<SnippetPackageGroup> packageGroups)
+        {
+            if (packageOrder == null || component == Component.Undefined)
+            {
+                return packageGroups.OrderBy(_ => _.Package.ValueOrUndefined);
+            }
+            List<string> result;
+            try
+            {
+                result = packageOrder(component).ToList();
+            }
+            catch (Exception exception)
+            {
+                var errorMessage = $"Error getting package order. Key='{key}', Component='{component}'.";
+                throw new Exception(errorMessage, exception);
+            }
+
+            return packageGroups.OrderBy(_ =>
+            {
+                try
+                {
+                    return result.IndexOf(_.Package.ValueOrUndefined);
+                }
+                catch (Exception exception)
+                {
+                    var errorMessage = $"Error getting package index. Key='{key}', Component='{component}', Package='{_.Package.ValueOrUndefined}'.";
+                    throw new Exception(errorMessage, exception);
+                }
+            });
+        }
 
         static bool MixesEmptyPackageWithNonEmpty(List<ReadSnippet> readItems, out string error)
         {

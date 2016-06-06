@@ -68,7 +68,6 @@
     <Compile Include="Caching\CachedSnippetExtractor.cs" />
     <Compile Include="Caching\CachedIncludes.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Grouping\Includes\ConvertIncludePackageGroupToList.cs" />
     <Compile Include="Grouping\Includes\MergedIncludes.cs" />
     <Compile Include="Grouping\Includes\IncludePackageGroup.cs" />
     <Compile Include="Grouping\Includes\IncludeGroup.cs" />
@@ -89,7 +88,7 @@
     <Compile Include="Reading\Includes\ReadIncludesException.cs" />
     <Compile Include="Reading\Includes\IncludeDataExtractor.cs" />
     <Compile Include="Reading\Component.cs" />
-    <Compile Include="Reading\Snippets\ConvertSnippetPackageGroupToList.cs" />
+    <Compile Include="Grouping\GetPackageOrderForComponent.cs" />
     <Compile Include="Reading\PathData.cs" />
     <Compile Include="Reading\PathDataExtractor.cs" />
     <Compile Include="Reading\Package.cs" />
