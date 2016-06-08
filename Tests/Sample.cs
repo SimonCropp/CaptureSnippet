@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CaptureSnippets;
@@ -30,9 +28,7 @@ class Sample
         ProcessResult result;
         var markdownProcessor = new MarkdownProcessor(
             snippets: snippetGroups,
-            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup,
-            includes: new List<IncludeGroup>(),
-            appendIncludeGroup: (group, writer) => { throw new Exception(); });
+            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup);
         using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
         using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
         {
@@ -40,7 +36,7 @@ class Sample
         }
 
         // List of all snippets that the markdown file expected but did not exist in the input snippets
-        var missingSnippets = result.Missing;
+        var missingSnippets = result.MissingSnippets;
 
         // List of all snippets that the markdown file used
         var usedSnippets = result.UsedSnippets;

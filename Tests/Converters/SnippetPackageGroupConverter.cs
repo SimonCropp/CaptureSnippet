@@ -12,7 +12,7 @@ class SnippetPackageGroupConverter : JsonConverter
             return;
         }
 
-        var snippetGroup = (SnippetPackageGroup)value;
+        var snippetGroup = (PackageGroup)value;
         writer.WriteStartObject();
         writer.WritePropertyName("Package");
         writer.WriteValue(snippetGroup.Package);
@@ -28,6 +28,6 @@ class SnippetPackageGroupConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        return objectType == typeof(SnippetPackageGroup);
+        return objectType == typeof(PackageGroup);
     }
 }

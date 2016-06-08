@@ -6,19 +6,19 @@ using NuGet.Versioning;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// Allows <see cref="IncludeSource"/>s to be grouped by their <see cref="VersionRange"/>.
+    /// Allows <see cref="SnippetSource"/>s to be grouped by their <see cref="VersionRange"/>.
     /// </summary>
-    [DebuggerDisplay("Version={Version}, Value={value}")]
-    public class IncludeVersionGroup : IEnumerable<IncludeSource>
+    [DebuggerDisplay("Version={Version}, Value={Value}")]
+    public class VersionGroup : IEnumerable<SnippetSource>
     {
         /// <summary>
         /// Initialise a new instance of <see cref="VersionGroup"/>.
         /// </summary>
-        public IncludeVersionGroup(VersionRange version, string value, IReadOnlyList<IncludeSource> sources)
+        public VersionGroup(VersionRange version, string value, IReadOnlyList<SnippetSource> sources)
         {
             Guard.AgainstNull(version, nameof(version));
             Guard.AgainstNull(sources, nameof(sources));
-            this.value = value;
+            Value = value;
             Version = version;
             Sources = sources;
         }
@@ -28,29 +28,20 @@ namespace CaptureSnippets
         /// </summary>
         public readonly VersionRange Version;
 
-
-        /// <summary>
-        /// All the includes with a common <see cref="VersionRange"/>.
-        /// </summary>
-        public readonly IReadOnlyList<IncludeSource> Sources;
-
         /// <summary>
         /// The contents of the snippet
         /// </summary>
-        public string Value
-        {
-            get
-            {
-                return value;
-            }
-            internal set { this.value = value; }
-        }
-        string value;
+        public readonly string Value;
+
+        /// <summary>
+        /// All the snippets with a common <see cref="VersionRange"/>.
+        /// </summary>
+        public readonly IReadOnlyList<SnippetSource> Sources;
 
         /// <summary>
         /// Enumerates over <see cref="Sources"/>.
         /// </summary>
-        public IEnumerator<IncludeSource> GetEnumerator()
+        public IEnumerator<SnippetSource> GetEnumerator()
         {
             return Sources.GetEnumerator();
         }

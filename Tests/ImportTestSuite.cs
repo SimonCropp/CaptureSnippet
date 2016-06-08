@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -43,9 +42,7 @@ public class ImportTestSuite
 
         var markdownProcessor = new MarkdownProcessor(
             snippets: snippetGroups,
-            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup,
-            includes: new List<IncludeGroup>(),
-            appendIncludeGroup: (group, writer) => {throw new Exception();} );
+            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup);
         using (var reader = File.OpenText(input))
         {
             var stringBuilder = new StringBuilder();

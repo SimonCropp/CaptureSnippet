@@ -27,8 +27,5 @@ class GroupingHelper
         var containsNonUndefined = packages.Any(x => x != Package.Undefined);
         return containsUndefined && containsNonUndefined;
     }
-    internal static bool HasInconsistentComponents(IEnumerable<Component> enumerable)
-    {
-        return enumerable.Select(x=>x.ValueOrUndefined).Distinct().Count() > 1;
-    }
+
 }

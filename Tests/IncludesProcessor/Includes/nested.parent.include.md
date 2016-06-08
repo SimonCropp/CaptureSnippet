@@ -1,2 +1,0 @@
-﻿parent
-include: nested.child

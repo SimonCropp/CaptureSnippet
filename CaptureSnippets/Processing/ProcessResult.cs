@@ -1,21 +1,21 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CaptureSnippets
 {
     /// <summary>
     /// The result of <see cref="MarkdownProcessor"/> Apply methods.
     /// </summary>
-    public class ProcessResult
+    public class ProcessResult: IEnumerable<SnippetGroup>
     {
 
-        public ProcessResult(IReadOnlyList<SnippetGroup> usedSnippets, IReadOnlyList<IncludeGroup> usedIncludes, IReadOnlyList<MissingKey> missing)
+        public ProcessResult(IReadOnlyList<SnippetGroup> usedSnippets, IReadOnlyList<MissingSnippet> missingSnippets)
         {
             Guard.AgainstNull(usedSnippets, nameof(usedSnippets));
-            Guard.AgainstNull(usedIncludes, nameof(usedIncludes));
-            Guard.AgainstNull(missing, nameof(missing));
+            Guard.AgainstNull(missingSnippets, nameof(missingSnippets));
             UsedSnippets = usedSnippets;
-            UsedIncludes = usedIncludes;
-            Missing = missing;
+            MissingSnippets = missingSnippets;
         }
 
         /// <summary>
@@ -24,14 +24,24 @@ namespace CaptureSnippets
         public readonly IReadOnlyList<SnippetGroup> UsedSnippets;
 
         /// <summary>
-        ///   List of all includes that the markdown file used.
+        /// Enumerates through the <see cref="UsedSnippets" /> but will first throw an exception if there are any errors in <see cref="MissingSnippets" />.
         /// </summary>
-        public readonly IReadOnlyList<IncludeGroup> UsedIncludes;
-
+        public virtual IEnumerator<SnippetGroup> GetEnumerator()
+        {
+            if (MissingSnippets.Any())
+            {
+                throw new MissingSnippetsException(this.MissingSnippets);
+            }
+            return UsedSnippets.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
         /// <summary>
         ///   List of all snippets that the markdown file expected but did not exist in the input snippets.
         /// </summary>
-        public readonly IReadOnlyList<MissingKey> Missing;
+        public readonly IReadOnlyList<MissingSnippet> MissingSnippets;
 
     }
 }

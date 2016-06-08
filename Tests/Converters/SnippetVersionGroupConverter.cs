@@ -12,7 +12,7 @@ class SnippetVersionGroupConverter : JsonConverter
             return;
         }
 
-        var versionGroup = (SnippetVersionGroup)value;
+        var versionGroup = (VersionGroup)value;
         writer.WriteStartObject();
         writer.WritePropertyName("version");
         writer.WriteValue(versionGroup.Version.PrettyPrint());
@@ -30,6 +30,6 @@ class SnippetVersionGroupConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        return objectType == typeof(SnippetVersionGroup);
+        return objectType == typeof(VersionGroup);
     }
 }

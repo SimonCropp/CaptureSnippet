@@ -47,12 +47,12 @@ namespace CaptureSnippets
 
 
         /// <summary>
-        /// Converts <see cref="ProcessResult.Missing"/> to a markdown string.
+        /// Converts <see cref="ProcessResult.MissingSnippets"/> to a markdown string.
         /// </summary>
         public static string ErrorsAsMarkdown(this ProcessResult processResult)
         {
             Guard.AgainstNull(processResult, nameof(processResult));
-            var missingSnippets = processResult.Missing.ToList();
+            var missingSnippets = processResult.MissingSnippets.ToList();
             if (!missingSnippets.Any())
             {
                 return "";

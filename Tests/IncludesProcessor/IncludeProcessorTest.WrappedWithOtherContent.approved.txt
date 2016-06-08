@@ -1,8 +1,0 @@
-﻿
-before
-<!-- include: key -->
-key
-include
-contents
-
-after

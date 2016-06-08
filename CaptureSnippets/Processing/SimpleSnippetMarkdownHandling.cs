@@ -23,7 +23,7 @@ namespace CaptureSnippets
             }
         }
 
-        static async Task AppendPackageGroup(TextWriter writer, SnippetPackageGroup packageGroup, string language)
+        static async Task AppendPackageGroup(TextWriter writer, PackageGroup packageGroup, string language)
         {
             if (packageGroup.Package != Package.Undefined)
             {
@@ -36,7 +36,7 @@ namespace CaptureSnippets
             }
         }
 
-        static async Task AppendVersionGroup(TextWriter writer, SnippetVersionGroup versionGroup, string language)
+        static async Task AppendVersionGroup(TextWriter writer, VersionGroup versionGroup, string language)
         {
             if (!versionGroup.Version.Equals(VersionRange.All))
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,11 +23,11 @@ public class MarkdownProcessorTests
                 language: "cs",
                 component:Component.Undefined,
                 key: "versionedSnippet1",
-                packages: new List<SnippetPackageGroup>
+                packages: new List<PackageGroup>
                 {
-                    new SnippetPackageGroup(
+                    new PackageGroup(
                         package: "package1",
-                        versions: new List<SnippetVersionGroup>
+                        versions: new List<VersionGroup>
                         {
                             CreateVersionGroup(5),
                             CreateVersionGroup(4),
@@ -38,11 +37,11 @@ public class MarkdownProcessorTests
                 language: "cs",
                 component:Component.Undefined, 
                 key: "versionedSnippet2",
-                packages: new List<SnippetPackageGroup>
+                packages: new List<PackageGroup>
                 {
-                    new SnippetPackageGroup(
+                    new PackageGroup(
                         package: "package1",
-                        versions: new List<SnippetVersionGroup>
+                        versions: new List<VersionGroup>
                         {
                             CreateVersionGroup(3),
                             CreateVersionGroup(2),
@@ -52,11 +51,11 @@ public class MarkdownProcessorTests
                 language: "cs",
                 component:Component.Undefined,
                 key: "nonVersionedSnippet1",
-                packages: new List<SnippetPackageGroup>
+                packages: new List<PackageGroup>
                 {
-                    new SnippetPackageGroup(
+                    new PackageGroup(
                         package: "package1",
-                        versions: new List<SnippetVersionGroup>
+                        versions: new List<VersionGroup>
                         {
                             CreateVersionGroup(5),
                         })
@@ -65,11 +64,11 @@ public class MarkdownProcessorTests
                 language: "cs",
                 component:Component.Undefined,
                 key: "nonVersionedSnippet2",
-                packages: new List<SnippetPackageGroup>
+                packages: new List<PackageGroup>
                 {
-                    new SnippetPackageGroup(
+                    new PackageGroup(
                         package: "package1",
-                        versions: new List<SnippetVersionGroup>
+                        versions: new List<VersionGroup>
                         {
                             CreateVersionGroup(5),
                         })
@@ -98,9 +97,7 @@ snippet: nonVersionedSnippet2
     {
         var markdownProcessor = new MarkdownProcessor(
             snippets: availableSnippets,
-            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup,
-            includes: new List<IncludeGroup>(),
-            appendIncludeGroup: (group, writer) => { throw new Exception(); });
+            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup);
         var stringBuilder = new StringBuilder();
         using (var reader = new StringReader(markdownContent))
         using (var writer = new StringWriter(stringBuilder))
@@ -109,17 +106,17 @@ snippet: nonVersionedSnippet2
                 .Result;
             var output = new object[]
             {
-                processResult.Missing, processResult.UsedSnippets, stringBuilder.ToString()
+                processResult.MissingSnippets, processResult.UsedSnippets, stringBuilder.ToString()
             };
             ObjectApprover.VerifyWithJson(output, s => s.Replace("\\r\\n", "\r\n"));
         }
     }
 
 
-    static SnippetVersionGroup CreateVersionGroup(int version)
+    static VersionGroup CreateVersionGroup(int version)
     {
         var versionRange = new VersionRange(minVersion: new NuGetVersion(version, 0, 0));
-        return new SnippetVersionGroup(
+        return new VersionGroup(
             version: versionRange,
             value: "Snippet_v" + version,
             sources: new List<SnippetSource>

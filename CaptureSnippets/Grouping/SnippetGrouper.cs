@@ -6,18 +6,18 @@ using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
-    public static class IncludeGrouper
+    public static class SnippetGrouper
     {
-        public static IncludeGroups Group(IEnumerable<ReadInclude> readItems, GetPackageOrderForComponent packageOrder = null)
+        public static SnippetGroups Group(IEnumerable<ReadSnippet> readItems, GetPackageOrderForComponent packageOrder = null)
         {
             Guard.AgainstNull(readItems, nameof(readItems));
 
-            var groups = new List<IncludeGroup>();
+            var groups = new List<SnippetGroup>();
             var errors = new List<string>();
             foreach (var grouping in readItems.GroupBy(x => x.Key))
             {
                 string error;
-                IncludeGroup group;
+                SnippetGroup group;
                 if (TryGetGroup(grouping.Key, grouping.ToList(), packageOrder, out group, out error))
                 {
                     groups.Add(group);
@@ -25,23 +25,23 @@ namespace CaptureSnippets
                 }
                 errors.Add(error);
             }
-            return new IncludeGroups(groups, errors);
+            return new SnippetGroups(groups, errors);
         }
 
-        static bool TryGetPackageGroup(string key, Package package, List<ReadInclude> readItems, out IncludePackageGroup packageGroup, out string error)
+        static bool TryGetPackageGroup(string key, Package package, List<ReadSnippet> readItems, out PackageGroup packageGroup, out string error)
         {
             packageGroup = null;
 
-            if (GroupingHelper.ContainsDuplicateVersion(readItems.Select(x => x.Version)))
+            if (GroupingHelper.ContainsDuplicateVersion(readItems.Select(x=>x.Version)))
             {
-                var files = string.Join("\r\n", readItems.Select(x => x.Path));
+                var files = string.Join("\r\n", readItems.Select(x => x.FileLocation));
                 error = $"Duplicate version detected. Key='{key}'. Package='{package.ValueOrUndefined}'. Files=\r\n{files}";
                 return false;
             }
 
             if (GroupingHelper.ContainsVersionConflictsWithAll(readItems.Select(x => x.Version)))
             {
-                var files = string.Join("\r\n", readItems.Select(x => x.Path));
+                var files = string.Join("\r\n", readItems.Select(x => x.FileLocation));
                 error = $"Cannot mix 'all' versions and specific versions. Key='{key}'. Files=\r\n{files}";
                 return false;
             }
@@ -49,27 +49,28 @@ namespace CaptureSnippets
             var keyGroup = ProcessKeyGroup(readItems)
                 .OrderByDescending(x => x.Version.VersionForCompare())
                 .ToList();
-            packageGroup = new IncludePackageGroup(package, keyGroup);
+            packageGroup = new PackageGroup(package, keyGroup);
             error = null;
             return true;
         }
 
-        static bool TryGetGroup(string key, List<ReadInclude> readItems, GetPackageOrderForComponent packageOrder, out IncludeGroup group, out string error)
+        static bool TryGetGroup(string key, List<ReadSnippet> readItems, GetPackageOrderForComponent packageOrder, out SnippetGroup group, out string error)
         {
             group = null;
+            if (LanguagesAreInConsistent(readItems))
+            {
+                error = $"All languages of a give key must be equivalent. Key='{key}'.";
+                return false;
+            }
             if (MixesEmptyPackageWithNonEmpty(readItems, out error))
             {
                 return false;
             }
-            if (HasInconsistentComponents(readItems, out error))
-            {
-                return false;
-            }
-            var packageGroups = new List<IncludePackageGroup>();
+            var packageGroups = new List<PackageGroup>();
 
             foreach (var package in readItems.GroupBy(x => x.Package.ValueOrUndefined, snippet => snippet))
             {
-                IncludePackageGroup packageGroup;
+                PackageGroup packageGroup;
                 var itemsForPackage = package.ToList();
                 if (!TryGetPackageGroup(key, itemsForPackage.First().Package, itemsForPackage, out packageGroup, out error))
                 {
@@ -80,14 +81,15 @@ namespace CaptureSnippets
 
             var first = readItems.First();
             var packages = GetOrderedPackages(key, packageOrder, first.Component, packageGroups).ToList();
-            group = new IncludeGroup(
+            group = new SnippetGroup(
                 key: key,
-                packages: packages,
-                component: first.Component);
+                component: first.Component,
+                language: first.Language,
+                packages: packages);
             return true;
         }
 
-        static IEnumerable<IncludePackageGroup> GetOrderedPackages(string key, GetPackageOrderForComponent packageOrder, Component component, List<IncludePackageGroup> packageGroups)
+        static IEnumerable<PackageGroup> GetOrderedPackages(string key, GetPackageOrderForComponent packageOrder, Component component, List<PackageGroup> packageGroups)
         {
             if (packageOrder == null || component == Component.Undefined)
             {
@@ -117,23 +119,8 @@ namespace CaptureSnippets
                 }
             });
         }
-        static bool HasInconsistentComponents(List<ReadInclude> readItems, out string error)
-        {
-            if (!GroupingHelper.HasInconsistentComponents(readItems.Select(x => x.Component)))
-            {
-                error = null;
-                return false;
-            }
-            var builder = new StringBuilder($"Has inconsistent components. Key='{readItems.First().Key}'.\r\nItems:\r\n");
-            foreach (var item in readItems)
-            {
-                builder.AppendLine($"   Location: '{item.Path}'. Component: {item.Component.ValueOrUndefined}");
-            }
-            error = builder.ToString();
-            return true;
-        }
 
-        static bool MixesEmptyPackageWithNonEmpty(List<ReadInclude> readItems, out string error)
+        static bool MixesEmptyPackageWithNonEmpty(List<ReadSnippet> readItems, out string error)
         {
             if (!GroupingHelper.ContainsUndefinedWithNonUndefinedPackage(readItems.Select(x => x.Package)))
             {
@@ -143,22 +130,28 @@ namespace CaptureSnippets
             var builder = new StringBuilder($"Mixes empty packages with non empty packages. Key='{readItems.First().Key}'.\r\nItems:\r\n");
             foreach (var item in readItems)
             {
-                builder.AppendLine($"   Location: '{item.Path}'. Package: {item.Package.ValueOrUndefined}");
+                builder.AppendLine($"   Location: '{item.FileLocation}'. Package: {item.Package.ValueOrUndefined}");
             }
             error = builder.ToString();
             return true;
         }
 
-        static IEnumerable<IncludeVersionGroup> ProcessKeyGroup(List<ReadInclude> readItems)
+
+        static bool LanguagesAreInConsistent(List<ReadSnippet> readItems)
         {
-            var versions = readItems.Select(x => new MergedIncludes
+            var requiredLanguage = readItems.First().Language;
+            return readItems.Any(x => x.Language != requiredLanguage);
+        }
+
+        internal static IEnumerable<VersionGroup> ProcessKeyGroup(List<ReadSnippet> readItems)
+        {
+            var versions = readItems.Select(x => new MergedSnippets
             {
                 Range = x.Version,
                 ValueHash = x.ValueHash,
                 Value = x.Value,
-                Items = new List<ReadInclude> {x}
-            })
-                .ToList();
+                Items = new List<ReadSnippet> {x}
+            }).ToList();
 
             while (true)
             {
@@ -196,15 +189,17 @@ namespace CaptureSnippets
             return versions.Select(ConstructVersionGroup);
         }
 
-        static IncludeVersionGroup ConstructVersionGroup(MergedIncludes merged)
+        static VersionGroup ConstructVersionGroup(MergedSnippets merged)
         {
             var sources = merged.Items
                 .Select(y =>
-                    new IncludeSource(
+                    new SnippetSource(
                         version: y.Version,
+                        startLine: y.StartLine,
+                        endLine: y.EndLine,
                         file: y.Path))
                 .ToList();
-            return new IncludeVersionGroup(
+            return new VersionGroup(
                 version: merged.Range,
                 value: merged.Value,
                 sources: sources);
