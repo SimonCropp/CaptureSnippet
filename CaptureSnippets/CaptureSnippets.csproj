@@ -44,8 +44,8 @@
       <HintPath>..\packages\ConfigureAwait.Fody.1.0.0\lib\portable-net45+wp8+win+wpa81\ConfigureAwait.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MethodTimer, Version=1.15.10.0, Culture=neutral, PublicKeyToken=cb1364609f40a1dc, processorArchitecture=MSIL">
-      <HintPath>..\packages\MethodTimer.Fody.1.15.10.0\lib\dotnet\MethodTimer.dll</HintPath>
+    <Reference Include="MethodTimer, Version=1.16.0.0, Culture=neutral, PublicKeyToken=cb1364609f40a1dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\MethodTimer.Fody.1.16.0.0\lib\dotnet\MethodTimer.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="NuGet.Versioning, Version=3.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
