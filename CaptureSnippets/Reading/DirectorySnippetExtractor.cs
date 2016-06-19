@@ -37,9 +37,12 @@ namespace CaptureSnippets
         }
 
         [Time]
-        public async Task<ReadSnippets> FromDirectory(string directoryPath, VersionRange rootVersionRange = null, Package rootPackage = null, Component rootComponent = null)
+        public async Task<ReadSnippets> FromDirectory(string directoryPath, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
         {
             Guard.AgainstNull(directoryPath, nameof(directoryPath));
+            Guard.AgainstNull(rootVersionRange, nameof(rootVersionRange));
+            Guard.AgainstNull(rootPackage, nameof(rootPackage));
+            Guard.AgainstNull(rootComponent, nameof(rootComponent));
             var snippets = new ConcurrentBag<ReadSnippet>();
             await Task.WhenAll(FromDirectory(directoryPath, rootVersionRange, rootPackage, rootComponent, snippets.Add));
             return new ReadSnippets(snippets.ToList());

@@ -47,8 +47,8 @@ public class DirectorySnippetExtractorTests
                 translatePackages.Add(new CapturedTranslatePackage {Alias = alias});
                 return alias;
             }
-            );
-        extractor.FromDirectory(targetDirectory)
+        );
+        extractor.FromDirectory(targetDirectory, VersionRange.None, Package.Undefined, Component.Undefined)
             .GetAwaiter()
             .GetResult();
         result.Files = files.OrderBy(file => file.Path).ToList();

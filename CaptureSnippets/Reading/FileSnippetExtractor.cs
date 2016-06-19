@@ -44,6 +44,9 @@ namespace CaptureSnippets
         {
             Guard.AgainstNull(textReader, nameof(textReader));
             Guard.AgainstNull(callback, nameof(callback));
+            Guard.AgainstNull(parentVersion, nameof(parentVersion));
+            Guard.AgainstNull(parentPackage, nameof(parentPackage));
+            Guard.AgainstNull(parentComponent, nameof(parentComponent));
             using (var reader = new IndexReader(textReader))
             {
                 await GetSnippets(reader, path, parentVersion, parentPackage, parentComponent, callback);

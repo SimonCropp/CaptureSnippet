@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using MethodTimer;
+using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -42,7 +43,7 @@ namespace CaptureSnippets
         /// Extract all snippets from a given directory.
         /// </summary>
         [Time]
-        public Task<CachedSnippets> FromDirectory(string directory)
+        public Task<CachedSnippets> FromDirectory(string directory, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
         {
             directory = directory.ToLower();
             var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
@@ -50,18 +51,18 @@ namespace CaptureSnippets
             CachedSnippets cached;
             if (!cache.TryGetValue(directory, out cached))
             {
-                return UpdateCache(directory, lastDirectoryWrite);
+                return UpdateCache(directory, lastDirectoryWrite, rootVersionRange, rootPackage, rootComponent);
             }
             if (cached.Ticks != lastDirectoryWrite)
             {
-                return UpdateCache(directory, lastDirectoryWrite);
+                return UpdateCache(directory, lastDirectoryWrite, rootVersionRange, rootPackage, rootComponent);
             }
             return Task.FromResult(cached);
         }
 
-        async Task<CachedSnippets> UpdateCache(string directory, long lastDirectoryWrite)
+        async Task<CachedSnippets> UpdateCache(string directory, long lastDirectoryWrite, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
         {
-            var readSnippets = await extractor.FromDirectory(directory);
+            var readSnippets = await extractor.FromDirectory(directory, rootVersionRange, rootPackage, rootComponent);
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets, packageOrder);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,

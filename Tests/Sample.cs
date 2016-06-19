@@ -18,7 +18,7 @@ class Sample
             extractPathData: InferVersionAndPath,
             directoryFilter: IncludeDirectory,
             fileFilter: IncludeFile);
-        var readSnippets = await snippetExtractor.FromDirectory(@"C:\path");
+        var readSnippets = await snippetExtractor.FromDirectory(@"C:\path", VersionRange.None, Package.Undefined, Component.Undefined);
 
         // Grouping
         var snippetGroups = SnippetGrouper.Group(readSnippets)
