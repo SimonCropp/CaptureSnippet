@@ -16,6 +16,8 @@ namespace CaptureSnippets
             Guard.AgainstNull(group, nameof(group));
             Guard.AgainstNull(writer, nameof(writer));
 
+            var message = $"### Key: '{group.Key}'";
+            await writer.WriteLineAsync(message);
             var language = group.Language;
             foreach (var package in group)
             {
