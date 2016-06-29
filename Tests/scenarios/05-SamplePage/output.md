@@ -3,6 +3,7 @@
 This is some words about the code below. Look below!
 
 <!-- snippet: LinqToJsonBasic5 -->
+### Key: 'linqtojsonbasic5'
 ```cs
 JObject o = JObject.Parse(@"{
 'CPU': 'Intel',
