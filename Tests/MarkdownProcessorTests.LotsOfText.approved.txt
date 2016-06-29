@@ -79,11 +79,13 @@
   ],
   "
 <!-- snippet: FoundKey2 -->
+### Key: 'foundkey2'
 ### Package: 'package1'
 ```c
 Value2
 ```
 <!-- snippet: FoundKey1 -->
+### Key: 'foundkey1'
 ### Package: 'package1'
 ```c
 Value1
@@ -102,6 +104,7 @@ kdjrngkjfncgdflkgmxdklfmgkdflxmg
 kdjrngkjfncgdflkgmxdklfmgkdflxmg
 dflkgmxdklfmgkdflxmgfkgjnfdjkgn
 <!-- snippet: FoundKey3 -->
+### Key: 'foundkey3'
 ### Package: 'package1'
 ```c
 Value3
