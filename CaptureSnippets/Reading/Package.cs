@@ -22,7 +22,7 @@ namespace CaptureSnippets
             {
                 if (this == Undefined)
                 {
-                    throw new Exception("Cannot access Value when is Package.All.");
+                    throw new Exception("Cannot access Value when is Package.Undefined.");
                 }
                 return value;
             }
