@@ -30,13 +30,13 @@ namespace CaptureSnippets
         {
             if (MissingSnippets.Any())
             {
-                throw new MissingSnippetsException(this.MissingSnippets);
+                throw new MissingSnippetsException(MissingSnippets);
             }
             return UsedSnippets.GetEnumerator();
         }
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
         /// <summary>
         ///   List of all snippets that the markdown file expected but did not exist in the input snippets.
