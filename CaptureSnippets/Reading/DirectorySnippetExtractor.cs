@@ -35,8 +35,7 @@ namespace CaptureSnippets
             this.fileFilter = fileFilter;
             fileExtractor = new FileSnippetExtractor(extractFileNameData, translatePackage);
         }
-
-        [Time]
+        
         public async Task<ReadSnippets> FromDirectory(string directoryPath, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
         {
             Guard.AgainstNull(directoryPath, nameof(directoryPath));
