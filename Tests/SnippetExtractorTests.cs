@@ -125,17 +125,17 @@ public class SnippetExtractorTests
         }
     }
 
-    public List<ReadSnippet> FromText(string contents, ExtractPathData extractPathData = null)
+    public List<ReadSnippet> FromText(string contents, ExtractFileNameData extractFileNameData = null)
     {
         using (var stringReader = new StringReader(contents))
         {
             var snippets = new List<ReadSnippet>();
             var result = PathData.With(VersionRange.All, Package.Undefined, Component.Undefined);
-            if (extractPathData == null)
+            if (extractFileNameData == null)
             {
-                extractPathData = y => result;
+                extractFileNameData = y => result;
             }
-            var extractor = new FileSnippetExtractor(extractPathData);
+            var extractor = new FileSnippetExtractor(extractFileNameData);
             extractor.AppendFromReader(stringReader, "path.cs", VersionRange.All, Package.Undefined, Component.Undefined, snippets.Add).GetAwaiter().GetResult();
             return snippets;
         }

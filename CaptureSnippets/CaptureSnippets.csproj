@@ -70,7 +70,8 @@
     <Compile Include="Grouping\MergedSnippets.cs" />
     <Compile Include="Grouping\PackageGroup.cs" />
     <Compile Include="Processing\IncludeKeyReader.cs" />
-    <Compile Include="Reading\ExtractPathData.cs" />
+    <Compile Include="Reading\ExtractDirectoryPathData.cs" />
+    <Compile Include="Reading\ExtractFileNameData.cs" />
     <Compile Include="Reading\Component.cs" />
     <Compile Include="Grouping\GetPackageOrderForComponent.cs" />
     <Compile Include="Reading\PathData.cs" />

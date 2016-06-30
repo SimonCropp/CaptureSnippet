@@ -23,15 +23,8 @@ public class DirectorySnippetExtractorTests
         var data = PathData.With(VersionRange.All, "package", Component.Undefined);
         var result = new TestResult();
         var extractor = new DirectorySnippetExtractor(
-            extractPathData: path =>
-            {
-                var versionAndPath = new CapturedVersionAndPath
-                {
-                    Path = path
-                };
-                versionAndPaths.Add(versionAndPath);
-                return data;
-            },
+            extractDirectoryPathData: path => GetPathData(path, versionAndPaths, data),
+            extractFileNameData: path => GetPathData(path, versionAndPaths, data),
             directoryFilter: path =>
             {
                 directories.Add(new CapturedDirectory {Path = path});
@@ -56,6 +49,16 @@ public class DirectorySnippetExtractorTests
         result.VersionAndPaths = versionAndPaths.OrderBy(file => file.Path).ToList();
         result.TranslatePackages = translatePackages.OrderBy(file => file.Alias).ToList();
         ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(targetDirectory, @"root\"));
+    }
+
+    private static PathData GetPathData(string path, ConcurrentBag<CapturedVersionAndPath> versionAndPaths, PathData data)
+    {
+        var versionAndPath = new CapturedVersionAndPath
+        {
+            Path = path
+        };
+        versionAndPaths.Add(versionAndPath);
+        return data;
     }
 
     public class CapturedTranslatePackage

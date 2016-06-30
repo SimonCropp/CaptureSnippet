@@ -18,16 +18,17 @@ namespace CaptureSnippets
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="extractData">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
+        /// <param name="extractDirectoryPathData">The convention that is passed to <see cref="DirectorySnippetExtractor"/>.</param>
         /// <param name="directoryFilter">Directories to include.</param>
         /// <param name="fileFilter">Files to include.</param>
-        public CachedSnippetExtractor(ExtractPathData extractData, DirectoryFilter directoryFilter, FileFilter fileFilter, TranslatePackage translatePackage = null, GetPackageOrderForComponent packageOrder = null)
+        public CachedSnippetExtractor(ExtractDirectoryPathData extractDirectoryPathData, ExtractFileNameData extractFileNameData, DirectoryFilter directoryFilter, FileFilter fileFilter, TranslatePackage translatePackage = null, GetPackageOrderForComponent packageOrder = null)
         {
             this.packageOrder = packageOrder;
-            Guard.AgainstNull(extractData, nameof(extractData));
+            Guard.AgainstNull(extractDirectoryPathData, nameof(extractDirectoryPathData));
+            Guard.AgainstNull(extractFileNameData, nameof(extractFileNameData));
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
-            extractor = new DirectorySnippetExtractor(extractData, directoryFilter, fileFilter, translatePackage);
+            extractor = new DirectorySnippetExtractor(extractDirectoryPathData, extractFileNameData, directoryFilter, fileFilter, translatePackage);
         }
 
         /// <summary>

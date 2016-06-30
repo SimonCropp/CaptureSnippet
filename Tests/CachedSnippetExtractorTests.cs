@@ -17,13 +17,15 @@ public class CachedSnippetExtractorTests
         //warmup
         var result = PathData.With(VersionRange.All, Package.Undefined, Component.Undefined);
         var extractor = new CachedSnippetExtractor(
-            extractData: y => result,
+            extractFileNameData: y => result,
+            extractDirectoryPathData: y => result,
             directoryFilter: s => true,
             fileFilter: s => s.EndsWith(".cs"));
         await extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);
 
         extractor = new CachedSnippetExtractor(
-            extractData: y => result,
+            extractFileNameData: y => result,
+            extractDirectoryPathData: y => result,
             directoryFilter: s => true,
             fileFilter: s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
@@ -43,7 +45,8 @@ public class CachedSnippetExtractorTests
         var result = PathData.With(VersionRange.All, Package.Undefined, Component.Undefined);
         var directory = "badsnippets".ToCurrentDirectory();
         var extractor = new CachedSnippetExtractor(
-            extractData: y => result,
+            extractDirectoryPathData: y => result,
+            extractFileNameData: y => result,
             directoryFilter: s => true,
             fileFilter: s => s.EndsWith(".cs"));
         var read = await extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);

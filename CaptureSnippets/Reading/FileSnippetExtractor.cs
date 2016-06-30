@@ -11,7 +11,7 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        ExtractPathData extractPathData;
+        ExtractFileNameData extractPathData;
         TranslatePackage translatePackage;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
@@ -21,7 +21,7 @@ namespace CaptureSnippets
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
         /// </summary>
         /// <param name="extractPathData">How to extract a <see cref="PathData"/> from a given path.</param>
-        public FileSnippetExtractor(ExtractPathData extractPathData, TranslatePackage translatePackage = null)
+        public FileSnippetExtractor(ExtractFileNameData extractPathData, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(extractPathData, nameof(extractPathData));
             this.extractPathData = extractPathData;

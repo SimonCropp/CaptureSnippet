@@ -14,7 +14,7 @@ namespace CaptureSnippets
     /// </summary>
     public class DirectorySnippetExtractor
     {
-        ExtractPathData extractPathData;
+        ExtractDirectoryPathData extractDirectoryPathData;
         DirectoryFilter directoryFilter;
         FileFilter fileFilter;
         FileSnippetExtractor fileExtractor;
@@ -22,18 +22,18 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="DirectorySnippetExtractor"/>.
         /// </summary>
-        /// <param name="extractPathData">How to extract a <see cref="PathData"/> from a given path.</param>
+        /// <param name="extractDirectoryPathData">How to extract a <see cref="PathData"/> from a given path.</param>
         /// <param name="fileFilter">Used to filter files.</param>
         /// <param name="directoryFilter">Used to filter directories.</param>
-        public DirectorySnippetExtractor(ExtractPathData extractPathData, DirectoryFilter directoryFilter, FileFilter fileFilter, TranslatePackage translatePackage = null)
+        public DirectorySnippetExtractor(ExtractDirectoryPathData extractDirectoryPathData, ExtractFileNameData extractFileNameData, DirectoryFilter directoryFilter, FileFilter fileFilter, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
-            Guard.AgainstNull(extractPathData, nameof(extractPathData));
-            this.extractPathData = extractPathData;
+            Guard.AgainstNull(extractDirectoryPathData, nameof(extractDirectoryPathData));
+            this.extractDirectoryPathData = extractDirectoryPathData;
             this.directoryFilter = directoryFilter;
             this.fileFilter = fileFilter;
-            fileExtractor = new FileSnippetExtractor(extractPathData, translatePackage);
+            fileExtractor = new FileSnippetExtractor(extractFileNameData, translatePackage);
         }
 
         [Time]
@@ -54,7 +54,8 @@ namespace CaptureSnippets
             VersionRange directoryVersion;
             Package directoryPackage;
             Component directoryComponent;
-            PathDataExtractor.ExtractData(parentVersion, parentPackage, parentComponent, extractPathData, directoryPath, out directoryVersion, out directoryPackage, out directoryComponent);
+            var pathData = extractDirectoryPathData(directoryPath);
+            PathDataExtractor.ExtractData(parentVersion, parentPackage, parentComponent, pathData, out directoryVersion, out directoryPackage, out directoryComponent);
             foreach (var file in Directory.EnumerateFiles(directoryPath)
                    .Where(s => fileFilter(s)))
             {

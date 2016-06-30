@@ -15,7 +15,8 @@ class Sample
         // setup version convention and extract snippets from files
 
         var snippetExtractor = new DirectorySnippetExtractor(
-            extractPathData: InferVersionAndPath,
+            extractDirectoryPathData: InferVersionAndPath,
+            extractFileNameData: InferVersionAndPath,
             directoryFilter: IncludeDirectory,
             fileFilter: IncludeFile);
         var readSnippets = await snippetExtractor.FromDirectory(@"C:\path", VersionRange.None, Package.Undefined, Component.Undefined);
