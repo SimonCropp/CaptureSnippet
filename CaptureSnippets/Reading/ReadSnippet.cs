@@ -112,7 +112,7 @@ namespace CaptureSnippets
             {
                 if (IsInError)
                 {
-                    throw new Exception("Cannot access Version when IsInError.");
+                    throw new Exception($"Cannot access Version when IsInError. Error: {Error}");
                 }
                 return version;
             }
@@ -127,7 +127,7 @@ namespace CaptureSnippets
             {
                 if (IsInError)
                 {
-                    throw new Exception("Cannot access Package when IsInError.");
+                    throw new Exception($"Cannot access Package when IsInError. Error: {Error}");
                 }
                 return package;
             }
@@ -142,7 +142,7 @@ namespace CaptureSnippets
             {
                 if (IsInError)
                 {
-                    throw new Exception("Cannot access Component when IsInError.");
+                    throw new Exception($"Cannot access Component when IsInError. Error: {Error}");
                 }
                 return component;
             }
