@@ -12,7 +12,6 @@ namespace CaptureSnippets
     public class FileSnippetExtractor
     {
         ExtractFileNameData extractPathData;
-        TranslatePackage translatePackage;
 
         static char[] invalidCharacters = {'“', '”', '—', '`'};
         const string LineEnding = "\r\n";
@@ -21,18 +20,10 @@ namespace CaptureSnippets
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
         /// </summary>
         /// <param name="extractPathData">How to extract a <see cref="PathData"/> from a given path.</param>
-        public FileSnippetExtractor(ExtractFileNameData extractPathData, TranslatePackage translatePackage = null)
+        public FileSnippetExtractor(ExtractFileNameData extractPathData)
         {
             Guard.AgainstNull(extractPathData, nameof(extractPathData));
             this.extractPathData = extractPathData;
-            if (translatePackage != null)
-            {
-                this.translatePackage = translatePackage;
-            }
-            else
-            {
-                this.translatePackage = alias => alias;
-            }
         }
 
         /// <summary>
@@ -173,7 +164,7 @@ namespace CaptureSnippets
                 if (loopState.Suffix1.StartsWithLetter())
                 {
                     snippetVersion = fileVersion;
-                    snippetPackage = translatePackage(loopState.Suffix1);
+                    snippetPackage = loopState.Suffix1;
                     error = null;
                     return true;
                 }
@@ -186,7 +177,7 @@ namespace CaptureSnippets
                 if (loopState.Suffix2.StartsWithLetter())
                 {
                     snippetVersion = version;
-                    snippetPackage = translatePackage(loopState.Suffix2);
+                    snippetPackage = loopState.Suffix2;
                     error = null;
                     return true;
                 }
@@ -199,7 +190,7 @@ namespace CaptureSnippets
                 if (loopState.Suffix1.StartsWithLetter())
                 {
                     snippetVersion = version;
-                    snippetPackage = translatePackage(loopState.Suffix1);
+                    snippetPackage = loopState.Suffix1;
                     error = null;
                     return true;
                 }

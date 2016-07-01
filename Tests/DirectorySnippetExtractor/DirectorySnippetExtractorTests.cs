@@ -34,11 +34,6 @@ public class DirectorySnippetExtractorTests
             {
                 files.Add(new CapturedFile {Path = path});
                 return true;
-            },
-            translatePackage: alias =>
-            {
-                translatePackages.Add(new CapturedTranslatePackage {Alias = alias});
-                return alias;
             }
         );
         extractor.FromDirectory(targetDirectory, VersionRange.None, Package.Undefined, Component.Undefined)

@@ -25,7 +25,7 @@ namespace CaptureSnippets
         /// <param name="extractDirectoryPathData">How to extract a <see cref="PathData"/> from a given path.</param>
         /// <param name="fileFilter">Used to filter files.</param>
         /// <param name="directoryFilter">Used to filter directories.</param>
-        public DirectorySnippetExtractor(ExtractDirectoryPathData extractDirectoryPathData, ExtractFileNameData extractFileNameData, DirectoryFilter directoryFilter, FileFilter fileFilter, TranslatePackage translatePackage = null)
+        public DirectorySnippetExtractor(ExtractDirectoryPathData extractDirectoryPathData, ExtractFileNameData extractFileNameData, DirectoryFilter directoryFilter, FileFilter fileFilter)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
@@ -33,7 +33,7 @@ namespace CaptureSnippets
             this.extractDirectoryPathData = extractDirectoryPathData;
             this.directoryFilter = directoryFilter;
             this.fileFilter = fileFilter;
-            fileExtractor = new FileSnippetExtractor(extractFileNameData, translatePackage);
+            fileExtractor = new FileSnippetExtractor(extractFileNameData);
         }
         
         public async Task<ReadSnippets> FromDirectory(string directoryPath, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
