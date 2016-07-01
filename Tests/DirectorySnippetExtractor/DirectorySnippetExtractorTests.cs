@@ -18,7 +18,6 @@ public class DirectorySnippetExtractorTests
         var versionAndPaths = new ConcurrentBag<CapturedVersionAndPath>();
         var directories = new ConcurrentBag<CapturedDirectory>();
         var files = new ConcurrentBag<CapturedFile>();
-        var translatePackages = new ConcurrentBag<CapturedTranslatePackage>();
         var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor");
         var data = PathData.With(VersionRange.All, "package", Component.Undefined);
         var result = new TestResult();
@@ -42,7 +41,6 @@ public class DirectorySnippetExtractorTests
         result.Files = files.OrderBy(file => file.Path).ToList();
         result.Directories = directories.OrderBy(file => file.Path).ToList();
         result.VersionAndPaths = versionAndPaths.OrderBy(file => file.Path).ToList();
-        result.TranslatePackages = translatePackages.OrderBy(file => file.Alias).ToList();
         ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(targetDirectory, @"root\"));
     }
 
@@ -56,17 +54,11 @@ public class DirectorySnippetExtractorTests
         return data;
     }
 
-    public class CapturedTranslatePackage
-    {
-        public string Alias;
-    }
-
     public class TestResult
     {
         public List<CapturedVersionAndPath> VersionAndPaths;
         public List<CapturedDirectory> Directories;
         public List<CapturedFile> Files;
-        public List<CapturedTranslatePackage> TranslatePackages;
     }
 
     public class CapturedVersionAndPath

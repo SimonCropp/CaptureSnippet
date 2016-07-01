@@ -43,5 +43,11 @@ namespace CaptureSnippets
         {
             return GetEnumerator();
         }
+        public override string ToString()
+        {
+            return $@"PackageGroup. 
+  Package: {Package.ValueOrUndefined}
+";
+        }
     }
 }

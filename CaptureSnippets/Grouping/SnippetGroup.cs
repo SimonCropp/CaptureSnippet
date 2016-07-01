@@ -58,5 +58,14 @@ namespace CaptureSnippets
         {
             return GetEnumerator();
         }
+
+        public override string ToString()
+        {
+            return $@"SnippetGroup. 
+  Key: {Key}
+  Language: {Language}
+  Component: {Component.ValueOrUndefined}
+";
+        }
     }
 }

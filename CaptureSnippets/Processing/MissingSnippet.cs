@@ -31,10 +31,10 @@ namespace CaptureSnippets
 
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder("Missing Snippet. ");
-            stringBuilder.AppendFormat(" Line: {0}.", Line);
-            stringBuilder.AppendFormat(" Key: '{0}'.", Key);
-            return stringBuilder.ToString();
+            return $@"MissingSnippet. 
+  Line: {Line}
+  Key: {Key}
+";
         }
     }
 }

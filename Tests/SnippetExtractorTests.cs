@@ -44,17 +44,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
-    public void WithCodeTick()
-    {
-        var input = @"
-  <!-- startcode key -->
-  `
-  <!-- endcode -->";
-        var snippets = FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
-    }
-
+  
     [Test]
     public void Differ_by_version_missing_suffix()
     {
@@ -69,16 +59,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
-    public void SingleCodeQuoteDetected()
-    {
-        var input = @"
-  <!-- startcode CodeKey-->
-  foo`bar`
-  <!-- endcode -->";
-        var snippets = FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
-    }
+
 
     [Test]
     public void CanExtractMultipleWithDifferentVersions()

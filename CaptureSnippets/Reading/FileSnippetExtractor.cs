@@ -13,7 +13,7 @@ namespace CaptureSnippets
     {
         ExtractFileNameData extractPathData;
 
-        static char[] invalidCharacters = {'“', '”', '—', '`'};
+        static char[] invalidCharacters = {'“', '”', '—'};
         const string LineEnding = "\r\n";
 
         /// <summary>

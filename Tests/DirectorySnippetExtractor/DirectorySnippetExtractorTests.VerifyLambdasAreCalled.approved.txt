@@ -31,13 +31,5 @@
     {
       "Path": "root\\1.1\code.txt"
     }
-  ],
-  "TranslatePackages": [
-    {
-      "Alias": "package1"
-    },
-    {
-      "Alias": "package2"
-    }
   ]
 }

@@ -147,5 +147,16 @@ namespace CaptureSnippets
                 return component;
             }
         }
+
+        public override string ToString()
+        {
+            return $@"ReadSnippet. 
+  Key: {Key}
+  FileLocation: {FileLocation}
+  Error: {Error}
+  Package: {Package.ValueOrUndefined}
+  Component: {Component.ValueOrUndefined}
+";
+        }
     }
 }

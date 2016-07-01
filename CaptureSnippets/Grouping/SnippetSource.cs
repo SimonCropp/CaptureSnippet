@@ -44,5 +44,13 @@ namespace CaptureSnippets
         /// The <see cref="File"/>, <see cref="StartLine"/> and <see cref="EndLine"/> concatenated.
         /// </summary>
         public string FileLocation => $"{File}({StartLine}-{EndLine})";
+
+        public override string ToString()
+        {
+            return $@"SnippetSource. 
+  FileLocation: {FileLocation}
+  Version: {Version}
+";
+        }
     }
 }

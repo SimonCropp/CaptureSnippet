@@ -50,5 +50,13 @@ namespace CaptureSnippets
         {
             return GetEnumerator();
         }
+
+        public override string ToString()
+        {
+            return $@"VersionGroup. 
+  Version: {Version}
+  Value: {Value}
+";
+        }
     }
 }
