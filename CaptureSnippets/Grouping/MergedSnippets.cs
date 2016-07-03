@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using NuGet.Versioning;
@@ -15,7 +14,7 @@ namespace CaptureSnippets
 
         public override string ToString()
         {
-            return $@"MergedSnippets. 
+            return $@"MergedSnippets.
   Range: {Range}
   Value: {Value}
 ";
