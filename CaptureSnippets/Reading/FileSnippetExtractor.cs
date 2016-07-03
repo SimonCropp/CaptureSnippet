@@ -168,7 +168,7 @@ namespace CaptureSnippets
                     error = null;
                     return true;
                 }
-                error = $"Expected '{loopState.Suffix2}' to be either parsable as a version or a package (starts with a letter).";
+                error = $"Expected '{loopState.Suffix1}' to be either parsable as a version or a package (starts with a letter).";
                 return false;
             }
 
