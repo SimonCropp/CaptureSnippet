@@ -5,7 +5,7 @@ using NuGet.Versioning;
 namespace CaptureSnippets
 {
     [DebuggerDisplay("Version={Version}, Package={Package.ValueOrUndefined}, Component={Component.ValueOrUndefined}")]
-    public class PathData
+    public struct PathData
     {
         public readonly bool UseParentVersion;
         public readonly bool UseParentPackage;

@@ -2,7 +2,7 @@ using System;
 
 namespace CaptureSnippets
 {
-    public class Component:IComparable<Component>
+    public struct Component:IComparable<Component>
     {
 
         public string ValueOrUndefined => this == Undefined ? "Undefined" : Value;
@@ -14,6 +14,17 @@ namespace CaptureSnippets
         public override string ToString()
         {
             return Value;
+        }
+
+        public static bool operator ==(Component a, Component b)
+        {
+            return a.value == b.value;
+        }
+
+
+        public static bool operator !=(Component a, Component b)
+        {
+            return a.value != b.value;
         }
 
         public string Value
@@ -40,11 +51,6 @@ namespace CaptureSnippets
             this.value = value;
         }
 
-        Component()
-        {
-
-        }
-
         static Component()
         {
             Undefined = new Component();
@@ -52,7 +58,7 @@ namespace CaptureSnippets
 
         public static implicit operator string(Component package)
         {
-            if (package == Undefined)
+            if (package.value == null)
             {
                 throw new Exception("Cannot convert Component.Undefined to a string.");
             }
@@ -61,6 +67,7 @@ namespace CaptureSnippets
 
         public static implicit operator Component(string value)
         {
+            Guard.AgainstNull(value, nameof(value));
             return new Component(value);
         }
 

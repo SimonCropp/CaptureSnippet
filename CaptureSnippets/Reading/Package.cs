@@ -2,7 +2,7 @@ using System;
 
 namespace CaptureSnippets
 {
-    public class Package:IComparable<Package>
+    public struct Package:IComparable<Package>
     {
 
         public string ValueOrUndefined => this == Undefined ? "Undefined" : Value;
@@ -32,7 +32,7 @@ namespace CaptureSnippets
 
         public Package(string value)
         {
-            Guard.AgainstNullAndEmpty(value, "package");
+            Guard.AgainstNullAndEmpty(value, nameof(value));
             if (value == "Undefined")
             {
                 throw new ArgumentException("'Undefined' is not an allowed value.", nameof(value));
@@ -40,19 +40,26 @@ namespace CaptureSnippets
             this.value = value;
         }
 
-        Package()
-        {
-
-        }
 
         static Package()
         {
             Undefined = new Package();
         }
 
+        public static bool operator ==(Package a, Package b)
+        {
+            return a.value == b.value;
+        }
+
+
+        public static bool operator !=(Package a, Package b)
+        {
+            return a.value != b.value;
+        }
+
         public static implicit operator string(Package package)
         {
-            if (package == Undefined)
+            if (package.value == null)
             {
                 throw new Exception("Cannot convert Package.Undefined to a string.");
             }
@@ -61,6 +68,7 @@ namespace CaptureSnippets
 
         public static implicit operator Package(string value)
         {
+            Guard.AgainstNull(value, nameof(value));
             return new Package(value);
         }
 

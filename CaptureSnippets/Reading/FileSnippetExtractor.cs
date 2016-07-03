@@ -139,7 +139,7 @@ namespace CaptureSnippets
         bool TryParseVersionAndPackage(LoopState loopState, VersionRange fileVersion, Package filePackage, out VersionRange snippetVersion, out Package snippetPackage, out string error)
         {
             snippetVersion = null;
-            snippetPackage = null;
+            snippetPackage = Package.Undefined;
             if (loopState.Suffix1 == null)
             {
                 snippetVersion = fileVersion;

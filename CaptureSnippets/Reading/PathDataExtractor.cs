@@ -15,10 +15,6 @@ namespace CaptureSnippets
 
         public static void ExtractData(VersionRange parentVersion, Package parentPackage, Component parentComponent, PathData data, out VersionRange version, out Package package, out Component component)
         {
-            if (data == null)
-            {
-                throw new Exception("ExtractPathData cannot return null.");
-            }
             if (data.UseParentVersion)
             {
                 version = parentVersion;
@@ -37,10 +33,6 @@ namespace CaptureSnippets
             }
             else
             {
-                if (data.Package == null)
-                {
-                    throw new Exception("Null package not allowed.");
-                }
                 package = data.Package;
             }
 
@@ -50,10 +42,6 @@ namespace CaptureSnippets
             }
             else
             {
-                if (data.Component == null)
-                {
-                    throw new Exception("Null component not allowed.");
-                }
                 component = data.Component;
             }
         }
