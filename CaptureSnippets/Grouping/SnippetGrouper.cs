@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -127,12 +126,14 @@ namespace CaptureSnippets
                 error = null;
                 return false;
             }
-            var builder = new StringBuilder($"Mixes empty packages with non empty packages. Key='{readItems.First().Key}'.\r\nItems:\r\n");
+
+            var builder = StringBuilderCache.Acquire();
+            builder.AppendLine($"Mixes empty packages with non empty packages. Key='{readItems.First().Key}'.\r\nItems:");
             foreach (var item in readItems)
             {
                 builder.AppendLine($"   Location: '{item.FileLocation}'. Package: {item.Package.ValueOrUndefined}");
             }
-            error = builder.ToString();
+            error = StringBuilderCache.GetStringAndRelease(builder);
             return true;
         }
 

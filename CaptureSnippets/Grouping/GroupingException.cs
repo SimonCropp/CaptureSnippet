@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CaptureSnippets
 {
@@ -26,12 +25,13 @@ namespace CaptureSnippets
         {
             get
             {
-                var stringBuilder = new StringBuilder("Errors occurred Grouping:\r\n");
+                var builder = StringBuilderCache.Acquire();
+                builder.AppendLine("Errors occurred Grouping:\r\n");
                 foreach (var error in Errors)
                 {
-                    stringBuilder.AppendLine(error);
+                    builder.AppendLine(error);
                 }
-                return stringBuilder.ToString();
+                return StringBuilderCache.GetStringAndRelease(builder);
             }
         }
     }

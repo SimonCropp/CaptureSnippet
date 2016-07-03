@@ -81,37 +81,37 @@ namespace CaptureSnippets
         public static PathData WithParentVersionAndComponent(Package package)
         {
             Guard.AgainstNull(package, nameof(package));
-            return new PathData(null, package, null, true, false, true);
+            return new PathData(null, package, Component.Undefined, true, false, true);
         }
 
         public static PathData WithParentComponent(VersionRange version, Package package)
         {
             Guard.AgainstNull(package, nameof(package));
-            return new PathData(version, package, null, false, false, true);
+            return new PathData(version, package, Component.Undefined, false, false, true);
         }
 
         public static PathData WithParentVersionAndPackage(Component component)
         {
             Guard.AgainstNull(component, nameof(component));
-            return new PathData(null, null, component, true, true, false);
+            return new PathData(null, Package.Undefined, component, true, true, false);
         }
 
         public static PathData WithParentPackage(VersionRange version, Component component)
         {
             Guard.AgainstNull(version, nameof(version));
             Guard.AgainstNull(component, nameof(component));
-            return new PathData(version, null, component, false, true, false);
+            return new PathData(version, Package.Undefined, component, false, true, false);
         }
 
         public static PathData WithParentPackageAndComponent(VersionRange version)
         {
             Guard.AgainstNull(version, nameof(version));
-            return new PathData(version, null, null, false, true, true);
+            return new PathData(version, Package.Undefined, Component.Undefined, false, true, true);
         }
 
         public static PathData WithParent()
         {
-            return new PathData(null, null, null, true, true, true);
+            return new PathData(null, Package.Undefined, Component.Undefined, true, true, true);
         }
     }
 }

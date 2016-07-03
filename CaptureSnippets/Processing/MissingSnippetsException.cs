@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CaptureSnippets
 {
@@ -33,12 +32,12 @@ namespace CaptureSnippets
         {
             get
             {
-                var stringBuilder = new StringBuilder();
+                var builder = StringBuilderCache.Acquire();
                 foreach (var snippet in MissingSnippets)
                 {
-                    stringBuilder.AppendLine(snippet.ToString());
+                    builder.AppendLine(snippet.ToString());
                 }
-                return stringBuilder.ToString();
+                return StringBuilderCache.GetStringAndRelease(builder);
             }
         }
 

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Text;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -143,23 +142,23 @@ namespace CaptureSnippets
                 //}
             }
 
-            var sb = new StringBuilder();
+            var builder = StringBuilderCache.Acquire();
             // normal range
 
             if (range.HasLowerBound)
             {
                 if (range.IsMinInclusive)
                 {
-                    sb.Append(minVersion.SimplePrint());
+                    builder.Append(minVersion.SimplePrint());
                 }
                 else
                 {
-                    sb.Append(minVersion.NextVersion());
+                    builder.Append(minVersion.NextVersion());
                 }
             }
             else
             {
-                sb.Append("N");
+                builder.Append("N");
             }
 
 
@@ -167,26 +166,26 @@ namespace CaptureSnippets
             {
                 if (range.IsMaxInclusive)
                 {
-                    sb.Append(" - ");
-                    sb.Append(maxVersion.SimplePrint());
+                    builder.Append(" - ");
+                    builder.Append(maxVersion.SimplePrint());
                 }
                 else
                 {
                     var previousVersion2 = maxVersion.PreviousVersion2();
                     if (previousVersion2 > minVersion)
                     {
-                        sb.Append(" - ");
-                        sb.Append(maxVersion.PreviousVersion());
+                        builder.Append(" - ");
+                        builder.Append(maxVersion.PreviousVersion());
                     }
                 }
             }
             else
             {
-                sb.Append(" - ");
-                sb.Append("N");
+                builder.Append(" - ");
+                builder.Append("N");
             }
 
-            return sb.ToString();
+            return StringBuilderCache.GetStringAndRelease(builder);
         }
 
         public static string ToFriendlyString(this VersionRange version)

@@ -107,6 +107,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Grouping\SnippetGrouper.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="StringBuilderCache.cs" />
     <Compile Include="VersionRangeExtensions.cs" />
     <Compile Include="VersionRangeParser.cs" />
   </ItemGroup>

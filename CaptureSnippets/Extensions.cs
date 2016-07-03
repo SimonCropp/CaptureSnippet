@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 static class Extensions
 {
@@ -26,7 +25,7 @@ static class Extensions
 
     public static string RemoveWhitespace(this string input)
     {
-        var builder = new StringBuilder();
+        var builder = StringBuilderCache.Acquire();
         foreach (var c in input)
         {
             if (char.IsWhiteSpace(c))
@@ -35,7 +34,7 @@ static class Extensions
             }
             builder.Append(c);
         }
-        return builder.ToString();
+        return StringBuilderCache.GetStringAndRelease(builder);
     }
 
     public static string TrimBackCommentChars(this string input)

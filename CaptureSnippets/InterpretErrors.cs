@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace CaptureSnippets
 {
@@ -35,14 +34,14 @@ namespace CaptureSnippets
             {
                 return "";
             }
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("## Snippet errors\r\n");
+            var builder = StringBuilderCache.Acquire();
+            builder.AppendLine("## Snippet errors\r\n");
             foreach (var error in readSnippetErrors)
             {
-                stringBuilder.AppendLine(" * " + error);
+                builder.AppendLine(" * " + error);
             }
-            stringBuilder.AppendLine();
-            return stringBuilder.ToString();
+            builder.AppendLine();
+            return StringBuilderCache.GetStringAndRelease(builder);
         }
 
 
@@ -57,14 +56,14 @@ namespace CaptureSnippets
             {
                 return "";
             }
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("## Missing snippets\r\n");
+            var builder = StringBuilderCache.Acquire();
+            builder.AppendLine("## Missing snippets\r\n");
             foreach (var error in missingSnippets)
             {
-                stringBuilder.AppendLine($" * Key:'{error.Key}' Line:'{error.Line}'");
+                builder.AppendLine($" * Key:'{error.Key}' Line:'{error.Line}'");
             }
-            stringBuilder.AppendLine();
-            return stringBuilder.ToString();
+            builder.AppendLine();
+            return StringBuilderCache.GetStringAndRelease(builder);
         }
     }
 }
