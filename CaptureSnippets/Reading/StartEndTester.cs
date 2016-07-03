@@ -4,32 +4,20 @@ using System.Collections.Generic;
 static class StartEndTester
 {
 
-    internal static void IsStart(IndexReader stringReader, string trimmedLine, ref LoopState loopState)
+    internal static bool IsStart(string trimmedLine, out string suffix1, out string suffix2, out string currentKey, out Func<string, bool> endFunc)
     {
-        string suffix1;
-        string suffix2;
-        string currentKey;
         if (IsStartCode(trimmedLine, out currentKey, out suffix1, out suffix2))
         {
-            loopState.EndFunc = IsEndCode;
-            loopState.CurrentKey = currentKey;
-            loopState.IsInSnippet = true;
-            loopState.Suffix1 = suffix1;
-            loopState.Suffix2 = suffix2;
-            loopState.StartLine = stringReader.Index;
-            loopState.SnippetLines = new List<string>();
-            return;
+            endFunc = IsEndCode;
+            return true;
         }
         if (IsStartRegion(trimmedLine, out currentKey, out suffix1, out suffix2))
         {
-            loopState.EndFunc = IsEndRegion;
-            loopState.CurrentKey = currentKey;
-            loopState.IsInSnippet = true;
-            loopState.Suffix1 = suffix1;
-            loopState.Suffix2 = suffix2;
-            loopState.StartLine = stringReader.Index;
-            loopState.SnippetLines = new List<string>();
+            endFunc = IsEndRegion;
+            return true;
         }
+        endFunc = null;
+        return false;
     }
 
 

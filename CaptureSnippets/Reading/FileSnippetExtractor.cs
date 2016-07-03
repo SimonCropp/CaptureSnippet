@@ -87,18 +87,31 @@ namespace CaptureSnippets
                         continue;
                     }
 
-                    var snippet = BuildSnippet(stringReader, path, ref loopState, language, fileVersion, filePackage, fileComponent);
+                    var snippet = BuildSnippet(stringReader, path, loopState, language, fileVersion, filePackage, fileComponent);
 
                     callback(snippet);
                     loopState.Reset();
                     continue;
                 }
-                StartEndTester.IsStart(stringReader, trimmedLine, ref loopState);
+                string suffix1;
+                string suffix2;
+                Func<string, bool> endFunc;
+                string key;
+                if (StartEndTester.IsStart(trimmedLine, out suffix1, out suffix2, out key, out endFunc))
+                {
+                    loopState.EndFunc = endFunc;
+                    loopState.CurrentKey = key;
+                    loopState.IsInSnippet = true;
+                    loopState.Suffix1 = suffix1;
+                    loopState.Suffix2 = suffix2;
+                    loopState.StartLine = stringReader.Index;
+                    loopState.SnippetLines = new List<string>();
+                }
             }
         }
 
 
-        ReadSnippet BuildSnippet(IndexReader stringReader, string path, ref LoopState loopState, string language, VersionRange fileVersion, Package filePackage, Component fileComponent)
+        ReadSnippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language, VersionRange fileVersion, Package filePackage, Component fileComponent)
         {
             var startRow = loopState.StartLine.Value + 1;
 
