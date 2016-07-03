@@ -4,7 +4,7 @@ using System.Collections.Generic;
 static class StartEndTester
 {
 
-    internal static void IsStart(IndexReader stringReader, string trimmedLine, LoopState loopState)
+    internal static void IsStart(IndexReader stringReader, string trimmedLine, ref LoopState loopState)
     {
         string suffix1;
         string suffix2;
