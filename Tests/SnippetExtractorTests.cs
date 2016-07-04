@@ -62,6 +62,21 @@ public class SnippetExtractorTests
 
 
     [Test]
+    public void CanExtractWithInnerWhiteSpace()
+    {
+        var input = @"
+  #region CodeKey 5
+
+  BeforeWhiteSpace
+
+  AfterWhiteSpace
+
+  #endregion";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
     public void CanExtractMultipleWithDifferentVersions()
     {
         var input = @"
@@ -74,6 +89,7 @@ public class SnippetExtractorTests
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
+
 
     [Test]
     public void CanExtractFromXml()

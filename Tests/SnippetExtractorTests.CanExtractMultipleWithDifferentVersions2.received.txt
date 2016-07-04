@@ -1,0 +1,13 @@
+﻿[
+  {
+    "Key": "codekey",
+    "Language": "cs",
+    "Component": "Undefined",
+    "Package": "Undefined",
+    "Version": ">= 5.0.0 && < 6.0.0",
+    "Value": "The Code",
+    "Error": null,
+    "FileLocation": "path.cs(3-4)",
+    "IsInError": false
+  }
+]

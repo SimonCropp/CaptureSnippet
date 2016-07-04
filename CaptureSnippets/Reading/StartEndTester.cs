@@ -51,8 +51,8 @@ static class StartEndTester
             return false;
         }
         var startIndex = startCodeIndex + 10;
-        var substring = line.Substring(startIndex)
-            .TrimBackCommentChars();
+        var substring = line
+            .TrimBackCommentChars(startIndex);
         return TryExtractParts(out key, out suffix1, out suffix2, substring, line);
     }
 

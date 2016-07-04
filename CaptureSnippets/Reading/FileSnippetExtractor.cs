@@ -83,7 +83,7 @@ namespace CaptureSnippets
                 {
                     if (!loopState.EndFunc(trimmedLine))
                     {
-                        loopState.SnippetLines.Add(line);
+                        loopState.AppendLine(line);
                         continue;
                     }
 
@@ -105,7 +105,6 @@ namespace CaptureSnippets
                     loopState.Suffix1 = suffix1;
                     loopState.Suffix2 = suffix2;
                     loopState.StartLine = stringReader.Index;
-                    loopState.SnippetLines = new List<string>();
                 }
             }
         }
@@ -126,7 +125,7 @@ namespace CaptureSnippets
                     lineNumberInError: startRow,
                     key: loopState.CurrentKey);
             }
-            var value = ConvertLinesToValue(loopState.SnippetLines);
+            var value = loopState.GetLines();
             if (value.IndexOfAny(invalidCharacters) > -1)
             {
                 var joinedInvalidChars = $@"'{string.Join("', '", invalidCharacters)}'";
@@ -214,12 +213,5 @@ namespace CaptureSnippets
             return false;
         }
 
-        static string ConvertLinesToValue(List<string> snippetLines)
-        {
-            var snippetValue = snippetLines
-                .ExcludeEmptyPaddingLines()
-                .TrimIndentation();
-            return string.Join(LineEnding, snippetValue);
-        }
     }
 }

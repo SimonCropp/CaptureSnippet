@@ -102,6 +102,7 @@
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="DirectorySnippetExtractor\DirectorySnippetExtractorTests.cs" />
+    <Compile Include="LoopStateTests.cs" />
     <Compile Include="VersionRangeExtensionsTests.cs" />
     <None Include="scenarios\03-WeirdCharacters\input.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -127,7 +128,6 @@
     <Compile Include="SnippetGrouperTests.cs" />
     <Compile Include="Converters\VersionRangeConverter.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="StringExtensionTests.cs" />
     <None Include="scenarios\06-IgnoreCase\input.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

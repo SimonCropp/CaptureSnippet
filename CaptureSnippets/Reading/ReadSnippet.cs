@@ -44,7 +44,7 @@ namespace CaptureSnippets
             StartLine = startLine;
             EndLine = endLine;
             Value = value;
-            ValueHash = value.RemoveWhitespace().GetHashCode();
+            ValueHash = value.GetHashCode();
             Key = key;
             Language = language;
             Path = path;
