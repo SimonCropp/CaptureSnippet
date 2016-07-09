@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 static class StartEndTester
 {

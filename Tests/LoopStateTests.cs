@@ -1,7 +1,6 @@
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
-using ObjectApproval;
 
 [TestFixture]
 [UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using NuGet.Versioning;
@@ -14,7 +13,6 @@ namespace CaptureSnippets
         ExtractFileNameData extractPathData;
 
         static char[] invalidCharacters = {'“', '”', '—'};
-        const string LineEnding = "\r\n";
 
         /// <summary>
         /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
