@@ -63,7 +63,7 @@ namespace CaptureSnippets
             {
                 return false;
             }
-            await writer.WriteLineAsync($"<!-- snippet: {key} -->");
+            var writeLineTask = writer.WriteLineAsync($"<!-- snippet: {key} -->");
 
             var group = snippets.FirstOrDefault(x => x.Key == key);
             if (group == null)
@@ -77,6 +77,7 @@ namespace CaptureSnippets
                 return true;
             }
 
+            await writeLineTask;
             await appendSnippetGroup(group, writer);
             if (used.Any(x => x.Key == group.Key))
             {
