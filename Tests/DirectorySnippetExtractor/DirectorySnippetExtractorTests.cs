@@ -44,7 +44,7 @@ public class DirectorySnippetExtractorTests
         ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(targetDirectory, @"root\"));
     }
 
-    private static PathData GetPathData(string path, ConcurrentBag<CapturedVersionAndPath> versionAndPaths, PathData data)
+    static PathData GetPathData(string path, ConcurrentBag<CapturedVersionAndPath> versionAndPaths, PathData data)
     {
         var versionAndPath = new CapturedVersionAndPath
         {

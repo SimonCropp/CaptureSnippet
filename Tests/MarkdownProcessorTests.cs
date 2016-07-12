@@ -35,7 +35,7 @@ public class MarkdownProcessorTests
                 }),
             new SnippetGroup(
                 language: "cs",
-                component:Component.Undefined, 
+                component:Component.Undefined,
                 key: "versionedSnippet2",
                 packages: new List<PackageGroup>
                 {
