@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -40,12 +42,24 @@ namespace CaptureSnippets
             Guard.AgainstNull(rootPackage, nameof(rootPackage));
             Guard.AgainstNull(rootComponent, nameof(rootComponent));
             var snippets = new ConcurrentBag<ReadSnippet>();
-            FromDirectory(directoryPath, rootVersionRange, rootPackage, rootComponent, snippets.Add);
-            return new ReadSnippets(snippets.ToList());
+            var files = new List<FileAndData>();
+            FindFiles(directoryPath, rootVersionRange, rootPackage, rootComponent,files);
+            Parallel.ForEach(files, data =>
+            {
+                FromFile(data.Path, data.DirectoryVersion, data.DirectoryPackage, data.DirectoryComponent, snippets.Add);
+            });
+            return new ReadSnippets(snippets.ToArray());
         }
 
+        struct FileAndData
+        {
+            public string Path;
+            public VersionRange DirectoryVersion;
+            public Package DirectoryPackage;
+            public Component DirectoryComponent;
+        }
 
-        void FromDirectory(string directoryPath, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> add)
+        void FindFiles(string directoryPath, VersionRange parentVersion, Package parentPackage, Component parentComponent, List<FileAndData> files)
         {
             VersionRange directoryVersion;
             Package directoryPackage;
@@ -55,12 +69,18 @@ namespace CaptureSnippets
             foreach (var file in Directory.EnumerateFiles(directoryPath)
                    .Where(s => fileFilter(s)))
             {
-                FromFile(file, directoryVersion, directoryPackage, directoryComponent, add);
+                files.Add(new FileAndData
+                {
+                    Path = file,
+                    DirectoryVersion = directoryVersion,
+                    DirectoryPackage = directoryPackage,
+                    DirectoryComponent = directoryComponent
+                });
             }
             foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
                 .Where(s => directoryFilter(s)))
             {
-                FromDirectory(subDirectory, directoryVersion, directoryPackage, directoryComponent, add);
+                FindFiles(subDirectory, directoryVersion, directoryPackage, directoryComponent, files);
             }
         }
 
