@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using CaptureSnippets;
 using NuGet.Versioning;
 // ReSharper disable UnusedMember.Local
@@ -9,7 +8,7 @@ using NuGet.Versioning;
 class Sample
 {
 
-    async Task UseSnippetExtractor()
+    void UseSnippetExtractor()
     {
 
         // setup version convention and extract snippets from files
@@ -19,7 +18,7 @@ class Sample
             extractFileNameData: InferVersionAndPath,
             directoryFilter: IncludeDirectory,
             fileFilter: IncludeFile);
-        var readSnippets = await snippetExtractor.FromDirectory(@"C:\path", VersionRange.None, Package.Undefined, Component.Undefined);
+        var readSnippets = snippetExtractor.FromDirectory(@"C:\path", VersionRange.None, Package.Undefined, Component.Undefined);
 
         // Grouping
         var snippetGroups = SnippetGrouper.Group(readSnippets)
@@ -33,7 +32,7 @@ class Sample
         using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
         using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
         {
-            result = await markdownProcessor.Apply(reader, writer);
+            result = markdownProcessor.Apply(reader, writer);
         }
 
         // List of all snippets that the markdown file expected but did not exist in the input snippets

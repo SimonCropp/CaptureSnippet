@@ -65,7 +65,6 @@
       <Link>ConfigureAwaitConfig.cs</Link>
     </Compile>
     <Compile Include="Caching\CachedSnippetExtractor.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Grouping\GroupingHelper.cs" />
     <Compile Include="Grouping\MergedSnippets.cs" />
     <Compile Include="Grouping\PackageGroup.cs" />

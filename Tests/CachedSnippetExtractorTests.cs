@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Threading.Tasks;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
@@ -11,7 +10,7 @@ public class CachedSnippetExtractorTests
 {
     [Test]
     [Explicit]
-    public async Task SecondReadShouldBeFasterThanFirstRead()
+    public void SecondReadShouldBeFasterThanFirstRead()
     {
         var directory = "scenarios".ToCurrentDirectory();
         //warmup
@@ -21,7 +20,7 @@ public class CachedSnippetExtractorTests
             extractDirectoryPathData: y => result,
             directoryFilter: s => true,
             fileFilter: s => s.EndsWith(".cs"));
-        await extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);
+        extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);
 
         extractor = new CachedSnippetExtractor(
             extractFileNameData: y => result,
@@ -29,10 +28,10 @@ public class CachedSnippetExtractorTests
             directoryFilter: s => true,
             fileFilter: s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
-        await extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);
+        extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);
         firstRun.Stop();
         var secondRun = Stopwatch.StartNew();
-        await extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);
+        extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);
         secondRun.Stop();
         Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
         Trace.WriteLine(firstRun.ElapsedMilliseconds);
@@ -40,7 +39,7 @@ public class CachedSnippetExtractorTests
     }
 
     [Test]
-    public async Task EnsureErrorsAreReturned()
+    public void EnsureErrorsAreReturned()
     {
         var result = PathData.With(VersionRange.All, Package.Undefined, Component.Undefined);
         var directory = "badsnippets".ToCurrentDirectory();
@@ -49,7 +48,7 @@ public class CachedSnippetExtractorTests
             extractFileNameData: y => result,
             directoryFilter: s => true,
             fileFilter: s => s.EndsWith(".cs"));
-        var read = await extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);
+        var read = extractor.FromDirectory(directory, VersionRange.All, Package.Undefined, Component.Undefined);
         Assert.AreEqual(1, read.GroupingErrors.Count);
     }
 

@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Threading.Tasks;
 using MethodTimer;
 using NuGet.Versioning;
 
@@ -44,7 +43,7 @@ namespace CaptureSnippets
         /// Extract all snippets from a given directory.
         /// </summary>
         [Time]
-        public Task<CachedSnippets> FromDirectory(string directory, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
+        public CachedSnippets FromDirectory(string directory, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
         {
             directory = directory.ToLower();
             var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
@@ -58,12 +57,12 @@ namespace CaptureSnippets
             {
                 return UpdateCache(directory, lastDirectoryWrite, rootVersionRange, rootPackage, rootComponent);
             }
-            return Task.FromResult(cached);
+            return cached;
         }
 
-        async Task<CachedSnippets> UpdateCache(string directory, long lastDirectoryWrite, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
+        CachedSnippets UpdateCache(string directory, long lastDirectoryWrite, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
         {
-            var readSnippets = await extractor.FromDirectory(directory, rootVersionRange, rootPackage, rootComponent);
+            var readSnippets = extractor.FromDirectory(directory, rootVersionRange, rootPackage, rootComponent);
             var snippetGroups = SnippetGrouper.Group(readSnippets.Snippets, packageOrder);
             var cachedSnippets = new CachedSnippets(
                 ticks: lastDirectoryWrite,

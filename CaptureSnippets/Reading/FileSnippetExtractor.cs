@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -29,7 +28,7 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
         /// <param name="path">The current path so extract <see cref="ReadSnippet"/>s from.</param>
-        public async Task AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
+        public void AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
         {
             Guard.AgainstNull(textReader, nameof(textReader));
             Guard.AgainstNull(callback, nameof(callback));
@@ -38,7 +37,7 @@ namespace CaptureSnippets
             Guard.AgainstNull(parentComponent, nameof(parentComponent));
             using (var reader = new IndexReader(textReader))
             {
-                await GetSnippets(reader, path, parentVersion, parentPackage, parentComponent, callback);
+                GetSnippets(reader, path, parentVersion, parentPackage, parentComponent, callback);
             }
         }
 
@@ -49,7 +48,7 @@ namespace CaptureSnippets
         }
 
 
-        async Task GetSnippets(IndexReader stringReader, string path, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
+        void GetSnippets(IndexReader stringReader, string path, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
         {
             VersionRange fileVersion;
             Package filePackage;
@@ -60,7 +59,7 @@ namespace CaptureSnippets
             var loopState = new LoopState();
             while (true)
             {
-                var line = await stringReader.ReadLine();
+                var line = stringReader.ReadLine();
                 if (line == null)
                 {
                     if (loopState.IsInSnippet)

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -34,20 +32,20 @@ namespace CaptureSnippets
             this.fileFilter = fileFilter;
             fileExtractor = new FileSnippetExtractor(extractFileNameData);
         }
-        
-        public async Task<ReadSnippets> FromDirectory(string directoryPath, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
+
+        public ReadSnippets FromDirectory(string directoryPath, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
         {
             Guard.AgainstNull(directoryPath, nameof(directoryPath));
             Guard.AgainstNull(rootVersionRange, nameof(rootVersionRange));
             Guard.AgainstNull(rootPackage, nameof(rootPackage));
             Guard.AgainstNull(rootComponent, nameof(rootComponent));
             var snippets = new ConcurrentBag<ReadSnippet>();
-            await Task.WhenAll(FromDirectory(directoryPath, rootVersionRange, rootPackage, rootComponent, snippets.Add));
+            FromDirectory(directoryPath, rootVersionRange, rootPackage, rootComponent, snippets.Add);
             return new ReadSnippets(snippets.ToList());
         }
 
 
-        IEnumerable<Task> FromDirectory(string directoryPath, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> add)
+        void FromDirectory(string directoryPath, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> add)
         {
             VersionRange directoryVersion;
             Package directoryPackage;
@@ -57,23 +55,20 @@ namespace CaptureSnippets
             foreach (var file in Directory.EnumerateFiles(directoryPath)
                    .Where(s => fileFilter(s)))
             {
-                yield return FromFile(file, directoryVersion, directoryPackage, directoryComponent, add);
+                FromFile(file, directoryVersion, directoryPackage, directoryComponent, add);
             }
             foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
                 .Where(s => directoryFilter(s)))
             {
-                foreach (var task in FromDirectory(subDirectory, directoryVersion, directoryPackage, directoryComponent, add))
-                {
-                    yield return task;
-                }
+                FromDirectory(subDirectory, directoryVersion, directoryPackage, directoryComponent, add);
             }
         }
 
-        async Task FromFile(string file, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
+        void FromFile(string file, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
         {
             using (var textReader = File.OpenText(file))
             {
-                await fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, parentComponent, callback);
+                fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, parentComponent, callback);
             }
         }
 

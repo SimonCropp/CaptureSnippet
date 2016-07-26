@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CaptureSnippets
 {
@@ -28,42 +27,42 @@ namespace CaptureSnippets
         /// <summary>
         /// Apply to <paramref name="writer"/>.
         /// </summary>
-        public async Task<ProcessResult> Apply(TextReader textReader, TextWriter writer)
+        public ProcessResult Apply(TextReader textReader, TextWriter writer)
         {
             Guard.AgainstNull(textReader, nameof(textReader));
             Guard.AgainstNull(writer, nameof(writer));
             using (var reader = new IndexReader(textReader))
             {
-                return await Apply(writer, reader);
+                return Apply(writer, reader);
             }
         }
 
-        async Task<ProcessResult> Apply(TextWriter writer, IndexReader reader)
+        ProcessResult Apply(TextWriter writer, IndexReader reader)
         {
             var missing = new List<MissingSnippet>();
             var usedSnippets = new List<SnippetGroup>();
             string line;
-            while ((line = await reader.ReadLine()) != null)
+            while ((line = reader.ReadLine()) != null)
             {
-                if (await TryProcessSnippetLine(writer, reader, line, missing, usedSnippets))
+                if (TryProcessSnippetLine(writer, reader, line, missing, usedSnippets))
                 {
                     continue;
                 }
-                await writer.WriteLineAsync(line);
+                writer.WriteLine(line);
             }
             return new ProcessResult(
                 missingSnippets: missing,
                 usedSnippets: usedSnippets);
         }
 
-        async Task<bool> TryProcessSnippetLine(TextWriter writer, IndexReader reader, string line, List<MissingSnippet> missings, List<SnippetGroup> used)
+        bool TryProcessSnippetLine(TextWriter writer, IndexReader reader, string line, List<MissingSnippet> missings, List<SnippetGroup> used)
         {
             string key;
             if (!SnippetKeyReader.TryExtractKeyFromLine(line, out key))
             {
                 return false;
             }
-            var writeLineTask = writer.WriteLineAsync($"<!-- snippet: {key} -->");
+            writer.WriteLine($"<!-- snippet: {key} -->");
 
             var group = snippets.FirstOrDefault(x => x.Key == key);
             if (group == null)
@@ -73,12 +72,11 @@ namespace CaptureSnippets
                     line: reader.Index);
                 missings.Add(missing);
                 var message = $"** Could not find snippet '{key}' **";
-                await writer.WriteLineAsync(message);
+                writer.WriteLine(message);
                 return true;
             }
 
-            await writeLineTask;
-            await appendSnippetGroup(group, writer);
+            appendSnippetGroup(group, writer);
             if (used.Any(x => x.Key == group.Key))
             {
                 throw new Exception($"Duplicate use of the same snippet '{group.Key}'.");

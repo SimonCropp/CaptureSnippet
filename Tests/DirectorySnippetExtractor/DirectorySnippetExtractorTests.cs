@@ -35,9 +35,7 @@ public class DirectorySnippetExtractorTests
                 return true;
             }
         );
-        extractor.FromDirectory(targetDirectory, VersionRange.None, Package.Undefined, Component.Undefined)
-            .GetAwaiter()
-            .GetResult();
+        extractor.FromDirectory(targetDirectory, VersionRange.None, Package.Undefined, Component.Undefined);
         result.Files = files.OrderBy(file => file.Path).ToList();
         result.Directories = directories.OrderBy(file => file.Path).ToList();
         result.VersionAndPaths = versionAndPaths.OrderBy(file => file.Path).ToList();

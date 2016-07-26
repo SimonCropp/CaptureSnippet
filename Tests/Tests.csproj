@@ -98,7 +98,6 @@
     <Content Include="DirectorySnippetExtractor\1.1\2.2\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="DirectorySnippetExtractor\DirectorySnippetExtractorTests.cs" />

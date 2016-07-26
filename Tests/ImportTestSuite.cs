@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
@@ -13,7 +12,7 @@ using NUnit.Framework;
 public class ImportTestSuite
 {
     [Test]
-    public async Task RunScenarios()
+    public void RunScenarios()
     {
         var directory = @"scenarios\".ToCurrentDirectory();
         var folders = Directory.GetDirectories(directory);
@@ -22,11 +21,11 @@ public class ImportTestSuite
         {
             var input = Path.Combine(folder, "input.md");
             var output = Path.Combine(folder, "output.md");
-            await Run(folder, input, output);
+            Run(folder, input, output);
         }
     }
 
-    async Task Run(string folder, string input, string expectedOutput)
+    void Run(string folder, string input, string expectedOutput)
     {
         var snippets = new List<ReadSnippet>();
         var data = PathData.With(VersionRange.All, Package.Undefined, Component.Undefined);
@@ -34,7 +33,7 @@ public class ImportTestSuite
         var path = Path.Combine(folder, "code.cs");
         using (var textReader = File.OpenText(path))
         {
-            await extractor.AppendFromReader(textReader, path, VersionRange.All, Package.Undefined, Component.Undefined, snippets.Add);
+            extractor.AppendFromReader(textReader, path, VersionRange.All, Package.Undefined, Component.Undefined, snippets.Add);
         }
 
         var snippetGroups = SnippetGrouper.Group(snippets)
@@ -48,7 +47,7 @@ public class ImportTestSuite
             var stringBuilder = new StringBuilder();
             using (var writer = new StringWriter(stringBuilder))
             {
-                await markdownProcessor.Apply(reader, writer);
+                markdownProcessor.Apply(reader, writer);
             }
 
             var expected = File.ReadAllText(expectedOutput).FixNewLines();

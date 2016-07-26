@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
 class IndexReader : IDisposable
 {
@@ -17,10 +16,10 @@ class IndexReader : IDisposable
         textReader?.Dispose();
     }
 
-    public Task<string> ReadLine()
+    public string ReadLine()
     {
         Index++;
-        return textReader.ReadLineAsync();
+        return textReader.ReadLine();
     }
 
 }

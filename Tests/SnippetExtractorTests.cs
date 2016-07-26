@@ -115,9 +115,7 @@ public class SnippetExtractorTests
             var snippets = new List<ReadSnippet>();
             var result = PathData.With(versionRange, Package.Undefined, Component.Undefined);
             var extractor = new FileSnippetExtractor(y => result);
-            extractor.AppendFromReader(stringReader, "path.cs", versionRange, Package.Undefined, Component.Undefined, snippets.Add)
-                .GetAwaiter()
-                .GetResult();
+            extractor.AppendFromReader(stringReader, "path.cs", versionRange, Package.Undefined, Component.Undefined, snippets.Add);
             ObjectApprover.VerifyWithJson(snippets.Single());
         }
     }
@@ -133,7 +131,7 @@ public class SnippetExtractorTests
                 extractFileNameData = y => result;
             }
             var extractor = new FileSnippetExtractor(extractFileNameData);
-            extractor.AppendFromReader(stringReader, "path.cs", VersionRange.All, Package.Undefined, Component.Undefined, snippets.Add).GetAwaiter().GetResult();
+            extractor.AppendFromReader(stringReader, "path.cs", VersionRange.All, Package.Undefined, Component.Undefined, snippets.Add);
             return snippets;
         }
     }
