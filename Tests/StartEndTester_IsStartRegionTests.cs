@@ -25,7 +25,7 @@ public class StartEndTester_IsStartRegionTests
         string fake;
         var exception = Assert.Throws<Exception>(() =>
         StartEndTester.IsStartRegion("#region _key 6", out fake, out fake, out fake));
-        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+        Assert.AreEqual("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
     [Test]
@@ -34,7 +34,7 @@ public class StartEndTester_IsStartRegionTests
         string fake;
         var exception = Assert.Throws<Exception>(() =>
         StartEndTester.IsStartRegion("#region key_ 6", out fake, out fake, out fake));
-        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+        Assert.AreEqual("Key should not start or end with symbols. Key: key_", exception.Message);
     }
     [Test]
     public void ShouldThrowForKeyStartingWithSymbol()
@@ -42,7 +42,7 @@ public class StartEndTester_IsStartRegionTests
         string fake;
         var exception = Assert.Throws<Exception>(() =>
         StartEndTester.IsStartRegion("#region _key", out fake, out fake, out fake));
-        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+        Assert.AreEqual("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
     [Test]
@@ -51,7 +51,7 @@ public class StartEndTester_IsStartRegionTests
         string fake;
         var exception = Assert.Throws<Exception>(() =>
         StartEndTester.IsStartRegion("#region key_ ", out fake, out fake, out fake));
-        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+        Assert.AreEqual("Key should not start or end with symbols. Key: key_", exception.Message);
     }
 
 

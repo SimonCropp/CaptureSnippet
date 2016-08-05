@@ -199,7 +199,7 @@ public class StartEndTester_IsStartCodeTests
         string fake;
         var exception = Assert.Throws<Exception>(() =>
             StartEndTester.IsStartCode("<!-- startcode _key 6 -->", out fake, out fake, out fake));
-        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+        Assert.AreEqual("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
     [Test]
@@ -208,7 +208,7 @@ public class StartEndTester_IsStartCodeTests
         string fake;
         var exception = Assert.Throws<Exception>(() =>
             StartEndTester.IsStartCode("<!-- startcode key_ 6 -->", out fake, out fake, out fake));
-        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+        Assert.AreEqual("Key should not start or end with symbols. Key: key_", exception.Message);
     }
 
     [Test]
@@ -217,7 +217,7 @@ public class StartEndTester_IsStartCodeTests
         string fake;
         var exception = Assert.Throws<Exception>(() =>
             StartEndTester.IsStartCode("<!-- startcode _key-->", out fake, out fake, out fake));
-        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+        Assert.AreEqual("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
     [Test]
@@ -226,7 +226,7 @@ public class StartEndTester_IsStartCodeTests
         string fake;
         var exception = Assert.Throws<Exception>(() =>
             StartEndTester.IsStartCode("<!-- startcode key_ -->", out fake, out fake, out fake));
-        Assert.AreEqual("Key should not start or end with symbols.", exception.Message);
+        Assert.AreEqual("Key should not start or end with symbols. Key: key_", exception.Message);
     }
 
     [Test]

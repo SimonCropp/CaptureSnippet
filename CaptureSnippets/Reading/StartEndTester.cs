@@ -90,7 +90,7 @@ static class StartEndTester
         {
             return;
         }
-        throw new Exception("Key should not start or end with symbols.");
+        throw new Exception($"Key should not start or end with symbols. Key: {key}");
     }
 
 }
