@@ -33,11 +33,19 @@ namespace CaptureSnippets
             Guard.AgainstNull(textReader, nameof(textReader));
             Guard.AgainstNull(callback, nameof(callback));
             Guard.AgainstNull(parentVersion, nameof(parentVersion));
+            Guard.AgainstNullAndEmpty(path, nameof(path));
             Guard.AgainstNull(parentPackage, nameof(parentPackage));
             Guard.AgainstNull(parentComponent, nameof(parentComponent));
-            using (var reader = new IndexReader(textReader))
+            try
             {
-                GetSnippets(reader, path, parentVersion, parentPackage, parentComponent, callback);
+                using (var reader = new IndexReader(textReader))
+                {
+                    GetSnippets(reader, path, parentVersion, parentPackage, parentComponent, callback);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception($"Could not extract snippets from '{path}';", exception);
             }
         }
 
