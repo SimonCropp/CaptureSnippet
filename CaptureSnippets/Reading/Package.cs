@@ -1,76 +1,46 @@
-using System;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace CaptureSnippets
 {
-    public struct Package:IComparable<Package>
+    [DebuggerDisplay("Package={Identifier, Count={Versions.Count}}")]
+    public class Package : IEnumerable<VersionGroup>
     {
+        public readonly string Identifier;
+        public readonly IReadOnlyList<VersionGroup> Versions;
+        public readonly IReadOnlyList<Snippet> AllSnippets;
+        public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
 
-        public string ValueOrUndefined => this == Undefined ? "Undefined" : Value;
+        public Package(string identifier, IReadOnlyList<VersionGroup> versions)
+        {
+            Guard.AgainstNull(versions, nameof(versions));
+            Guard.AgainstNullAndEmpty(identifier, nameof(identifier));
+            Identifier = identifier;
+            Versions = versions;
+            AllSnippets = versions.SelectMany(_ => _.Snippets).ToList();
+            Lookup = AllSnippets.ToDictionary();
+        }
 
-        string value;
+        /// <summary>
+        /// Enumerates over <see cref="Versions"/>.
+        /// </summary>
+        public IEnumerator<VersionGroup> GetEnumerator()
+        {
+            return Versions.GetEnumerator();
+        }
 
-        public int CompareTo(Package other) => ValueOrUndefined.CompareTo(other.ValueOrUndefined);
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
         public override string ToString()
         {
-            return Value;
+            return $@"Package.
+  Identifier: {Identifier}
+";
         }
-
-        public string Value
-        {
-            get
-            {
-                if (this == Undefined)
-                {
-                    throw new Exception("Cannot access Value when is Package.Undefined.");
-                }
-                return value;
-            }
-        }
-
-        public static Package Undefined;
-
-        public Package(string value)
-        {
-            Guard.AgainstNullAndEmpty(value, nameof(value));
-            if (value == "Undefined")
-            {
-                throw new ArgumentException("'Undefined' is not an allowed value.", nameof(value));
-            }
-            this.value = value;
-        }
-
-
-        static Package()
-        {
-            Undefined = new Package();
-        }
-
-        public static bool operator ==(Package a, Package b)
-        {
-            return a.value == b.value;
-        }
-
-
-        public static bool operator !=(Package a, Package b)
-        {
-            return a.value != b.value;
-        }
-
-        public static implicit operator string(Package package)
-        {
-            if (package.value == null)
-            {
-                throw new Exception("Cannot convert Package.Undefined to a string.");
-            }
-            return package.Value;
-        }
-
-        public static implicit operator Package(string value)
-        {
-            Guard.AgainstNull(value, nameof(value));
-            return new Package(value);
-        }
-
     }
 }

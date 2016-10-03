@@ -10,33 +10,18 @@ namespace CaptureSnippets
     {
 
         /// <summary>
-        /// Converts <see cref="ReadSnippets.GetSnippetsInError"/> to a markdown string.
+        /// Converts <see cref="IEnumerable{Snippet}"/> to a markdown string.
         /// </summary>
-        public static string ErrorsAsMarkdown(this ReadSnippets readSnippets)
+        public static string ErrorsAsMarkdown(this IReadOnlyList<Snippet> snippets)
         {
-            Guard.AgainstNull(readSnippets, nameof(readSnippets));
-            return ErrorsAsMarkdown(readSnippets.GetSnippetsInError());
-        }
-
-        /// <summary>
-        /// Converts <see cref="CachedSnippets.ReadingErrors"/> to a markdown string.
-        /// </summary>
-        public static string ErrorsAsMarkdown(this CachedSnippets cachedSnippets)
-        {
-            Guard.AgainstNull(cachedSnippets, nameof(cachedSnippets));
-            return ErrorsAsMarkdown(cachedSnippets.ReadingErrors);
-        }
-
-        static string ErrorsAsMarkdown(IEnumerable<ReadSnippet> errors)
-        {
-            var readSnippetErrors = errors.ToList();
-            if (!readSnippetErrors.Any())
+            Guard.AgainstNull(snippets, nameof(snippets));
+            if (!snippets.Any())
             {
                 return "";
             }
             var builder = StringBuilderCache.Acquire();
             builder.AppendLine("## Snippet errors\r\n");
-            foreach (var error in readSnippetErrors)
+            foreach (var error in snippets)
             {
                 builder.AppendLine(" * " + error);
             }

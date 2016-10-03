@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using System.IO;
-using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -10,45 +10,30 @@ namespace CaptureSnippets
     public static class SimpleSnippetMarkdownHandling
     {
 
-        public static void AppendGroup(SnippetGroup group, TextWriter writer)
+        public static void AppendGroup(string key, IReadOnlyList<Snippet> group, TextWriter writer)
         {
             Guard.AgainstNull(group, nameof(group));
             Guard.AgainstNull(writer, nameof(writer));
 
-            var message = $"### Key: '{group.Key}'";
-            writer.WriteLine(message);
-            var language = group.Language;
-            foreach (var package in group)
+            writer.WriteLine($"### Key: '{key}'");
+            foreach (var snippet in group)
             {
-                AppendPackageGroup(writer, package, language);
+                WriteSnippet(writer, snippet);
             }
         }
 
-        static void AppendPackageGroup(TextWriter writer, PackageGroup packageGroup, string language)
+        static void WriteSnippet(TextWriter writer, Snippet snippet)
         {
-            if (packageGroup.Package != Package.Undefined)
+            if (snippet.IsShared)
             {
-                var message = $"### Package: '{packageGroup.Package}'";
-                writer.WriteLine(message);
+                writer.WriteLine("#### Shared");
+                return;
             }
-            foreach (var version in packageGroup.Versions)
-            {
-                AppendVersionGroup(writer, version, language);
-            }
-        }
-
-        static void AppendVersionGroup(TextWriter writer, VersionGroup versionGroup, string language)
-        {
-            if (!versionGroup.Version.Equals(VersionRange.All))
-            {
-                var message = $"#### Version: '{versionGroup.Version.ToFriendlyString()}'";
-                writer.WriteLine(message);
-            }
-            var format = $@"```{language}
-{versionGroup.Value}
+            writer.WriteLine($"####  Package: {snippet.Package}. Version: {snippet.Version.ToFriendlyString()}");
+            var format = $@"```{snippet.Language}
+{snippet.Value}
 ```";
             writer.WriteLine(format);
         }
-
     }
 }

@@ -1,1 +1,0 @@
-﻿snippet: mycodesnippet1

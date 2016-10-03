@@ -79,36 +79,44 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CachedSnippetExtractorTests.cs" />
-    <Compile Include="Converters\CachedSnippetsConverter.cs" />
-    <Compile Include="Converters\ComponentConverter.cs" />
-    <Compile Include="Converters\PackageConverter.cs" />
     <Compile Include="Converters\ProcessResultConverter.cs" />
-    <Compile Include="Converters\ReadSnippetConverter.cs" />
-    <Compile Include="Converters\ReadSnippetsConverter.cs" />
-    <Compile Include="Converters\SnippetPackageGroupConverter.cs" />
-    <Compile Include="Converters\SnippetGroupConverter.cs" />
-    <Compile Include="Converters\SnippetVersionGroupConverter.cs" />
-    <Content Include="DirectorySnippetExtractor\1.1\2.2\code.txt">
+    <Content Include="DirectorySnippetExtractor\Simple\componentx\packageA_1\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DirectorySnippetExtractor\Simple\componentx\packageA_2\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Simple\componentx\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Simple\componenty\packageA_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Simple\componenty\packageA_2\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Simple\componenty\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Simple\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\componenty\packageA_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\componenty\packageA_2\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\componentx\packageA_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="Converters\SnippetConverter.cs" />
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="DirectorySnippetExtractor\DirectorySnippetExtractorTests.cs" />
     <Compile Include="LoopStateTests.cs" />
     <Compile Include="VersionRangeExtensionsTests.cs" />
-    <None Include="scenarios\03-WeirdCharacters\input.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\03-WeirdCharacters\output.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\06-IgnoreCase\code.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Compile Include="MarkdownProcessor_TryExtractKeyFromTests.cs" />
-    <None Include="scenarios\03-WeirdCharacters\code.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Sample.cs" />
     <None Include="badsnippets\code.cs">
@@ -117,63 +125,12 @@
     <Compile Include="SnippetExtractorTests.cs" />
     <Compile Include="StartEndTester_IsStartRegionTests.cs" />
     <Compile Include="StartEndTester_IsStartCodeTests.cs" />
-    <Compile Include="SnippetGrouperTests.cs" />
     <Compile Include="Converters\VersionRangeConverter.cs" />
     <Compile Include="StringExtensions.cs" />
-    <None Include="scenarios\06-IgnoreCase\input.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\06-IgnoreCase\output.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\05-SamplePage\code.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Compile Include="ImportTestSuite.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="scenarios\01-UpdateSimpleFile\output.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\01-UpdateSimpleFile\input.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\02-UpdateSimpleFileMultipleTimes\output.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\02-UpdateSimpleFileMultipleTimes\input.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="scenarios\04-UseAUnitTest\input.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\04-UseAUnitTest\output.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\05-SamplePage\input.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="scenarios\05-SamplePage\output.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="scenarios\01-UpdateSimpleFile\code.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="scenarios\02-UpdateSimpleFileMultipleTimes\code.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="scenarios\04-UseAUnitTest\code.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -183,13 +140,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DirectorySnippetExtractor\1.1\code.txt">
+    <Content Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\componentx\packageA_2\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DirectorySnippetExtractor\Ignore\" />
+    <Folder Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\Ignore\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

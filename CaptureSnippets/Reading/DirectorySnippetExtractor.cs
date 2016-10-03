@@ -1,96 +1,154 @@
-using System;
-using System.Collections.Concurrent;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
-    /// <summary>
-    /// Extracts <see cref="ReadSnippet"/>s from a given directory.
-    /// </summary>
     public class DirectorySnippetExtractor
     {
-        ExtractDirectoryPathData extractDirectoryPathData;
         DirectoryFilter directoryFilter;
         FileFilter fileFilter;
-        FileSnippetExtractor fileExtractor;
+        GetPackageOrderForComponent packageOrder;
 
-        /// <summary>
-        /// Initialise a new instance of <see cref="DirectorySnippetExtractor"/>.
-        /// </summary>
-        /// <param name="extractDirectoryPathData">How to extract a <see cref="PathData"/> from a given path.</param>
-        /// <param name="fileFilter">Used to filter files.</param>
-        /// <param name="directoryFilter">Used to filter directories.</param>
-        public DirectorySnippetExtractor(ExtractDirectoryPathData extractDirectoryPathData, ExtractFileNameData extractFileNameData, DirectoryFilter directoryFilter, FileFilter fileFilter)
+        public DirectorySnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter, GetPackageOrderForComponent packageOrder)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
-            Guard.AgainstNull(extractDirectoryPathData, nameof(extractDirectoryPathData));
-            this.extractDirectoryPathData = extractDirectoryPathData;
             this.directoryFilter = directoryFilter;
             this.fileFilter = fileFilter;
-            fileExtractor = new FileSnippetExtractor(extractFileNameData);
+            this.packageOrder = packageOrder;
         }
 
-        public ReadSnippets FromDirectory(string directoryPath, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
+        public ReadComponents ReadComponents(string directory)
         {
-            Guard.AgainstNull(directoryPath, nameof(directoryPath));
-            Guard.AgainstNull(rootVersionRange, nameof(rootVersionRange));
-            Guard.AgainstNull(rootPackage, nameof(rootPackage));
-            Guard.AgainstNull(rootComponent, nameof(rootComponent));
-            var snippets = new ConcurrentBag<ReadSnippet>();
-            var files = new List<FileAndData>();
-            FindFiles(directoryPath, rootVersionRange, rootPackage, rootComponent,files);
-            Parallel.ForEach(files, data =>
+            var components = EnumerateComponents(directory).ToList();
+            var shared = GetShared(directory);
+            return new ReadComponents(components, shared);
+        }
+
+        List<Snippet> GetShared(string directory)
+        {
+            var sharedDirectory = Path.Combine(directory, "Shared");
+            if (Directory.Exists(sharedDirectory))
             {
-                FromFile(data.Path, data.DirectoryVersion, data.DirectoryPackage, data.DirectoryComponent, snippets.Add);
-            });
-            return new ReadSnippets(snippets.ToArray());
+
+                var snippetExtractor = FileSnippetExtractor.BuildShared();
+                return ReadSnippets(sharedDirectory, snippetExtractor).ToList();
+            }
+            return new List<Snippet>();
         }
 
-        struct FileAndData
+        public ReadPackages ReadPackages(string directory)
         {
-            public string Path;
-            public VersionRange DirectoryVersion;
-            public Package DirectoryPackage;
-            public Component DirectoryComponent;
+            var packages = EnumeratePackages(directory).ToList();
+
+            var shared = GetShared(directory);
+            return new ReadPackages(packages, shared);
         }
 
-        void FindFiles(string directoryPath, VersionRange parentVersion, Package parentPackage, Component parentComponent, List<FileAndData> files)
+        IEnumerable<Package> EnumeratePackages(string directory)
         {
-            VersionRange directoryVersion;
-            Package directoryPackage;
-            Component directoryComponent;
-            var pathData = extractDirectoryPathData(directoryPath);
-            PathDataExtractor.ExtractData(parentVersion, parentPackage, parentComponent, pathData, out directoryVersion, out directoryPackage, out directoryComponent);
-            foreach (var file in Directory.EnumerateFiles(directoryPath)
-                   .Where(s => fileFilter(s)))
+            var packageDirectories = Directory.EnumerateDirectories(directory, "*_*")
+                .Where(s => s != "Shared" && directoryFilter(s));
+
+            var lookup = new Dictionary<string, List<VersionGroup>>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var packageAndVersionDirectory in packageDirectories)
             {
-                files.Add(new FileAndData
+                var name = Path.GetFileName(packageAndVersionDirectory);
+                var index = name.IndexOf('_');
+                if (index < 1)
                 {
-                    Path = file,
-                    DirectoryVersion = directoryVersion,
-                    DirectoryPackage = directoryPackage,
-                    DirectoryComponent = directoryComponent
-                });
+                    throw new Exception($"Expected the directroy name '{name}' to be split by a \'_\'.");
+                }
+                var packagePart = name.Substring(0, index);
+                var versionPart = name.Substring(index + 1, name.Length - index - 1);
+                List<VersionGroup> versions;
+                if (!lookup.TryGetValue(packagePart, out versions))
+                {
+                    lookup[packagePart] = versions = new List<VersionGroup>();
+                }
+
+                var version = VersionRangeParser.ParseVersion(versionPart);
+                versions.Add(ReadVersion(packageAndVersionDirectory, version, packagePart));
             }
-            foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
-                .Where(s => directoryFilter(s)))
+            foreach (var kv in lookup)
             {
-                FindFiles(subDirectory, directoryVersion, directoryPackage, directoryComponent, files);
+                yield return new Package(kv.Key, kv.Value);
             }
         }
 
-        void FromFile(string file, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
+        internal IEnumerable<Component> EnumerateComponents(string directory)
         {
-            using (var textReader = File.OpenText(file))
-            {
-                fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, parentComponent, callback);
-            }
+            return Directory.EnumerateDirectories(directory)
+                .Where(s => s != "Shared" && directoryFilter(s))
+                .Select(ReadComponent);
         }
 
+        Component ReadComponent(string componentDirectory)
+        {
+            var packages = EnumeratePackages(componentDirectory);
+            var name = Path.GetDirectoryName(componentDirectory);
+            var shared = GetShared(componentDirectory);
+            return new Component(
+                identifier: name,
+                packages: GetOrderedPackages(name, packages).ToList(),
+                shared: shared);
+        }
+
+
+        IEnumerable<Package> GetOrderedPackages(string component, IEnumerable<Package> package)
+        {
+            if (packageOrder == null)
+            {
+                return package.OrderBy(_ => _.Identifier);
+            }
+            List<string> result;
+            try
+            {
+                result = packageOrder(component).ToList();
+            }
+            catch (Exception exception)
+            {
+                var errorMessage = $"Error getting package order. Component='{component}'.";
+                throw new Exception(errorMessage, exception);
+            }
+
+            return package.OrderBy(_ =>
+            {
+                try
+                {
+                    return result.IndexOf(_.Identifier);
+                }
+                catch (Exception exception)
+                {
+                    var errorMessage = $"Error getting package index. Component='{component}', Package='{_.Identifier}'.";
+                    throw new Exception(errorMessage, exception);
+                }
+            });
+        }
+
+        VersionGroup ReadVersion(string versionDirectory, VersionRange version, string package)
+        {
+            var snippetExtractor = FileSnippetExtractor.Build(version, package);
+            return new VersionGroup(
+                version: version,
+                snippets: ReadSnippets(versionDirectory, snippetExtractor).ToList());
+        }
+
+        IEnumerable<Snippet> ReadSnippets(string directory, FileSnippetExtractor snippetExtractor)
+        {
+            return Directory.EnumerateFiles(directory)
+                .Where(s => fileFilter(s))
+                .SelectMany(file =>
+                {
+                    using (var reader = File.OpenText(file))
+                    {
+                        return snippetExtractor.AppendFromReader(reader, file).ToList();
+                    }
+                });
+        }
     }
 }

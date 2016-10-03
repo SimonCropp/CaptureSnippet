@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
-using NuGet.Versioning;
 using NUnit.Framework;
 using ObjectApproval;
 
@@ -13,55 +12,57 @@ using ObjectApproval;
 public class DirectorySnippetExtractorTests
 {
     [Test]
+    public void Simple()
+    {
+        var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Simple");
+        var extractor = new DirectorySnippetExtractor(
+            directoryFilter: path => true,
+            fileFilter: path => true,
+            packageOrder: component => new List<string>()
+        );
+        var components = extractor.ReadComponents(targetDirectory);
+        ObjectApprover.VerifyWithJson(components, s => s.Replace(@"\\", @"\").Replace(TestContext.CurrentContext.TestDirectory, @"root\"));
+    }
+
+    [Test]
     public void VerifyLambdasAreCalled()
     {
-        var versionAndPaths = new ConcurrentBag<CapturedVersionAndPath>();
         var directories = new ConcurrentBag<CapturedDirectory>();
         var files = new ConcurrentBag<CapturedFile>();
-        var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor");
-        var data = PathData.With(VersionRange.All, "package", Component.Undefined);
+        var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/VerifyLambdasAreCalled");
         var result = new TestResult();
         var extractor = new DirectorySnippetExtractor(
-            extractDirectoryPathData: path => GetPathData(path, versionAndPaths, data),
-            extractFileNameData: path => GetPathData(path, versionAndPaths, data),
             directoryFilter: path =>
             {
-                directories.Add(new CapturedDirectory {Path = path});
+                var capture = new CapturedDirectory
+                {
+                    Path = path
+                };
+                directories.Add(capture);
                 return true;
             },
             fileFilter: path =>
             {
-                files.Add(new CapturedFile {Path = path});
+                var capture = new CapturedFile
+                {
+                    Path = path
+                };
+                files.Add(capture);
                 return true;
-            }
+            },
+            packageOrder: component => new List<string>()
         );
-        extractor.FromDirectory(targetDirectory, VersionRange.None, Package.Undefined, Component.Undefined);
+        extractor.ReadComponents(targetDirectory);
         result.Files = files.OrderBy(file => file.Path).ToList();
         result.Directories = directories.OrderBy(file => file.Path).ToList();
-        result.VersionAndPaths = versionAndPaths.OrderBy(file => file.Path).ToList();
-        ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(targetDirectory, @"root\"));
+        ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(TestContext.CurrentContext.TestDirectory, @"root\"));
     }
 
-    static PathData GetPathData(string path, ConcurrentBag<CapturedVersionAndPath> versionAndPaths, PathData data)
-    {
-        var versionAndPath = new CapturedVersionAndPath
-        {
-            Path = path
-        };
-        versionAndPaths.Add(versionAndPath);
-        return data;
-    }
 
     public class TestResult
     {
-        public List<CapturedVersionAndPath> VersionAndPaths;
         public List<CapturedDirectory> Directories;
         public List<CapturedFile> Files;
-    }
-
-    public class CapturedVersionAndPath
-    {
-        public string Path;
     }
 
     public class CapturedDirectory

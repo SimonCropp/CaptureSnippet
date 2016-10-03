@@ -2,9 +2,8 @@
   {
     "Key": "codekey",
     "Language": "cs",
-    "Component": "Undefined",
-    "Package": "Undefined",
-    "Version": "all",
+    "Package": "package",
+    "Version": ">= 1.0.0 && < 2.0.0",
     "Value": "<configSections/>",
     "Error": null,
     "FileLocation": "path.cs(3-4)",

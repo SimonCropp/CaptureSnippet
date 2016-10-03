@@ -6,14 +6,7 @@ public static class ModuleInitializer
     {
         var converters = ObjectApprover.JsonSerializer.Converters;
         converters.Add(new VersionRangeConverter());
-        converters.Add(new CachedSnippetsConverter());
-        converters.Add(new SnippetGroupConverter());
-        converters.Add(new SnippetPackageGroupConverter());
-        converters.Add(new PackageConverter());
         converters.Add(new ProcessResultConverter());
-        converters.Add(new ComponentConverter());
-        converters.Add(new ReadSnippetsConverter());
-        converters.Add(new ReadSnippetConverter());
-        converters.Add(new SnippetVersionGroupConverter());
+        converters.Add(new SnippetConverter());
     }
 }

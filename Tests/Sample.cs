@@ -1,71 +1,52 @@
-﻿using System.IO;
-using System.Linq;
-using CaptureSnippets;
-using NuGet.Versioning;
-// ReSharper disable UnusedMember.Local
-// ReSharper disable UnusedParameter.Local
+﻿//using System.IO;
+//using CaptureSnippets;
+//// ReSharper disable UnusedMember.Local
+//// ReSharper disable UnusedParameter.Local
 
-class Sample
-{
+//class Sample
+//{
 
-    void UseSnippetExtractor()
-    {
+//    void UseSnippetExtractor()
+//    {
+//        // setup version convention and extract snippets from files
+//        var snippetExtractor = new DirectorySnippetExtractor(
+//            directoryFilter: IncludeDirectory,
+//            fileFilter: IncludeFile);
+//        var snippets = snippetExtractor.ReadComponents(@"C:\path");
 
-        // setup version convention and extract snippets from files
 
-        var snippetExtractor = new DirectorySnippetExtractor(
-            extractDirectoryPathData: InferVersionAndPath,
-            extractFileNameData: InferVersionAndPath,
-            directoryFilter: IncludeDirectory,
-            fileFilter: IncludeFile);
-        var readSnippets = snippetExtractor.FromDirectory(@"C:\path", VersionRange.None, Package.Undefined, Component.Undefined);
+//        //In this case the text will be extracted from a file path
+//        ProcessResult result;
+//        var markdownProcessor = new MarkdownProcessor(
+//            snippets: snippets,
+//            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup);
+//        using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
+//        using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
+//        {
+//            result = markdownProcessor.Apply(reader, writer);
+//        }
 
-        // Grouping
-        var snippetGroups = SnippetGrouper.Group(readSnippets)
-            .ToList();
+//        // List of all snippets that the markdown file expected but did not exist in the input snippets
+//        var missingSnippets = result.MissingSnippets;
 
-        //In this case the text will be extracted from a file path
-        ProcessResult result;
-        var markdownProcessor = new MarkdownProcessor(
-            snippets: snippetGroups,
-            appendSnippetGroup: SimpleSnippetMarkdownHandling.AppendGroup);
-        using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
-        using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
-        {
-            result = markdownProcessor.Apply(reader, writer);
-        }
+//        // List of all snippets that the markdown file used
+//        var usedSnippets = result.UsedSnippets;
 
-        // List of all snippets that the markdown file expected but did not exist in the input snippets
-        var missingSnippets = result.MissingSnippets;
+//    }
 
-        // List of all snippets that the markdown file used
-        var usedSnippets = result.UsedSnippets;
+//    bool IncludeDirectory(string directorypath)
+//    {
+//        throw new System.NotImplementedException();
+//    }
 
-    }
+//    Package InferPackage(string path, string parent)
+//    {
+//        throw new System.NotImplementedException();
+//    }
 
-    bool IncludeDirectory(string directorypath)
-    {
-        throw new System.NotImplementedException();
-    }
+//    bool IncludeFile(string filepath)
+//    {
+//        return filepath.EndsWith(".vm") || filepath.EndsWith(".cs");
+//    }
 
-    Package InferPackage(string path, string parent)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    bool IncludeFile(string filepath)
-    {
-        return filepath.EndsWith(".vm") || filepath.EndsWith(".cs");
-    }
-
-    static PathData InferVersionAndPath(string path)
-    {
-        VersionRange version;
-        var split = path.Split('_');
-        if (VersionRange.TryParse(split[1], out version))
-        {
-            return PathData.With(version, split[0], Component.Undefined);
-        }
-        return PathData.WithParent();
-    }
-}
+//}

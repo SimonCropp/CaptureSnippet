@@ -7,7 +7,7 @@ using NUnit.Framework;
 [UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class MarkdownProcessor_TryExtractKeyFromTests
 {
-    
+
     [Test]
     public void MissingSpaces()
     {
@@ -15,7 +15,7 @@ public class MarkdownProcessor_TryExtractKeyFromTests
         SnippetKeyReader.TryExtractKeyFromLine("snippet:mycodesnippet", out key);
         Assert.AreEqual("mycodesnippet", key);
     }
-    
+
 
     [Test]
     public void WithDashes()
@@ -24,7 +24,7 @@ public class MarkdownProcessor_TryExtractKeyFromTests
         SnippetKeyReader.TryExtractKeyFromLine("snippet:my-code-snippet", out key);
         Assert.AreEqual("my-code-snippet", key);
     }
-    
+
     [Test]
     public void Simple()
     {

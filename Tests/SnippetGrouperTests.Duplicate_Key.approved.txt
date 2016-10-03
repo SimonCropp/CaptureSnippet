@@ -1,1 +1,0 @@
-﻿"Duplicate version detected. Key='foundkey'. Package='packageA'. Files=\r\n(1-1)\r\n(1-1)"

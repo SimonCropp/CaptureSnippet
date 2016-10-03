@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using CaptureSnippets;
 
 static class Extensions
 {
@@ -23,6 +26,16 @@ static class Extensions
     public static bool StartsWithLetter(this string value)
     {
         return char.IsLetter(value, 0);
+    }
+    public static IReadOnlyList<T> ToReadonlyList<T>(this IEnumerable<T> value)
+    {
+        return value.ToList();
+    }
+    public static Dictionary<string, IReadOnlyList<Snippet>> ToDictionary(this IEnumerable<Snippet> value)
+    {
+        return value
+                .GroupBy(_ => _.Key)
+                .ToDictionary(_ => _.Key, _ => _.ToReadonlyList()); ;
     }
 
     public static int LastIndexOfSequence(this string value, char c, int max)
