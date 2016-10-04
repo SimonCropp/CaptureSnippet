@@ -1,17 +1,18 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NUnit.Framework;
+using ObjectApproval;
 
 [TestFixture]
 [UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class CachedSnippetExtractorTests
 {
     [Test]
-    [Explicit]
     public void SecondReadShouldBeFasterThanFirstRead()
     {
-        var directory = "scenarios".ToCurrentDirectory();
+        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "CachedSnippetExtractor/Simple");
         //warmup
         var extractor = new CachedSnippetExtractor(
             directoryFilter: s => true,
@@ -35,12 +36,12 @@ public class CachedSnippetExtractorTests
     [Test]
     public void EnsureErrorsAreReturned()
     {
-        var directory = "badsnippets".ToCurrentDirectory();
+        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "CachedSnippetExtractor/Bad");
         var extractor = new CachedSnippetExtractor(
             directoryFilter: s => true,
-            fileFilter: s => s.EndsWith(".cs"));
+            fileFilter: s => true);
         var read = extractor.FromDirectory(directory);
-        Assert.AreEqual(1, read.Components.SnippetsInError.Count);
+        ObjectApprover.VerifyWithJson(read.Components, Scrubber.Scrub);
     }
 
 }

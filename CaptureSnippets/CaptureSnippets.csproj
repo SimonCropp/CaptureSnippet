@@ -59,10 +59,10 @@
   <ItemGroup>
     <Compile Include="Caching\CachedComponents.cs" />
     <Compile Include="Caching\CachedSnippetExtractor.cs" />
-    <Compile Include="Processing\IncludeKeyReader.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="DirectoryDateFinder.cs" />
     <Compile Include="InterpretErrors.cs" />
+    <Compile Include="PreTextReader.cs" />
     <Compile Include="Processing\AppendSnippetGroupToMarkdown.cs" />
     <Compile Include="Processing\MarkdownProcessor.cs" />
     <Compile Include="Processing\MissingSnippet.cs" />

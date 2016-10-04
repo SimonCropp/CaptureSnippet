@@ -1,5 +1,4 @@
 ﻿using ApprovalTests.Reporters;
-using CaptureSnippets;
 using NUnit.Framework;
 // ReSharper disable StringLiteralTypo
 

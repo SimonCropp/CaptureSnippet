@@ -14,15 +14,16 @@ public class DirectorySnippetExtractorTests
     [Test]
     public void Simple()
     {
-        var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Simple");
+        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Simple");
         var extractor = new DirectorySnippetExtractor(
             directoryFilter: path => true,
             fileFilter: path => true,
             packageOrder: component => new List<string>()
         );
-        var components = extractor.ReadComponents(targetDirectory);
-        ObjectApprover.VerifyWithJson(components, s => s.Replace(@"\\", @"\").Replace(TestContext.CurrentContext.TestDirectory, @"root\"));
+        var components = extractor.ReadComponents(directory);
+        ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
     }
+
 
     [Test]
     public void VerifyLambdasAreCalled()
@@ -55,7 +56,7 @@ public class DirectorySnippetExtractorTests
         extractor.ReadComponents(targetDirectory);
         result.Files = files.OrderBy(file => file.Path).ToList();
         result.Directories = directories.OrderBy(file => file.Path).ToList();
-        ObjectApprover.VerifyWithJson(result, s => s.Replace(@"\\", @"\").Replace(TestContext.CurrentContext.TestDirectory, @"root\"));
+        ObjectApprover.VerifyWithJson(result, Scrubber.Scrub);
     }
 
 

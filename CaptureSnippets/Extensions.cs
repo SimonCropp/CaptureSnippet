@@ -23,16 +23,21 @@ static class Extensions
         }
     }
 
-    public static bool StartsWithLetter(this string value)
-    {
-        return char.IsLetter(value, 0);
-    }
     public static IReadOnlyList<T> ToReadonlyList<T>(this IEnumerable<T> value)
     {
         return value.ToList();
     }
     public static Dictionary<string, IReadOnlyList<Snippet>> ToDictionary(this IEnumerable<Snippet> value)
     {
+        //TODO: throw if mixing 
+        //if (package == Package.Undefined)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(targetPackage))
+        //    {
+        //        throw new Exception("Cannot mix non-empty targetPackage with a snippet that is Package.Undefined.");
+        //    }
+        //    packageText = "";
+        //}
         return value
                 .GroupBy(_ => _.Key)
                 .ToDictionary(_ => _.Key, _ => _.ToReadonlyList()); ;

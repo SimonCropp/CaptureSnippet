@@ -170,6 +170,11 @@ namespace CaptureSnippets
             VersionRange version;
             if (VersionRangeParser.TryParseVersion(loopState.Version, out version))
             {
+                if (fileVersion.IsPreRelease())
+                {
+                    error = $"Could not use '{loopState.Version}' since directory is flagged as Prerelease. FileVersion: {fileVersion.ToFriendlyString()}.";
+                    return false;
+                }
                 snippetVersion = version;
 
                 error = null;

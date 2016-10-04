@@ -84,5 +84,7 @@ namespace CaptureSnippets
             }
             return VersionRange.TryParse(stringVersion, out parsedVersion);
         }
+
+
     }
 }

@@ -42,6 +42,7 @@
           "IsInError": false
         }
       ],
+      "Directory": "root\\DirectorySnippetExtractor/Simple\componentx",
       "AllSnippets": [
         {
           "Key": "mycodesnippet2",
@@ -153,6 +154,7 @@
           "IsInError": false
         }
       ],
+      "Directory": "root\\DirectorySnippetExtractor/Simple\componenty",
       "AllSnippets": [
         {
           "Key": "mycodesnippet2",
@@ -226,6 +228,7 @@
       "Identifier": "root\\DirectorySnippetExtractor\Simple",
       "Packages": [],
       "Shared": [],
+      "Directory": "root\\DirectorySnippetExtractor/Simple\shared",
       "AllSnippets": [],
       "Lookup": {}
     }
@@ -242,6 +245,7 @@
       "IsInError": false
     }
   ],
+  "Directory": "root\\DirectorySnippetExtractor/Simple",
   "AllSnippets": [
     {
       "Key": "mycodesnippet2",

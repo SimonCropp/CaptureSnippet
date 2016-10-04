@@ -1,0 +1,3 @@
+﻿startcode mycodesnippet1 f
+Some code
+endcode

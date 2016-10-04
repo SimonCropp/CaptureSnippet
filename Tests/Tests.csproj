@@ -78,8 +78,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachedSnippetExtractorTests.cs" />
+    <Compile Include="CachedSnippetExtractor\CachedSnippetExtractorTests.cs" />
     <Compile Include="Converters\ProcessResultConverter.cs" />
+    <Content Include="CachedSnippetExtractor\Bad\componentx\packageA_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CachedSnippetExtractor\Bad\componentx\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CachedSnippetExtractor\Bad\componenty\packageA_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CachedSnippetExtractor\Bad\componenty\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CachedSnippetExtractor\Bad\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CachedSnippetExtractor\Simple\componentx\packageA_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CachedSnippetExtractor\Simple\componentx\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CachedSnippetExtractor\Simple\componenty\packageA_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CachedSnippetExtractor\Simple\componenty\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CachedSnippetExtractor\Simple\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DirectorySnippetExtractor\Simple\componentx\packageA_1\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -111,6 +141,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="Converters\SnippetConverter.cs" />
+    <Compile Include="Scrubber.cs" />
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="DirectorySnippetExtractor\DirectorySnippetExtractorTests.cs" />
