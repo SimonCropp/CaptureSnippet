@@ -29,7 +29,7 @@ static class Extensions
     }
     public static Dictionary<string, IReadOnlyList<Snippet>> ToDictionary(this IEnumerable<Snippet> value)
     {
-        //TODO: throw if mixing 
+        //TODO: throw if mixing
         //if (package == Package.Undefined)
         //{
         //    if (!string.IsNullOrWhiteSpace(targetPackage))
@@ -40,7 +40,7 @@ static class Extensions
         //}
         return value
                 .GroupBy(_ => _.Key)
-                .ToDictionary(_ => _.Key, _ => _.ToReadonlyList()); ;
+                .ToDictionary(_ => _.Key, _ => _.ToReadonlyList());
     }
 
     public static int LastIndexOfSequence(this string value, char c, int max)

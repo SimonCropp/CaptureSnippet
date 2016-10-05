@@ -1,18 +1,39 @@
 ﻿{
   "Components": [
     {
-      "Identifier": "root\\cachedsnippetextractor\bad",
+      "Identifier": "componentx",
       "Packages": [
-        [
-          [
+        {
+          "Identifier": "packageA",
+          "Versions": [
+            [
+              {
+                "Key": "mycodesnippet2",
+                "Error": "Expected 'f' to be either parsable as a version.",
+                "FileLocation": "root\\cachedsnippetextractor/bad\componentx\packageA_1\code.txt(2-2)",
+                "IsInError": true
+              }
+            ]
+          ],
+          "AllSnippets": [
             {
               "Key": "mycodesnippet2",
               "Error": "Expected 'f' to be either parsable as a version.",
               "FileLocation": "root\\cachedsnippetextractor/bad\componentx\packageA_1\code.txt(2-2)",
               "IsInError": true
             }
-          ]
-        ]
+          ],
+          "Lookup": {
+            "mycodesnippet2": [
+              {
+                "Key": "mycodesnippet2",
+                "Error": "Expected 'f' to be either parsable as a version.",
+                "FileLocation": "root\\cachedsnippetextractor/bad\componentx\packageA_1\code.txt(2-2)",
+                "IsInError": true
+              }
+            ]
+          }
+        }
       ],
       "Shared": [
         {
@@ -57,18 +78,39 @@
       }
     },
     {
-      "Identifier": "root\\cachedsnippetextractor\bad",
+      "Identifier": "componenty",
       "Packages": [
-        [
-          [
+        {
+          "Identifier": "packageA",
+          "Versions": [
+            [
+              {
+                "Key": "mycodesnippet2",
+                "Error": "Expected 'f' to be either parsable as a version.",
+                "FileLocation": "root\\cachedsnippetextractor/bad\componenty\packageA_1\code.txt(2-2)",
+                "IsInError": true
+              }
+            ]
+          ],
+          "AllSnippets": [
             {
               "Key": "mycodesnippet2",
               "Error": "Expected 'f' to be either parsable as a version.",
               "FileLocation": "root\\cachedsnippetextractor/bad\componenty\packageA_1\code.txt(2-2)",
               "IsInError": true
             }
-          ]
-        ]
+          ],
+          "Lookup": {
+            "mycodesnippet2": [
+              {
+                "Key": "mycodesnippet2",
+                "Error": "Expected 'f' to be either parsable as a version.",
+                "FileLocation": "root\\cachedsnippetextractor/bad\componenty\packageA_1\code.txt(2-2)",
+                "IsInError": true
+              }
+            ]
+          }
+        }
       ],
       "Shared": [
         {
@@ -113,7 +155,7 @@
       }
     },
     {
-      "Identifier": "root\\cachedsnippetextractor\bad",
+      "Identifier": "shared",
       "Packages": [],
       "Shared": [],
       "Directory": "root\\cachedsnippetextractor/bad\shared",

@@ -29,7 +29,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="Snippet"/>.
         /// </summary>
-        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package)
+        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package, bool isCurrent)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
@@ -47,7 +47,8 @@ namespace CaptureSnippets
                 value = value,
                 Key = key,
                 Language = language,
-                Path = path
+                Path = path,
+                IsCurrent = isCurrent
             };
         }
 
@@ -106,6 +107,7 @@ namespace CaptureSnippets
         public int EndLine { get; private set; }
 
 
+        public bool IsCurrent { get; private set; }
 
         /// <summary>
         /// The <see cref="Path"/>, <see cref="StartLine"/> and <see cref="EndLine"/> concatenated.

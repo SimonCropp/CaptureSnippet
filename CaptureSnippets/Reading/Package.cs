@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
 namespace CaptureSnippets
 {
     [DebuggerDisplay("Package={Identifier, Count={Versions.Count}}")]
-    public class Package : IEnumerable<VersionGroup>
+    public class Package
     {
         public readonly string Identifier;
         public readonly IReadOnlyList<VersionGroup> Versions;
@@ -21,19 +20,6 @@ namespace CaptureSnippets
             Versions = versions;
             AllSnippets = versions.SelectMany(_ => _.Snippets).ToList();
             Lookup = AllSnippets.ToDictionary();
-        }
-
-        /// <summary>
-        /// Enumerates over <see cref="Versions"/>.
-        /// </summary>
-        public IEnumerator<VersionGroup> GetEnumerator()
-        {
-            return Versions.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public override string ToString()

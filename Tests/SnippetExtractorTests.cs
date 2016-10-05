@@ -112,7 +112,7 @@ public class SnippetExtractorTests
         using (var stringReader = new StringReader(input))
         {
             var versionRange = new VersionRange(new NuGetVersion(1, 1, 0));
-            var extractor = FileSnippetExtractor.Build(versionRange,"package");
+            var extractor = FileSnippetExtractor.Build(versionRange, "package", false);
             var snippets = extractor.AppendFromReader(stringReader, "path.cs").ToList();
             ObjectApprover.VerifyWithJson(snippets.Single());
         }
@@ -120,7 +120,7 @@ public class SnippetExtractorTests
 
     public List<Snippet> FromText(string contents)
     {
-        var extractor = FileSnippetExtractor.Build(VersionRange.All, "package");
+        var extractor = FileSnippetExtractor.Build(VersionRange.All, "package", false);
         using (var stringReader = new StringReader(contents))
         {
             return extractor.AppendFromReader(stringReader, "path.cs").ToList();

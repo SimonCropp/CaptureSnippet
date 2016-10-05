@@ -110,6 +110,36 @@
     <Content Include="CachedSnippetExtractor\Simple\shared\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componenta\packageA_2\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componenta\packageA_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componenta\packageC_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componenta\packageB_2\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componentb\packageE_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componentb\packageE_2\prerelease.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componentc\packageF_3\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componentc\packageG_2\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componentb\packageD_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Sorting\componentb\packageE_2\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DirectorySnippetExtractor\Simple\componentx\packageA_1\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

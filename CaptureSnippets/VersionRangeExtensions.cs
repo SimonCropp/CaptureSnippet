@@ -6,11 +6,19 @@ namespace CaptureSnippets
 {
     public static class VersionRangeExtensions
     {
+        internal static NuGetVersion VersionForCompare(this VersionRange range)
+        {
+            if (range.MinVersion == null)
+            {
+                return range.MaxVersion;
+            }
+            return range.MinVersion;
+        }
         public static string NextVersion(this SemanticVersion version)
         {
             if (version.IsPrerelease)
             {
-                throw new Exception("Cannot increment prerelease version");
+                throw new Exception("Cannot increment pre-release version");
             }
             if (version.Patch > 0)
             {

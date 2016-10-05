@@ -1,6 +1,6 @@
-﻿[
-  [],
-  [
+﻿{
+  "MissingSnippets": [],
+  "UsedSnippets": [
     {
       "Key": "snippet1",
       "Language": "cs",
@@ -42,7 +42,7 @@
       "IsInError": false
     }
   ],
-  "
+  "content": "
 <!-- snippet: snippet1 -->
 ### Key: 'snippet1'
 ####  Package: package1. Version: >= 5.0.0
@@ -70,4 +70,4 @@ Snippet_v[4.0.0, )
 some other text
 
 "
-]
+}

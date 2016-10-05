@@ -3,5 +3,5 @@ using System.IO;
 
 namespace CaptureSnippets
 {
-    public delegate void AppendSnippetGroupToMarkdown(string key, IReadOnlyList<Snippet> snippetGroup, TextWriter writer);
+    public delegate void AppendSnippetGroupToMarkdown(string key, IReadOnlyList<Snippet> snippets, TextWriter writer);
 }

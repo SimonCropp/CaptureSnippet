@@ -16,11 +16,11 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="directoryFilter">Directories to include.</param>
         /// <param name="fileFilter">Files to include.</param>
-        public CachedSnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter, GetPackageOrderForComponent packageOrder = null)
+        public CachedSnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter, GetPackageOrderForComponent packageOrder = null, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
-            extractor = new DirectorySnippetExtractor(directoryFilter, fileFilter, packageOrder);
+            extractor = new DirectorySnippetExtractor(directoryFilter, fileFilter, packageOrder, translatePackage);
         }
 
         /// <summary>

@@ -12,23 +12,26 @@ namespace CaptureSnippets
     public class VersionGroup : IEnumerable<Snippet>
     {
 
-        public VersionGroup(VersionRange version, string directory, bool isCurrent, IReadOnlyList<Snippet> snippets)
+        public readonly IReadOnlyList<Snippet> Snippets;
+        public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
+        public readonly VersionRange Version;
+        public readonly string Directory;
+        public readonly bool IsCurrent;
+        public readonly string Package;
+
+        public VersionGroup(VersionRange version, string directory, bool isCurrent, string package, IReadOnlyList<Snippet> snippets)
         {
             Guard.AgainstNull(version, nameof(version));
             Guard.AgainstNull(snippets, nameof(snippets));
             Guard.AgainstNullAndEmpty(directory, nameof(directory));
+            Guard.AgainstNullAndEmpty(package, nameof(package));
             Snippets = snippets;
             Version = version;
             Directory = directory;
             IsCurrent = isCurrent;
+            Package = package;
+            Lookup = snippets.ToDictionary();
         }
-
-        public readonly IReadOnlyList<Snippet> Snippets;
-
-        public readonly VersionRange Version;
-        public readonly string Directory;
-        public readonly bool IsCurrent;
-
 
         public IReadOnlyList<Snippet> this[string key]
         {

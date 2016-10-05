@@ -13,14 +13,15 @@ namespace CaptureSnippets
         VersionRange fileVersion;
         string package;
 
-        public static FileSnippetExtractor Build(VersionRange fileVersion, string package)
+        public static FileSnippetExtractor Build(VersionRange fileVersion, string package, bool isCurrent)
         {
             Guard.AgainstNull(fileVersion, nameof(fileVersion));
             Guard.AgainstNullAndEmpty(package, nameof(package));
             return new FileSnippetExtractor
             {
                 fileVersion = fileVersion,
-                package = package
+                package = package,
+                isCurrent = isCurrent
             };
         }
 
@@ -34,6 +35,7 @@ namespace CaptureSnippets
 
         static char[] invalidCharacters = { '“', '”', '—' };
         bool isShared;
+        bool isCurrent;
 
         /// <summary>
         /// Read from a <see cref="TextReader"/>.
@@ -154,7 +156,8 @@ namespace CaptureSnippets
                 value: value,
                 path: path,
                 language: language.ToLowerInvariant(),
-                package: package);
+                package: package,
+                isCurrent: isCurrent);
         }
 
         bool TryParseVersionAndPackage(LoopState loopState, out VersionRange snippetVersion, out string error)

@@ -63,7 +63,10 @@ some other text
             endLine: 2,
             value: "Snippet_v" + version,
             key: key,
-            path: "thePath", version: version, package: package);
+            path: "thePath",
+            version: version,
+            package: package,
+            isCurrent: false);
     }
 
     static void Verify(string markdownContent, IReadOnlyDictionary<string, IReadOnlyList<Snippet>> availableSnippets)
@@ -76,9 +79,11 @@ some other text
         using (var writer = new StringWriter(stringBuilder))
         {
             var processResult = markdownProcessor.Apply(reader, writer);
-            var output = new object[]
+            var output = new
             {
-                processResult.MissingSnippets, processResult.UsedSnippets, stringBuilder.ToString()
+                processResult.MissingSnippets,
+                processResult.UsedSnippets,
+                content= stringBuilder.ToString()
             };
             ObjectApprover.VerifyWithJson(output, s => s.Replace("\\r\\n", "\r\n"));
         }

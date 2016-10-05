@@ -66,7 +66,6 @@
     <Compile Include="Processing\AppendSnippetGroupToMarkdown.cs" />
     <Compile Include="Processing\MarkdownProcessor.cs" />
     <Compile Include="Processing\MissingSnippet.cs" />
-    <Compile Include="Processing\MissingSnippetsException.cs" />
     <Compile Include="Processing\SnippetKeyReader.cs" />
     <Compile Include="IndexReader.cs" />
     <Compile Include="Reading\Component.cs" />
@@ -86,6 +85,7 @@
     <Compile Include="Reading\ReadPackages.cs" />
     <Compile Include="Reading\Snippet.cs" />
     <Compile Include="Reading\StartEndTester.cs" />
+    <Compile Include="Reading\TranslatePackage.cs" />
     <Compile Include="Reading\VersionGroup.cs" />
     <Compile Include="StringBuilderCache.cs" />
     <Compile Include="VersionRangeExtensions.cs" />

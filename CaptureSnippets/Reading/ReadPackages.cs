@@ -12,6 +12,7 @@ namespace CaptureSnippets
         public readonly IReadOnlyList<Snippet> Shared;
         public readonly string Directory;
         public readonly IReadOnlyList<Snippet> AllSnippets;
+        public readonly IReadOnlyList<VersionGroup> AllVersions;
         public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
 
         public ReadPackages(IReadOnlyList<Package> packages, IReadOnlyList<Snippet> shared, string directory)
@@ -23,6 +24,7 @@ namespace CaptureSnippets
             Shared = shared;
             Directory = directory;
             AllSnippets = packages.SelectMany(_ => _.AllSnippets).ToList();
+            AllVersions = Packages.SelectMany(_ => _.Versions).ToList();
             SnippetsInError = AllSnippets.Where(_ => _.IsInError).ToList();
             Lookup = AllSnippets.ToDictionary();
         }

@@ -24,6 +24,43 @@ public class DirectorySnippetExtractorTests
         ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
     }
 
+    [Test]
+    public void Sorting()
+    {
+        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Sorting");
+        var extractor = new DirectorySnippetExtractor(
+            directoryFilter: path => true,
+            fileFilter: path => true,
+            packageOrder: PackageOrder);
+        var components = extractor.ReadComponents(directory);
+        var snippets = components
+            .Components
+            .SelectMany(_ => _.Packages)
+            .SelectMany(_ => _.AllSnippets)
+            .Select(_ => $"{_.Package} {_.Version.SimplePrint()} {_.IsCurrent}");
+        ObjectApprover.VerifyWithJson(snippets, Scrubber.Scrub);
+    }
+
+    IEnumerable<string> PackageOrder(string component)
+    {
+        if (component == "componentA")
+        {
+            yield return "packageC";
+            yield return "packageA";
+            yield return "packageB";
+        }
+        if (component == "componentB")
+        {
+            yield return "packageE";
+            yield return "packageD";
+        }
+        if (component == "componentC")
+        {
+            yield return "packageG";
+            yield return "packageF";
+        }
+    }
+
 
     [Test]
     public void VerifyLambdasAreCalled()
