@@ -12,6 +12,48 @@ using ObjectApproval;
 public class DirectorySnippetExtractorTests
 {
     [Test]
+    public void Case()
+    {
+        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Case");
+        var extractor = new DirectorySnippetExtractor(
+            directoryFilter: _ => true,
+            fileFilter: _ => true,
+            packageOrder: _ => new List<string>()
+        );
+        var components = extractor.ReadComponents(directory);
+        AssertCaseInsensitive(components.Lookup);
+        var component = components.GetComponent("ComponentY");
+        AssertCaseInsensitive(component.Lookup);
+        var package = component.Packages.Single();
+        AssertCaseInsensitive(package.Lookup);
+        AssertCaseInsensitive(package.Versions.First().Lookup);
+        ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
+    }
+
+    static void AssertCaseInsensitive(IReadOnlyDictionary<string, IReadOnlyList<Snippet>> dictionary)
+    {
+        Assert.IsTrue(dictionary.ContainsKey("GlobalSharedSnippet"));
+        Assert.IsTrue(dictionary.ContainsKey("globalsharedSnippet"));
+        Assert.IsTrue(dictionary.ContainsKey("ComponentSharedSnippet"));
+        Assert.IsTrue(dictionary.ContainsKey("componentSharedSnippet"));
+        Assert.IsTrue(dictionary.ContainsKey("Snippet"));
+        Assert.IsTrue(dictionary.ContainsKey("snippet"));
+    }
+
+    [Test]
+    public void Nested()
+    {
+        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Nested");
+        var extractor = new DirectorySnippetExtractor(
+            directoryFilter: path => true,
+            fileFilter: path => true,
+            packageOrder: component => new List<string>()
+        );
+        var components = extractor.ReadComponents(directory);
+        ObjectApprover.VerifyWithJson(components.AllSnippets, Scrubber.Scrub);
+    }
+
+    [Test]
     public void Simple()
     {
         var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Simple");
@@ -36,7 +78,7 @@ public class DirectorySnippetExtractorTests
         var snippets = components
             .Components
             .SelectMany(_ => _.Packages)
-            .SelectMany(_ => _.AllSnippets)
+            .SelectMany(_ => _.Snippets)
             .Select(_ => $"{_.Package} {_.Version.SimplePrint()} {_.IsCurrent}");
         ObjectApprover.VerifyWithJson(snippets, Scrubber.Scrub);
     }
@@ -67,7 +109,8 @@ public class DirectorySnippetExtractorTests
     {
         var directories = new ConcurrentBag<CapturedDirectory>();
         var files = new ConcurrentBag<CapturedFile>();
-        var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/VerifyLambdasAreCalled");
+        var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,
+            "DirectorySnippetExtractor/VerifyLambdasAreCalled");
         var result = new TestResult();
         var extractor = new DirectorySnippetExtractor(
             directoryFilter: path =>

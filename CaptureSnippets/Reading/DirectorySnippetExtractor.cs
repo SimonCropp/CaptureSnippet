@@ -13,7 +13,8 @@ namespace CaptureSnippets
         GetPackageOrderForComponent packageOrder;
         TranslatePackage translatePackage;
 
-        public DirectorySnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter, GetPackageOrderForComponent packageOrder, TranslatePackage translatePackage = null)
+        public DirectorySnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter,
+            GetPackageOrderForComponent packageOrder, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
@@ -32,9 +33,9 @@ namespace CaptureSnippets
 
         public ReadComponents ReadComponents(string directory)
         {
-            var components = EnumerateComponents(directory).ToList();
             var shared = GetShared(directory);
-            return new ReadComponents(components, shared, directory);
+            var components = EnumerateComponents(directory, shared).ToList();
+            return new ReadComponents(components, directory, shared);
         }
 
         List<Snippet> GetShared(string directory)
@@ -50,9 +51,9 @@ namespace CaptureSnippets
 
         public ReadPackages ReadPackages(string directory)
         {
-            var packages = EnumeratePackages(directory, null).ToList();
-            var shared = GetShared(directory);
-            return new ReadPackages(packages, shared, directory);
+            var componentShared = GetShared(directory);
+            var packages = EnumeratePackages(directory, null, new List<Snippet>(), componentShared).ToList();
+            return new ReadPackages(packages, directory, componentShared);
         }
 
         class PackageVersionCurrent
@@ -64,7 +65,8 @@ namespace CaptureSnippets
         }
 
 
-        IEnumerable<PackageVersionCurrent> GetOrderedPackages(string component, IEnumerable<PackageVersionCurrent> package)
+        IEnumerable<PackageVersionCurrent> GetOrderedPackages(string component,
+            IEnumerable<PackageVersionCurrent> package)
         {
             if (packageOrder == null)
             {
@@ -95,7 +97,7 @@ namespace CaptureSnippets
             });
         }
 
-        IEnumerable<Package> EnumeratePackages(string directory, string component)
+        IEnumerable<Package> EnumeratePackages(string directory, string component, List<Snippet> globalShared, List<Snippet> componentShared)
         {
             var packageDirectories = Directory.EnumerateDirectories(directory, "*_*")
                 .Where(s => s != "Shared" && directoryFilter(s));
@@ -145,7 +147,8 @@ namespace CaptureSnippets
                     lookup[package] = versions = new List<VersionGroup>();
                 }
 
-                var versionGroup = ReadVersion(packageAndVersion.Directory, packageAndVersion.Version, package, packageAndVersion.IsCurrent);
+                var versionGroup = ReadVersion(packageAndVersion.Directory, packageAndVersion.Version, package,
+                    packageAndVersion.IsCurrent, componentShared, globalShared);
                 versions.Add(versionGroup);
             }
             foreach (var kv in lookup)
@@ -165,41 +168,62 @@ namespace CaptureSnippets
             packageVersionList.First().IsCurrent = true;
         }
 
-        IEnumerable<Component> EnumerateComponents(string directory)
+        IEnumerable<Component> EnumerateComponents(string directory, List<Snippet> globalShared)
         {
             return Directory.EnumerateDirectories(directory)
-                .Where(s => s != "Shared" && directoryFilter(s))
-                .Select(ReadComponent);
+                .Where(s => Path.GetFileName(s) != "Shared" && directoryFilter(s))
+                .Select(s => ReadComponent(s, globalShared));
         }
 
-        Component ReadComponent(string componentDirectory)
+
+        Component ReadComponent(string componentDirectory, List<Snippet> globalShared)
         {
             var name = Path.GetFileName(componentDirectory);
-            var packages = EnumeratePackages(componentDirectory, name).ToList();
-            var shared = GetShared(componentDirectory);
+            var componentShared = GetShared(componentDirectory);
+            var packages = EnumeratePackages(componentDirectory, name, globalShared, componentShared).ToList();
             return new Component(
                 identifier: name,
                 packages: packages,
-                shared: shared,
-                directory: componentDirectory
+                directory: componentDirectory,
+                shared: globalShared.Concat(componentShared).Distinct().ToList()
             );
         }
 
-        VersionGroup ReadVersion(string versionDirectory, VersionRange version, string package, bool isCurrent)
+        VersionGroup ReadVersion(string versionDirectory, VersionRange version, string package, bool isCurrent,
+            IReadOnlyList<Snippet> componentShared, List<Snippet> globalShared)
         {
             var snippetExtractor = FileSnippetExtractor.Build(version, package, isCurrent);
             return new VersionGroup(
                 version: version,
-                snippets: ReadSnippets(versionDirectory, snippetExtractor).ToList(),
+                snippets: ReadSnippets(versionDirectory, snippetExtractor)
+                    .Concat(componentShared)
+                    .Concat(globalShared)
+                    .ToList(),
                 directory: versionDirectory,
                 isCurrent: isCurrent,
                 package: package);
         }
 
+
+        void FindFiles(string directoryPath, List<string> files)
+        {
+            foreach (var file in Directory.EnumerateFiles(directoryPath)
+                .Where(s => fileFilter(s)))
+            {
+                files.Add(file);
+            }
+            foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
+                .Where(s => directoryFilter(s)))
+            {
+                FindFiles(subDirectory, files);
+            }
+        }
+
         IEnumerable<Snippet> ReadSnippets(string directory, FileSnippetExtractor snippetExtractor)
         {
-            return Directory.EnumerateFiles(directory)
-                .Where(s => fileFilter(s))
+            var files = new List<string>();
+            FindFiles(directory, files);
+            return files
                 .SelectMany(file =>
                 {
                     using (var reader = File.OpenText(file))

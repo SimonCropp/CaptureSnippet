@@ -119,6 +119,14 @@ namespace CaptureSnippets
             var startRow = loopState.StartLine.Value + 1;
 
             string error;
+            if (isShared && loopState.Version != null)
+            {
+                return Snippet.BuildError(
+                    error: "Shared snippets cannot contain a version",
+                    path: path,
+                    lineNumberInError: startRow,
+                    key: loopState.CurrentKey);
+            }
             VersionRange snippetVersion;
             if (!TryParseVersionAndPackage(loopState, out snippetVersion, out error))
             {
@@ -184,7 +192,7 @@ namespace CaptureSnippets
                 return true;
             }
 
-            error = $"Expected '{loopState.Version}' to be either parsable as a version.";
+            error = $"Expected '{loopState.Version}' to be parsable as a version.";
             return false;
         }
 

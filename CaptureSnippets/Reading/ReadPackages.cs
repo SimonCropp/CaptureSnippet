@@ -9,27 +9,27 @@ namespace CaptureSnippets
     public class ReadPackages
     {
         public readonly IReadOnlyList<Package> Packages;
-        public readonly IReadOnlyList<Snippet> Shared;
         public readonly string Directory;
-        public readonly IReadOnlyList<Snippet> AllSnippets;
-        public readonly IReadOnlyList<VersionGroup> AllVersions;
+        public readonly IReadOnlyList<Snippet> Snippets;
+        public readonly IReadOnlyList<VersionGroup> Versions;
+        public readonly IReadOnlyList<Snippet> Shared;
         public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
+        public readonly IReadOnlyList<Snippet> SnippetsInError;
 
-        public ReadPackages(IReadOnlyList<Package> packages, IReadOnlyList<Snippet> shared, string directory)
+        public ReadPackages(IReadOnlyList<Package> packages, string directory, IReadOnlyList<Snippet> shared)
         {
             Guard.AgainstNull(packages, nameof(packages));
-            Guard.AgainstNull(shared, nameof(shared));
             Guard.AgainstNullAndEmpty(directory, nameof(directory));
-            Packages = packages;
+            Guard.AgainstNull(shared, nameof(shared));
             Shared = shared;
+            Packages = packages;
             Directory = directory;
-            AllSnippets = packages.SelectMany(_ => _.AllSnippets).ToList();
-            AllVersions = Packages.SelectMany(_ => _.Versions).ToList();
-            SnippetsInError = AllSnippets.Where(_ => _.IsInError).ToList();
-            Lookup = AllSnippets.ToDictionary();
+            Snippets = packages.SelectMany(_ => _.Snippets).Concat(shared).Distinct().ToList();
+            Versions = Packages.SelectMany(_ => _.Versions).Distinct().ToList();
+            SnippetsInError = Snippets.Where(_ => _.IsInError).Distinct().ToList();
+            Lookup = Snippets.ToDictionary();
         }
 
-        public readonly IReadOnlyList<Snippet> SnippetsInError;
 
         public Package GetPackage(string key)
         {

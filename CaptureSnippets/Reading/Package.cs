@@ -9,7 +9,7 @@ namespace CaptureSnippets
     {
         public readonly string Identifier;
         public readonly IReadOnlyList<VersionGroup> Versions;
-        public readonly IReadOnlyList<Snippet> AllSnippets;
+        public readonly IReadOnlyList<Snippet> Snippets;
         public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
 
         public Package(string identifier, IReadOnlyList<VersionGroup> versions)
@@ -18,8 +18,8 @@ namespace CaptureSnippets
             Guard.AgainstNullAndEmpty(identifier, nameof(identifier));
             Identifier = identifier;
             Versions = versions;
-            AllSnippets = versions.SelectMany(_ => _.Snippets).ToList();
-            Lookup = AllSnippets.ToDictionary();
+            Snippets = versions.SelectMany(_ => _.Snippets).Distinct().ToList();
+            Lookup = Snippets.ToDictionary();
         }
 
         public override string ToString()

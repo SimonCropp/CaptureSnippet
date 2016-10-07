@@ -8,7 +8,7 @@ using NuGet.Versioning;
 namespace CaptureSnippets
 {
 
-    [DebuggerDisplay("Version={Version}, Count={Snippets.Count}}")]
+    [DebuggerDisplay("Version={Version}, Package={Package}, IsCurrent={IsCurrent}, Directory={Directory}, SnippetsCount={Snippets.Count}}")]
     public class VersionGroup : IEnumerable<Snippet>
     {
 

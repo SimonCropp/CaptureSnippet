@@ -9,40 +9,25 @@ namespace CaptureSnippets
     {
         public readonly string Identifier;
         public readonly IReadOnlyList<Package> Packages;
-        public readonly IReadOnlyList<Snippet> Shared;
         public readonly string Directory;
-        public readonly IReadOnlyList<Snippet> AllSnippets;
+        public readonly IReadOnlyList<Snippet> Snippets;
+        public readonly IReadOnlyList<Snippet> Shared;
         public readonly IReadOnlyList<VersionGroup> AllVersions;
         public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
 
-        public Component(string identifier, IReadOnlyList<Package> packages, IReadOnlyList<Snippet> shared, string directory)
+        public Component(string identifier, IReadOnlyList<Package> packages, string directory, IReadOnlyList<Snippet> shared)
         {
             Guard.AgainstNull(packages, nameof(packages));
             Guard.AgainstNullAndEmpty(identifier, nameof(identifier));
             Guard.AgainstNullAndEmpty(directory, nameof(directory));
+            Guard.AgainstNull(shared, nameof(shared));
             Identifier = identifier;
-            //todo: add shared to errors
-            Shared = shared;
             Directory = directory;
+            Shared = shared;
             Packages = packages;
-            AllSnippets = GetAll().ToList();
-            AllVersions = Packages.SelectMany(_ => _.Versions).ToList();
-            Lookup = AllSnippets.ToDictionary();
-        }
-
-        IEnumerable<Snippet> GetAll()
-        {
-            foreach (var package in Packages)
-            {
-                foreach (var snippet in package.AllSnippets)
-                {
-                    yield return snippet;
-                }
-            }
-            foreach (var snippet in Shared)
-            {
-                yield return snippet;
-            }
+            Snippets = Packages.SelectMany(_ => _.Snippets).Concat(shared).Distinct().ToList();
+            AllVersions = Packages.SelectMany(_ => _.Versions).Distinct().ToList();
+            Lookup = Snippets.ToDictionary();
         }
 
         public override string ToString()

@@ -110,6 +110,30 @@
     <Content Include="CachedSnippetExtractor\Simple\shared\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DirectorySnippetExtractor\Case\componenty\packageA_1\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Case\componenty\Packagea_2\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Case\componenty\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Case\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Nested\componentx\packageA_1\nested\nested\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Nested\componentx\shared\nested\nested\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Nested\shared\nested\nested\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DirectorySnippetExtractor\Simple\shared\code.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DirectorySnippetExtractor\Sorting\componenta\packageA_2\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -156,9 +180,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DirectorySnippetExtractor\Simple\componenty\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Simple\shared\code.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\componenty\packageA_1\code.txt">

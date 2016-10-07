@@ -41,7 +41,7 @@ public class CachedSnippetExtractorTests
             directoryFilter: s => true,
             fileFilter: s => true);
         var read = extractor.FromDirectory(directory);
-        ObjectApprover.VerifyWithJson(read.Components, Scrubber.Scrub);
+        ObjectApprover.VerifyWithJson(read.Components.SnippetsInError, Scrubber.Scrub);
     }
 
 }

@@ -27,6 +27,7 @@ static class Extensions
     {
         return value.ToList();
     }
+
     public static Dictionary<string, IReadOnlyList<Snippet>> ToDictionary(this IEnumerable<Snippet> value)
     {
         //TODO: throw if mixing
@@ -39,8 +40,11 @@ static class Extensions
         //    packageText = "";
         //}
         return value
-                .GroupBy(_ => _.Key)
-                .ToDictionary(_ => _.Key, _ => _.ToReadonlyList());
+            .GroupBy(_ => _.Key, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                keySelector: _ => _.Key,
+                elementSelector: _ => _.ToReadonlyList(),
+                comparer: StringComparer.OrdinalIgnoreCase);
     }
 
     public static int LastIndexOfSequence(this string value, char c, int max)
