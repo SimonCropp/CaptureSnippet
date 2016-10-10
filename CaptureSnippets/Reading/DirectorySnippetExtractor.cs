@@ -1,96 +1,270 @@
-using System;
-using System.Collections.Concurrent;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
-    /// <summary>
-    /// Extracts <see cref="ReadSnippet"/>s from a given directory.
-    /// </summary>
     public class DirectorySnippetExtractor
     {
-        ExtractDirectoryPathData extractDirectoryPathData;
         DirectoryFilter directoryFilter;
         FileFilter fileFilter;
-        FileSnippetExtractor fileExtractor;
+        GetPackageOrderForComponent packageOrder;
+        TranslatePackage translatePackage;
 
-        /// <summary>
-        /// Initialise a new instance of <see cref="DirectorySnippetExtractor"/>.
-        /// </summary>
-        /// <param name="extractDirectoryPathData">How to extract a <see cref="PathData"/> from a given path.</param>
-        /// <param name="fileFilter">Used to filter files.</param>
-        /// <param name="directoryFilter">Used to filter directories.</param>
-        public DirectorySnippetExtractor(ExtractDirectoryPathData extractDirectoryPathData, ExtractFileNameData extractFileNameData, DirectoryFilter directoryFilter, FileFilter fileFilter)
+        public DirectorySnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter,
+            GetPackageOrderForComponent packageOrder, TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
-            Guard.AgainstNull(extractDirectoryPathData, nameof(extractDirectoryPathData));
-            this.extractDirectoryPathData = extractDirectoryPathData;
             this.directoryFilter = directoryFilter;
             this.fileFilter = fileFilter;
-            fileExtractor = new FileSnippetExtractor(extractFileNameData);
-        }
-
-        public ReadSnippets FromDirectory(string directoryPath, VersionRange rootVersionRange, Package rootPackage, Component rootComponent)
-        {
-            Guard.AgainstNull(directoryPath, nameof(directoryPath));
-            Guard.AgainstNull(rootVersionRange, nameof(rootVersionRange));
-            Guard.AgainstNull(rootPackage, nameof(rootPackage));
-            Guard.AgainstNull(rootComponent, nameof(rootComponent));
-            var snippets = new ConcurrentBag<ReadSnippet>();
-            var files = new List<FileAndData>();
-            FindFiles(directoryPath, rootVersionRange, rootPackage, rootComponent,files);
-            Parallel.ForEach(files, data =>
+            this.packageOrder = packageOrder;
+            if (translatePackage == null)
             {
-                FromFile(data.Path, data.DirectoryVersion, data.DirectoryPackage, data.DirectoryComponent, snippets.Add);
-            });
-            return new ReadSnippets(snippets.ToArray());
-        }
-
-        struct FileAndData
-        {
-            public string Path;
-            public VersionRange DirectoryVersion;
-            public Package DirectoryPackage;
-            public Component DirectoryComponent;
-        }
-
-        void FindFiles(string directoryPath, VersionRange parentVersion, Package parentPackage, Component parentComponent, List<FileAndData> files)
-        {
-            VersionRange directoryVersion;
-            Package directoryPackage;
-            Component directoryComponent;
-            var pathData = extractDirectoryPathData(directoryPath);
-            PathDataExtractor.ExtractData(parentVersion, parentPackage, parentComponent, pathData, out directoryVersion, out directoryPackage, out directoryComponent);
-            foreach (var file in Directory.EnumerateFiles(directoryPath)
-                   .Where(s => fileFilter(s)))
+                this.translatePackage = alias => alias;
+            }
+            else
             {
-                files.Add(new FileAndData
+                this.translatePackage = translatePackage;
+            }
+        }
+
+        public ReadComponents ReadComponents(string directory)
+        {
+            var shared = GetShared(directory);
+            var components = EnumerateComponents(directory, shared).ToList();
+            return new ReadComponents(components, directory, shared);
+        }
+
+        List<Snippet> GetShared(string directory)
+        {
+            var sharedDirectory = Path.Combine(directory, "Shared");
+            if (Directory.Exists(sharedDirectory))
+            {
+                var snippetExtractor = FileSnippetExtractor.BuildShared();
+                return ReadSnippets(sharedDirectory, snippetExtractor).ToList();
+            }
+
+            var allPath = Path.Combine(directory,Path.GetFileName(directory)+"_All");
+            if (Directory.Exists(allPath))
+            {
+                var snippetExtractor = FileSnippetExtractor.BuildShared();
+                return ReadSnippets(allPath, snippetExtractor).ToList();
+            }
+
+            return new List<Snippet>();
+        }
+
+        public ReadPackages ReadPackages(string directory)
+        {
+            var componentShared = GetShared(directory);
+            var packages = EnumeratePackages(directory, null, new List<Snippet>(), componentShared).ToList();
+            return new ReadPackages(packages, directory, componentShared);
+        }
+
+        class PackageVersionCurrent
+        {
+            public VersionRange Version;
+            public string Package;
+            public string PackageAlias;
+            public string Directory;
+            public bool IsCurrent;
+        }
+
+
+        IEnumerable<PackageVersionCurrent> GetOrderedPackages(string component,
+            IEnumerable<PackageVersionCurrent> package)
+        {
+            if (packageOrder == null)
+            {
+                return package.OrderBy(_ => _.Package);
+            }
+            List<string> result;
+            try
+            {
+                result = packageOrder(component).ToList();
+            }
+            catch (Exception exception)
+            {
+                var errorMessage = $"Error getting package order. Component='{component}'.";
+                throw new Exception(errorMessage, exception);
+            }
+
+            return package.OrderBy(_ =>
+            {
+                try
                 {
-                    Path = file,
-                    DirectoryVersion = directoryVersion,
-                    DirectoryPackage = directoryPackage,
-                    DirectoryComponent = directoryComponent
+                    return result.IndexOf(_.Package);
+                }
+                catch (Exception exception)
+                {
+                    var errorMessage = $"Error getting package index. Component='{component}', Package='{_.Package}'.";
+                    throw new Exception(errorMessage, exception);
+                }
+            });
+        }
+
+        IEnumerable<Package> EnumeratePackages(string directory, string component, List<Snippet> globalShared, List<Snippet> componentShared)
+        {
+            var packageDirectories = Directory.EnumerateDirectories(directory, "*_*")
+                .Where(s =>
+                {
+                    return !IsShared(s) &&
+                           directoryFilter(s);
                 });
+
+            var packageVersionList = new List<PackageVersionCurrent>();
+            foreach (var packageAndVersionDirectory in packageDirectories)
+            {
+                var name = Path.GetFileName(packageAndVersionDirectory);
+                var index = name.IndexOf('_');
+                if (index < 1)
+                {
+                    throw new Exception($"Expected the directory name '{name}' to be split by a '_'.");
+                }
+                var packageAlias = name.Substring(0, index);
+                var package = translatePackage(packageAlias);
+                var versionPart = name.Substring(index + 1, name.Length - index - 1);
+
+                var pretext = PreTextReader.GetPretext(packageAndVersionDirectory);
+                var version = VersionRangeParser.ParseVersion(versionPart, pretext);
+                var item = new PackageVersionCurrent
+                {
+                    Version = version,
+                    Package = package,
+                    PackageAlias = packageAlias,
+                    Directory = packageAndVersionDirectory,
+                };
+                packageVersionList.Add(item);
+            }
+
+            if (!packageVersionList.Any())
+            {
+                yield break;
+            }
+            packageVersionList = packageVersionList
+                .OrderByDescending(x => x.Version.VersionForCompare())
+                .ToList();
+            packageVersionList = GetOrderedPackages(component, packageVersionList).ToList();
+
+            SetCurrent(packageVersionList);
+            var lookup = new Dictionary<string, List<VersionGroup>>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var packageAndVersion in packageVersionList)
+            {
+                List<VersionGroup> versions;
+                var package = packageAndVersion.Package;
+                if (!lookup.TryGetValue(package, out versions))
+                {
+                    lookup[package] = versions = new List<VersionGroup>();
+                }
+
+                var versionGroup = ReadVersion(
+                    versionDirectory: packageAndVersion.Directory,
+                    version: packageAndVersion.Version,
+                    package: package,
+                    packageAlias: packageAndVersion.PackageAlias,
+                    isCurrent: packageAndVersion.IsCurrent,
+                    componentShared: componentShared,
+                    globalShared: globalShared);
+                versions.Add(versionGroup);
+            }
+            foreach (var kv in lookup)
+            {
+                yield return new Package(kv.Key, kv.Value);
+            }
+        }
+
+        static bool IsShared(string directory)
+        {
+            var directorySuffix = Path.GetFileName(directory);
+            return directorySuffix == "Shared" ||
+                   directorySuffix.EndsWith("_All");
+        }
+
+        static void SetCurrent(List<PackageVersionCurrent> packageVersionList)
+        {
+            var firstStable = packageVersionList.FirstOrDefault(_ => !_.Version.IsPreRelease());
+            if (firstStable != null)
+            {
+                firstStable.IsCurrent = true;
+                return;
+            }
+            packageVersionList.First().IsCurrent = true;
+        }
+
+        IEnumerable<Component> EnumerateComponents(string directory, List<Snippet> globalShared)
+        {
+            return Directory.EnumerateDirectories(directory)
+                .Where(s => !IsShared(s) && directoryFilter(s))
+                .Select(s => ReadComponent(s, globalShared));
+        }
+
+
+        Component ReadComponent(string componentDirectory, List<Snippet> globalShared)
+        {
+            var name = Path.GetFileName(componentDirectory);
+            var componentShared = GetShared(componentDirectory);
+            var packages = EnumeratePackages(componentDirectory, name, globalShared, componentShared).ToList();
+            return new Component(
+                identifier: name,
+                packages: packages,
+                directory: componentDirectory,
+                shared: globalShared.Concat(componentShared).Distinct().ToList()
+            );
+        }
+
+        VersionGroup ReadVersion(
+            string versionDirectory,
+            VersionRange version,
+            string package,
+            string packageAlias,
+            bool isCurrent,
+            IReadOnlyList<Snippet> componentShared,
+            List<Snippet> globalShared)
+        {
+            var snippetExtractor = FileSnippetExtractor.Build(version, package, isCurrent);
+            return new VersionGroup(
+                version: version,
+                snippets: ReadSnippets(versionDirectory, snippetExtractor)
+                    .Concat(componentShared)
+                    .Concat(globalShared)
+                    .ToList(),
+                directory: versionDirectory,
+                isCurrent: isCurrent,
+                package: package,
+                packageAlias: packageAlias);
+        }
+
+
+        void FindFiles(string directoryPath, List<string> files)
+        {
+            foreach (var file in Directory.EnumerateFiles(directoryPath)
+                .Where(s => fileFilter(s)))
+            {
+                files.Add(file);
             }
             foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
                 .Where(s => directoryFilter(s)))
             {
-                FindFiles(subDirectory, directoryVersion, directoryPackage, directoryComponent, files);
+                FindFiles(subDirectory, files);
             }
         }
 
-        void FromFile(string file, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
+        IEnumerable<Snippet> ReadSnippets(string directory, FileSnippetExtractor snippetExtractor)
         {
-            using (var textReader = File.OpenText(file))
-            {
-                fileExtractor.AppendFromReader(textReader, file, parentVersion, parentPackage, parentComponent, callback);
-            }
+            var files = new List<string>();
+            FindFiles(directory, files);
+            return files
+                .SelectMany(file =>
+                {
+                    using (var reader = File.OpenText(file))
+                    {
+                        return snippetExtractor.AppendFromReader(reader, file).ToList();
+                    }
+                });
         }
-
     }
 }

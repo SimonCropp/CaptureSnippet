@@ -2,8 +2,7 @@
   {
     "Key": "codekey",
     "Language": "cs",
-    "Component": "Undefined",
-    "Package": "Undefined",
+    "Package": "package",
     "Version": ">= 6.0.0 && < 7.0.0",
     "Value": "the code",
     "Error": null,

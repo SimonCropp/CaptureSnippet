@@ -2,8 +2,7 @@
   {
     "Key": "codekey",
     "Language": "cs",
-    "Component": "Undefined",
-    "Package": "Undefined",
+    "Package": "package",
     "Version": "all",
     "Value": "<configSections/>",
     "Error": null,

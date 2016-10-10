@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Text;
 
-[DebuggerDisplay("CurrentKey={CurrentKey}, Suffix1={Suffix1}, Suffix2={Suffix2}, IsInSnippet={IsInSnippet}")]
+[DebuggerDisplay("CurrentKey={CurrentKey}, Version={Version}, IsInSnippet={IsInSnippet}")]
 struct LoopState
 {
 
@@ -45,7 +45,7 @@ struct LoopState
         {
             builder.AppendLine();
         }
-        var paddingToRemove = line.LastIndexOfSequence(paddingChar,paddingLength);
+        var paddingToRemove = line.LastIndexOfSequence(paddingChar, paddingLength);
 
         builder.Append(line, paddingToRemove, line.Length - paddingToRemove);
     }
@@ -60,7 +60,7 @@ struct LoopState
         paddingChar = whiteSpace;
         for (var index = 1; index < line.Length; index++)
         {
-            paddingLength ++;
+            paddingLength++;
             var ch = line[index];
             if (ch != whiteSpace)
             {
@@ -74,8 +74,7 @@ struct LoopState
     char paddingChar;
     int paddingLength;
 
-    public string Suffix1;
-    public string Suffix2;
+    public string Version;
     public Func<string, bool> EndFunc;
     public int? StartLine;
     public bool IsInSnippet;

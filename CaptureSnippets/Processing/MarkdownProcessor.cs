@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,16 +10,16 @@ namespace CaptureSnippets
     /// </summary>
     public class MarkdownProcessor
     {
-        List<SnippetGroup> snippets;
+        IReadOnlyDictionary<string, IReadOnlyList<Snippet>> snippets;
         AppendSnippetGroupToMarkdown appendSnippetGroup;
 
         public MarkdownProcessor(
-            IEnumerable<SnippetGroup> snippets,
+            IReadOnlyDictionary<string, IReadOnlyList<Snippet>> snippets,
             AppendSnippetGroupToMarkdown appendSnippetGroup)
         {
             Guard.AgainstNull(snippets, nameof(snippets));
             Guard.AgainstNull(appendSnippetGroup, nameof(appendSnippetGroup));
-            this.snippets = snippets.ToList();
+            this.snippets = snippets;
             this.appendSnippetGroup = appendSnippetGroup;
         }
 
@@ -31,16 +30,14 @@ namespace CaptureSnippets
         {
             Guard.AgainstNull(textReader, nameof(textReader));
             Guard.AgainstNull(writer, nameof(writer));
-            using (var reader = new IndexReader(textReader))
-            {
-                return Apply(writer, reader);
-            }
+            var reader = new IndexReader(textReader);
+            return Apply(writer, reader);
         }
 
         ProcessResult Apply(TextWriter writer, IndexReader reader)
         {
             var missing = new List<MissingSnippet>();
-            var usedSnippets = new List<SnippetGroup>();
+            var usedSnippets = new List<Snippet>();
             string line;
             while ((line = reader.ReadLine()) != null)
             {
@@ -52,10 +49,10 @@ namespace CaptureSnippets
             }
             return new ProcessResult(
                 missingSnippets: missing,
-                usedSnippets: usedSnippets);
+                usedSnippets: usedSnippets.Distinct().ToList());
         }
 
-        bool TryProcessSnippetLine(TextWriter writer, IndexReader reader, string line, List<MissingSnippet> missings, List<SnippetGroup> used)
+        bool TryProcessSnippetLine(TextWriter writer, IndexReader reader, string line, List<MissingSnippet> missings, List<Snippet> used)
         {
             string key;
             if (!SnippetKeyReader.TryExtractKeyFromLine(line, out key))
@@ -64,8 +61,8 @@ namespace CaptureSnippets
             }
             writer.WriteLine($"<!-- snippet: {key} -->");
 
-            var group = snippets.FirstOrDefault(x => x.Key == key);
-            if (group == null)
+            IReadOnlyList<Snippet> group;
+            if (!snippets.TryGetValue(key, out group))
             {
                 var missing = new MissingSnippet(
                     key: key,
@@ -76,12 +73,8 @@ namespace CaptureSnippets
                 return true;
             }
 
-            appendSnippetGroup(group, writer);
-            if (used.Any(x => x.Key == group.Key))
-            {
-                throw new Exception($"Duplicate use of the same snippet '{group.Key}'.");
-            }
-            used.Add(group);
+            appendSnippetGroup(key, group, writer);
+            used.AddRange(group);
             return true;
         }
     }

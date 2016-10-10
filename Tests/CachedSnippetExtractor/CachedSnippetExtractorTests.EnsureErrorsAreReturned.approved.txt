@@ -1,0 +1,32 @@
+﻿[
+  {
+    "Key": "snippet2",
+    "Error": "Expected 'f' to be parsable as a version.",
+    "FileLocation": "root\\cachedsnippetextractor/bad\componentx\packageA_1\code.txt(2-2)",
+    "IsInError": true
+  },
+  {
+    "Key": "snippet1",
+    "Error": "Shared snippets cannot contain a version",
+    "FileLocation": "root\\cachedsnippetextractor/bad\componentx\Shared\code.txt(2-2)",
+    "IsInError": true
+  },
+  {
+    "Key": "snippet1",
+    "Error": "Shared snippets cannot contain a version",
+    "FileLocation": "root\\cachedsnippetextractor/bad\Shared\code.txt(2-2)",
+    "IsInError": true
+  },
+  {
+    "Key": "snippet2",
+    "Error": "Expected 'f' to be parsable as a version.",
+    "FileLocation": "root\\cachedsnippetextractor/bad\componenty\packageA_1\code.txt(2-2)",
+    "IsInError": true
+  },
+  {
+    "Key": "snippet1",
+    "Error": "Shared snippets cannot contain a version",
+    "FileLocation": "root\\cachedsnippetextractor/bad\componenty\Shared\code.txt(2-2)",
+    "IsInError": true
+  }
+]

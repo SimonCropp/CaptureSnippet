@@ -1,47 +1,55 @@
-using System;
+Ôªøusing System;
+using System.Collections.Generic;
 using System.IO;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
     /// <summary>
-    /// Extracts <see cref="ReadSnippet"/>s from a given input.
+    /// Extracts <see cref="Snippet"/>s from a given input.
     /// </summary>
     public class FileSnippetExtractor
     {
-        ExtractFileNameData extractPathData;
+        VersionRange fileVersion;
+        string package;
 
-        static char[] invalidCharacters = {'ì', 'î', 'ó'};
-
-        /// <summary>
-        /// Initialise a new instance of <see cref="FileSnippetExtractor"/>.
-        /// </summary>
-        /// <param name="extractPathData">How to extract a <see cref="PathData"/> from a given path.</param>
-        public FileSnippetExtractor(ExtractFileNameData extractPathData)
+        public static FileSnippetExtractor Build(VersionRange fileVersion, string package, bool isCurrent)
         {
-            Guard.AgainstNull(extractPathData, nameof(extractPathData));
-            this.extractPathData = extractPathData;
+            Guard.AgainstNull(fileVersion, nameof(fileVersion));
+            Guard.AgainstNullAndEmpty(package, nameof(package));
+            return new FileSnippetExtractor
+            {
+                fileVersion = fileVersion,
+                package = package,
+                isCurrent = isCurrent
+            };
         }
+
+        public static FileSnippetExtractor BuildShared()
+        {
+            return new FileSnippetExtractor
+            {
+                isShared = true
+            };
+        }
+
+        static char[] invalidCharacters = { '‚Äú', '‚Äù', '‚Äî' };
+        bool isShared;
+        bool isCurrent;
 
         /// <summary>
         /// Read from a <see cref="TextReader"/>.
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
-        /// <param name="path">The current path so extract <see cref="ReadSnippet"/>s from.</param>
-        public void AppendFromReader(TextReader textReader, string path, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
+        /// <param name="path">The current path so extract <see cref="Snippet"/>s from.</param>
+        public IEnumerable<Snippet> AppendFromReader(TextReader textReader, string path)
         {
             Guard.AgainstNull(textReader, nameof(textReader));
-            Guard.AgainstNull(callback, nameof(callback));
-            Guard.AgainstNull(parentVersion, nameof(parentVersion));
             Guard.AgainstNullAndEmpty(path, nameof(path));
-            Guard.AgainstNull(parentPackage, nameof(parentPackage));
-            Guard.AgainstNull(parentComponent, nameof(parentComponent));
             try
             {
-                using (var reader = new IndexReader(textReader))
-                {
-                    GetSnippets(reader, path, parentVersion, parentPackage, parentComponent, callback);
-                }
+                var reader = new IndexReader(textReader);
+                return GetSnippets(reader, path);
             }
             catch (Exception exception)
             {
@@ -56,13 +64,8 @@ namespace CaptureSnippets
         }
 
 
-        void GetSnippets(IndexReader stringReader, string path, VersionRange parentVersion, Package parentPackage, Component parentComponent, Action<ReadSnippet> callback)
+        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path)
         {
-            VersionRange fileVersion;
-            Package filePackage;
-            Component fileComponent;
-            PathDataExtractor.ExtractDataForFile(parentVersion, parentPackage, parentComponent, extractPathData, path, out fileVersion, out filePackage, out fileComponent);
-
             var language = GetLanguageFromPath(path);
             var loopState = new LoopState();
             while (true)
@@ -72,11 +75,11 @@ namespace CaptureSnippets
                 {
                     if (loopState.IsInSnippet)
                     {
-                        callback(new ReadSnippet(
+                        yield return Snippet.BuildError(
                             error: "Snippet was not closed",
                             path: path,
                             lineNumberInError: loopState.StartLine.Value + 1,
-                            key: loopState.CurrentKey));
+                            key: loopState.CurrentKey);
                     }
                     break;
                 }
@@ -92,39 +95,42 @@ namespace CaptureSnippets
                         continue;
                     }
 
-                    var snippet = BuildSnippet(stringReader, path, loopState, language, fileVersion, filePackage, fileComponent);
-
-                    callback(snippet);
+                    yield return BuildSnippet(stringReader, path, loopState, language);
                     loopState.Reset();
                     continue;
                 }
-                string suffix1;
-                string suffix2;
+                string version;
                 Func<string, bool> endFunc;
                 string key;
-                if (StartEndTester.IsStart(trimmedLine, out suffix1, out suffix2, out key, out endFunc))
+                if (StartEndTester.IsStart(trimmedLine, out version, out key, out endFunc))
                 {
                     loopState.EndFunc = endFunc;
                     loopState.CurrentKey = key;
                     loopState.IsInSnippet = true;
-                    loopState.Suffix1 = suffix1;
-                    loopState.Suffix2 = suffix2;
+                    loopState.Version = version;
                     loopState.StartLine = stringReader.Index;
                 }
             }
         }
 
 
-        ReadSnippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language, VersionRange fileVersion, Package filePackage, Component fileComponent)
+        Snippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language)
         {
             var startRow = loopState.StartLine.Value + 1;
 
             string error;
-            Package snippetPackage;
-            VersionRange snippetVersion;
-            if (!TryParseVersionAndPackage(loopState, fileVersion, filePackage, out snippetVersion, out snippetPackage, out error))
+            if (isShared && loopState.Version != null)
             {
-                return new ReadSnippet(
+                return Snippet.BuildError(
+                    error: "Shared snippets cannot contain a version",
+                    path: path,
+                    lineNumberInError: startRow,
+                    key: loopState.CurrentKey);
+            }
+            VersionRange snippetVersion;
+            if (!TryParseVersionAndPackage(loopState, out snippetVersion, out error))
+            {
+                return Snippet.BuildError(
                     error: error,
                     path: path,
                     lineNumberInError: startRow,
@@ -134,87 +140,59 @@ namespace CaptureSnippets
             if (value.IndexOfAny(invalidCharacters) > -1)
             {
                 var joinedInvalidChars = $@"'{string.Join("', '", invalidCharacters)}'";
-                return new ReadSnippet(
+                return Snippet.BuildError(
                     error: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by copying code from MS Word or Outlook. Dont do that.",
                     path: path,
                     lineNumberInError: startRow,
                     key: loopState.CurrentKey);
             }
-
-            return new ReadSnippet(
+            if (isShared)
+            {
+                return Snippet.BuildShared(
+                    startLine: startRow,
+                    endLine: stringReader.Index,
+                    key: loopState.CurrentKey,
+                    value: value,
+                    path: path,
+                    language: language.ToLowerInvariant());
+            }
+            return Snippet.Build(
                 startLine: startRow,
                 endLine: stringReader.Index,
                 key: loopState.CurrentKey,
                 version: snippetVersion,
                 value: value,
                 path: path,
-                package: snippetPackage,
-                component: fileComponent,
-                language: language.ToLowerInvariant());
+                language: language.ToLowerInvariant(),
+                package: package,
+                isCurrent: isCurrent);
         }
 
-        bool TryParseVersionAndPackage(LoopState loopState, VersionRange fileVersion, Package filePackage, out VersionRange snippetVersion, out Package snippetPackage, out string error)
+        bool TryParseVersionAndPackage(LoopState loopState, out VersionRange snippetVersion, out string error)
         {
             snippetVersion = null;
-            snippetPackage = Package.Undefined;
-            if (loopState.Suffix1 == null)
+            if (loopState.Version == null)
             {
                 snippetVersion = fileVersion;
-                snippetPackage = filePackage;
                 error = null;
                 return true;
             }
 
             VersionRange version;
-            if (loopState.Suffix2 == null)
+            if (VersionRangeParser.TryParseVersion(loopState.Version, out version))
             {
-                // Suffix1 could be a version
-                if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out version))
+                if (fileVersion.IsPreRelease())
                 {
-                    snippetVersion = version;
-                    snippetPackage = filePackage;
-                    error = null;
-                    return true;
+                    error = $"Could not use '{loopState.Version}' since directory is flagged as Prerelease. FileVersion: {fileVersion.ToFriendlyString()}.";
+                    return false;
                 }
+                snippetVersion = version;
 
-                // Suffix1 must be a package
-                if (loopState.Suffix1.StartsWithLetter())
-                {
-                    snippetVersion = fileVersion;
-                    snippetPackage = loopState.Suffix1;
-                    error = null;
-                    return true;
-                }
-                error = $"Expected '{loopState.Suffix1}' to be either parsable as a version or a package (starts with a letter).";
-                return false;
+                error = null;
+                return true;
             }
 
-            if (VersionRangeParser.TryParseVersion(loopState.Suffix1, out version))
-            {
-                if (loopState.Suffix2.StartsWithLetter())
-                {
-                    snippetVersion = version;
-                    snippetPackage = loopState.Suffix2;
-                    error = null;
-                    return true;
-                }
-                error = $"Was able to parse '{loopState.Suffix1}' as a version. But a '{loopState.Suffix2}' is not a package, must starts with a letter.";
-                return false;
-            }
-
-            if (VersionRangeParser.TryParseVersion(loopState.Suffix2, out version))
-            {
-                if (loopState.Suffix1.StartsWithLetter())
-                {
-                    snippetVersion = version;
-                    snippetPackage = loopState.Suffix1;
-                    error = null;
-                    return true;
-                }
-                error = $"Was able to parse '{loopState.Suffix2}' as a version. But a '{loopState.Suffix1}' is not a package, must starts with a letter.";
-                return false;
-            }
-            error = $"Was not able to parse either '{loopState.Suffix1}' or '{loopState.Suffix2}' as a version.";
+            error = $"Expected '{loopState.Version}' to be parsable as a version.";
             return false;
         }
 

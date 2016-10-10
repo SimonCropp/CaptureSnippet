@@ -18,6 +18,7 @@ namespace CaptureSnippets
             Key = key;
             Line = line;
         }
+
         /// <summary>
         /// The key of the missing snippet.
         /// </summary>
@@ -30,7 +31,7 @@ namespace CaptureSnippets
 
         public override string ToString()
         {
-            return $@"MissingSnippet. 
+            return $@"MissingSnippet.
   Line: {Line}
   Key: {Key}
 ";

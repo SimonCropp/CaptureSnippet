@@ -1,10 +1,22 @@
-using System;
+﻿using System;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
     public static class VersionRangeParser
     {
+
+        public static VersionRange ParseVersion(string stringVersion, string pretext = null)
+        {
+            Guard.AgainstEmpty(pretext, nameof(pretext));
+            VersionRange version;
+            if (TryParseVersion(stringVersion, out version, pretext))
+            {
+                return version;
+            }
+            var message = $"Could parse version '{stringVersion}'.";
+            throw new Exception(message);
+        }
 
         public static bool TryParseVersion(string stringVersion, out VersionRange parsedVersion, string pretext = null)
         {
@@ -44,37 +56,12 @@ namespace CaptureSnippets
                     includeMaxVersion: false);
                 return true;
             }
-            var message = $"Could not use prerelease.txt to parse a SemanticVersion. Value attempted:'{valueWithPre}'.";
+            var message = $"Could not use pretext:'{pretext}' to parse a SemanticVersion. Value attempted:'{valueWithPre}'.";
             throw new Exception(message);
         }
 
         static bool TryParseStable(string stringVersion, out VersionRange parsedVersion)
         {
-            if (stringVersion == "All")
-            {
-                parsedVersion = VersionRange.All;
-                return true;
-            }
-            if (stringVersion == "AllFloating")
-            {
-                parsedVersion = VersionRange.AllFloating;
-                return true;
-            }
-            if (stringVersion == "AllStable")
-            {
-                parsedVersion = VersionRange.AllStable;
-                return true;
-            }
-            if (stringVersion == "AllStableFloating")
-            {
-                parsedVersion = VersionRange.AllStableFloating;
-                return true;
-            }
-            if (stringVersion == "None")
-            {
-                parsedVersion = VersionRange.None;
-                return true;
-            }
             int majorPart;
             if (int.TryParse(stringVersion, out majorPart))
             {
@@ -97,5 +84,7 @@ namespace CaptureSnippets
             }
             return VersionRange.TryParse(stringVersion, out parsedVersion);
         }
+
+
     }
 }

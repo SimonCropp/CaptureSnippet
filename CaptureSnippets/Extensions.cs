@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using CaptureSnippets;
 
 static class Extensions
 {
@@ -20,9 +23,28 @@ static class Extensions
         }
     }
 
-    public static bool StartsWithLetter(this string value)
+    public static IReadOnlyList<T> ToReadonlyList<T>(this IEnumerable<T> value)
     {
-        return char.IsLetter(value, 0);
+        return value.ToList();
+    }
+
+    public static Dictionary<string, IReadOnlyList<Snippet>> ToDictionary(this IEnumerable<Snippet> value)
+    {
+        //TODO: throw if mixing
+        //if (package == Package.Undefined)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(targetPackage))
+        //    {
+        //        throw new Exception("Cannot mix non-empty targetPackage with a snippet that is Package.Undefined.");
+        //    }
+        //    packageText = "";
+        //}
+        return value
+            .GroupBy(_ => _.Key, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                keySelector: _ => _.Key,
+                elementSelector: _ => _.ToReadonlyList(),
+                comparer: StringComparer.OrdinalIgnoreCase);
     }
 
     public static int LastIndexOfSequence(this string value, char c, int max)

@@ -44,7 +44,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-  
+
     [Test]
     public void Differ_by_version_missing_suffix()
     {
@@ -112,27 +112,18 @@ public class SnippetExtractorTests
         using (var stringReader = new StringReader(input))
         {
             var versionRange = new VersionRange(new NuGetVersion(1, 1, 0));
-            var snippets = new List<ReadSnippet>();
-            var result = PathData.With(versionRange, Package.Undefined, Component.Undefined);
-            var extractor = new FileSnippetExtractor(y => result);
-            extractor.AppendFromReader(stringReader, "path.cs", versionRange, Package.Undefined, Component.Undefined, snippets.Add);
+            var extractor = FileSnippetExtractor.Build(versionRange, "package", false);
+            var snippets = extractor.AppendFromReader(stringReader, "path.cs").ToList();
             ObjectApprover.VerifyWithJson(snippets.Single());
         }
     }
 
-    public List<ReadSnippet> FromText(string contents, ExtractFileNameData extractFileNameData = null)
+    public List<Snippet> FromText(string contents)
     {
+        var extractor = FileSnippetExtractor.Build(VersionRange.All, "package", false);
         using (var stringReader = new StringReader(contents))
         {
-            var snippets = new List<ReadSnippet>();
-            var result = PathData.With(VersionRange.All, Package.Undefined, Component.Undefined);
-            if (extractFileNameData == null)
-            {
-                extractFileNameData = y => result;
-            }
-            var extractor = new FileSnippetExtractor(extractFileNameData);
-            extractor.AppendFromReader(stringReader, "path.cs", VersionRange.All, Package.Undefined, Component.Undefined, snippets.Add);
-            return snippets;
+            return extractor.AppendFromReader(stringReader, "path.cs").ToList();
         }
     }
 
@@ -148,32 +139,10 @@ public class SnippetExtractorTests
     }
 
     [Test]
-    public void CanExtractFromWithVersionAndPackage1()
-    {
-        var input = @"
-  #region CodeKey 5 package1
-  The code
-  #endregion";
-        var snippets = FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
-    }
-
-    [Test]
-    public void CanExtractFromWithVersionAndPackage2()
-    {
-        var input = @"
-  #region CodeKey package1 5
-  The code
-  #endregion";
-        var snippets = FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
-    }
-
-    [Test]
     public void CanExtractFromAllVersion()
     {
         var input = @"
-  <!-- startcode CodeKey All -->
+  <!-- startcode CodeKey 1 -->
   <configSections/>
   <!-- endcode -->";
         var snippets = FromText(input);

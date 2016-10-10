@@ -1,7 +1,6 @@
-using System;
 using System.IO;
 
-class IndexReader : IDisposable
+class IndexReader
 {
     TextReader textReader;
     public int Index { get; private set; }
@@ -9,11 +8,6 @@ class IndexReader : IDisposable
     public IndexReader(TextReader textReader)
     {
         this.textReader = textReader;
-    }
-
-    public void Dispose()
-    {
-        textReader?.Dispose();
     }
 
     public string ReadLine()
