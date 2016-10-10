@@ -151,7 +151,7 @@ namespace CaptureSnippets
         {
             if (IsInError)
             {
-                throw new Exception($"Cannot access when {nameof(IsInError)}. Key:{Key}. FileLocation:{FileLocation}. Error:{Error}");
+                throw new Exception($"Cannot access when {nameof(IsInError)}. Key: {Key}. FileLocation: {FileLocation}. Error: {Error}");
             }
         }
 

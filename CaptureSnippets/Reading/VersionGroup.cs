@@ -8,7 +8,7 @@ using NuGet.Versioning;
 namespace CaptureSnippets
 {
 
-    [DebuggerDisplay("Version={Version}, Package={Package}, IsCurrent={IsCurrent}, Directory={Directory}, SnippetsCount={Snippets.Count}}")]
+    [DebuggerDisplay("Version={Version}, Package={Package}, PackageAlias={PackageAlias}, IsCurrent={IsCurrent}, Directory={Directory}, SnippetsCount={Snippets.Count}}")]
     public class VersionGroup : IEnumerable<Snippet>
     {
 
@@ -18,18 +18,21 @@ namespace CaptureSnippets
         public readonly string Directory;
         public readonly bool IsCurrent;
         public readonly string Package;
+        public readonly string PackageAlias;
 
-        public VersionGroup(VersionRange version, string directory, bool isCurrent, string package, IReadOnlyList<Snippet> snippets)
+        public VersionGroup(VersionRange version, string directory, bool isCurrent, string package, string packageAlias, IReadOnlyList<Snippet> snippets)
         {
             Guard.AgainstNull(version, nameof(version));
             Guard.AgainstNull(snippets, nameof(snippets));
             Guard.AgainstNullAndEmpty(directory, nameof(directory));
             Guard.AgainstNullAndEmpty(package, nameof(package));
+            Guard.AgainstNullAndEmpty(packageAlias, nameof(packageAlias));
             Snippets = snippets;
             Version = version;
             Directory = directory;
             IsCurrent = isCurrent;
             Package = package;
+            PackageAlias = packageAlias;
             Lookup = snippets.ToDictionary();
         }
 
@@ -63,6 +66,11 @@ namespace CaptureSnippets
         {
             return $@"VersionGroup.
   Version: {Version}
+  Package: {Package}
+  PackageAlias: {PackageAlias}
+  Directory: {Directory}
+  IsCurrent: {IsCurrent}
+  SnippetsCount: {Snippets.Count}
 ";
         }
     }

@@ -46,6 +46,14 @@ namespace CaptureSnippets
                 var snippetExtractor = FileSnippetExtractor.BuildShared();
                 return ReadSnippets(sharedDirectory, snippetExtractor).ToList();
             }
+
+            var allPath = Path.Combine(directory,Path.GetFileName(directory)+"_All");
+            if (Directory.Exists(allPath))
+            {
+                var snippetExtractor = FileSnippetExtractor.BuildShared();
+                return ReadSnippets(allPath, snippetExtractor).ToList();
+            }
+
             return new List<Snippet>();
         }
 
@@ -60,6 +68,7 @@ namespace CaptureSnippets
         {
             public VersionRange Version;
             public string Package;
+            public string PackageAlias;
             public string Directory;
             public bool IsCurrent;
         }
@@ -100,7 +109,11 @@ namespace CaptureSnippets
         IEnumerable<Package> EnumeratePackages(string directory, string component, List<Snippet> globalShared, List<Snippet> componentShared)
         {
             var packageDirectories = Directory.EnumerateDirectories(directory, "*_*")
-                .Where(s => s != "Shared" && directoryFilter(s));
+                .Where(s =>
+                {
+                    return !IsShared(s) &&
+                           directoryFilter(s);
+                });
 
             var packageVersionList = new List<PackageVersionCurrent>();
             foreach (var packageAndVersionDirectory in packageDirectories)
@@ -111,8 +124,8 @@ namespace CaptureSnippets
                 {
                     throw new Exception($"Expected the directory name '{name}' to be split by a '_'.");
                 }
-                var packagePart = name.Substring(0, index);
-                packagePart = translatePackage(packagePart);
+                var packageAlias = name.Substring(0, index);
+                var package = translatePackage(packageAlias);
                 var versionPart = name.Substring(index + 1, name.Length - index - 1);
 
                 var pretext = PreTextReader.GetPretext(packageAndVersionDirectory);
@@ -120,7 +133,8 @@ namespace CaptureSnippets
                 var item = new PackageVersionCurrent
                 {
                     Version = version,
-                    Package = packagePart,
+                    Package = package,
+                    PackageAlias = packageAlias,
                     Directory = packageAndVersionDirectory,
                 };
                 packageVersionList.Add(item);
@@ -147,14 +161,27 @@ namespace CaptureSnippets
                     lookup[package] = versions = new List<VersionGroup>();
                 }
 
-                var versionGroup = ReadVersion(packageAndVersion.Directory, packageAndVersion.Version, package,
-                    packageAndVersion.IsCurrent, componentShared, globalShared);
+                var versionGroup = ReadVersion(
+                    versionDirectory: packageAndVersion.Directory,
+                    version: packageAndVersion.Version,
+                    package: package,
+                    packageAlias: packageAndVersion.PackageAlias,
+                    isCurrent: packageAndVersion.IsCurrent,
+                    componentShared: componentShared,
+                    globalShared: globalShared);
                 versions.Add(versionGroup);
             }
             foreach (var kv in lookup)
             {
                 yield return new Package(kv.Key, kv.Value);
             }
+        }
+
+        static bool IsShared(string directory)
+        {
+            var directorySuffix = Path.GetFileName(directory);
+            return directorySuffix == "Shared" ||
+                   directorySuffix.EndsWith("_All");
         }
 
         static void SetCurrent(List<PackageVersionCurrent> packageVersionList)
@@ -171,7 +198,7 @@ namespace CaptureSnippets
         IEnumerable<Component> EnumerateComponents(string directory, List<Snippet> globalShared)
         {
             return Directory.EnumerateDirectories(directory)
-                .Where(s => Path.GetFileName(s) != "Shared" && directoryFilter(s))
+                .Where(s => !IsShared(s) && directoryFilter(s))
                 .Select(s => ReadComponent(s, globalShared));
         }
 
@@ -189,8 +216,14 @@ namespace CaptureSnippets
             );
         }
 
-        VersionGroup ReadVersion(string versionDirectory, VersionRange version, string package, bool isCurrent,
-            IReadOnlyList<Snippet> componentShared, List<Snippet> globalShared)
+        VersionGroup ReadVersion(
+            string versionDirectory,
+            VersionRange version,
+            string package,
+            string packageAlias,
+            bool isCurrent,
+            IReadOnlyList<Snippet> componentShared,
+            List<Snippet> globalShared)
         {
             var snippetExtractor = FileSnippetExtractor.Build(version, package, isCurrent);
             return new VersionGroup(
@@ -201,7 +234,8 @@ namespace CaptureSnippets
                     .ToList(),
                 directory: versionDirectory,
                 isCurrent: isCurrent,
-                package: package);
+                package: package,
+                packageAlias: packageAlias);
         }
 
 
