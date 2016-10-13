@@ -9,7 +9,8 @@ namespace CaptureSnippets
     public class CachedSnippetExtractor
     {
         DirectorySnippetExtractor extractor;
-        ConcurrentDictionary<string, CachedComponents> cache = new ConcurrentDictionary<string, CachedComponents>();
+        ConcurrentDictionary<string, CachedComponents> componentCache = new ConcurrentDictionary<string, CachedComponents>();
+        ConcurrentDictionary<string, CachedPackages> packageCache = new ConcurrentDictionary<string, CachedPackages>();
 
         /// <summary>
         /// Constructor.
@@ -29,37 +30,76 @@ namespace CaptureSnippets
         [Time]
         public bool TryRemoveDirectory(string directory, out CachedComponents cached)
         {
-            return cache.TryRemove(directory, out cached);
+            return componentCache.TryRemove(directory, out cached);
+        }
+
+        /// <summary>
+        /// Attempts to remove and return the the cached value for <paramref name="directory"/> from the underlying <see cref="ConcurrentDictionary{TKey,TValue}"/> using <see cref="ConcurrentDictionary{TKey,TValue}.TryRemove"/>.
+        /// </summary>
+        [Time]
+        public bool TryRemoveDirectory(string directory, out CachedPackages cached)
+        {
+            return packageCache.TryRemove(directory, out cached);
         }
 
         /// <summary>
         /// Extract all snippets from a given directory.
         /// </summary>
         [Time]
-        public CachedComponents FromDirectory(string directory)
+        public CachedPackages PackagesFromDirectory(string directory)
+        {
+            directory = directory.ToLower();
+            var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
+
+            CachedPackages cached;
+            if (!packageCache.TryGetValue(directory, out cached))
+            {
+                return UpdatePackages(directory, lastDirectoryWrite);
+            }
+            if (cached.Ticks != lastDirectoryWrite)
+            {
+                return UpdatePackages(directory, lastDirectoryWrite);
+            }
+            return cached;
+        }
+
+        CachedPackages UpdatePackages(string directory, long lastDirectoryWrite)
+        {
+            var packages = extractor.ReadPackages(directory);
+            var cachedSnippets = new CachedPackages(
+                ticks: lastDirectoryWrite,
+                readPackages: packages);
+            return packageCache[directory] = cachedSnippets;
+        }
+
+        /// <summary>
+        /// Extract all <see cref="ReadComponents"/> from a given directory.
+        /// </summary>
+        [Time]
+        public CachedComponents ComponentsFromDirectory(string directory)
         {
             directory = directory.ToLower();
             var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
 
             CachedComponents cached;
-            if (!cache.TryGetValue(directory, out cached))
+            if (!componentCache.TryGetValue(directory, out cached))
             {
-                return UpdateCache(directory, lastDirectoryWrite);
+                return UpdateComponent(directory, lastDirectoryWrite);
             }
             if (cached.Ticks != lastDirectoryWrite)
             {
-                return UpdateCache(directory, lastDirectoryWrite);
+                return UpdateComponent(directory, lastDirectoryWrite);
             }
             return cached;
         }
 
-        CachedComponents UpdateCache(string directory, long lastDirectoryWrite)
+        CachedComponents UpdateComponent(string directory, long lastDirectoryWrite)
         {
             var components = extractor.ReadComponents(directory);
             var cachedSnippets = new CachedComponents(
                 ticks: lastDirectoryWrite,
                 components: components);
-            return cache[directory] = cachedSnippets;
+            return componentCache[directory] = cachedSnippets;
         }
 
     }

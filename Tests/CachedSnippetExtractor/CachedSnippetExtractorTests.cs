@@ -17,16 +17,16 @@ public class CachedSnippetExtractorTests
         var extractor = new CachedSnippetExtractor(
             directoryFilter: s => true,
             fileFilter: s => s.EndsWith(".cs"));
-        extractor.FromDirectory(directory);
+        extractor.ComponentsFromDirectory(directory);
 
         extractor = new CachedSnippetExtractor(
             directoryFilter: s => true,
             fileFilter: s => s.EndsWith(".cs"));
         var firstRun = Stopwatch.StartNew();
-        extractor.FromDirectory(directory);
+        extractor.ComponentsFromDirectory(directory);
         firstRun.Stop();
         var secondRun = Stopwatch.StartNew();
-        extractor.FromDirectory(directory);
+        extractor.ComponentsFromDirectory(directory);
         secondRun.Stop();
         Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
         Trace.WriteLine(firstRun.ElapsedMilliseconds);
@@ -40,7 +40,7 @@ public class CachedSnippetExtractorTests
         var extractor = new CachedSnippetExtractor(
             directoryFilter: s => true,
             fileFilter: s => true);
-        var read = extractor.FromDirectory(directory);
+        var read = extractor.ComponentsFromDirectory(directory);
         ObjectApprover.VerifyWithJson(read.Components.SnippetsInError, Scrubber.Scrub);
     }
 
