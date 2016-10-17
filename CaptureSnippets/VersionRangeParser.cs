@@ -6,17 +6,34 @@ namespace CaptureSnippets
     public static class VersionRangeParser
     {
 
-        public static VersionRange ParseVersion(string stringVersion, string pretext = null)
+
+        public static NuGetVersion ParseVersion(string stringVersion, string pretext = null)
         {
             Guard.AgainstEmpty(pretext, nameof(pretext));
-            VersionRange version;
-            if (TryParseVersion(stringVersion, out version, pretext))
+            if (pretext == null)
             {
-                return version;
+                NuGetVersion version;
+                if (NuGetVersion.TryParse(stringVersion, out version))
+                {
+                    return version;
+                }
             }
-            var message = $"Could parse version '{stringVersion}'.";
-            throw new Exception(message);
+            else
+            {
+                NuGetVersion version;
+                if (NuGetVersion.TryParse(stringVersion, out version))
+                {
+                    if (version.IsPrerelease)
+                    {
+                        throw new Exception($"Could parse version '{stringVersion}'. Cant mix pre-release from version with '{pretext}'.");
+                    }
+
+                    return new NuGetVersion(version.Major, version.Minor, version.Patch, new[] { pretext }, null);
+                }
+            }
+            throw new Exception($"Could parse version '{stringVersion}'.");
         }
+
 
         public static bool TryParseVersion(string stringVersion, out VersionRange parsedVersion, string pretext = null)
         {

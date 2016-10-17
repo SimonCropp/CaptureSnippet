@@ -6,14 +6,6 @@ namespace CaptureSnippets
 {
     public static class VersionRangeExtensions
     {
-        internal static NuGetVersion VersionForCompare(this VersionRange range)
-        {
-            if (range.MinVersion == null)
-            {
-                return range.MaxVersion;
-            }
-            return range.MinVersion;
-        }
         public static string NextVersion(this SemanticVersion version)
         {
             if (version.IsPrerelease)

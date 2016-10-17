@@ -66,7 +66,7 @@ namespace CaptureSnippets
 
         class PackageVersionCurrent
         {
-            public VersionRange Version;
+            public NuGetVersion Version;
             public string Package;
             public string PackageAlias;
             public string Directory;
@@ -145,35 +145,54 @@ namespace CaptureSnippets
                 yield break;
             }
             packageVersionList = packageVersionList
-                .OrderByDescending(x => x.Version.VersionForCompare())
+                .OrderByDescending(x => x.Version)
                 .ToList();
             packageVersionList = GetOrderedPackages(component, packageVersionList).ToList();
 
             SetCurrent(packageVersionList);
-            var lookup = new Dictionary<string, List<VersionGroup>>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var packageAndVersion in packageVersionList)
+            foreach (var group in packageVersionList.GroupBy(
+                keySelector: _ => _.Package,
+                comparer: StringComparer.InvariantCultureIgnoreCase))
             {
-                List<VersionGroup> versions;
-                var package = packageAndVersion.Package;
-                if (!lookup.TryGetValue(package, out versions))
+                var versions = new List<VersionGroup>();
+                NuGetVersion previous = null;
+                foreach (var packageAndVersion in group)
                 {
-                    lookup[package] = versions = new List<VersionGroup>();
-                }
+                    VersionRange versionRange;
+                    var minVersion = packageAndVersion.Version;
+                    if (previous == null)
+                    {
+                        versionRange = new VersionRange(
+                            minVersion: minVersion,
+                            includeMinVersion: true,
+                            includePrerelease: minVersion.IsPrerelease);
+                    }
+                    else
+                    {
+                        if (minVersion.IsPrerelease)
+                        {
+                            throw new Exception("PreRelease versions only allowed for the maximum version");
+                        }
+                        versionRange = new VersionRange(
+                            minVersion: minVersion,
+                            includeMinVersion: true,
+                            maxVersion: new NuGetVersion(previous.Major, previous.Minor, previous.Patch),
+                            includeMaxVersion: false
+                        );
+                    }
+                    previous = minVersion;
 
-                var versionGroup = ReadVersion(
-                    versionDirectory: packageAndVersion.Directory,
-                    version: packageAndVersion.Version,
-                    package: package,
-                    packageAlias: packageAndVersion.PackageAlias,
-                    isCurrent: packageAndVersion.IsCurrent,
-                    componentShared: componentShared,
-                    globalShared: globalShared);
-                versions.Add(versionGroup);
-            }
-            foreach (var kv in lookup)
-            {
-                yield return new Package(kv.Key, kv.Value);
+                    var versionGroup = ReadVersion(
+                        versionDirectory: packageAndVersion.Directory,
+                        version: versionRange,
+                        package: packageAndVersion.Package,
+                        packageAlias: packageAndVersion.PackageAlias,
+                        isCurrent: packageAndVersion.IsCurrent,
+                        componentShared: componentShared,
+                        globalShared: globalShared);
+                    versions.Add(versionGroup);
+                }
+                yield return new Package(group.Key, versions);
             }
         }
 
@@ -186,7 +205,7 @@ namespace CaptureSnippets
 
         static void SetCurrent(List<PackageVersionCurrent> packageVersionList)
         {
-            var firstStable = packageVersionList.FirstOrDefault(_ => !_.Version.IsPreRelease());
+            var firstStable = packageVersionList.FirstOrDefault(_ => !_.Version.IsPrerelease);
             if (firstStable != null)
             {
                 firstStable.IsCurrent = true;

@@ -3,7 +3,7 @@
     "Key": "nestedsnippet",
     "Language": "txt",
     "Package": "packageA",
-    "Version": ">= 1.0.0 && < 2.0.0",
+    "Version": ">= 1.0.0",
     "Value": "Some code",
     "Error": null,
     "FileLocation": "root\\DirectorySnippetExtractor/Nested\componentx\packageA_1\nested\nested\code.txt(2-3)",
