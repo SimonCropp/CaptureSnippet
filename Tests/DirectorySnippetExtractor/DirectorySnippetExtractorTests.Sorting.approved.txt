@@ -1,11 +1,11 @@
 ﻿[
   "packageC 1.x - N True",
-  "packageA 2.x - N False",
+  "packageA 2.x False",
   "packageA 1.x False",
-  "packageB 2.x - N False",
+  "packageB 2.x False",
   "packageE 2-pre - N False",
   "packageE 1.x True",
-  "packageD 1.x - N False",
+  "packageD 1.x False",
   "packageG 2.x - N True",
-  "packageF 3.x - N False"
+  "packageF 3.x False"
 ]
