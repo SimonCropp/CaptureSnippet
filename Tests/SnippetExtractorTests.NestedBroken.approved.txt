@@ -1,0 +1,18 @@
+﻿[
+  {
+    "Key": "keychild",
+    "Language": "cs",
+    "Package": "package",
+    "Version": "all",
+    "Value": "b\r\nc",
+    "Error": null,
+    "FileLocation": "path.cs(5-7)",
+    "IsInError": false
+  },
+  {
+    "Key": "keyparent",
+    "Error": "Snippet was not closed",
+    "FileLocation": "path.cs(3-3)",
+    "IsInError": true
+  }
+]

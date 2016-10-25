@@ -1,0 +1,22 @@
+﻿[
+  {
+    "Key": "keychild",
+    "Language": "cs",
+    "Package": "package",
+    "Version": "all",
+    "Value": "b",
+    "Error": null,
+    "FileLocation": "path.cs(5-6)",
+    "IsInError": false
+  },
+  {
+    "Key": "keyparent",
+    "Language": "cs",
+    "Package": "package",
+    "Version": "all",
+    "Value": "a\r\nb\r\nc",
+    "Error": null,
+    "FileLocation": "path.cs(3-8)",
+    "IsInError": false
+  }
+]
