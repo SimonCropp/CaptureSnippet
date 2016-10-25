@@ -2,17 +2,19 @@
 
 static class StartEndTester
 {
+    static Func<string, bool> isEndCode = s => IsEndCode(s);
+    static Func<string, bool> isEndRegion = s => IsEndRegion(s);
 
     internal static bool IsStart(string trimmedLine, out string version, out string currentKey, out Func<string, bool> endFunc)
     {
         if (IsStartCode(trimmedLine, out currentKey, out version))
         {
-            endFunc = IsEndCode;
+            endFunc = isEndCode;
             return true;
         }
         if (IsStartRegion(trimmedLine, out currentKey, out version))
         {
-            endFunc = IsEndRegion;
+            endFunc = isEndRegion;
             return true;
         }
         endFunc = null;
@@ -32,7 +34,7 @@ static class StartEndTester
 
     internal static bool IsStartRegion(string line, out string key, out string version)
     {
-        if (!line.StartsWith("#region", StringComparison.Ordinal))
+        if (!line.StartsWith("#region ", StringComparison.Ordinal))
         {
             key = version = null;
             return false;
@@ -43,7 +45,7 @@ static class StartEndTester
 
     internal static bool IsStartCode(string line, out string key, out string version)
     {
-        var startCodeIndex = line.IndexOf("startcode", StringComparison.Ordinal);
+        var startCodeIndex = line.IndexOf("startcode ", StringComparison.Ordinal);
         if (startCodeIndex == -1)
         {
             key = version = null;

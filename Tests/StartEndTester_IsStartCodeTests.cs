@@ -28,11 +28,10 @@ public class StartEndTester_IsStartCodeTests
     }
 
     [Test]
-    public void ShouldThrowForNoKeyWithNoSpace()
+    public void ShouldNotThrowForNoKeyWithNoSpace()
     {
         string fake;
-        var exception = Assert.Throws<Exception>(() => StartEndTester.IsStartCode("<!--startcode-->", out fake, out fake));
-        Assert.AreEqual("No Key could be derived. Line: '<!--startcode-->'.", exception.Message);
+        StartEndTester.IsStartCode("<!--startcode-->", out fake, out fake);
     }
 
     [Test]
