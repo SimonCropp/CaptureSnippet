@@ -77,7 +77,20 @@ public class SnippetExtractorTests
     }
 
     [Test]
-    public void Nested()
+    public void NestedBroken()
+    {
+        var input = @"
+  #region KeyParent
+  a
+  #region KeyChild
+  b
+  c
+  #endregion";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+    [Test]
+    public void NestedRegion()
     {
         var input = @"
   #region KeyParent
@@ -87,6 +100,51 @@ public class SnippetExtractorTests
   #endregion
   c
   #endregion";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void NestedMixed2()
+    {
+        var input = @"
+  #region KeyParent
+  a
+  <!-- startcode KeyChild -->
+  b
+  <!-- endcode -->
+  c
+  #endregion";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void NestedStartCode()
+    {
+        var input = @"
+  <!-- startcode KeyParent -->
+  a
+  <!-- startcode KeyChild -->
+  b
+  <!-- endcode -->
+  c
+  <!-- endcode -->";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void NestedMixed1()
+    {
+        var input = @"
+  <!-- startcode KeyParent -->
+  a
+  #region KeyChild
+  b
+  #endregion
+  c
+  <!-- endcode -->";
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }

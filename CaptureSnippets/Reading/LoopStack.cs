@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-[DebuggerDisplay("Depth={Stack.Count}, IsInSnippet={IsInSnippet}")]
+[DebuggerDisplay("Depth={stack.Count}, IsInSnippet={IsInSnippet}")]
 class LoopStack
 {
-    public Stack<LoopState> Stack = new Stack<LoopState>();
+    Stack<LoopState> stack = new Stack<LoopState>();
 
-    public bool IsInSnippet => Stack.Count > 0;
+    public bool IsInSnippet => stack.Count > 0;
 
-    public LoopState Current => Stack.Peek();
+    public LoopState Current => stack.Peek();
 
     public void AppendLine(string line)
     {
-        foreach (var state in Stack)
+        foreach (var state in stack)
         {
             state.AppendLine(line);
         }
@@ -21,7 +21,7 @@ class LoopStack
 
     public void Pop()
     {
-        Stack.Pop();
+        stack.Pop();
     }
 
     public void Push(Func<string, bool> endFunc, string key, string version, int startLine)
@@ -33,6 +33,6 @@ class LoopStack
             EndFunc = endFunc,
             StartLine = startLine,
         };
-        Stack.Push(state);
+        stack.Push(state);
     }
 }

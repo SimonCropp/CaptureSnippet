@@ -89,6 +89,14 @@ namespace CaptureSnippets
                 var trimmedLine = line.Trim()
                     .Replace("  ", " ")
                     .ToLowerInvariant();
+                string version;
+                Func<string, bool> endFunc;
+                string key;
+                if (StartEndTester.IsStart(trimmedLine, out version, out key, out endFunc))
+                {
+                    loopStack.Push(endFunc, key, version, stringReader.Index);
+                    continue;
+                }
                 if (loopStack.IsInSnippet)
                 {
                     if (!loopStack.Current.EndFunc(trimmedLine))
@@ -99,14 +107,6 @@ namespace CaptureSnippets
 
                     yield return BuildSnippet(stringReader, path, loopStack.Current, language);
                     loopStack.Pop();
-                    continue;
-                }
-                string version;
-                Func<string, bool> endFunc;
-                string key;
-                if (StartEndTester.IsStart(trimmedLine, out version, out key, out endFunc))
-                {
-                    loopStack.Push(endFunc,key,version, stringReader.Index);
                 }
             }
         }

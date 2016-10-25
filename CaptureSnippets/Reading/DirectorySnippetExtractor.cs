@@ -109,11 +109,8 @@ namespace CaptureSnippets
         IEnumerable<Package> EnumeratePackages(string directory, string component, List<Snippet> globalShared, List<Snippet> componentShared)
         {
             var packageDirectories = Directory.EnumerateDirectories(directory, "*_*")
-                .Where(s =>
-                {
-                    return !IsShared(s) &&
-                           directoryFilter(s);
-                });
+                .Where(s => !IsShared(s) &&
+                            directoryFilter(s));
 
             var packageVersionList = new List<PackageVersionCurrent>();
             foreach (var packageAndVersionDirectory in packageDirectories)
