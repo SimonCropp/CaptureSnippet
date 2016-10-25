@@ -67,19 +67,21 @@ namespace CaptureSnippets
         IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path)
         {
             var language = GetLanguageFromPath(path);
-            var loopState = new LoopState();
+
+            var loopStack = new LoopStack();
             while (true)
             {
                 var line = stringReader.ReadLine();
                 if (line == null)
                 {
-                    if (loopState.IsInSnippet)
+                    if (loopStack.IsInSnippet)
                     {
+                        var current = loopStack.Current;
                         yield return Snippet.BuildError(
                             error: "Snippet was not closed",
                             path: path,
-                            lineNumberInError: loopState.StartLine.Value + 1,
-                            key: loopState.CurrentKey);
+                            lineNumberInError: current.StartLine + 1,
+                            key: current.Key);
                     }
                     break;
                 }
@@ -87,16 +89,16 @@ namespace CaptureSnippets
                 var trimmedLine = line.Trim()
                     .Replace("  ", " ")
                     .ToLowerInvariant();
-                if (loopState.IsInSnippet)
+                if (loopStack.IsInSnippet)
                 {
-                    if (!loopState.EndFunc(trimmedLine))
+                    if (!loopStack.Current.EndFunc(trimmedLine))
                     {
-                        loopState.AppendLine(line);
+                        loopStack.AppendLine(line);
                         continue;
                     }
 
-                    yield return BuildSnippet(stringReader, path, loopState, language);
-                    loopState.Reset();
+                    yield return BuildSnippet(stringReader, path, loopStack.Current, language);
+                    loopStack.Pop();
                     continue;
                 }
                 string version;
@@ -104,11 +106,7 @@ namespace CaptureSnippets
                 string key;
                 if (StartEndTester.IsStart(trimmedLine, out version, out key, out endFunc))
                 {
-                    loopState.EndFunc = endFunc;
-                    loopState.CurrentKey = key;
-                    loopState.IsInSnippet = true;
-                    loopState.Version = version;
-                    loopState.StartLine = stringReader.Index;
+                    loopStack.Push(endFunc,key,version, stringReader.Index);
                 }
             }
         }
@@ -116,7 +114,7 @@ namespace CaptureSnippets
 
         Snippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language)
         {
-            var startRow = loopState.StartLine.Value + 1;
+            var startRow = loopState.StartLine + 1;
 
             string error;
             if (isShared && loopState.Version != null)
@@ -125,7 +123,7 @@ namespace CaptureSnippets
                     error: "Shared snippets cannot contain a version",
                     path: path,
                     lineNumberInError: startRow,
-                    key: loopState.CurrentKey);
+                    key: loopState.Key);
             }
             VersionRange snippetVersion;
             if (!TryParseVersionAndPackage(loopState, out snippetVersion, out error))
@@ -134,7 +132,7 @@ namespace CaptureSnippets
                     error: error,
                     path: path,
                     lineNumberInError: startRow,
-                    key: loopState.CurrentKey);
+                    key: loopState.Key);
             }
             var value = loopState.GetLines();
             if (value.IndexOfAny(invalidCharacters) > -1)
@@ -144,14 +142,14 @@ namespace CaptureSnippets
                     error: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by copying code from MS Word or Outlook. Dont do that.",
                     path: path,
                     lineNumberInError: startRow,
-                    key: loopState.CurrentKey);
+                    key: loopState.Key);
             }
             if (isShared)
             {
                 return Snippet.BuildShared(
                     startLine: startRow,
                     endLine: stringReader.Index,
-                    key: loopState.CurrentKey,
+                    key: loopState.Key,
                     value: value,
                     path: path,
                     language: language.ToLowerInvariant());
@@ -159,7 +157,7 @@ namespace CaptureSnippets
             return Snippet.Build(
                 startLine: startRow,
                 endLine: stringReader.Index,
-                key: loopState.CurrentKey,
+                key: loopState.Key,
                 version: snippetVersion,
                 value: value,
                 path: path,

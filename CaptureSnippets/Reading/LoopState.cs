@@ -2,19 +2,9 @@
 using System.Diagnostics;
 using System.Text;
 
-[DebuggerDisplay("CurrentKey={CurrentKey}, Version={Version}, IsInSnippet={IsInSnippet}")]
-struct LoopState
-{
-
-    public void Reset()
+[DebuggerDisplay("Key={Key}, Version={Version}")]
+    class LoopState
     {
-        builder.Clear();
-        CurrentKey = null;
-        EndFunc = null;
-        StartLine = null;
-        IsInSnippet = false;
-        paddingLength = 0;
-    }
 
     public string GetLines()
     {
@@ -70,12 +60,11 @@ struct LoopState
     }
 
     StringBuilder builder;
-    public string CurrentKey;
+    public string Key;
     char paddingChar;
     int paddingLength;
 
     public string Version;
     public Func<string, bool> EndFunc;
-    public int? StartLine;
-    public bool IsInSnippet;
+    public int StartLine;
 }

@@ -80,6 +80,7 @@
     <Compile Include="Reading\FileFilter.cs" />
     <Compile Include="Reading\FileSnippetExtractor.cs" />
     <Compile Include="Reading\GetPackageOrderForComponent.cs" />
+    <Compile Include="Reading\LoopStack.cs" />
     <Compile Include="Reading\LoopState.cs" />
     <Compile Include="Reading\Package.cs" />
     <Compile Include="Reading\ReadComponents.cs" />

@@ -1,0 +1,12 @@
+﻿[
+  {
+    "Key": "keyparent",
+    "Language": "cs",
+    "Package": "package",
+    "Version": "all",
+    "Value": "a\r\n#region KeyChild\r\nb",
+    "Error": null,
+    "FileLocation": "path.cs(3-6)",
+    "IsInError": false
+  }
+]

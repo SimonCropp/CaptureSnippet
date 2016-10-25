@@ -77,6 +77,21 @@ public class SnippetExtractorTests
     }
 
     [Test]
+    public void Nested()
+    {
+        var input = @"
+  #region KeyParent
+  a
+  #region KeyChild
+  b
+  #endregion
+  c
+  #endregion";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
     public void CanExtractMultipleWithDifferentVersions()
     {
         var input = @"
