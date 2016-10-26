@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\CachedSnippets.cs" />
     <Compile Include="Caching\CachedPackages.cs" />
     <Compile Include="Caching\CachedComponents.cs" />
     <Compile Include="Caching\CachedSnippetExtractor.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Reading\LoopState.cs" />
     <Compile Include="Reading\Package.cs" />
     <Compile Include="Reading\ReadComponents.cs" />
+    <Compile Include="Reading\ReadSnippets.cs" />
     <Compile Include="Reading\ReadPackages.cs" />
     <Compile Include="Reading\Snippet.cs" />
     <Compile Include="Reading\StartEndTester.cs" />

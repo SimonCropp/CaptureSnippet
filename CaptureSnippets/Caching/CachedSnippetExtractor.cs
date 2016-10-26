@@ -11,6 +11,7 @@ namespace CaptureSnippets
         DirectorySnippetExtractor extractor;
         ConcurrentDictionary<string, CachedComponents> componentCache = new ConcurrentDictionary<string, CachedComponents>();
         ConcurrentDictionary<string, CachedPackages> packageCache = new ConcurrentDictionary<string, CachedPackages>();
+        ConcurrentDictionary<string, CachedSnippets> snippetCache = new ConcurrentDictionary<string, CachedSnippets>();
 
         /// <summary>
         /// Constructor.
@@ -43,6 +44,15 @@ namespace CaptureSnippets
         }
 
         /// <summary>
+        /// Attempts to remove and return the the cached value for <paramref name="directory"/> from the underlying <see cref="ConcurrentDictionary{TKey,TValue}"/> using <see cref="ConcurrentDictionary{TKey,TValue}.TryRemove"/>.
+        /// </summary>
+        [Time]
+        public bool TryRemoveDirectory(string directory, out CachedSnippets cached)
+        {
+            return snippetCache.TryRemove(directory, out cached);
+        }
+
+        /// <summary>
         /// Extract all snippets from a given directory.
         /// </summary>
         [Time]
@@ -70,6 +80,36 @@ namespace CaptureSnippets
                 ticks: lastDirectoryWrite,
                 readPackages: packages);
             return packageCache[directory] = cachedSnippets;
+        }
+
+        /// <summary>
+        /// Extract all snippets from a given directory.
+        /// </summary>
+        [Time]
+        public CachedSnippets SnippetsFromDirectory(string directory)
+        {
+            directory = directory.ToLower();
+            var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
+
+            CachedSnippets cached;
+            if (!snippetCache.TryGetValue(directory, out cached))
+            {
+                return UpdateSnippets(directory, lastDirectoryWrite);
+            }
+            if (cached.Ticks != lastDirectoryWrite)
+            {
+                return UpdateSnippets(directory, lastDirectoryWrite);
+            }
+            return cached;
+        }
+
+        CachedSnippets UpdateSnippets(string directory, long lastDirectoryWrite)
+        {
+            var snippets = extractor.ReadSnippets(directory);
+            var cachedSnippets = new CachedSnippets(
+                ticks: lastDirectoryWrite,
+                readSnippets: snippets);
+            return snippetCache[directory] = cachedSnippets;
         }
 
         /// <summary>

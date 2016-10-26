@@ -64,6 +64,13 @@ namespace CaptureSnippets
             return new ReadPackages(packages, directory, componentShared);
         }
 
+        public ReadSnippets ReadSnippets(string directory)
+        {
+            var snippetExtractor = FileSnippetExtractor.BuildShared();
+            var packages = ReadSnippets(directory, snippetExtractor).ToList();
+            return new ReadSnippets(directory, packages);
+        }
+
         class PackageVersionCurrent
         {
             public NuGetVersion Version;
@@ -74,8 +81,7 @@ namespace CaptureSnippets
         }
 
 
-        IEnumerable<PackageVersionCurrent> GetOrderedPackages(string component,
-            IEnumerable<PackageVersionCurrent> package)
+        IEnumerable<PackageVersionCurrent> GetOrderedPackages(string component, IEnumerable<PackageVersionCurrent> package)
         {
             if (packageOrder == null)
             {
