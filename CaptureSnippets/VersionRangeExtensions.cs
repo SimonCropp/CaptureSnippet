@@ -14,13 +14,13 @@ namespace CaptureSnippets
             }
             if (version.Patch > 0)
             {
-                return $"{version.Major}.{version.Minor}.{version.Patch + 1}.x";
+                return $"{version.Major}.{version.Minor}.{version.Patch + 1}";
             }
             if (version.Minor > 0)
             {
-                return $"{version.Major}.{version.Minor}.1.x";
+                return $"{version.Major}.{version.Minor}.1";
             }
-            return $"{version.Major}.1.x";
+            return $"{version.Major}.1";
         }
 
         public static string PreviousVersion(this SemanticVersion version)
@@ -35,11 +35,11 @@ namespace CaptureSnippets
             }
             if (version.Minor > 0)
             {
-                return $"{version.Major}.{version.Minor - 1}.x";
+                return $"{version.Major}.{version.Minor - 1}";
             }
             return $"{version.Major - 1}.x";
         }
-        public static SemanticVersion PreviousVersion2(this SemanticVersion version)
+        static SemanticVersion PreviousVersion2(this SemanticVersion version)
         {
             if (version.IsPrerelease)
             {
@@ -64,7 +64,7 @@ namespace CaptureSnippets
                 {
                     return $"{version.Major}.{version.Minor}.{version.Patch}-{version.ReleaseLabels.First()}";
                 }
-                return $"{version.Major}.{version.Minor}.{version.Patch}.x";
+                return $"{version.Major}.{version.Minor}.{version.Patch}";
             }
             if (version.Minor > 0)
             {
@@ -72,7 +72,7 @@ namespace CaptureSnippets
                 {
                     return $"{version.Major}.{version.Minor}-{version.ReleaseLabels.First()}";
                 }
-                return $"{version.Major}.{version.Minor}.x";
+                return $"{version.Major}.{version.Minor}";
             }
             if (version.IsPrerelease)
             {
