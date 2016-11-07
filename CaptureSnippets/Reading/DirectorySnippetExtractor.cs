@@ -153,7 +153,6 @@ namespace CaptureSnippets
             packageVersionList = GetOrderedPackages(component, packageVersionList).ToList();
 
             SetCurrent(packageVersionList);
-            var isFirst = true;
             foreach (var group in packageVersionList.GroupBy(
                 keySelector: _ => _.Package,
                 comparer: StringComparer.InvariantCultureIgnoreCase))
@@ -164,37 +163,24 @@ namespace CaptureSnippets
                 {
                     VersionRange versionRange;
                     var minVersion = packageAndVersion.Version;
-                    if (previous == null && isFirst)
+
+                    if (previous == null)
                     {
                         versionRange = new VersionRange(
                             minVersion: minVersion,
                             includeMinVersion: true,
-                            includePrerelease: minVersion.IsPrerelease);
+                            maxVersion: new NuGetVersion(minVersion.Major + 1, 0, 0),
+                            includeMaxVersion: false
+                        );
                     }
                     else
                     {
-                        if (minVersion.IsPrerelease)
-                        {
-                            throw new Exception("PreRelease versions only allowed for the maximum version");
-                        }
-                        if (previous == null)
-                        {
-                            versionRange = new VersionRange(
-                                minVersion: minVersion,
-                                includeMinVersion: true,
-                                maxVersion: new NuGetVersion(minVersion.Major + 1, 0, 0),
-                                includeMaxVersion: false
-                            );
-                        }
-                        else
-                        {
-                            versionRange = new VersionRange(
-                                minVersion: minVersion,
-                                includeMinVersion: true,
-                                maxVersion: new NuGetVersion(previous.Major, previous.Minor, previous.Patch),
-                                includeMaxVersion: false
-                            );
-                        }
+                        versionRange = new VersionRange(
+                            minVersion: minVersion,
+                            includeMinVersion: true,
+                            maxVersion: new NuGetVersion(previous.Major, previous.Minor, previous.Patch),
+                            includeMaxVersion: false
+                        );
                     }
                     previous = minVersion;
 
@@ -207,7 +193,6 @@ namespace CaptureSnippets
                         componentShared: componentShared,
                         globalShared: globalShared);
                     versions.Add(versionGroup);
-                    isFirst = false;
                 }
                 yield return new Package(group.Key, versions);
             }
