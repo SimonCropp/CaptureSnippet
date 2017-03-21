@@ -105,7 +105,7 @@ And the convention method
 The keyed snippets can then be used in any documentation `.md` file by adding the text
 
 ```
-snippet:KEY
+snippet: KEY
 ```
 
 Then snippets with the key (all versions) will be rendered in a tabbed manner. If there is only a single version then it will be rendered as a simple code block with no tabs.
