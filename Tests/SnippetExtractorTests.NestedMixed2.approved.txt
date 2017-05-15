@@ -5,6 +5,7 @@
     "Package": "package",
     "Version": "all",
     "Value": "b",
+    "includes": [],
     "Error": null,
     "FileLocation": "path.cs(5-6)",
     "IsInError": false
@@ -15,6 +16,7 @@
     "Package": "package",
     "Version": "all",
     "Value": "a\r\nb\r\nc",
+    "includes": [],
     "Error": null,
     "FileLocation": "path.cs(3-8)",
     "IsInError": false

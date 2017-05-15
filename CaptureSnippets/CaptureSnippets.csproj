@@ -67,6 +67,7 @@
     <Compile Include="Processing\SnippetKeyReader.cs" />
     <Compile Include="IndexReader.cs" />
     <Compile Include="Reading\Component.cs" />
+    <Compile Include="IncludeExtracotrs\CSharpUsingExtractor.cs" />
     <Compile Include="Reading\DirectoryFilter.cs" />
     <Compile Include="Reading\DirectorySnippetExtractor.cs" />
     <Compile Include="Processing\SimpleSnippetMarkdownHandling.cs" />
@@ -77,8 +78,10 @@
     <Compile Include="Reading\FileFilter.cs" />
     <Compile Include="Reading\FileSnippetExtractor.cs" />
     <Compile Include="Reading\GetPackageOrderForComponent.cs" />
+    <Compile Include="IncludeExtracotrs\IIncludeExtractor.cs" />
     <Compile Include="Reading\LoopStack.cs" />
     <Compile Include="Reading\LoopState.cs" />
+    <Compile Include="IncludeExtracotrs\NoOpUsingExtractor.cs" />
     <Compile Include="Reading\Package.cs" />
     <Compile Include="Reading\ReadComponents.cs" />
     <Compile Include="Reading\ReadSnippets.cs" />

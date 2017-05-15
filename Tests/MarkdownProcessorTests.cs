@@ -66,7 +66,8 @@ some other text
             path: "thePath",
             version: version,
             package: package,
-            isCurrent: false);
+            isCurrent: false,
+            includes: null);
     }
 
     static void Verify(string markdownContent, IReadOnlyDictionary<string, IReadOnlyList<Snippet>> availableSnippets)

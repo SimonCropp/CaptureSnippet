@@ -7,6 +7,7 @@
       "Package": "package1",
       "Version": ">= 5.0.0",
       "Value": "Snippet_v[5.0.0, )",
+      "includes": [],
       "Error": null,
       "FileLocation": "thePath(1-2)",
       "IsInError": false
@@ -17,6 +18,7 @@
       "Package": "package1",
       "Version": ">= 4.0.0",
       "Value": "Snippet_v[4.0.0, )",
+      "includes": [],
       "Error": null,
       "FileLocation": "thePath(1-2)",
       "IsInError": false
@@ -27,6 +29,7 @@
       "Package": "package1",
       "Version": ">= 3.0.0",
       "Value": "Snippet_v[3.0.0, )",
+      "includes": [],
       "Error": null,
       "FileLocation": "thePath(1-2)",
       "IsInError": false
@@ -37,6 +40,7 @@
       "Package": "package1",
       "Version": ">= 4.0.0",
       "Value": "Snippet_v[4.0.0, )",
+      "includes": [],
       "Error": null,
       "FileLocation": "thePath(1-2)",
       "IsInError": false

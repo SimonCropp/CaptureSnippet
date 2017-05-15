@@ -5,6 +5,7 @@
     "Package": "package",
     "Version": "all",
     "Value": "the code",
+    "includes": [],
     "Error": null,
     "FileLocation": "path.cs(3-4)",
     "IsInError": false

@@ -1,22 +1,46 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
+using CaptureSnippets.IncludeExtracotrs;
 
 [DebuggerDisplay("Key={Key}, Version={Version}")]
-    class LoopState
-    {
-
+class LoopState
+{
     public string GetLines()
     {
         if (builder == null)
         {
-            return "";
+            return string.Empty;
         }
         builder.TrimEnd();
         return builder.ToString();
     }
 
+    public IList<string> GetIncludes() => usings;
+
     public void AppendLine(string line)
+    {
+        AppendLine(line, new NoOpUsingExtractor());
+    }
+
+    public void AppendLine(string line, IIncludeExtractor includeExtractor)
+    {
+        AppendContent(line);
+        ExtractIncludes(includeExtractor, line);
+    }
+
+    private void ExtractIncludes(IIncludeExtractor includeExtractor, string line)
+    {
+        var include = includeExtractor.Extract(line);
+        if (include != null)
+        {
+            usings.Add(include);
+        }
+    }
+
+    private void AppendContent(string line)
     {
         if (builder == null)
         {
@@ -60,6 +84,7 @@ using System.Text;
     }
 
     StringBuilder builder;
+    List<string> usings = new List<string>();
     public string Key;
     char paddingChar;
     int paddingLength;

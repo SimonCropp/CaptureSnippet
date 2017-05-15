@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using CaptureSnippets.IncludeExtracotrs;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -63,12 +64,12 @@ namespace CaptureSnippets
             return extension?.TrimStart('.') ?? string.Empty;
         }
 
-
-        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path)
+        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path, IIncludeExtractor extractor = null)
         {
             var language = GetLanguageFromPath(path);
+            var includeExtractor = extractor ?? GetIncludeExtractorFromLanguage(language);
+            var loopStack = new LoopStack(includeExtractor);
 
-            var loopStack = new LoopStack();
             while (true)
             {
                 var line = stringReader.ReadLine();
@@ -111,7 +112,16 @@ namespace CaptureSnippets
             }
         }
 
+        IIncludeExtractor GetIncludeExtractorFromLanguage(string path)
+        {
+            if (path.Equals("cs", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return new CSharpUsingExtractor();
+            }
 
+            return new NoOpUsingExtractor();
+        }
+        
         Snippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language)
         {
             var startRow = loopState.StartLine + 1;
@@ -152,7 +162,9 @@ namespace CaptureSnippets
                     key: loopState.Key,
                     value: value,
                     path: path,
-                    language: language.ToLowerInvariant());
+                    language: language.ToLowerInvariant(), 
+                    includes: loopState.GetIncludes()
+                );
             }
             return Snippet.Build(
                 startLine: startRow,
@@ -163,7 +175,8 @@ namespace CaptureSnippets
                 path: path,
                 language: language.ToLowerInvariant(),
                 package: package,
-                isCurrent: isCurrent);
+                isCurrent: isCurrent,
+                includes: loopState.GetIncludes());
         }
 
         bool TryParseVersionAndPackage(LoopState loopState, out VersionRange snippetVersion, out string error)

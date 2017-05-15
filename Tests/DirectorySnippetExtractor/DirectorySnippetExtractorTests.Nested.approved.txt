@@ -5,6 +5,7 @@
     "Package": "packageA",
     "Version": ">= 1.0.0 && < 2.0.0",
     "Value": "Some code",
+    "includes": [],
     "Error": null,
     "FileLocation": "root\\DirectorySnippetExtractor/Nested\componentx\packageA_1\nested\nested\code.txt(2-3)",
     "IsInError": false
@@ -15,6 +16,7 @@
     "Package": null,
     "Version": null,
     "Value": "Some code",
+    "includes": [],
     "Error": null,
     "FileLocation": "root\\DirectorySnippetExtractor/Nested\componentx\Shared\nested\nested\code.txt(2-3)",
     "IsInError": false
@@ -25,6 +27,7 @@
     "Package": null,
     "Version": null,
     "Value": "Some code",
+    "includes": [],
     "Error": null,
     "FileLocation": "root\\DirectorySnippetExtractor/Nested\Shared\nested\nested\code.txt(2-3)",
     "IsInError": false
