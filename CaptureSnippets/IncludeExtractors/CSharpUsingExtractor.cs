@@ -1,8 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
-namespace CaptureSnippets.IncludeExtracotrs
+namespace CaptureSnippets.IncludeExtractors
 {
-    public class CSharpUsingExtractor : IIncludeExtractor
+    public static class CSharpUsingExtractor
     {
         const string UsingPattern = @"(?:using\s)(?<ns>.*)(?:;)";
         static Regex Regex = new Regex(UsingPattern, RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
@@ -12,7 +13,7 @@ namespace CaptureSnippets.IncludeExtracotrs
         /// </summary>
         /// <param name="line"></param>
         /// <returns>Returns the include, or Null if nothing is found.</returns>
-        public string Extract(string line)
+        public static Func<string, string> Extract = line =>
         {
             var matches = Regex.Matches(line);
             if (matches.Count > 0)
@@ -22,6 +23,6 @@ namespace CaptureSnippets.IncludeExtracotrs
             }
 
             return null;
-        }
+        };
     }
 }

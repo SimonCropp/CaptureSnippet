@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using CaptureSnippets.IncludeExtracotrs;
 
 [DebuggerDisplay("Depth={stack.Count}, IsInSnippet={IsInSnippet}")]
 class LoopStack
 {
     Stack<LoopState> stack = new Stack<LoopState>();
-    IIncludeExtractor includeExtractor;
+    Func<string, string> includeExtractor;
 
-    public LoopStack(IIncludeExtractor includeExtractor)
+    public LoopStack(Func<string, string> includeExtractor)
     {
         this.includeExtractor = includeExtractor;
     }

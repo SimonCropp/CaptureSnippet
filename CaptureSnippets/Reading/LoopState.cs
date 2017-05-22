@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
-using CaptureSnippets.IncludeExtracotrs;
+using CaptureSnippets.IncludeExtractors;
 
 [DebuggerDisplay("Key={Key}, Version={Version}")]
 class LoopState
@@ -22,18 +21,18 @@ class LoopState
 
     public void AppendLine(string line)
     {
-        AppendLine(line, new NoOpUsingExtractor());
+        AppendLine(line, NoOpUsingExtractor.Extract);
     }
 
-    public void AppendLine(string line, IIncludeExtractor includeExtractor)
+    public void AppendLine(string line, Func<string, string> includeExtractor)
     {
         AppendContent(line);
         ExtractIncludes(includeExtractor, line);
     }
 
-    private void ExtractIncludes(IIncludeExtractor includeExtractor, string line)
+    private void ExtractIncludes(Func<string, string> includeExtractor, string line)
     {
-        var include = includeExtractor.Extract(line);
+        var include = includeExtractor(line);
         if (include != null)
         {
             usings.Add(include);

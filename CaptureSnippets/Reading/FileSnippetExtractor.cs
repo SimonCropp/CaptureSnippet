@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using CaptureSnippets.IncludeExtracotrs;
+using CaptureSnippets.IncludeExtractors;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -64,7 +64,7 @@ namespace CaptureSnippets
             return extension?.TrimStart('.') ?? string.Empty;
         }
 
-        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path, IIncludeExtractor extractor = null)
+        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path, Func<string, string> extractor = null)
         {
             var language = GetLanguageFromPath(path);
             var includeExtractor = extractor ?? GetIncludeExtractorFromLanguage(language);
@@ -112,14 +112,14 @@ namespace CaptureSnippets
             }
         }
 
-        IIncludeExtractor GetIncludeExtractorFromLanguage(string path)
+        Func<string, string> GetIncludeExtractorFromLanguage(string path)
         {
             if (path.Equals("cs", StringComparison.InvariantCultureIgnoreCase))
             {
-                return new CSharpUsingExtractor();
+                return CSharpUsingExtractor.Extract;
             }
 
-            return new NoOpUsingExtractor();
+            return NoOpUsingExtractor.Extract;
         }
         
         Snippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language)
