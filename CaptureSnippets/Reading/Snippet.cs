@@ -31,7 +31,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="Snippet"/>.
         /// </summary>
-        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package, bool isCurrent, IList<string> includes)
+        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package, bool isCurrent, ISet<string> includes)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
@@ -51,14 +51,14 @@ namespace CaptureSnippets
                 Language = language,
                 Path = path,
                 IsCurrent = isCurrent,
-                Includes = new ReadOnlyCollection<string>(includes ?? new List<string>())
+                Includes = new ReadOnlyCollection<string>(includes != null ? new List<string>(includes) : new List<string>())
             };
         }
 
         /// <summary>
         /// Initialise a new instance of <see cref="Snippet"/>.
         /// </summary>
-        public static Snippet BuildShared(int startLine, int endLine, string value, string key, string language, string path, IList<string> includes)
+        public static Snippet BuildShared(int startLine, int endLine, string value, string key, string language, string path, ISet<string> includes)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
@@ -75,7 +75,7 @@ namespace CaptureSnippets
                 Key = key,
                 Language = language,
                 Path = path,
-                Includes = new ReadOnlyCollection<string>(includes ?? new List<string>())
+                Includes = new ReadOnlyCollection<string>(includes != null ? new List<string>(includes) : new List<string>())
             };
         }
 

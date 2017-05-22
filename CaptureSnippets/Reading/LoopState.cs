@@ -17,7 +17,7 @@ class LoopState
         return builder.ToString();
     }
 
-    public IList<string> GetIncludes() => usings;
+    public ISet<string> GetIncludes() => usings;
 
     public void AppendLine(string line)
     {
@@ -83,7 +83,7 @@ class LoopState
     }
 
     StringBuilder builder;
-    List<string> usings = new List<string>();
+    HashSet<string> usings = new HashSet<string>();
     public string Key;
     char paddingChar;
     int paddingLength;

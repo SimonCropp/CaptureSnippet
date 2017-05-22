@@ -188,6 +188,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="Converters\SnippetConverter.cs" />
+    <Compile Include="CSharpNamespaceExtractorTests.cs" />
     <Compile Include="Scrubber.cs" />
     <Compile Include="MarkdownProcessorTests.cs" />
     <Compile Include="Extensions.cs" />

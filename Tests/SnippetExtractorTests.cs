@@ -361,15 +361,5 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
-    public void CanExtractUsingsFromCSharpLanguage()
-    {
-        var input = @"
-  #region UsingsSection
-  using System;
-  //includes other comments
-  #endregion";
-        var snippets = FromText(input);
-        ObjectApprover.VerifyWithJson(snippets);
-    }
+    
 }
