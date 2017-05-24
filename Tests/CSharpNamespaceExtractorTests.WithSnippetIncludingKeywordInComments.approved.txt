@@ -1,0 +1,15 @@
+﻿[
+  {
+    "Key": "usingssection",
+    "Language": "cs",
+    "Package": "package",
+    "Version": "all",
+    "Value": "//using of System;\r\nusing System;",
+    "includes": [
+      "System"
+    ],
+    "Error": null,
+    "FileLocation": "path.cs(3-5)",
+    "IsInError": false
+  }
+]

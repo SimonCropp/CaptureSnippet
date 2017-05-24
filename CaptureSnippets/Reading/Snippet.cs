@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using NuGet.Versioning;
 
@@ -29,7 +31,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="Snippet"/>.
         /// </summary>
-        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package, bool isCurrent)
+        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package, bool isCurrent, ISet<string> includes)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
@@ -48,14 +50,15 @@ namespace CaptureSnippets
                 Key = key,
                 Language = language,
                 Path = path,
-                IsCurrent = isCurrent
+                IsCurrent = isCurrent,
+                Includes = new ReadOnlyCollection<string>(includes != null ? new List<string>(includes) : new List<string>())
             };
         }
 
         /// <summary>
         /// Initialise a new instance of <see cref="Snippet"/>.
         /// </summary>
-        public static Snippet BuildShared(int startLine, int endLine, string value, string key, string language, string path)
+        public static Snippet BuildShared(int startLine, int endLine, string value, string key, string language, string path, ISet<string> includes)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
@@ -71,7 +74,8 @@ namespace CaptureSnippets
                 value = value,
                 Key = key,
                 Language = language,
-                Path = path
+                Path = path,
+                Includes = new ReadOnlyCollection<string>(includes != null ? new List<string>(includes) : new List<string>())
             };
         }
 
@@ -106,13 +110,17 @@ namespace CaptureSnippets
         /// </summary>
         public int EndLine { get; private set; }
 
-
         public bool IsCurrent { get; private set; }
 
         /// <summary>
         /// The <see cref="Path"/>, <see cref="StartLine"/> and <see cref="EndLine"/> concatenated.
         /// </summary>
         public string FileLocation => $"{Path}({StartLine}-{EndLine})";
+
+        /// <summary>
+        /// A string with all the includes in the snippets
+        /// </summary>
+        public IReadOnlyList<string> Includes { get; private set; }
 
         /// <summary>
         /// The <see cref="VersionRange"/> that was inferred for the snippet.

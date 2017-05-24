@@ -5,6 +5,7 @@
     "Package": "package",
     "Version": ">= 5.0.0 && < 6.0.0",
     "Value": "BeforeWhiteSpace\r\n\r\nAfterWhiteSpace",
+    "includes": [],
     "Error": null,
     "FileLocation": "path.cs(3-8)",
     "IsInError": false

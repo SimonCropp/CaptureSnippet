@@ -360,4 +360,6 @@ public class SnippetExtractorTests
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
+
+    
 }

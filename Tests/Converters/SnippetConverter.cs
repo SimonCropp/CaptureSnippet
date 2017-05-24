@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using ApprovalUtilities.Utilities;
 using CaptureSnippets;
 using Newtonsoft.Json;
 
@@ -26,6 +28,14 @@ class SnippetConverter : JsonConverter
             serializer.Serialize(writer, snippet.Version);
             writer.WritePropertyName("Value");
             serializer.Serialize(writer, snippet.Value);
+
+            writer.WritePropertyName("includes");
+            writer.WriteStartArray();
+            foreach(var inc in snippet.Includes)
+            {
+                serializer.Serialize(writer, inc);
+            }
+            writer.WriteEndArray();
         }
         writer.WritePropertyName("Error");
         serializer.Serialize(writer, snippet.Error);

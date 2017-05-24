@@ -6,6 +6,12 @@ using System.Diagnostics;
 class LoopStack
 {
     Stack<LoopState> stack = new Stack<LoopState>();
+    Func<string, string> includeExtractor;
+
+    public LoopStack(Func<string, string> includeExtractor)
+    {
+        this.includeExtractor = includeExtractor;
+    }
 
     public bool IsInSnippet => stack.Count > 0;
 
@@ -15,7 +21,7 @@ class LoopStack
     {
         foreach (var state in stack)
         {
-            state.AppendLine(line);
+            state.AppendLine(line, includeExtractor);
         }
     }
 
