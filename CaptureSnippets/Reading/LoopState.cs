@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using CaptureSnippets.IncludeExtractors;
 
 [DebuggerDisplay("Key={Key}, Version={Version}")]
 class LoopState
@@ -30,7 +29,7 @@ class LoopState
         ExtractIncludes(includeExtractor, line);
     }
 
-    private void ExtractIncludes(Func<string, string> includeExtractor, string line)
+    void ExtractIncludes(Func<string, string> includeExtractor, string line)
     {
         var include = includeExtractor(line);
         if (include != null)
@@ -39,7 +38,7 @@ class LoopState
         }
     }
 
-    private void AppendContent(string line)
+    void AppendContent(string line)
     {
         if (builder == null)
         {

@@ -1,9 +1,6 @@
 ﻿using System;
 
-namespace CaptureSnippets.IncludeExtractors
+class NoOpUsingExtractor
 {
-    public class NoOpUsingExtractor
-    {
-        public static Func<string, string> Extract = line => null;
-    }
+    public static Func<string, string> Extract = line => null;
 }
