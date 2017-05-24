@@ -1,122 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2F81FF57-F5ED-4AAE-B5C5-23F4B096B45D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CaptureSnippets</RootNamespace>
-    <AssemblyName>CaptureSnippets</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <TargetFrameworks>net462</TargetFrameworks>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
+    <DebugSymbols>True</DebugSymbols>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Debug\CaptureSnippets.xml</DocumentationFile>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Release\CaptureSnippets.xml</DocumentationFile>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>$(ProjectDir)bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <NoWarn>1573;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MethodTimer, Version=1.19.0.0, Culture=neutral, PublicKeyToken=cb1364609f40a1dc, processorArchitecture=MSIL">
-      <HintPath>..\packages\MethodTimer.Fody.1.19.0\lib\dotnet\MethodTimer.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="NuGet.Versioning, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\NuGet.Versioning.4.0.0\lib\net45\NuGet.Versioning.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
+    <PackageReference Include="Fody" version="2.0.10" />
+    <PackageReference Include="MethodTimer.Fody" Version="1.19.0" />
+    <PackageReference Include="NuGet.Versioning" Version="4.0.0" />
+    <PackageReference Include="Caseless.Fody" Version="1.5.0" />
+    <PackageReference Include="Fielder.Fody" Version="1.1.1" />
+    <PackageReference Include="GitVersionTask" Version="3.6.5" />
+    <PackageReference Include="PepitaPackage" Version="1.21.4" />
+    <PackageReference Include="Virtuosity.Fody" Version="1.20.0" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Caching\CachedSnippets.cs" />
-    <Compile Include="Caching\CachedPackages.cs" />
-    <Compile Include="Caching\CachedComponents.cs" />
-    <Compile Include="Caching\CachedSnippetExtractor.cs" />
-    <Compile Include="Guard.cs" />
-    <Compile Include="DirectoryDateFinder.cs" />
-    <Compile Include="InterpretErrors.cs" />
-    <Compile Include="PreTextReader.cs" />
-    <Compile Include="Processing\AppendSnippetGroupToMarkdown.cs" />
-    <Compile Include="Processing\MarkdownProcessor.cs" />
-    <Compile Include="Processing\MissingSnippet.cs" />
-    <Compile Include="Processing\SnippetKeyReader.cs" />
-    <Compile Include="IndexReader.cs" />
-    <Compile Include="Reading\Component.cs" />
-    <Compile Include="IncludeExtractors\CSharpUsingExtractor.cs" />
-    <Compile Include="Reading\DirectoryFilter.cs" />
-    <Compile Include="Reading\DirectorySnippetExtractor.cs" />
-    <Compile Include="Processing\SimpleSnippetMarkdownHandling.cs" />
-    <Compile Include="MethodTimeLogger.cs" />
-    <Compile Include="Processing\ProcessResult.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Reading\FileFilter.cs" />
-    <Compile Include="Reading\FileSnippetExtractor.cs" />
-    <Compile Include="Reading\GetPackageOrderForComponent.cs" />
-    <Compile Include="Reading\LoopStack.cs" />
-    <Compile Include="Reading\LoopState.cs" />
-    <Compile Include="IncludeExtractors\NoOpUsingExtractor.cs" />
-    <Compile Include="Reading\Package.cs" />
-    <Compile Include="Reading\ReadComponents.cs" />
-    <Compile Include="Reading\ReadSnippets.cs" />
-    <Compile Include="Reading\ReadPackages.cs" />
-    <Compile Include="Reading\Snippet.cs" />
-    <Compile Include="Reading\StartEndTester.cs" />
-    <Compile Include="Reading\TranslatePackage.cs" />
-    <Compile Include="Reading\VersionGroup.cs" />
-    <Compile Include="StringBuilderCache.cs" />
-    <Compile Include="VersionRangeExtensions.cs" />
-    <Compile Include="VersionRangeParser.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="FodyWeavers.xml">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="NugetAssets\CaptureSnippets.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="AfterBuild">
+  <Target Name="NuGetBuild" AfterTargets="AfterBuild">
     <ItemGroup>
       <FilesToDelete Include="$(SolutionDir)NuGetBuild\**\*.*" />
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
     <MakeDir Directories="$(SolutionDir)NuGetBuild" />
     <Copy SourceFiles="$(ProjectDir)NuGetAssets\CaptureSnippets.nuspec" DestinationFolder="$(SolutionDir)NuGetBuild" />
-    <Copy SourceFiles="$(OutputPath)CaptureSnippets.dll" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET452" />
-    <Copy SourceFiles="$(OutputPath)CaptureSnippets.pdb" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET452" />
-    <Copy SourceFiles="$(OutputPath)CaptureSnippets.xml" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET452" />
+    <Copy SourceFiles="$(OutputPath)CaptureSnippets.dll" DestinationFolder="$(SolutionDir)NuGetBuild\lib\net452" />
+    <Copy SourceFiles="$(OutputPath)CaptureSnippets.pdb" DestinationFolder="$(SolutionDir)NuGetBuild\lib\net452" />
+    <Copy SourceFiles="$(OutputPath)CaptureSnippets.xml" DestinationFolder="$(SolutionDir)NuGetBuild\lib\net452" />
     <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)NuGetBuild" MetadataAssembly="$(OutputPath)CaptureSnippets.dll" Version="$(GfvLegacySemVerPadded)" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -125,9 +40,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets'))" />
     <Error Condition="!Exists('..\packages\GitVersionTask.3.6.5\build\dotnet\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.3.6.5\build\dotnet\GitVersionTask.targets'))" />
-    <Error Condition="!Exists('..\packages\Fody.2.0.10\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.10\build\dotnet\Fody.targets'))" />
   </Target>
   <Import Project="..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets" Condition="Exists('..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" />
   <Import Project="..\packages\GitVersionTask.3.6.5\build\dotnet\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.5\build\dotnet\GitVersionTask.targets')" />
-  <Import Project="..\packages\Fody.2.0.10\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.10\build\dotnet\Fody.targets')" />
 </Project>

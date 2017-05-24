@@ -1,240 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{57DB7A48-6056-411C-8468-E4FC02B3ABB0}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests</RootNamespace>
-    <AssemblyName>Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <TargetFrameworks>net462</TargetFrameworks>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
+    <DebugSymbols>True</DebugSymbols>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DebugSymbols>true</DebugSymbols>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApprovalTests, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
-      <HintPath>..\packages\ApprovalTests.3.0.13\lib\net40\ApprovalTests.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ApprovalUtilities, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
-      <HintPath>..\packages\ApprovalUtilities.3.0.13\lib\net45\ApprovalUtilities.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ApprovalUtilities.Net45, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ApprovalUtilities.3.0.13\lib\net45\ApprovalUtilities.Net45.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NuGet.Versioning, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\NuGet.Versioning.4.0.0\lib\net45\NuGet.Versioning.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ObjectApproval, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c7a34512ecd69090, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObjectApproval.1.6.0\lib\NET40\ObjectApproval.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Resourcer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=409b3227471b0f0d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Resourcer.Fody.1.5.1\lib\portable-net45+netcore45+wpa81+wp8\Resourcer.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
+    <PackageReference Include="Fody" version="2.0.10" />
+    <PackageReference Include="NUnit" Version="3.6.1" />
+    <PackageReference Include="ApprovalTests" Version="3.0.13" />
+    <PackageReference Include="ApprovalUtilities" Version="3.0.13" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="NuGet.Versioning" Version="4.0.0" />
+    <PackageReference Include="ObjectApproval" Version="1.6.0" />
+    <PackageReference Include="Resourcer.Fody" Version="1.5.1" />
+    <PackageReference Include="ModuleInit.Fody" Version="1.6.0" />
+    <PackageReference Include="Caseless.Fody" Version="1.5.0" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CachedSnippetExtractor\CachedSnippetExtractorTests.cs" />
-    <Compile Include="Converters\ProcessResultConverter.cs" />
-    <Content Include="CachedSnippetExtractor\Bad\componentx\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CachedSnippetExtractor\Bad\componentx\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CachedSnippetExtractor\Bad\componenty\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CachedSnippetExtractor\Bad\componenty\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CachedSnippetExtractor\Bad\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CachedSnippetExtractor\Simple\componentx\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CachedSnippetExtractor\Simple\componentx\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CachedSnippetExtractor\Simple\componenty\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CachedSnippetExtractor\Simple\componenty\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CachedSnippetExtractor\Simple\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Case\componenty\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Case\componenty\Packagea_2\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Case\componenty\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Case\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Nested\componentx\packageA_1\nested\nested\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Nested\componentx\shared\nested\nested\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Nested\shared\nested\nested\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Simple\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componenta\packageA_2\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componenta\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componenta\packageC_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componenta\packageB_2\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componentb\packageE_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componentb\packageE_2\prerelease.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componentc\packageF_3\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componentc\packageG_2\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componentb\packageD_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Sorting\componentb\packageE_2\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Simple\componentx\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Simple\componentx\packageA_2\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Simple\componentx\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Simple\componenty\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Simple\componenty\packageA_2\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\Simple\componenty\shared\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\componenty\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\componenty\packageA_2\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\componentx\packageA_1\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Compile Include="Converters\SnippetConverter.cs" />
-    <Compile Include="CSharpNamespaceExtractorTests.cs" />
-    <Compile Include="Scrubber.cs" />
-    <Compile Include="MarkdownProcessorTests.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="DirectorySnippetExtractor\DirectorySnippetExtractorTests.cs" />
-    <Compile Include="LoopStateTests.cs" />
-    <Compile Include="VersionRangeExtensionsTests.cs" />
-    <Compile Include="MarkdownProcessor_TryExtractKeyFromTests.cs" />
-    <Compile Include="ModuleInitializer.cs" />
-    <Compile Include="Sample.cs" />
-    <None Include="badsnippets\code.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Compile Include="SnippetExtractorTests.cs" />
-    <Compile Include="StartEndTester_IsStartRegionTests.cs" />
-    <Compile Include="StartEndTester_IsStartCodeTests.cs" />
-    <Compile Include="Converters\VersionRangeConverter.cs" />
-    <Compile Include="StringExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CaptureSnippets\CaptureSnippets.csproj">
-      <Project>{2f81ff57-f5ed-4aae-b5c5-23f4b096b45d}</Project>
-      <Name>CaptureSnippets</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\componentx\packageA_2\code.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="FodyWeavers.xml" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\CaptureSnippets\CaptureSnippets.csproj" />
     <Folder Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\Ignore\" />
+    <None Include="badsnippets\code.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="CachedSnippetExtractor\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+    <None Update="DirectorySnippetExtractor\Case\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+    <None Update="DirectorySnippetExtractor\Nested\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+    <None Update="DirectorySnippetExtractor\Simple\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+    <None Update="DirectorySnippetExtractor\Sorting\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+    <None Update="DirectorySnippetExtractor\VerifyLambdasAreCalled\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Fody.2.0.10\build\netstandard1.4\Fody.targets" Condition="Exists('..\packages\Fody.2.0.10\build\netstandard1.4\Fody.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.2.0.10\build\netstandard1.4\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.10\build\netstandard1.4\Fody.targets'))" />
-  </Target>
 </Project>

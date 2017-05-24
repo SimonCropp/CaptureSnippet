@@ -6,7 +6,7 @@ namespace CaptureSnippets
 {
 
     /// <summary>
-    /// Merges <see cref="SnippetGroup"/>s with an input file/text.
+    /// Merges <see cref="Snippet"/>s with an input file/text.
     /// </summary>
     public class MarkdownProcessor
     {
