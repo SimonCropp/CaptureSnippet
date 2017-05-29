@@ -70,12 +70,11 @@ using System;
     }
 
     [Test]
-    public void WithIncludesOutOfClassRegion()
+    public void WithIncludesOutOfSnippetRegion()
     {
         var input = @"
 using System;
 using System.Core;
-using System;
 
   #region TestClass
   public class Test { }
