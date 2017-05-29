@@ -5,7 +5,7 @@
     "Package": "package",
     "Version": "all",
     "Value": "using System;\r\nusing System.Core;\r\nusing System;",
-    "includes": [
+    "Includes": [
       "System",
       "System.Core"
     ],

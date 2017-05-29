@@ -5,7 +5,7 @@
     "Package": "package",
     "Version": "all",
     "Value": "using Math = System.Math;",
-    "includes": [
+    "Includes": [
       "System.Math"
     ],
     "Error": null,

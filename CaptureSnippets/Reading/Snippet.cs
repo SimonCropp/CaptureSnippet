@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -51,7 +52,7 @@ namespace CaptureSnippets
                 Language = language,
                 Path = path,
                 IsCurrent = isCurrent,
-                Includes = new ReadOnlyCollection<string>(includes != null ? new List<string>(includes) : new List<string>())
+                Includes = new ReadOnlyCollection<string>(includes?.OrderBy(x => x).ToList() ?? new List<string>())
             };
         }
 
@@ -75,7 +76,7 @@ namespace CaptureSnippets
                 Key = key,
                 Language = language,
                 Path = path,
-                Includes = new ReadOnlyCollection<string>(includes != null ? new List<string>(includes) : new List<string>())
+                Includes = new ReadOnlyCollection<string>(includes?.OrderBy(x => x).ToList() ?? new List<string>())
             };
         }
 

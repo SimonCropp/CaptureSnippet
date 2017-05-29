@@ -4,7 +4,7 @@
   "Package": "package",
   "Version": ">= 1.1.0",
   "Value": "<configSections/>",
-  "includes": [],
+  "Includes": [],
   "Error": null,
   "FileLocation": "path.cs(3-4)",
   "IsInError": false

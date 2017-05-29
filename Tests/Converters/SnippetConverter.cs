@@ -29,7 +29,7 @@ class SnippetConverter : JsonConverter
             writer.WritePropertyName("Value");
             serializer.Serialize(writer, snippet.Value);
 
-            writer.WritePropertyName("includes");
+            writer.WritePropertyName("Includes");
             writer.WriteStartArray();
             foreach(var inc in snippet.Includes)
             {

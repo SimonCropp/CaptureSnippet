@@ -5,7 +5,7 @@
     "Package": "package",
     "Version": "all",
     "Value": "b\r\nc",
-    "includes": [],
+    "Includes": [],
     "Error": null,
     "FileLocation": "path.cs(5-7)",
     "IsInError": false

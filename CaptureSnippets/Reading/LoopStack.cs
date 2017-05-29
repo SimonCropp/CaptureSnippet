@@ -5,23 +5,26 @@ using System.Diagnostics;
 [DebuggerDisplay("Depth={stack.Count}, IsInSnippet={IsInSnippet}")]
 class LoopStack
 {
-    Stack<LoopState> stack = new Stack<LoopState>();
-    Func<string, string> includeExtractor;
-
-    public LoopStack(Func<string, string> includeExtractor)
-    {
-        this.includeExtractor = includeExtractor;
-    }
-
     public bool IsInSnippet => stack.Count > 0;
 
     public LoopState Current => stack.Peek();
+
+    public ISet<string> GetIncludes() => usings;
+
+    public void ExtractIncludes(string line, Func<string, string> includeExtractor)
+    {
+        var include = includeExtractor(line);
+        if (include != null)
+        {
+            usings.Add(include);
+        }
+    }
 
     public void AppendLine(string line)
     {
         foreach (var state in stack)
         {
-            state.AppendLine(line, includeExtractor);
+            state.AppendLine(line);
         }
     }
 
@@ -41,4 +44,7 @@ class LoopStack
         };
         stack.Push(state);
     }
+
+    HashSet<string> usings = new HashSet<string>();
+    Stack<LoopState> stack = new Stack<LoopState>();
 }

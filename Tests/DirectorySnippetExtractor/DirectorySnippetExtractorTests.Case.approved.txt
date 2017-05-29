@@ -13,7 +13,7 @@
                 "Package": "Packagea",
                 "Version": ">= 2.0.0 && < 3.0.0",
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
                 "IsInError": false
@@ -24,7 +24,7 @@
                 "Package": null,
                 "Version": null,
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
                 "IsInError": false
@@ -35,7 +35,7 @@
                 "Package": null,
                 "Version": null,
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
                 "IsInError": false
@@ -48,7 +48,7 @@
                 "Package": "packageA",
                 "Version": ">= 1.0.0 && < 2.0.0",
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
                 "IsInError": false
@@ -59,7 +59,7 @@
                 "Package": null,
                 "Version": null,
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
                 "IsInError": false
@@ -70,7 +70,7 @@
                 "Package": null,
                 "Version": null,
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
                 "IsInError": false
@@ -84,7 +84,7 @@
               "Package": "Packagea",
               "Version": ">= 2.0.0 && < 3.0.0",
               "Value": "Some code",
-              "includes": [],
+              "Includes": [],
               "Error": null,
               "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
               "IsInError": false
@@ -95,7 +95,7 @@
               "Package": null,
               "Version": null,
               "Value": "Some code",
-              "includes": [],
+              "Includes": [],
               "Error": null,
               "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
               "IsInError": false
@@ -106,7 +106,7 @@
               "Package": null,
               "Version": null,
               "Value": "Some code",
-              "includes": [],
+              "Includes": [],
               "Error": null,
               "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
               "IsInError": false
@@ -117,7 +117,7 @@
               "Package": "packageA",
               "Version": ">= 1.0.0 && < 2.0.0",
               "Value": "Some code",
-              "includes": [],
+              "Includes": [],
               "Error": null,
               "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
               "IsInError": false
@@ -131,7 +131,7 @@
                 "Package": "Packagea",
                 "Version": ">= 2.0.0 && < 3.0.0",
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
                 "IsInError": false
@@ -142,7 +142,7 @@
                 "Package": "packageA",
                 "Version": ">= 1.0.0 && < 2.0.0",
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
                 "IsInError": false
@@ -155,7 +155,7 @@
                 "Package": null,
                 "Version": null,
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
                 "IsInError": false
@@ -168,7 +168,7 @@
                 "Package": null,
                 "Version": null,
                 "Value": "Some code",
-                "includes": [],
+                "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
                 "IsInError": false
@@ -185,7 +185,7 @@
           "Package": "Packagea",
           "Version": ">= 2.0.0 && < 3.0.0",
           "Value": "Some code",
-          "includes": [],
+          "Includes": [],
           "Error": null,
           "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
           "IsInError": false
@@ -196,7 +196,7 @@
           "Package": null,
           "Version": null,
           "Value": "Some code",
-          "includes": [],
+          "Includes": [],
           "Error": null,
           "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
           "IsInError": false
@@ -207,7 +207,7 @@
           "Package": null,
           "Version": null,
           "Value": "Some code",
-          "includes": [],
+          "Includes": [],
           "Error": null,
           "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
           "IsInError": false
@@ -218,7 +218,7 @@
           "Package": "packageA",
           "Version": ">= 1.0.0 && < 2.0.0",
           "Value": "Some code",
-          "includes": [],
+          "Includes": [],
           "Error": null,
           "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
           "IsInError": false
@@ -231,7 +231,7 @@
           "Package": null,
           "Version": null,
           "Value": "Some code",
-          "includes": [],
+          "Includes": [],
           "Error": null,
           "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
           "IsInError": false
@@ -242,7 +242,7 @@
           "Package": null,
           "Version": null,
           "Value": "Some code",
-          "includes": [],
+          "Includes": [],
           "Error": null,
           "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
           "IsInError": false
@@ -256,7 +256,7 @@
             "Package": "Packagea",
             "Version": ">= 2.0.0 && < 3.0.0",
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
             "IsInError": false
@@ -267,7 +267,7 @@
             "Package": null,
             "Version": null,
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
             "IsInError": false
@@ -278,7 +278,7 @@
             "Package": null,
             "Version": null,
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
             "IsInError": false
@@ -291,7 +291,7 @@
             "Package": "packageA",
             "Version": ">= 1.0.0 && < 2.0.0",
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
             "IsInError": false
@@ -302,7 +302,7 @@
             "Package": null,
             "Version": null,
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
             "IsInError": false
@@ -313,7 +313,7 @@
             "Package": null,
             "Version": null,
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
             "IsInError": false
@@ -328,7 +328,7 @@
             "Package": "Packagea",
             "Version": ">= 2.0.0 && < 3.0.0",
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
             "IsInError": false
@@ -339,7 +339,7 @@
             "Package": "packageA",
             "Version": ">= 1.0.0 && < 2.0.0",
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
             "IsInError": false
@@ -352,7 +352,7 @@
             "Package": null,
             "Version": null,
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
             "IsInError": false
@@ -365,7 +365,7 @@
             "Package": null,
             "Version": null,
             "Value": "Some code",
-            "includes": [],
+            "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
             "IsInError": false
@@ -382,7 +382,7 @@
       "Package": "Packagea",
       "Version": ">= 2.0.0 && < 3.0.0",
       "Value": "Some code",
-      "includes": [],
+      "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
       "IsInError": false
@@ -393,7 +393,7 @@
       "Package": null,
       "Version": null,
       "Value": "Some code",
-      "includes": [],
+      "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
       "IsInError": false
@@ -404,7 +404,7 @@
       "Package": null,
       "Version": null,
       "Value": "Some code",
-      "includes": [],
+      "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
       "IsInError": false
@@ -415,7 +415,7 @@
       "Package": "packageA",
       "Version": ">= 1.0.0 && < 2.0.0",
       "Value": "Some code",
-      "includes": [],
+      "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
       "IsInError": false
@@ -428,7 +428,7 @@
       "Package": null,
       "Version": null,
       "Value": "Some code",
-      "includes": [],
+      "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
       "IsInError": false
@@ -443,7 +443,7 @@
         "Package": "Packagea",
         "Version": ">= 2.0.0 && < 3.0.0",
         "Value": "Some code",
-        "includes": [],
+        "Includes": [],
         "Error": null,
         "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
         "IsInError": false
@@ -454,7 +454,7 @@
         "Package": "packageA",
         "Version": ">= 1.0.0 && < 2.0.0",
         "Value": "Some code",
-        "includes": [],
+        "Includes": [],
         "Error": null,
         "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
         "IsInError": false
@@ -467,7 +467,7 @@
         "Package": null,
         "Version": null,
         "Value": "Some code",
-        "includes": [],
+        "Includes": [],
         "Error": null,
         "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Shared\code.txt(2-3)",
         "IsInError": false
@@ -480,7 +480,7 @@
         "Package": null,
         "Version": null,
         "Value": "Some code",
-        "includes": [],
+        "Includes": [],
         "Error": null,
         "FileLocation": "root\\DirectorySnippetExtractor/Case\Shared\code.txt(2-3)",
         "IsInError": false

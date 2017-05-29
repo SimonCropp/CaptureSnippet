@@ -5,7 +5,7 @@
     "Package": "package",
     "Version": ">= 2.0.0 && < 3.0.0",
     "Value": "<configSections/>",
-    "includes": [],
+    "Includes": [],
     "Error": null,
     "FileLocation": "path.cs(3-4)",
     "IsInError": false
@@ -16,7 +16,7 @@
     "Package": "package",
     "Version": ">= 2.0.0 && < 3.0.0",
     "Value": "<configSections/>",
-    "includes": [],
+    "Includes": [],
     "Error": null,
     "FileLocation": "path.cs(6-7)",
     "IsInError": false
