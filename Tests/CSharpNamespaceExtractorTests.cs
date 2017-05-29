@@ -82,6 +82,21 @@ using System.Core;
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
+    
+    [Test]
+    public void WithOutOfOrderIncludes()
+    {
+        var input = @"
+using System.Core;
+using System;
+using System.Xml.Linq;
+
+  #region TestClass
+  public class Test { }
+  #endregion";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
 
     public List<Snippet> FromText(string contents)
     {
