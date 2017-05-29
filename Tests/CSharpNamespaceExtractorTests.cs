@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
@@ -67,6 +64,21 @@ using Math = System.Math;
 using System;
 using System.Core;
 using System;
+  #endregion";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Test]
+    public void WithIncludesOutOfClassRegion()
+    {
+        var input = @"
+using System;
+using System.Core;
+using System;
+
+  #region TestClass
+  public class Test { }
   #endregion";
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);

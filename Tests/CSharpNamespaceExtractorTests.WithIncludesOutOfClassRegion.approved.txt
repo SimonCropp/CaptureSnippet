@@ -1,0 +1,16 @@
+﻿[
+  {
+    "Key": "testclass",
+    "Language": "cs",
+    "Package": "package",
+    "Version": "all",
+    "Value": "public class Test { }",
+    "Includes": [
+      "System",
+      "System.Core"
+    ],
+    "Error": null,
+    "FileLocation": "path.cs(7-8)",
+    "IsInError": false
+  }
+]

@@ -10,9 +10,6 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        VersionRange fileVersion;
-        string package;
-
         public static FileSnippetExtractor Build(VersionRange fileVersion, string package, bool isCurrent)
         {
             Guard.AgainstNull(fileVersion, nameof(fileVersion));
@@ -32,10 +29,6 @@ namespace CaptureSnippets
                 isShared = true
             };
         }
-
-        static char[] invalidCharacters = { '“', '”', '—' };
-        bool isShared;
-        bool isCurrent;
 
         /// <summary>
         /// Read from a <see cref="TextReader"/>.
@@ -63,11 +56,11 @@ namespace CaptureSnippets
             return extension?.TrimStart('.') ?? string.Empty;
         }
 
-        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path, Func<string, string> extractor = null)
+        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path, Func<string, string> includeExtractor = null)
         {
             var language = GetLanguageFromPath(path);
-            var includeExtractor = extractor ?? GetIncludeExtractorFromLanguage(language);
-            var loopStack = new LoopStack(includeExtractor);
+            var extractor = includeExtractor ?? GetIncludeExtractorFromLanguage(language);
+            var loopStack = new LoopStack();
 
             while (true)
             {
@@ -92,6 +85,9 @@ namespace CaptureSnippets
                 string version;
                 Func<string, bool> endFunc;
                 string key;
+
+                loopStack.ExtractIncludes(line, extractor);
+
                 if (StartEndTester.IsStart(trimmedLine, out version, out key, out endFunc))
                 {
                     loopStack.Push(endFunc, key, version, stringReader.Index);
@@ -105,7 +101,7 @@ namespace CaptureSnippets
                         continue;
                     }
 
-                    yield return BuildSnippet(stringReader, path, loopStack.Current, language);
+                    yield return BuildSnippet(stringReader, path, loopStack, language);
                     loopStack.Pop();
                 }
             }
@@ -121,8 +117,9 @@ namespace CaptureSnippets
             return NoOpUsingExtractor.Extract;
         }
         
-        Snippet BuildSnippet(IndexReader stringReader, string path, LoopState loopState, string language)
+        Snippet BuildSnippet(IndexReader stringReader, string path, LoopStack loopStack, string language)
         {
+            var loopState = loopStack.Current;
             var startRow = loopState.StartLine + 1;
 
             string error;
@@ -162,7 +159,7 @@ namespace CaptureSnippets
                     value: value,
                     path: path,
                     language: language.ToLowerInvariant(), 
-                    includes: loopState.GetIncludes()
+                    includes: loopStack.GetIncludes()
                 );
             }
             return Snippet.Build(
@@ -175,7 +172,7 @@ namespace CaptureSnippets
                 language: language.ToLowerInvariant(),
                 package: package,
                 isCurrent: isCurrent,
-                includes: loopState.GetIncludes());
+                includes: loopStack.GetIncludes());
         }
 
         bool TryParseVersionAndPackage(LoopState loopState, out VersionRange snippetVersion, out string error)
@@ -206,5 +203,10 @@ namespace CaptureSnippets
             return false;
         }
 
+        static char[] invalidCharacters = { '“', '”', '—' };
+        VersionRange fileVersion;
+        string package;
+        bool isShared;
+        bool isCurrent;
     }
 }
