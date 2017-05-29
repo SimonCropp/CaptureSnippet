@@ -5,7 +5,7 @@
     "Package": "package",
     "Version": ">= 6.0.0 && < 7.0.0",
     "Value": "<configSections/>",
-    "includes": [],
+    "Includes": [],
     "Error": null,
     "FileLocation": "path.cs(3-4)",
     "IsInError": false

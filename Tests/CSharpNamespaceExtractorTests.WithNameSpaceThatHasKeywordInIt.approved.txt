@@ -5,7 +5,7 @@
     "Package": "package",
     "Version": "all",
     "Value": "using LibraryUsingSystem;",
-    "includes": [
+    "Includes": [
       "LibraryUsingSystem"
     ],
     "Error": null,

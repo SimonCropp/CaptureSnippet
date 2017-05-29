@@ -5,7 +5,7 @@
     "Package": "package",
     "Version": "all",
     "Value": "//using of System;\r\nusing System;",
-    "includes": [
+    "Includes": [
       "System"
     ],
     "Error": null,
