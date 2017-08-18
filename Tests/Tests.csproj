@@ -9,12 +9,12 @@
     <Optimize>False</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Fody" version="2.1.1" />
+    <PackageReference Include="Fody" version="2.1.2" />
     <PackageReference Include="NUnit" Version="3.7.1" />
     <PackageReference Include="ApprovalTests" Version="3.0.13" />
     <PackageReference Include="ApprovalUtilities" Version="3.0.13" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="NuGet.Versioning" Version="4.2.0" />
+    <PackageReference Include="NuGet.Versioning" Version="4.3.0" />
     <PackageReference Include="ObjectApproval" Version="1.6.0" />
     <PackageReference Include="Resourcer.Fody" Version="1.5.1" />
     <PackageReference Include="ModuleInit.Fody" Version="1.6.0" />
