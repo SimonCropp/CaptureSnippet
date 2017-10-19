@@ -13,7 +13,7 @@ internal static class StringBuilderCache
         if (capacity <= MAX_BUILDER_SIZE)
         {
             var builder = CachedInstance;
-            // Avoid stringbuilder block fragmentation by getting a new StringBuilder
+            // Avoid StringBuilder block fragmentation by getting a new StringBuilder
             // when the requested size is larger than the current capacity
             if (capacity <= builder?.Capacity)
             {

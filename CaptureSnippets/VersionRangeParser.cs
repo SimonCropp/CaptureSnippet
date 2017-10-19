@@ -12,16 +12,14 @@ namespace CaptureSnippets
             Guard.AgainstEmpty(pretext, nameof(pretext));
             if (pretext == null)
             {
-                NuGetVersion version;
-                if (NuGetVersion.TryParse(stringVersion, out version))
+                if (NuGetVersion.TryParse(stringVersion, out var version))
                 {
                     return version;
                 }
             }
             else
             {
-                NuGetVersion version;
-                if (NuGetVersion.TryParse(stringVersion, out version))
+                if (NuGetVersion.TryParse(stringVersion, out var version))
                 {
                     if (version.IsPrerelease)
                     {
@@ -48,8 +46,7 @@ namespace CaptureSnippets
 
         static bool TryParseUnstable(string stringVersion, out VersionRange parsedVersion, string pretext)
         {
-            int majorPart;
-            if (int.TryParse(stringVersion, out majorPart))
+            if (int.TryParse(stringVersion, out var majorPart))
             {
                 var releaseLabels = new[]
                 {
@@ -62,9 +59,8 @@ namespace CaptureSnippets
                     includeMaxVersion: false);
                 return true;
             }
-            NuGetVersion minVersion;
             var valueWithPre = $"{stringVersion}-{pretext}";
-            if (NuGetVersion.TryParse(valueWithPre, out minVersion))
+            if (NuGetVersion.TryParse(valueWithPre, out var minVersion))
             {
                 parsedVersion = new VersionRange(
                     minVersion: minVersion,
@@ -79,8 +75,7 @@ namespace CaptureSnippets
 
         static bool TryParseStable(string stringVersion, out VersionRange parsedVersion)
         {
-            int majorPart;
-            if (int.TryParse(stringVersion, out majorPart))
+            if (int.TryParse(stringVersion, out var majorPart))
             {
                 parsedVersion = new VersionRange(
                     minVersion: new NuGetVersion(majorPart, 0, 0),
@@ -89,8 +84,7 @@ namespace CaptureSnippets
                     includeMaxVersion: false);
                 return true;
             }
-            NuGetVersion minVersion;
-            if (NuGetVersion.TryParse(stringVersion, out minVersion))
+            if (NuGetVersion.TryParse(stringVersion, out var minVersion))
             {
                 parsedVersion = new VersionRange(
                     minVersion: minVersion,

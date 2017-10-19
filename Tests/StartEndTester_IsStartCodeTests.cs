@@ -10,10 +10,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractFromXml()
     {
-        string key;
-        string suffix;
-
-        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey -->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey -->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix);
@@ -37,9 +34,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractFromXmlWithSuffix()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey 5 -->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey 5 -->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix);
@@ -48,9 +43,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractFromXmlWithMissingSpaces()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!--startcode CodeKey-->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!--startcode CodeKey-->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix);
@@ -59,9 +52,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractFromXmlWithMissingSpacesWithVersion()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!--startcode CodeKey 5-->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!--startcode CodeKey 5-->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix);
@@ -70,9 +61,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractFromXmlWithExtraSpaces()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!--  startcode  CodeKey  -->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!--  startcode  CodeKey  -->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix);
@@ -81,9 +70,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractFromXmlWithExtraSpacesWithVersion()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!--  startcode  CodeKey  v5  -->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!--  startcode  CodeKey  v5  -->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("v5", suffix);
@@ -92,9 +79,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractWithNoTrailingCharacters()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix);
@@ -103,9 +88,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractWithNoTrailingCharactersWithVersion()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey 5", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode CodeKey 5", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix);
@@ -114,9 +97,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractWithUnderScores()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code_Key -->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code_Key -->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code_Key", key);
         Assert.IsNull(suffix);
@@ -125,9 +106,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractWithUnderScoresWithVersion()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code_Key 5 -->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code_Key 5 -->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code_Key", key);
         Assert.AreEqual("5", suffix);
@@ -136,9 +115,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractWithDashes()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code-Key -->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code-Key -->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code-Key", key);
         Assert.IsNull(suffix);
@@ -147,9 +124,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractWithDashesWithVersion()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code-Key 5 -->", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("<!-- startcode Code-Key 5 -->", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("Code-Key", key);
         Assert.AreEqual("5", suffix);
@@ -194,9 +169,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractWithDifferentEndComments()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("/* startcode CodeKey 5 */", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("/* startcode CodeKey 5 */", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix);
@@ -205,9 +178,7 @@ public class StartEndTester_IsStartCodeTests
     [Test]
     public void CanExtractWithDifferentEndCommentsAndNoSpaces()
     {
-        string key;
-        string suffix;
-        var isStartCode = StartEndTester.IsStartCode("/*startcode CodeKey 5*/", out key, out suffix);
+        var isStartCode = StartEndTester.IsStartCode("/*startcode CodeKey 5*/", out var key, out var suffix);
         Assert.IsTrue(isStartCode);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix);

@@ -4,22 +4,24 @@
     <TargetFrameworks>net462</TargetFrameworks>
     <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
-    <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Optimize>False</Optimize>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Fody" version="2.1.2" />
-    <PackageReference Include="NUnit" Version="3.7.1" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <PackageReference Include="ApprovalTests" Version="3.0.13" />
     <PackageReference Include="ApprovalUtilities" Version="3.0.13" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="NuGet.Versioning" Version="4.3.0" />
-    <PackageReference Include="ObjectApproval" Version="1.6.0" />
-    <PackageReference Include="Resourcer.Fody" Version="1.5.1" />
-    <PackageReference Include="ModuleInit.Fody" Version="1.6.0" />
-    <PackageReference Include="Caseless.Fody" Version="1.5.0" />
-    <Reference Include="System.Core" />
+    <PackageReference Include="ObjectApproval" Version="*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fody" version="2.*" />
+    <PackageReference Include="NUnit" Version="3.7.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0-*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="NuGet.Versioning" Version="4.*" />
+    <PackageReference Include="Resourcer.Fody" Version="1.*" />
+    <PackageReference Include="ModuleInit.Fody" Version="1.*" />
+    <PackageReference Include="Caseless.Fody" Version="1.7.0" />
     <Reference Include="Microsoft.CSharp" />
     <ProjectReference Include="..\CaptureSnippets\CaptureSnippets.csproj" />
     <Folder Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\Ignore\" />

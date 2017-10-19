@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using MethodTimer;
 
 namespace CaptureSnippets
 {
@@ -28,7 +27,6 @@ namespace CaptureSnippets
         /// <summary>
         /// Attempts to remove and return the the cached value for <paramref name="directory"/> from the underlying <see cref="ConcurrentDictionary{TKey,TValue}"/> using <see cref="ConcurrentDictionary{TKey,TValue}.TryRemove"/>.
         /// </summary>
-        [Time]
         public bool TryRemoveDirectory(string directory, out CachedComponents cached)
         {
             return componentCache.TryRemove(directory, out cached);
@@ -37,7 +35,6 @@ namespace CaptureSnippets
         /// <summary>
         /// Attempts to remove and return the the cached value for <paramref name="directory"/> from the underlying <see cref="ConcurrentDictionary{TKey,TValue}"/> using <see cref="ConcurrentDictionary{TKey,TValue}.TryRemove"/>.
         /// </summary>
-        [Time]
         public bool TryRemoveDirectory(string directory, out CachedPackages cached)
         {
             return packageCache.TryRemove(directory, out cached);
@@ -46,7 +43,6 @@ namespace CaptureSnippets
         /// <summary>
         /// Attempts to remove and return the the cached value for <paramref name="directory"/> from the underlying <see cref="ConcurrentDictionary{TKey,TValue}"/> using <see cref="ConcurrentDictionary{TKey,TValue}.TryRemove"/>.
         /// </summary>
-        [Time]
         public bool TryRemoveDirectory(string directory, out CachedSnippets cached)
         {
             return snippetCache.TryRemove(directory, out cached);
@@ -55,14 +51,12 @@ namespace CaptureSnippets
         /// <summary>
         /// Extract all snippets from a given directory.
         /// </summary>
-        [Time]
         public CachedPackages PackagesFromDirectory(string directory)
         {
             directory = directory.ToLower();
             var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
 
-            CachedPackages cached;
-            if (!packageCache.TryGetValue(directory, out cached))
+            if (!packageCache.TryGetValue(directory, out var cached))
             {
                 return UpdatePackages(directory, lastDirectoryWrite);
             }
@@ -85,14 +79,12 @@ namespace CaptureSnippets
         /// <summary>
         /// Extract all snippets from a given directory.
         /// </summary>
-        [Time]
         public CachedSnippets SnippetsFromDirectory(string directory)
         {
             directory = directory.ToLower();
             var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
 
-            CachedSnippets cached;
-            if (!snippetCache.TryGetValue(directory, out cached))
+            if (!snippetCache.TryGetValue(directory, out var cached))
             {
                 return UpdateSnippets(directory, lastDirectoryWrite);
             }
@@ -115,14 +107,12 @@ namespace CaptureSnippets
         /// <summary>
         /// Extract all <see cref="ReadComponents"/> from a given directory.
         /// </summary>
-        [Time]
         public CachedComponents ComponentsFromDirectory(string directory)
         {
             directory = directory.ToLower();
             var lastDirectoryWrite = DirectoryDateFinder.GetLastDirectoryWrite(directory);
 
-            CachedComponents cached;
-            if (!componentCache.TryGetValue(directory, out cached))
+            if (!componentCache.TryGetValue(directory, out var cached))
             {
                 return UpdateComponent(directory, lastDirectoryWrite);
             }

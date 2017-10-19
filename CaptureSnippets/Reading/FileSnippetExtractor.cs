@@ -82,13 +82,10 @@ namespace CaptureSnippets
                 var trimmedLine = line.Trim()
                     .Replace("  ", " ")
                     .ToLowerInvariant();
-                string version;
-                Func<string, bool> endFunc;
-                string key;
 
                 loopStack.ExtractIncludes(line, extractor);
 
-                if (StartEndTester.IsStart(trimmedLine, out version, out key, out endFunc))
+                if (StartEndTester.IsStart(trimmedLine, out var version, out var key, out var endFunc))
                 {
                     loopStack.Push(endFunc, key, version, stringReader.Index);
                     continue;
@@ -116,13 +113,12 @@ namespace CaptureSnippets
 
             return NoOpUsingExtractor.Extract;
         }
-        
+
         Snippet BuildSnippet(IndexReader stringReader, string path, LoopStack loopStack, string language)
         {
             var loopState = loopStack.Current;
             var startRow = loopState.StartLine + 1;
 
-            string error;
             if (isShared && loopState.Version != null)
             {
                 return Snippet.BuildError(
@@ -131,8 +127,7 @@ namespace CaptureSnippets
                     lineNumberInError: startRow,
                     key: loopState.Key);
             }
-            VersionRange snippetVersion;
-            if (!TryParseVersionAndPackage(loopState, out snippetVersion, out error))
+            if (!TryParseVersionAndPackage(loopState, out var snippetVersion, out var error))
             {
                 return Snippet.BuildError(
                     error: error,
@@ -158,7 +153,7 @@ namespace CaptureSnippets
                     key: loopState.Key,
                     value: value,
                     path: path,
-                    language: language.ToLowerInvariant(), 
+                    language: language.ToLowerInvariant(),
                     includes: loopStack.GetIncludes()
                 );
             }
@@ -185,8 +180,7 @@ namespace CaptureSnippets
                 return true;
             }
 
-            VersionRange version;
-            if (VersionRangeParser.TryParseVersion(loopState.Version, out version))
+            if (VersionRangeParser.TryParseVersion(loopState.Version, out var version))
             {
                 if (fileVersion.IsPreRelease())
                 {

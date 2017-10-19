@@ -54,15 +54,13 @@ namespace CaptureSnippets
 
         bool TryProcessSnippetLine(TextWriter writer, IndexReader reader, string line, List<MissingSnippet> missings, List<Snippet> used)
         {
-            string key;
-            if (!SnippetKeyReader.TryExtractKeyFromLine(line, out key))
+            if (!SnippetKeyReader.TryExtractKeyFromLine(line, out var key))
             {
                 return false;
             }
             writer.WriteLine($"<!-- snippet: {key} -->");
 
-            IReadOnlyList<Snippet> group;
-            if (!snippets.TryGetValue(key, out group))
+            if (!snippets.TryGetValue(key, out var @group))
             {
                 var missing = new MissingSnippet(
                     key: key,

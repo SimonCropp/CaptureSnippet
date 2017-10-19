@@ -10,9 +10,7 @@ public class StartEndTester_IsStartRegionTests
     [Test]
     public void CanExtractFromXml()
     {
-        string key;
-        string suffix;
-        StartEndTester.IsStartRegion("#region CodeKey", out key, out suffix);
+        StartEndTester.IsStartRegion("#region CodeKey", out var key, out var suffix);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix);
     }
@@ -22,7 +20,7 @@ public class StartEndTester_IsStartRegionTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-        StartEndTester.IsStartRegion("#region _key 6", out fake, out fake));
+            StartEndTester.IsStartRegion("#region _key 6", out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
@@ -31,15 +29,16 @@ public class StartEndTester_IsStartRegionTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-        StartEndTester.IsStartRegion("#region key_ 6", out fake, out fake));
+            StartEndTester.IsStartRegion("#region key_ 6", out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols. Key: key_", exception.Message);
     }
+
     [Test]
     public void ShouldThrowForKeyStartingWithSymbol()
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-        StartEndTester.IsStartRegion("#region _key", out fake, out fake));
+            StartEndTester.IsStartRegion("#region _key", out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
@@ -48,7 +47,7 @@ public class StartEndTester_IsStartRegionTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-        StartEndTester.IsStartRegion("#region key_ ", out fake, out fake));
+            StartEndTester.IsStartRegion("#region key_ ", out fake, out fake));
         Assert.AreEqual("Key should not start or end with symbols. Key: key_", exception.Message);
     }
 
@@ -58,26 +57,22 @@ public class StartEndTester_IsStartRegionTests
     {
         string fake;
         var exception = Assert.Throws<Exception>(() =>
-        StartEndTester.IsStartRegion("#region ", out fake, out fake));
+            StartEndTester.IsStartRegion("#region ", out fake, out fake));
         Assert.AreEqual("No Key could be derived. Line: '#region '.", exception.Message);
     }
 
     [Test]
     public void CanExtractFromXmlWithVersion()
     {
-        string key;
-        string suffix;
-        StartEndTester.IsStartRegion("#region CodeKey 5", out key, out suffix);
-        Assert.AreEqual("CodeKey",key);
+        StartEndTester.IsStartRegion("#region CodeKey 5", out var key, out var suffix);
+        Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("5", suffix);
     }
 
     [Test]
     public void CanExtractFromXmlWithExtraSpaces()
     {
-        string key;
-        string suffix;
-        StartEndTester.IsStartRegion("#region  CodeKey   ", out key, out suffix);
+        StartEndTester.IsStartRegion("#region  CodeKey   ", out var key, out var suffix);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix);
     }
@@ -85,9 +80,7 @@ public class StartEndTester_IsStartRegionTests
     [Test]
     public void CanExtractFromXmlWithExtraSpacesWithSuffix1()
     {
-        string key;
-        string suffix;
-        StartEndTester.IsStartRegion("#region  CodeKey  v5    ", out key, out suffix);
+        StartEndTester.IsStartRegion("#region  CodeKey  v5    ", out var key, out var suffix);
         Assert.AreEqual("CodeKey", key);
         Assert.AreEqual("v5", suffix);
     }
@@ -96,9 +89,7 @@ public class StartEndTester_IsStartRegionTests
     [Test]
     public void CanExtractWithNoTrailingCharacters()
     {
-        string key;
-        string suffix;
-        StartEndTester.IsStartRegion("#region CodeKey", out key, out suffix);
+        StartEndTester.IsStartRegion("#region CodeKey", out var key, out var suffix);
         Assert.AreEqual("CodeKey", key);
         Assert.IsNull(suffix);
     }
@@ -107,9 +98,7 @@ public class StartEndTester_IsStartRegionTests
     [Test]
     public void CanExtractWithUnderScores()
     {
-        string key;
-        string suffix;
-        StartEndTester.IsStartRegion("#region Code_Key", out key, out suffix);
+        StartEndTester.IsStartRegion("#region Code_Key", out var key, out var suffix);
         Assert.AreEqual("Code_Key", key);
         Assert.IsNull(suffix);
     }
@@ -117,9 +106,7 @@ public class StartEndTester_IsStartRegionTests
     [Test]
     public void CanExtractWithUnderScoresWithVersion()
     {
-        string key;
-        string suffix;
-        StartEndTester.IsStartRegion("#region Code_Key 5", out key, out suffix);
+        StartEndTester.IsStartRegion("#region Code_Key 5", out var key, out var suffix);
         Assert.AreEqual("Code_Key", key);
         Assert.AreEqual("5", suffix);
     }
@@ -128,9 +115,7 @@ public class StartEndTester_IsStartRegionTests
     [Test]
     public void CanExtractWithDashes()
     {
-        string key;
-        string suffix;
-        StartEndTester.IsStartRegion("#region Code-Key", out key, out suffix);
+        StartEndTester.IsStartRegion("#region Code-Key", out var key, out var suffix);
         Assert.AreEqual("Code-Key", key);
         Assert.IsNull(suffix);
     }
@@ -138,11 +123,8 @@ public class StartEndTester_IsStartRegionTests
     [Test]
     public void CanExtractWithDashesWithVersion()
     {
-        string key;
-        string suffix;
-        StartEndTester.IsStartRegion("#region Code-Key 5", out key, out suffix);
+        StartEndTester.IsStartRegion("#region Code-Key 5", out var key, out var suffix);
         Assert.AreEqual("Code-Key", key);
         Assert.AreEqual("5", suffix);
     }
-
 }

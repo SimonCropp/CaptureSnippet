@@ -1,23 +1,18 @@
 using System.IO;
-using MethodTimer;
 
-namespace CaptureSnippets
+static class DirectoryDateFinder
 {
-    static class DirectoryDateFinder
+    public static long GetLastDirectoryWrite(string rootDirectory)
     {
-        [Time]
-        public static long GetLastDirectoryWrite(string rootDirectory)
+        var lastHigh = File.GetLastWriteTime(rootDirectory);
+        foreach (var directory in Directory.EnumerateDirectories(rootDirectory,"*",SearchOption.AllDirectories))
         {
-            var lastHigh = File.GetLastWriteTime(rootDirectory);
-            foreach (var directory in Directory.EnumerateDirectories(rootDirectory,"*",SearchOption.AllDirectories))
+            var lastWriteTime = File.GetLastWriteTime(directory);
+            if (lastWriteTime > lastHigh)
             {
-                var lastWriteTime = File.GetLastWriteTime(directory);
-                if (lastWriteTime > lastHigh)
-                {
-                    lastHigh = lastWriteTime;
-                }
+                lastHigh = lastWriteTime;
             }
-            return lastHigh.Ticks;
         }
+        return lastHigh.Ticks;
     }
 }
