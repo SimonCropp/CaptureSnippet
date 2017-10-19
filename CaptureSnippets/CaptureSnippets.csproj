@@ -10,9 +10,8 @@
     <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)) Simon Cropp. All rights reserved</Copyright>
-    <PackageTags>NServiceBus, MessagePack, MsgPack, Serialization</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/SimonCropp/NServiceBus.MsgPack/master/Icon/package_icon.png</PackageIconUrl>
-    <PackageProjectUrl>https://docs.particular.net/nuget/$(PackageId)</PackageProjectUrl>
+    <PackageIconUrl>https://raw.github.com/SimonCropp/CaptureSnippets/master/Icons/package_icon.png</PackageIconUrl>
+    <PackageProjectUrl>http://github.com/SimonCropp/CaptureSnippets</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>..\nugets</PackageOutputPath>
     <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludePDBsInPackage</TargetsForTfmSpecificContentInPackage>
@@ -20,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Fody" version="2.*" PrivateAssets="All" />
     <PackageReference Include="NuGet.Versioning" Version="[4.*, 5.0.0)" />
-    <PackageReference Include="Caseless.Fody" Version="1.7.0" PrivateAssets="All" />
+    <PackageReference Include="Caseless.Fody" Version="1.*" PrivateAssets="All" />
     <PackageReference Include="Fielder.Fody" Version="1.*" PrivateAssets="All" />
     <PackageReference Include="GitVersionTask" Version="4.0.0-*" PrivateAssets="All" />
   </ItemGroup>

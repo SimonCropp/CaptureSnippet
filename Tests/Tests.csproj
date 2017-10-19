@@ -21,7 +21,7 @@
     <PackageReference Include="NuGet.Versioning" Version="4.*" />
     <PackageReference Include="Resourcer.Fody" Version="1.*" />
     <PackageReference Include="ModuleInit.Fody" Version="1.*" />
-    <PackageReference Include="Caseless.Fody" Version="1.7.0" />
+    <PackageReference Include="Caseless.Fody" Version="1.*" />
     <Reference Include="Microsoft.CSharp" />
     <ProjectReference Include="..\CaptureSnippets\CaptureSnippets.csproj" />
     <Folder Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\Ignore\" />
