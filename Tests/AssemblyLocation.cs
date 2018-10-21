@@ -13,8 +13,6 @@ public static class AssemblyLocation
             .Replace(@"file:\\", "");
 
         CurrentDirectory = Path.GetDirectoryName(path);
-
-
     }
 
     public static string CurrentDirectory;
