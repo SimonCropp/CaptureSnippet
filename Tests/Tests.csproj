@@ -4,16 +4,13 @@
     <TargetFrameworks>net462</TargetFrameworks>
     <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Optimize>False</Optimize>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+  <ItemGroup>
     <PackageReference Include="ApprovalTests" Version="3.0.18" />
     <PackageReference Include="ApprovalUtilities" Version="3.0.18" />
     <PackageReference Include="ObjectApproval" Version="2.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Fody" version="3.2.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
