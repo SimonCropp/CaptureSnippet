@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <LangVersion>latest</LangVersion>
-    <NoWarn>CS1591;NU5104</NoWarn>
+    <NoWarn>CS1591;NU5104;CS1573</NoWarn>
     <Version>6.5.1</Version>
     <AssemblyInformationalVersion>$(Version)</AssemblyInformationalVersion>
     <Authors>Simon Cropp</Authors>
