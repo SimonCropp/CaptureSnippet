@@ -1,8 +1,20 @@
+using System.IO;
+
 public static class AssemblyLocation
 {
     static AssemblyLocation()
     {
-        CurrentDirectory = System.AppContext.BaseDirectory;
+        var assembly = typeof(AssemblyLocation).Assembly;
+
+        var path = assembly.CodeBase
+            .Replace("file:///", "")
+            .Replace("file://", "")
+            .Replace(@"file:\\\", "")
+            .Replace(@"file:\\", "");
+
+        CurrentDirectory = Path.GetDirectoryName(path);
+
+
     }
 
     public static string CurrentDirectory;
