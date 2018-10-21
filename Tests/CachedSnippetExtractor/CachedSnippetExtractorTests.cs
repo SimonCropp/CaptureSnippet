@@ -1,18 +1,15 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using ApprovalTests.Reporters;
 using CaptureSnippets;
-using NUnit.Framework;
 using ObjectApproval;
+using Xunit;
 
-[TestFixture]
-[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class CachedSnippetExtractorTests
 {
-    [Test]
+    [Fact]
     public void SecondReadShouldBeFasterThanFirstRead()
     {
-        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "CachedSnippetExtractor/Simple");
+        var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "CachedSnippetExtractor/Simple");
         //warmup
         var extractor = new CachedSnippetExtractor(
             directoryFilter: s => true,
@@ -28,20 +25,19 @@ public class CachedSnippetExtractorTests
         var secondRun = Stopwatch.StartNew();
         extractor.ComponentsFromDirectory(directory);
         secondRun.Stop();
-        Assert.That(secondRun.ElapsedTicks, Is.LessThan(firstRun.ElapsedTicks));
+        Assert.True(secondRun.ElapsedTicks < firstRun.ElapsedTicks);
         Trace.WriteLine(firstRun.ElapsedMilliseconds);
         Trace.WriteLine(secondRun.ElapsedMilliseconds);
     }
 
-    [Test]
+    [Fact]
     public void EnsureErrorsAreReturned()
     {
-        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "CachedSnippetExtractor/Bad");
+        var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "CachedSnippetExtractor/Bad");
         var extractor = new CachedSnippetExtractor(
             directoryFilter: s => true,
             fileFilter: s => true);
         var read = extractor.ComponentsFromDirectory(directory);
         ObjectApprover.VerifyWithJson(read.Components.SnippetsInError, Scrubber.Scrub);
     }
-
 }

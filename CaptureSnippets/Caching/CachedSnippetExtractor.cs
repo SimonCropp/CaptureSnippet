@@ -131,6 +131,5 @@ namespace CaptureSnippets
                 components: components);
             return componentCache[directory] = cachedSnippets;
         }
-
     }
 }

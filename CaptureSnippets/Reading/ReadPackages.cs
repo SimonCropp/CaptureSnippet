@@ -30,7 +30,6 @@ namespace CaptureSnippets
             Lookup = Snippets.ToDictionary();
         }
 
-
         public Package GetPackage(string key)
         {
             var item = Packages.SingleOrDefault(package => package.Identifier == key);
@@ -40,6 +39,5 @@ namespace CaptureSnippets
             }
             return item;
         }
-
     }
 }

@@ -1,39 +1,33 @@
 ﻿using System;
-using ApprovalTests.Reporters;
-using NUnit.Framework;
-// ReSharper disable StringLiteralTypo
+using Xunit;
 
-[TestFixture]
-[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class MarkdownProcessor_TryExtractKeyFromTests
 {
-
-    [Test]
+    [Fact]
     public void MissingSpaces()
     {
         var exception = Assert.Throws<Exception>(() => SnippetKeyReader.TryExtractKeyFromLine("snippet:snippet", out var key));
-        Assert.IsTrue(exception.Message == "Invalid syntax for the snippet 'snippet': There must be a space before the start of the key.");
+        Assert.True(exception.Message == "Invalid syntax for the snippet 'snippet': There must be a space before the start of the key.");
     }
 
-
-    [Test]
+    [Fact]
     public void WithDashes()
     {
         SnippetKeyReader.TryExtractKeyFromLine("snippet: my-code-snippet", out var key);
-        Assert.AreEqual("my-code-snippet", key);
+        Assert.Equal("my-code-snippet", key);
     }
 
-    [Test]
+    [Fact]
     public void Simple()
     {
         SnippetKeyReader.TryExtractKeyFromLine("snippet: snippet", out var key);
-        Assert.AreEqual("snippet", key);
+        Assert.Equal("snippet", key);
     }
 
-    [Test]
+    [Fact]
     public void ExtraSpace()
     {
         SnippetKeyReader.TryExtractKeyFromLine("snippet:  snippet   ", out var key);
-        Assert.AreEqual("snippet", key);
+        Assert.Equal("snippet", key);
     }
 }

@@ -80,7 +80,6 @@ namespace CaptureSnippets
             public bool IsCurrent;
         }
 
-
         IEnumerable<PackageVersionCurrent> GetOrderedPackages(string component, IEnumerable<PackageVersionCurrent> package)
         {
             if (packageOrder == null)
@@ -223,7 +222,6 @@ namespace CaptureSnippets
                 .Select(s => ReadComponent(s, globalShared));
         }
 
-
         Component ReadComponent(string componentDirectory, List<Snippet> globalShared)
         {
             var name = Path.GetFileName(componentDirectory);
@@ -258,7 +256,6 @@ namespace CaptureSnippets
                 package: package,
                 packageAlias: packageAlias);
         }
-
 
         void FindFiles(string directoryPath, List<string> files)
         {

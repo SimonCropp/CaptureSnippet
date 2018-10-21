@@ -3,13 +3,11 @@ using System.IO;
 
 namespace CaptureSnippets
 {
-
     /// <summary>
     /// Simple markdown handling to be passed to <see cref="MarkdownProcessor"/>.
     /// </summary>
     public static class SimpleSnippetMarkdownHandling
     {
-
         public static void AppendGroup(string key, IReadOnlyList<Snippet> group, TextWriter writer)
         {
             Guard.AgainstNull(group, nameof(group));

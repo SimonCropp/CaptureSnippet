@@ -1,12 +1,9 @@
-﻿using NUnit.Framework;
-
-public static class Scrubber
+﻿public static class Scrubber
 {
     public static string Scrub(string s)
     {
-        var testDirectory = TestContext.CurrentContext.TestDirectory;
+        var testDirectory = AssemblyLocation.CurrentDirectory;
         return s.Replace(@"\\", @"\")
             .ReplaceCaseless(testDirectory, @"root\");
     }
 }
-

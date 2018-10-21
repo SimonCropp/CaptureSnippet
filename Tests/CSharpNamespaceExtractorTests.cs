@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
-using NUnit.Framework;
 using ObjectApproval;
+using Xunit;
 
-[TestFixture]
-[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class CSharpNamespaceExtractorTests
 {
-    [Test]
+    [Fact]
     public void CanExtractUsingsFromCSharpLanguage()
     {
         var input = @"
@@ -22,7 +19,7 @@ public class CSharpNamespaceExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void WithNameSpaceThatHasKeywordInIt()
     {
         var input = @"
@@ -33,7 +30,7 @@ public class CSharpNamespaceExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void WithSnippetIncludingKeywordInComments()
     {
         var input = @"
@@ -45,7 +42,7 @@ using System;
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void WithNamespaceThatIncludesAlias()
     {
         var input = @"
@@ -56,7 +53,7 @@ using Math = System.Math;
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void WithDuplicatedUsings()
     {
         var input = @"
@@ -69,7 +66,7 @@ using System;
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void WithIncludesOutOfSnippetRegion()
     {
         var input = @"
@@ -82,8 +79,8 @@ using System.Core;
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
-    
-    [Test]
+
+    [Fact]
     public void WithOutOfOrderIncludes()
     {
         var input = @"
@@ -98,7 +95,7 @@ using System.Xml.Linq;
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    public List<Snippet> FromText(string contents)
+    List<Snippet> FromText(string contents)
     {
         var extractor = FileSnippetExtractor.Build(VersionRange.All, "package", false);
         using (var stringReader = new StringReader(contents))
@@ -106,5 +103,4 @@ using System.Xml.Linq;
             return extractor.AppendFromReader(stringReader, "path.cs").ToList();
         }
     }
-
 }

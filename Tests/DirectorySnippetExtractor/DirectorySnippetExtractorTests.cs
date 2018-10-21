@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ApprovalTests.Reporters;
 using CaptureSnippets;
-using NUnit.Framework;
 using ObjectApproval;
+using Xunit;
 
-[TestFixture]
-[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class DirectorySnippetExtractorTests
 {
-    [Test]
+    [Fact]
     public void Case()
     {
-        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Case");
+        var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Case");
         var extractor = new DirectorySnippetExtractor(
             directoryFilter: _ => true,
             fileFilter: _ => true,
@@ -32,18 +29,18 @@ public class DirectorySnippetExtractorTests
 
     static void AssertCaseInsensitive(IReadOnlyDictionary<string, IReadOnlyList<Snippet>> dictionary)
     {
-        Assert.IsTrue(dictionary.ContainsKey("GlobalSharedSnippet"));
-        Assert.IsTrue(dictionary.ContainsKey("globalsharedSnippet"));
-        Assert.IsTrue(dictionary.ContainsKey("ComponentSharedSnippet"));
-        Assert.IsTrue(dictionary.ContainsKey("componentSharedSnippet"));
-        Assert.IsTrue(dictionary.ContainsKey("Snippet"));
-        Assert.IsTrue(dictionary.ContainsKey("snippet"));
+        Assert.True(dictionary.ContainsKey("GlobalSharedSnippet"));
+        Assert.True(dictionary.ContainsKey("globalsharedSnippet"));
+        Assert.True(dictionary.ContainsKey("ComponentSharedSnippet"));
+        Assert.True(dictionary.ContainsKey("componentSharedSnippet"));
+        Assert.True(dictionary.ContainsKey("Snippet"));
+        Assert.True(dictionary.ContainsKey("snippet"));
     }
 
-    [Test]
+    [Fact]
     public void Nested()
     {
-        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Nested");
+        var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Nested");
         var extractor = new DirectorySnippetExtractor(
             directoryFilter: path => true,
             fileFilter: path => true,
@@ -53,10 +50,10 @@ public class DirectorySnippetExtractorTests
         ObjectApprover.VerifyWithJson(components.AllSnippets, Scrubber.Scrub);
     }
 
-    [Test]
+    [Fact]
     public void Simple()
     {
-        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Simple");
+        var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Simple");
         var extractor = new DirectorySnippetExtractor(
             directoryFilter: path => true,
             fileFilter: path => true,
@@ -66,10 +63,10 @@ public class DirectorySnippetExtractorTests
         ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
     }
 
-    [Test]
+    [Fact]
     public void Sorting()
     {
-        var directory = Path.Combine(TestContext.CurrentContext.TestDirectory, "DirectorySnippetExtractor/Sorting");
+        var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Sorting");
         var extractor = new DirectorySnippetExtractor(
             directoryFilter: path => true,
             fileFilter: path => true,
@@ -91,11 +88,13 @@ public class DirectorySnippetExtractorTests
             yield return "packageA";
             yield return "packageB";
         }
+
         if (component == "componentB")
         {
             yield return "packageE";
             yield return "packageD";
         }
+
         if (component == "componentC")
         {
             yield return "packageG";
@@ -103,13 +102,12 @@ public class DirectorySnippetExtractorTests
         }
     }
 
-
-    [Test]
+    [Fact]
     public void VerifyLambdasAreCalled()
     {
         var directories = new ConcurrentBag<CapturedDirectory>();
         var files = new ConcurrentBag<CapturedFile>();
-        var targetDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,
+        var targetDirectory = Path.Combine(AssemblyLocation.CurrentDirectory,
             "DirectorySnippetExtractor/VerifyLambdasAreCalled");
         var result = new TestResult();
         var extractor = new DirectorySnippetExtractor(
@@ -139,7 +137,6 @@ public class DirectorySnippetExtractorTests
         ObjectApprover.VerifyWithJson(result, Scrubber.Scrub);
     }
 
-
     public class TestResult
     {
         public List<CapturedDirectory> Directories;
@@ -155,5 +152,4 @@ public class DirectorySnippetExtractorTests
     {
         public string Path;
     }
-
 }

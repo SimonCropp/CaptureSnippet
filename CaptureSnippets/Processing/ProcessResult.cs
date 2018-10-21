@@ -8,7 +8,6 @@ namespace CaptureSnippets
     /// </summary>
     public class ProcessResult : IEnumerable<Snippet>
     {
-
         public ProcessResult(IReadOnlyList<Snippet> usedSnippets, IReadOnlyList<MissingSnippet> missingSnippets)
         {
             Guard.AgainstNull(usedSnippets, nameof(usedSnippets));
@@ -25,20 +24,13 @@ namespace CaptureSnippets
         /// <summary>
         /// Enumerates through the <see cref="UsedSnippets" /> but will first throw an exception if there are any errors in <see cref="MissingSnippets" />.
         /// </summary>
-        public virtual IEnumerator<Snippet> GetEnumerator()
-        {
-            return UsedSnippets.GetEnumerator();
-        }
+        public virtual IEnumerator<Snippet> GetEnumerator() => UsedSnippets.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         /// <summary>
         ///   List of all snippets that the markdown file expected but did not exist in the input snippets.
         /// </summary>
         public readonly IReadOnlyList<MissingSnippet> MissingSnippets;
-
     }
 }

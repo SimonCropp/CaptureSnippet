@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ApprovalTests.Reporters;
 using CaptureSnippets;
 using NuGet.Versioning;
-using NUnit.Framework;
 using ObjectApproval;
+using Xunit;
 
-[TestFixture]
-[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class SnippetExtractorTests
 {
-    [Test]
+    [Fact]
     public void WithDodgyEmDash()
     {
         var input = @"
@@ -22,7 +19,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void WithDodgyLeftQuote()
     {
         var input = @"
@@ -33,7 +30,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void WithDodgyRightQuote()
     {
         var input = @"
@@ -45,7 +42,7 @@ public class SnippetExtractorTests
     }
 
 
-    [Test]
+    [Fact]
     public void Differ_by_version_missing_suffix()
     {
         var input = @"
@@ -61,7 +58,7 @@ public class SnippetExtractorTests
 
 
 
-    [Test]
+    [Fact]
     public void CanExtractWithInnerWhiteSpace()
     {
         var input = @"
@@ -76,7 +73,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void NestedBroken()
     {
         var input = @"
@@ -89,7 +86,7 @@ public class SnippetExtractorTests
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
-    [Test]
+    [Fact]
     public void NestedRegion()
     {
         var input = @"
@@ -104,7 +101,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void NestedMixed2()
     {
         var input = @"
@@ -119,7 +116,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void NestedStartCode()
     {
         var input = @"
@@ -134,7 +131,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void NestedMixed1()
     {
         var input = @"
@@ -149,7 +146,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractMultipleWithDifferentVersions()
     {
         var input = @"
@@ -164,7 +161,7 @@ public class SnippetExtractorTests
     }
 
 
-    [Test]
+    [Fact]
     public void CanExtractFromXml()
     {
         var input = @"
@@ -175,7 +172,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractVersionFromFile()
     {
         var input = @"
@@ -200,7 +197,7 @@ public class SnippetExtractorTests
         }
     }
 
-    [Test]
+    [Fact]
     public void CanExtractFromXmlWithVersion()
     {
         var input = @"
@@ -211,7 +208,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractFromAllVersion()
     {
         var input = @"
@@ -222,7 +219,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractFromXmlWithVersionRange()
     {
         var input = @"
@@ -233,7 +230,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void UnClosedSnippet()
     {
         var input = @"
@@ -243,7 +240,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void UnClosedSnippetWithVersion()
     {
         var input = @"
@@ -253,7 +250,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void UnClosedRegion()
     {
         var input = @"
@@ -263,7 +260,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void UnClosedRegionWithVersion()
     {
         var input = @"
@@ -273,7 +270,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractFromRegion()
     {
         var input = @"
@@ -284,7 +281,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractFromRegionWithVersion()
     {
         var input = @"
@@ -295,7 +292,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractWithNoTrailingCharacters()
     {
         var input = @"
@@ -306,7 +303,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractWithNoTrailingCharactersWithVersion()
     {
         var input = @"
@@ -317,7 +314,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractWithMissingSpaces()
     {
         var input = @"
@@ -328,7 +325,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractWithMissingSpacesWithVersion()
     {
         var input = @"
@@ -339,7 +336,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractWithTrailingWhitespace()
     {
         var input = @"
@@ -350,7 +347,7 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    [Test]
+    [Fact]
     public void CanExtractWithTrailingWhitespaceWithVersion()
     {
         var input = @"

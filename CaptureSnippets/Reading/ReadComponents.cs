@@ -37,6 +37,5 @@ namespace CaptureSnippets
             }
             return item;
         }
-
     }
 }

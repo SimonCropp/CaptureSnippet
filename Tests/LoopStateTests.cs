@@ -1,12 +1,9 @@
 using ApprovalTests;
-using ApprovalTests.Reporters;
-using NUnit.Framework;
+using Xunit;
 
-[TestFixture]
-[UseReporter(typeof(AllFailingTestsClipboardReporter), typeof(DiffReporter))]
 public class LoopStateTests
 {
-    [Test]
+    [Fact]
     public void TrimIndentation()
     {
         var loopState = new LoopState();
@@ -16,7 +13,7 @@ public class LoopStateTests
         Approvals.Verify(loopState.GetLines());
     }
 
-    [Test]
+    [Fact]
     public void ExcludeEmptyPaddingLines()
     {
         var loopState = new LoopState();
@@ -26,7 +23,7 @@ public class LoopStateTests
         Approvals.Verify(loopState.GetLines());
     }
 
-    [Test]
+    [Fact]
     public void TrimIndentation_with_mis_match()
     {
         var loopState = new LoopState();
@@ -36,14 +33,14 @@ public class LoopStateTests
         Approvals.Verify(loopState.GetLines());
     }
 
-    [Test]
+    [Fact]
     public void ExcludeEmptyPaddingLines_empty_list()
     {
         var loopState = new LoopState();
         Approvals.Verify(loopState.GetLines());
     }
 
-    [Test]
+    [Fact]
     public void ExcludeEmptyPaddingLines_whitespace_list()
     {
         var loopState = new LoopState();
@@ -52,7 +49,7 @@ public class LoopStateTests
         Approvals.Verify(loopState.GetLines());
     }
 
-    [Test]
+    [Fact]
     public void TrimIndentation_no_initial_padding()
     {
         var loopState = new LoopState();

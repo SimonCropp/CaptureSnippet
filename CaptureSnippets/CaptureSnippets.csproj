@@ -2,26 +2,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <NoWarn>1573;1591</NoWarn>
-    <Authors>Simon Cropp</Authors>
-    <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)) Simon Cropp. All rights reserved</Copyright>
-    <PackageIconUrl>https://raw.github.com/SimonCropp/CaptureSnippets/master/Icons/package_icon.png</PackageIconUrl>
-    <PackageProjectUrl>http://github.com/SimonCropp/CaptureSnippets</PackageProjectUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageOutputPath>..\nugets</PackageOutputPath>
-    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludePDBsInPackage</TargetsForTfmSpecificContentInPackage>
+    <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Fody" version="2.*" PrivateAssets="All" />
-    <PackageReference Include="NuGet.Versioning" Version="[4.*, 5.0.0)" />
-    <PackageReference Include="Caseless.Fody" Version="1.*" PrivateAssets="All" />
-    <PackageReference Include="Fielder.Fody" Version="1.*" PrivateAssets="All" />
-    <PackageReference Include="GitVersionTask" Version="4.0.0-*" PrivateAssets="All" />
+    <PackageReference Include="Fody" version="3.2.12" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NuGet.Versioning" Version="4.8.0" />
+    <PackageReference Include="Caseless.Fody" Version="1.8.3" PrivateAssets="All" />
+    <PackageReference Include="Fielder.Fody" Version="1.2.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
   </ItemGroup>
   <Target Name="IncludePDBsInPackage">
     <ItemGroup>

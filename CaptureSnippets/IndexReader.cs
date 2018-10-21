@@ -15,5 +15,4 @@ class IndexReader
         Index++;
         return textReader.ReadLine();
     }
-
 }

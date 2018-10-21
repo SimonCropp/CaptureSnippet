@@ -2,7 +2,6 @@
 
 static class PreTextReader
 {
-
     public static string GetPretext(string directoryPath)
     {
         string pretext = null;

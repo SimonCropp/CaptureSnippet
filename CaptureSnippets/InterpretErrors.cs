@@ -8,7 +8,6 @@ namespace CaptureSnippets
     /// </summary>
     public static class InterpretErrors
     {
-
         /// <summary>
         /// Converts <see cref="IEnumerable{Snippet}"/> to a markdown string.
         /// </summary>
@@ -28,7 +27,6 @@ namespace CaptureSnippets
             builder.AppendLine();
             return StringBuilderCache.GetStringAndRelease(builder);
         }
-
 
         /// <summary>
         /// Converts <see cref="ProcessResult.MissingSnippets"/> to a markdown string.

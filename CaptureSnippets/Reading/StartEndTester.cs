@@ -21,7 +21,6 @@ static class StartEndTester
         return false;
     }
 
-
     static bool IsEndRegion(string line)
     {
         return line.IndexOf("#endregion", StringComparison.Ordinal) >= 0;
@@ -88,5 +87,4 @@ static class StartEndTester
         }
         throw new Exception($"Key should not start or end with symbols. Key: {key}");
     }
-
 }

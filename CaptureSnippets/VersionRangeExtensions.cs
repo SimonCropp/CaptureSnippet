@@ -12,14 +12,17 @@ namespace CaptureSnippets
             {
                 throw new Exception("Cannot increment pre-release version");
             }
+
             if (version.Patch > 0)
             {
                 return $"{version.Major}.{version.Minor}.{version.Patch + 1}";
             }
+
             if (version.Minor > 0)
             {
                 return $"{version.Major}.{version.Minor}.1";
             }
+
             return $"{version.Major}.1";
         }
 
@@ -29,31 +32,38 @@ namespace CaptureSnippets
             {
                 throw new Exception("Cannot decrement pre-release version");
             }
+
             if (version.Patch > 0)
             {
                 return $"{version.Major}.{version.Minor}.{version.Patch - 1}";
             }
+
             if (version.Minor > 0)
             {
                 return $"{version.Major}.{version.Minor - 1}";
             }
+
             return $"{version.Major - 1}.x";
         }
+
         static SemanticVersion PreviousVersion2(this SemanticVersion version)
         {
             if (version.IsPrerelease)
             {
                 throw new Exception("Cannot decrement pre-release version");
             }
+
             if (version.Patch > 0)
             {
-                return new SemanticVersion(version.Major,version.Minor,version.Patch - 1);
+                return new SemanticVersion(version.Major, version.Minor, version.Patch - 1);
             }
+
             if (version.Minor > 0)
             {
-                return new SemanticVersion(version.Major, version.Minor-1, 0);
+                return new SemanticVersion(version.Major, version.Minor - 1, 0);
             }
-            return new SemanticVersion(version.Major-1, 0, 0);
+
+            return new SemanticVersion(version.Major - 1, 0, 0);
         }
 
         public static string SimplePrint(this NuGetVersion version)
@@ -64,20 +74,25 @@ namespace CaptureSnippets
                 {
                     return $"{version.Major}.{version.Minor}.{version.Patch}-{version.ReleaseLabels.First()}";
                 }
+
                 return $"{version.Major}.{version.Minor}.{version.Patch}";
             }
+
             if (version.Minor > 0)
             {
                 if (version.IsPrerelease)
                 {
                     return $"{version.Major}.{version.Minor}-{version.ReleaseLabels.First()}";
                 }
+
                 return $"{version.Major}.{version.Minor}";
             }
+
             if (version.IsPrerelease)
             {
                 return $"{version.Major}-{version.ReleaseLabels.First()}";
             }
+
             return $"{version.Major}.x";
         }
 
@@ -87,10 +102,12 @@ namespace CaptureSnippets
             {
                 return true;
             }
+
             if (range.MaxVersion != null && range.MaxVersion.IsPrerelease)
             {
                 return true;
             }
+
             return false;
         }
 
@@ -100,10 +117,12 @@ namespace CaptureSnippets
             {
                 return "All";
             }
+
             if (range.Equals(VersionRange.None))
             {
                 return "None";
             }
+
             var minVersion = range.MinVersion;
             var maxVersion = range.MaxVersion;
 
@@ -112,11 +131,13 @@ namespace CaptureSnippets
                 var message = $"Pre release not allowed on upper bound '{range}'.";
                 throw new Exception(message);
             }
+
             if (range.HasLowerBound && minVersion.IsPrerelease && !range.IsMinInclusive)
             {
                 var message = $"Pre release not allowed on non-inclusive lower bound '{range}'.";
                 throw new Exception(message);
             }
+
             if (range.HasLowerAndUpperBounds)
             {
                 if (minVersion.Minor == 0 &&
@@ -138,6 +159,7 @@ namespace CaptureSnippets
                 {
                     return minVersion.SimplePrint();
                 }
+
                 // TODO:
                 //if (minVersion.Equals(maxVersion.p) && range.IsMinInclusive && range.IsMaxInclusive)
                 //{
@@ -197,14 +219,15 @@ namespace CaptureSnippets
             {
                 return "all";
             }
+
             if (version.Equals(VersionRange.None))
             {
                 return "none";
             }
+
             return version.PrettyPrint()
                 .TrimStart('(')
                 .TrimEnd(')');
         }
-
     }
 }

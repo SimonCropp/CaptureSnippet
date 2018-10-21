@@ -138,7 +138,7 @@ namespace CaptureSnippets
             var value = loopState.GetLines();
             if (value.IndexOfAny(invalidCharacters) > -1)
             {
-                var joinedInvalidChars = $@"'{string.Join("', '", invalidCharacters)}'";
+                var joinedInvalidChars = $"'{string.Join("', '", invalidCharacters)}'";
                 return Snippet.BuildError(
                     error: $"Snippet contains invalid characters ({joinedInvalidChars}). This was probably caused by copying code from MS Word or Outlook. Dont do that.",
                     path: path,

@@ -21,6 +21,5 @@ namespace CaptureSnippets
             SnippetsInError = Snippets.Where(_ => _.IsInError).Distinct().ToList();
             Lookup = Snippets.ToDictionary();
         }
-
     }
 }

@@ -5,8 +5,6 @@ namespace CaptureSnippets
 {
     public static class VersionRangeParser
     {
-
-
         public static NuGetVersion ParseVersion(string stringVersion, string pretext = null)
         {
             Guard.AgainstEmpty(pretext, nameof(pretext));
@@ -95,7 +93,5 @@ namespace CaptureSnippets
             }
             return VersionRange.TryParse(stringVersion, out parsedVersion);
         }
-
-
     }
 }
