@@ -9,7 +9,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ApprovalTests" Version="3.0.18" />
-    <PackageReference Include="ApprovalUtilities" Version="3.0.18" />
     <PackageReference Include="ObjectApproval" Version="2.3.0" />
     <PackageReference Include="Fody" version="3.2.12">
       <PrivateAssets>all</PrivateAssets>
