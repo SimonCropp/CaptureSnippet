@@ -6,7 +6,7 @@
     <NoWarn>CS1591;NU5104;CS1573</NoWarn>
     <Version>7.0.0</Version>
     <AssemblyInformationalVersion>$(Version)</AssemblyInformationalVersion>
-    <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)). All rights reserved</Copyright>
     <PackageIconUrl>https://raw.github.com/SimonCropp/CaptureSnippets/master/Icons/package_icon.png</PackageIconUrl>
