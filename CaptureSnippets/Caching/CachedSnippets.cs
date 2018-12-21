@@ -19,11 +19,11 @@
         /// <summary>
         /// The <see cref="ReadSnippets"/> from the passed in directory.
         /// </summary>
-        public readonly ReadSnippets ReadSnippets;
+        public ReadSnippets ReadSnippets { get; }
 
         /// <summary>
         /// The ticks of the last file change in the passed in directory.
         /// </summary>
-        public readonly long Ticks;
+        public long Ticks { get; }
     }
 }

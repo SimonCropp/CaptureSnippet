@@ -8,13 +8,13 @@ namespace CaptureSnippets
     [DebuggerDisplay("Count={Packages.Count}")]
     public class ReadPackages
     {
-        public readonly IReadOnlyList<Package> Packages;
-        public readonly string Directory;
-        public readonly IReadOnlyList<Snippet> Snippets;
-        public readonly IReadOnlyList<VersionGroup> Versions;
-        public readonly IReadOnlyList<Snippet> Shared;
-        public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
-        public readonly IReadOnlyList<Snippet> SnippetsInError;
+        public IReadOnlyList<Package> Packages { get; }
+        public string Directory { get; }
+        public IReadOnlyList<Snippet> Snippets { get; }
+        public IReadOnlyList<VersionGroup> Versions { get; }
+        public IReadOnlyList<Snippet> Shared { get; }
+        public IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup { get; }
+        public IReadOnlyList<Snippet> SnippetsInError { get; }
 
         public ReadPackages(IReadOnlyList<Package> packages, string directory, IReadOnlyList<Snippet> shared)
         {

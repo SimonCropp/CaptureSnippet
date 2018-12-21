@@ -8,12 +8,12 @@ namespace CaptureSnippets
     [DebuggerDisplay("Components={Components.Count}")]
     public class ReadComponents
     {
-        public readonly IReadOnlyList<Component> Components;
-        public readonly string Directory;
-        public readonly IReadOnlyList<Snippet> AllSnippets;
-        public readonly IReadOnlyList<Snippet> Shared;
-        public readonly IReadOnlyList<Snippet> SnippetsInError;
-        public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
+        public IReadOnlyList<Component> Components { get; }
+        public string Directory { get; }
+        public IReadOnlyList<Snippet> AllSnippets { get; }
+        public IReadOnlyList<Snippet> Shared { get; }
+        public IReadOnlyList<Snippet> SnippetsInError { get; }
+        public IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup { get; }
 
         public ReadComponents(IReadOnlyList<Component> components, string directory, IReadOnlyList<Snippet> shared)
         {

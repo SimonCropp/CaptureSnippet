@@ -19,7 +19,7 @@ namespace CaptureSnippets
         /// <summary>
         ///   List of all snippets that the markdown file used.
         /// </summary>
-        public readonly IReadOnlyList<Snippet> UsedSnippets;
+        public IReadOnlyList<Snippet> UsedSnippets { get; }
 
         /// <summary>
         /// Enumerates through the <see cref="UsedSnippets" /> but will first throw an exception if there are any errors in <see cref="MissingSnippets" />.
@@ -31,6 +31,6 @@ namespace CaptureSnippets
         /// <summary>
         ///   List of all snippets that the markdown file expected but did not exist in the input snippets.
         /// </summary>
-        public readonly IReadOnlyList<MissingSnippet> MissingSnippets;
+        public IReadOnlyList<MissingSnippet> MissingSnippets { get; }
     }
 }

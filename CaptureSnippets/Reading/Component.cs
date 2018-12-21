@@ -7,13 +7,13 @@ namespace CaptureSnippets
     [DebuggerDisplay("Identifier={Identifier}, Count={Packages.Count}")]
     public class Component
     {
-        public readonly string Identifier;
-        public readonly IReadOnlyList<Package> Packages;
-        public readonly string Directory;
-        public readonly IReadOnlyList<Snippet> Snippets;
-        public readonly IReadOnlyList<Snippet> Shared;
-        public readonly IReadOnlyList<VersionGroup> AllVersions;
-        public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
+        public string Identifier { get; }
+        public IReadOnlyList<Package> Packages { get; }
+        public string Directory { get; }
+        public IReadOnlyList<Snippet> Snippets { get; }
+        public IReadOnlyList<Snippet> Shared { get; }
+        public IReadOnlyList<VersionGroup> AllVersions { get; }
+        public IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup { get; }
 
         public Component(string identifier, IReadOnlyList<Package> packages, string directory, IReadOnlyList<Snippet> shared)
         {

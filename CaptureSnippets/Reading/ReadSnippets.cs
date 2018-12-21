@@ -7,10 +7,10 @@ namespace CaptureSnippets
     [DebuggerDisplay("Count={Snippets.Count}")]
     public class ReadSnippets
     {
-        public readonly string Directory;
-        public readonly IReadOnlyList<Snippet> Snippets;
-        public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
-        public readonly IReadOnlyList<Snippet> SnippetsInError;
+        public string Directory { get; }
+        public IReadOnlyList<Snippet> Snippets { get; }
+        public IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup { get; }
+        public IReadOnlyList<Snippet> SnippetsInError { get; }
 
         public ReadSnippets(string directory, IReadOnlyList<Snippet> snippets)
         {

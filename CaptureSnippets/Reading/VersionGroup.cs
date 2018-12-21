@@ -10,13 +10,13 @@ namespace CaptureSnippets
     [DebuggerDisplay("Version={Version}, Package={Package}, PackageAlias={PackageAlias}, IsCurrent={IsCurrent}, Directory={Directory}, SnippetsCount={Snippets.Count}}")]
     public class VersionGroup : IEnumerable<Snippet>
     {
-        public readonly IReadOnlyList<Snippet> Snippets;
-        public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
-        public readonly VersionRange Version;
-        public readonly string Directory;
-        public readonly bool IsCurrent;
-        public readonly string Package;
-        public readonly string PackageAlias;
+        public IReadOnlyList<Snippet> Snippets { get; }
+        public IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup { get; }
+        public VersionRange Version { get; }
+        public string Directory { get; }
+        public bool IsCurrent { get; }
+        public string Package { get; }
+        public string PackageAlias { get; }
 
         public VersionGroup(VersionRange version, string directory, bool isCurrent, string package, string packageAlias, IReadOnlyList<Snippet> snippets)
         {

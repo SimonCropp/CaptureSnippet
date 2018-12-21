@@ -22,12 +22,12 @@ namespace CaptureSnippets
         /// <summary>
         /// The key of the missing snippet.
         /// </summary>
-        public readonly string Key;
+        public string Key { get; }
 
         /// <summary>
         /// The line number in the input text where the snippet was expected to be injected.
         /// </summary>
-        public readonly int Line;
+        public int Line { get; }
 
         public override string ToString()
         {

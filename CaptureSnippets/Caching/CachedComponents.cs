@@ -19,11 +19,11 @@
         /// <summary>
         /// The <see cref="ReadComponents"/> from the passed in directory.
         /// </summary>
-        public readonly ReadComponents Components;
+        public ReadComponents Components { get; }
 
         /// <summary>
         /// The ticks of the last file change in the passed in directory.
         /// </summary>
-        public readonly long Ticks;
+        public long Ticks { get; }
     }
 }

@@ -7,10 +7,10 @@ namespace CaptureSnippets
     [DebuggerDisplay("Package={Identifier, Count={Versions.Count}}")]
     public class Package
     {
-        public readonly string Identifier;
-        public readonly IReadOnlyList<VersionGroup> Versions;
-        public readonly IReadOnlyList<Snippet> Snippets;
-        public readonly IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup;
+        public string Identifier { get; }
+        public IReadOnlyList<VersionGroup> Versions { get; }
+        public IReadOnlyList<Snippet> Snippets { get; }
+        public IReadOnlyDictionary<string, IReadOnlyList<Snippet>> Lookup { get; }
 
         public Package(string identifier, IReadOnlyList<VersionGroup> versions)
         {

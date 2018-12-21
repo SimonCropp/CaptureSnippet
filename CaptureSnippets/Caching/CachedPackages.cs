@@ -19,11 +19,11 @@
         /// <summary>
         /// The <see cref="ReadPackages"/> from the passed in directory.
         /// </summary>
-        public readonly ReadPackages ReadPackages;
+        public ReadPackages ReadPackages { get; }
 
         /// <summary>
         /// The ticks of the last file change in the passed in directory.
         /// </summary>
-        public readonly long Ticks;
+        public long Ticks { get; }
     }
 }
