@@ -17,14 +17,9 @@ public class DirectorySnippetExtractorTests : TestBase
             fileFilter: _ => true,
             packageOrder: _ => new List<string>()
         );
-        var components = extractor.ReadComponents(directory);
-        AssertCaseInsensitive(components.Lookup);
-        var component = components.GetComponent("ComponentY");
-        AssertCaseInsensitive(component.Lookup);
-        var package = component.Packages.Single();
-        AssertCaseInsensitive(package.Lookup);
-        AssertCaseInsensitive(package.Versions.First().Lookup);
-        ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
+        var snippets = extractor.ReadSnippets(directory);
+        AssertCaseInsensitive(snippets.Lookup);
+        ObjectApprover.VerifyWithJson(snippets, Scrubber.Scrub);
     }
 
     static void AssertCaseInsensitive(IReadOnlyDictionary<string, IReadOnlyList<Snippet>> dictionary)
@@ -42,8 +37,8 @@ public class DirectorySnippetExtractorTests : TestBase
             fileFilter: path => true,
             packageOrder: component => new List<string>()
         );
-        var components = extractor.ReadComponents(directory);
-        ObjectApprover.VerifyWithJson(components.AllSnippets, Scrubber.Scrub);
+        var components = extractor.ReadSnippets(directory);
+        ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
     }
 
     [Fact]
