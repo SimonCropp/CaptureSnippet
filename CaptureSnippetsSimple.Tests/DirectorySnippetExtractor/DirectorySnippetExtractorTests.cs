@@ -50,7 +50,7 @@ public class DirectorySnippetExtractorTests : TestBase
             fileFilter: path => true,
             packageOrder: component => new List<string>()
         );
-        var components = extractor.ReadComponents(directory);
+        var components = extractor.ReadSnippets(directory);
         ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
     }
 
@@ -83,7 +83,7 @@ public class DirectorySnippetExtractorTests : TestBase
             },
             packageOrder: component => new List<string>()
         );
-        extractor.ReadComponents(targetDirectory);
+        extractor.ReadSnippets(targetDirectory);
         result.Files = files.OrderBy(file => file.Path).ToList();
         result.Directories = directories.OrderBy(file => file.Path).ToList();
         ObjectApprover.VerifyWithJson(result, Scrubber.Scrub);

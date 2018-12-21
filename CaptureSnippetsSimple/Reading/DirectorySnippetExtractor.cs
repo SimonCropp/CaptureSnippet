@@ -40,12 +40,6 @@ namespace CaptureSnippets
             return new ReadComponents(components, directory);
         }
 
-        public ReadPackages ReadPackages(string directory)
-        {
-            var packages = EnumeratePackages(directory, null).ToList();
-            return new ReadPackages(packages, directory);
-        }
-
         public ReadSnippets ReadSnippets(string directory)
         {
             var snippetExtractor = FileSnippetExtractor.BuildShared();
