@@ -6,7 +6,7 @@ using NuGet.Versioning;
 using ObjectApproval;
 using Xunit;
 
-public class MarkdownProcessorTests
+public class MarkdownProcessorTests : TestBase
 {
     [Fact]
     public void Simple()
@@ -17,25 +17,25 @@ public class MarkdownProcessorTests
                 language: "cs",
                 key: "snippet1",
                 package: "package1",
-                version:CreateVersionRange(5)
-                ),
+                version: CreateVersionRange(5)
+            ),
             SnippetBuild(
                 language: "cs",
                 key: "snippet1",
                 package: "package1",
-                version:CreateVersionRange(4)
-                ),
+                version: CreateVersionRange(4)
+            ),
             SnippetBuild(
                 language: "cs",
                 key: "snippet2",
                 package: "package1",
-                version:CreateVersionRange(3)
-                ),
+                version: CreateVersionRange(3)
+            ),
             SnippetBuild(
                 language: "cs",
                 key: "snippet2",
                 package: "package1",
-                version:CreateVersionRange(4)),
+                version: CreateVersionRange(4)),
         };
         var markdownContent = @"
 snippet: snippet1
@@ -79,7 +79,7 @@ some other text
             {
                 processResult.MissingSnippets,
                 processResult.UsedSnippets,
-                content= stringBuilder.ToString()
+                content = stringBuilder.ToString()
             };
             ObjectApprover.VerifyWithJson(output, s => s.Replace("\\r\\n", "\r\n"));
         }

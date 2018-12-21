@@ -7,7 +7,7 @@ using CaptureSnippets;
 using ObjectApproval;
 using Xunit;
 
-public class DirectorySnippetExtractorTests
+public class DirectorySnippetExtractorTests : TestBase
 {
     [Fact]
     public void Case()

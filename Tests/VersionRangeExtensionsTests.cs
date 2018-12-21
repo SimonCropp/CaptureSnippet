@@ -2,7 +2,7 @@
 using NuGet.Versioning;
 using Xunit;
 
-public class VersionRangeExtensionsTests
+public class VersionRangeExtensionsTests : TestBase
 {
     [Fact]
     public void ToFriendlyString()

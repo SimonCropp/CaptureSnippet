@@ -4,7 +4,7 @@ using CaptureSnippets;
 using ObjectApproval;
 using Xunit;
 
-public class CachedSnippetExtractorTests
+public class CachedSnippetExtractorTests : TestBase
 {
     [Fact]
     public void SecondReadShouldBeFasterThanFirstRead()

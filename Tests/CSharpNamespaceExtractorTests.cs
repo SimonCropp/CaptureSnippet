@@ -6,7 +6,7 @@ using NuGet.Versioning;
 using ObjectApproval;
 using Xunit;
 
-public class CSharpNamespaceExtractorTests
+public class CSharpNamespaceExtractorTests : TestBase
 {
     [Fact]
     public void CanExtractUsingsFromCSharpLanguage()

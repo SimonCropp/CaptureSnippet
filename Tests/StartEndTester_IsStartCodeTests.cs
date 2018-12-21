@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-public class StartEndTester_IsStartCodeTests
+public class StartEndTester_IsStartCodeTests : TestBase
 {
     [Fact]
     public void CanExtractFromXml()

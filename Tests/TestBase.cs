@@ -1,8 +1,8 @@
 ﻿using ObjectApproval;
 
-public static class ModuleInitializer
+public class TestBase
 {
-    public static void Initialize()
+    static TestBase()
     {
         SerializerBuilder.ExtraSettings = settings =>
         {

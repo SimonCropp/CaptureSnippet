@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-public class MarkdownProcessor_TryExtractKeyFromTests
+public class MarkdownProcessor_TryExtractKeyFromTests : TestBase
 {
     [Fact]
     public void MissingSpaces()

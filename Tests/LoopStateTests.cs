@@ -1,7 +1,7 @@
 using ApprovalTests;
 using Xunit;
 
-public class LoopStateTests
+public class LoopStateTests : TestBase
 {
     [Fact]
     public void TrimIndentation()

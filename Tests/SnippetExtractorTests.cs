@@ -6,7 +6,7 @@ using NuGet.Versioning;
 using ObjectApproval;
 using Xunit;
 
-public class SnippetExtractorTests
+public class SnippetExtractorTests : TestBase
 {
     [Fact]
     public void WithDodgyEmDash()
@@ -86,6 +86,7 @@ public class SnippetExtractorTests
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
+
     [Fact]
     public void NestedRegion()
     {
@@ -358,5 +359,5 @@ public class SnippetExtractorTests
         ObjectApprover.VerifyWithJson(snippets);
     }
 
-    
+
 }
