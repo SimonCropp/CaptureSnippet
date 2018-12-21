@@ -95,5 +95,4 @@ static class Extensions
     {
         return string.IsNullOrWhiteSpace(target);
     }
-
 }

@@ -4,7 +4,7 @@ static class SnippetKeyReader
 {
     public static bool TryExtractKeyFromLine(string line, out string key)
     {
-        if (!line.StartsWith("snippet:"))
+        if (!line.StartsWith("snippet:",StringComparison.OrdinalIgnoreCase))
         {
             key = null;
             return false;

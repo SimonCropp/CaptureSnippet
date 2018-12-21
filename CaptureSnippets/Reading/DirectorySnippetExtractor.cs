@@ -200,8 +200,8 @@ namespace CaptureSnippets
         static bool IsShared(string directory)
         {
             var directorySuffix = Path.GetFileName(directory);
-            return directorySuffix == "Shared" ||
-                   directorySuffix.EndsWith("_All");
+            return string.Equals(directorySuffix, "Shared", StringComparison.OrdinalIgnoreCase) ||
+                   directorySuffix.EndsWith("_All",StringComparison.OrdinalIgnoreCase);
         }
 
         static void SetCurrent(List<PackageVersionCurrent> packageVersionList)

@@ -30,7 +30,6 @@ namespace CaptureSnippets
             throw new Exception($"Could parse version '{stringVersion}'.");
         }
 
-
         public static bool TryParseVersion(string stringVersion, out VersionRange parsedVersion, string pretext = null)
         {
             Guard.AgainstEmpty(pretext, nameof(pretext));

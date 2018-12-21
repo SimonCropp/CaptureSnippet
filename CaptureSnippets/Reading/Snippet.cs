@@ -52,7 +52,7 @@ namespace CaptureSnippets
                 Language = language,
                 Path = path,
                 IsCurrent = isCurrent,
-                Includes = new ReadOnlyCollection<string>(includes?.OrderBy(x => x).ToList() ?? new List<string>())
+                Includes = new ReadOnlyCollection<string>(includes?.OrderBy(x => x.ToLowerInvariant()).ToList() ?? new List<string>())
             };
         }
 
@@ -76,7 +76,7 @@ namespace CaptureSnippets
                 Key = key,
                 Language = language,
                 Path = path,
-                Includes = new ReadOnlyCollection<string>(includes?.OrderBy(x => x).ToList() ?? new List<string>())
+                Includes = new ReadOnlyCollection<string>(includes?.OrderBy(x => x.ToLowerInvariant()).ToList() ?? new List<string>())
             };
         }
 

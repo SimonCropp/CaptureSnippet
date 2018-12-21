@@ -106,7 +106,7 @@ namespace CaptureSnippets
 
         Func<string, string> GetIncludeExtractorFromLanguage(string path)
         {
-            if (path.Equals("cs", StringComparison.InvariantCultureIgnoreCase))
+            if (path.Equals("cs", StringComparison.OrdinalIgnoreCase))
             {
                 return CSharpUsingExtractor.Extract;
             }

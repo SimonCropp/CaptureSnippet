@@ -32,7 +32,7 @@ namespace CaptureSnippets
 
         public Package GetPackage(string key)
         {
-            var item = Packages.SingleOrDefault(package => package.Identifier == key);
+            var item = Packages.SingleOrDefault(package => string.Equals(package.Identifier, key, StringComparison.OrdinalIgnoreCase));
             if (item == null)
             {
                 throw new Exception($"Could not find Package for '{key}'");

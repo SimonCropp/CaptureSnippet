@@ -30,7 +30,7 @@ namespace CaptureSnippets
 
         public Component GetComponent(string key)
         {
-            var item = Components.SingleOrDefault(_ => _.Identifier == key);
+            var item = Components.SingleOrDefault(_ => string.Equals(_.Identifier, key, StringComparison.OrdinalIgnoreCase));
             if (item == null)
             {
                 throw new Exception($"Could not find Component for '{key}'");

@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace CaptureSnippets
 {
-
     /// <summary>
     /// Merges <see cref="Snippet"/>s with an input file/text.
     /// </summary>
