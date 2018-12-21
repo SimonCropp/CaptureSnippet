@@ -34,12 +34,6 @@ namespace CaptureSnippets
             }
         }
 
-        public ReadComponents ReadComponents(string directory)
-        {
-            var components = EnumerateComponents(directory).ToList();
-            return new ReadComponents(components, directory);
-        }
-
         public ReadSnippets ReadSnippets(string directory)
         {
             var snippetExtractor = FileSnippetExtractor.BuildShared();
