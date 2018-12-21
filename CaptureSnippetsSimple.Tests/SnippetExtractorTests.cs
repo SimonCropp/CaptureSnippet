@@ -44,7 +44,7 @@ public class SnippetExtractorTests : TestBase
     public void CanExtractWithInnerWhiteSpace()
     {
         var input = @"
-  #region CodeKey 5
+  #region CodeKey
 
   BeforeWhiteSpace
 

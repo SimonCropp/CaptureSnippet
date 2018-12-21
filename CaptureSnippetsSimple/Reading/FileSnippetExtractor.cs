@@ -64,9 +64,9 @@ namespace CaptureSnippets
 
                 loopStack.ExtractIncludes(line, extractor);
 
-                if (StartEndTester.IsStart(trimmedLine, out var version, out var key, out var endFunc))
+                if (StartEndTester.IsStart(trimmedLine, out var key, out var endFunc))
                 {
-                    loopStack.Push(endFunc, key, version, stringReader.Index);
+                    loopStack.Push(endFunc, key, stringReader.Index);
                     continue;
                 }
                 if (loopStack.IsInSnippet)
