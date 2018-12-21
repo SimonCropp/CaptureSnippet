@@ -45,14 +45,12 @@ public class StartEndTester_IsStartRegionTests : TestBase
         Assert.Equal("CodeKey", key);
     }
 
-
     [Fact]
     public void CanExtractWithNoTrailingCharacters()
     {
         StartEndTester.IsStartRegion("#region CodeKey", out var key);
         Assert.Equal("CodeKey", key);
     }
-
 
     [Fact]
     public void CanExtractWithUnderScores()
