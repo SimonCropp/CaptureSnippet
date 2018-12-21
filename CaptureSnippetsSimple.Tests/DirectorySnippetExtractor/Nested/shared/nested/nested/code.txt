@@ -1,0 +1,3 @@
+﻿startcode nestedglobalsnippet
+Some code
+endcode

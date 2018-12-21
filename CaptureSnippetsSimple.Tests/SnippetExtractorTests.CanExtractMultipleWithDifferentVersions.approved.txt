@@ -1,0 +1,24 @@
+﻿[
+  {
+    "Key": "codekey",
+    "Language": "cs",
+    "Package": "package",
+    "Version": ">= 4.0.0 && < 5.0.0",
+    "Value": "<configSections/>",
+    "Includes": [],
+    "Error": null,
+    "FileLocation": "path.cs(3-4)",
+    "IsInError": false
+  },
+  {
+    "Key": "codekey",
+    "Language": "cs",
+    "Package": "package",
+    "Version": ">= 5.0.0 && < 6.0.0",
+    "Value": "The Code",
+    "Includes": [],
+    "Error": null,
+    "FileLocation": "path.cs(6-7)",
+    "IsInError": false
+  }
+]

@@ -1,0 +1,36 @@
+﻿{
+  "Directories": [
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componentx"
+    },
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componentx\packageA_1"
+    },
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componentx\packageA_2"
+    },
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componenty"
+    },
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componenty\packageA_1"
+    },
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componenty\packageA_2"
+    }
+  ],
+  "Files": [
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componentx\packageA_1\code.txt"
+    },
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componentx\packageA_2\code.txt"
+    },
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componenty\packageA_1\code.txt"
+    },
+    {
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componenty\packageA_2\code.txt"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+﻿{
+  "Key": "codekey",
+  "Language": "cs",
+  "Package": "package",
+  "Version": ">= 1.1.0",
+  "Value": "<configSections/>",
+  "Includes": [],
+  "Error": null,
+  "FileLocation": "path.cs(3-4)",
+  "IsInError": false
+}

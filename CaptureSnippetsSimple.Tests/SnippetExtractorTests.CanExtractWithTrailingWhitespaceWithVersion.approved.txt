@@ -1,0 +1,13 @@
+﻿[
+  {
+    "Key": "codekey",
+    "Language": "cs",
+    "Package": "package",
+    "Version": ">= 4.0.0 && < 5.0.0",
+    "Value": "the code",
+    "Includes": [],
+    "Error": null,
+    "FileLocation": "path.cs(3-4)",
+    "IsInError": false
+  }
+]
