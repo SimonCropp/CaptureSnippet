@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-static class StringExtensions
+public static class StringExtensions
 {
     public static string ReplaceCaseless(this string str, string oldValue, string newValue)
     {
