@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 15.0.26430.6
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{57DB7A48-6056-411C-8468-E4FC02B3ABB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsTests", "CaptureSnippetsTests\CaptureSnippetsTests.csproj", "{57DB7A48-6056-411C-8468-E4FC02B3ABB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippets", "CaptureSnippets\CaptureSnippets.csproj", "{2F81FF57-F5ED-4AAE-B5C5-23F4B096B45D}"
 EndProject
