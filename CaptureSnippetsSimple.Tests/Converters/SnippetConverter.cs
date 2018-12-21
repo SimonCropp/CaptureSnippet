@@ -22,8 +22,6 @@ class SnippetConverter : JsonConverter
             serializer.Serialize(writer, snippet.Language);
             writer.WritePropertyName("Package");
             serializer.Serialize(writer, snippet.Package);
-            writer.WritePropertyName("Version");
-            serializer.Serialize(writer, snippet.Version);
             writer.WritePropertyName("Value");
             serializer.Serialize(writer, snippet.Value);
 

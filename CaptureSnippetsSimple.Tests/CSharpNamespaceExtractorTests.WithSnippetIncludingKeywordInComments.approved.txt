@@ -3,7 +3,6 @@
     "Key": "usingssection",
     "Language": "cs",
     "Package": "package",
-    "Version": "all",
     "Value": "//using of System;\r\nusing System;",
     "Includes": [
       "System"

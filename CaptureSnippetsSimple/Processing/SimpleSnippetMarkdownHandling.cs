@@ -27,7 +27,7 @@ namespace CaptureSnippets
                 writer.WriteLine("#### Shared");
                 return;
             }
-            writer.WriteLine($"####  Package: {snippet.Package}. Version: {snippet.Version.ToFriendlyString()}");
+            writer.WriteLine($"####  Package: {snippet.Package}");
             var format = $@"```{snippet.Language}
 {snippet.Value}
 ```";

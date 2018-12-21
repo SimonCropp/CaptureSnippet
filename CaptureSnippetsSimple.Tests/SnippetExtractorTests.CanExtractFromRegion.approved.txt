@@ -3,7 +3,6 @@
     "Key": "codekey",
     "Language": "cs",
     "Package": "package",
-    "Version": "all",
     "Value": "The Code",
     "Includes": [],
     "Error": null,

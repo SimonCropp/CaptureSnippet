@@ -3,7 +3,6 @@
     "Key": "keychild",
     "Language": "cs",
     "Package": "package",
-    "Version": "all",
     "Value": "b\r\nc",
     "Includes": [],
     "Error": null,

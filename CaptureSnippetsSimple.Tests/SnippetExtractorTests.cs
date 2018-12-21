@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using CaptureSnippets;
-using NuGet.Versioning;
 using ObjectApproval;
 using Xunit;
 
@@ -143,7 +142,7 @@ public class SnippetExtractorTests : TestBase
 
     public List<Snippet> FromText(string contents)
     {
-        var extractor = FileSnippetExtractor.Build(VersionRange.All, "package", false);
+        var extractor = FileSnippetExtractor.Build("package", false);
         using (var stringReader = new StringReader(contents))
         {
             return extractor.AppendFromReader(stringReader, "path.cs").ToList();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -10,13 +9,11 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        public static FileSnippetExtractor Build(VersionRange fileVersion, string package, bool isCurrent)
+        public static FileSnippetExtractor Build(string package, bool isCurrent)
         {
-            Guard.AgainstNull(fileVersion, nameof(fileVersion));
             Guard.AgainstNullAndEmpty(package, nameof(package));
             return new FileSnippetExtractor
             {
-                fileVersion = fileVersion,
                 package = package,
                 isCurrent = isCurrent
             };
@@ -127,14 +124,6 @@ namespace CaptureSnippets
                     lineNumberInError: startRow,
                     key: loopState.Key);
             }
-            if (!TryParseVersionAndPackage(loopState, out var snippetVersion, out var error))
-            {
-                return Snippet.BuildError(
-                    error: error,
-                    path: path,
-                    lineNumberInError: startRow,
-                    key: loopState.Key);
-            }
             var value = loopState.GetLines();
             if (value.IndexOfAny(invalidCharacters) > -1)
             {
@@ -161,7 +150,6 @@ namespace CaptureSnippets
                 startLine: startRow,
                 endLine: stringReader.Index,
                 key: loopState.Key,
-                version: snippetVersion,
                 value: value,
                 path: path,
                 language: language.ToLowerInvariant(),
@@ -170,35 +158,7 @@ namespace CaptureSnippets
                 includes: loopStack.GetIncludes());
         }
 
-        bool TryParseVersionAndPackage(LoopState loopState, out VersionRange snippetVersion, out string error)
-        {
-            snippetVersion = null;
-            if (loopState.Version == null)
-            {
-                snippetVersion = fileVersion;
-                error = null;
-                return true;
-            }
-
-            if (VersionRangeParser.TryParseVersion(loopState.Version, out var version))
-            {
-                if (fileVersion.IsPreRelease())
-                {
-                    error = $"Could not use '{loopState.Version}' since directory is flagged as Prerelease. FileVersion: {fileVersion.ToFriendlyString()}.";
-                    return false;
-                }
-                snippetVersion = version;
-
-                error = null;
-                return true;
-            }
-
-            error = $"Expected '{loopState.Version}' to be parsable as a version.";
-            return false;
-        }
-
         static char[] invalidCharacters = { '“', '”', '—' };
-        VersionRange fileVersion;
         string package;
         bool isShared;
         bool isCurrent;

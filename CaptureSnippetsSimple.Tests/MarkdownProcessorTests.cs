@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using CaptureSnippets;
-using NuGet.Versioning;
 using ObjectApproval;
 using Xunit;
 
@@ -16,26 +15,13 @@ public class MarkdownProcessorTests : TestBase
             SnippetBuild(
                 language: "cs",
                 key: "snippet1",
-                package: "package1",
-                version: CreateVersionRange(5)
-            ),
-            SnippetBuild(
-                language: "cs",
-                key: "snippet1",
-                package: "package1",
-                version: CreateVersionRange(4)
+                package: "package1"
             ),
             SnippetBuild(
                 language: "cs",
                 key: "snippet2",
-                package: "package1",
-                version: CreateVersionRange(3)
-            ),
-            SnippetBuild(
-                language: "cs",
-                key: "snippet2",
-                package: "package1",
-                version: CreateVersionRange(4)),
+                package: "package1"
+            )
         };
         var markdownContent = @"
 snippet: snippet1
@@ -50,16 +36,15 @@ some other text
         Verify(markdownContent, availableSnippets.ToDictionary());
     }
 
-    Snippet SnippetBuild(string language, string key, string package, VersionRange version)
+    Snippet SnippetBuild(string language, string key, string package)
     {
         return Snippet.Build(
             language: language,
             startLine: 1,
             endLine: 2,
-            value: "Snippet_v" + version,
+            value: "Snippet",
             key: key,
             path: "thePath",
-            version: version,
             package: package,
             isCurrent: false,
             includes: null);
@@ -83,10 +68,5 @@ some other text
             };
             ObjectApprover.VerifyWithJson(output, s => s.Replace("\\r\\n", "\r\n"));
         }
-    }
-
-    static VersionRange CreateVersionRange(int version)
-    {
-        return new VersionRange(minVersion: new NuGetVersion(version, 0, 0));
     }
 }

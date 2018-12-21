@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using NuGet.Versioning;
 
 namespace CaptureSnippets
 {
@@ -32,7 +31,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="Snippet"/>.
         /// </summary>
-        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, VersionRange version, string package, bool isCurrent, ISet<string> includes)
+        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, string package, bool isCurrent, ISet<string> includes)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
@@ -43,7 +42,6 @@ namespace CaptureSnippets
             Guard.AgainstNegativeAndZero(endLine, nameof(endLine));
             return new Snippet
             {
-                version = version,
                 package = package,
                 StartLine = startLine,
                 EndLine = endLine,
@@ -122,19 +120,6 @@ namespace CaptureSnippets
         /// A string with all the includes in the snippets
         /// </summary>
         public IReadOnlyList<string> Includes { get; private set; }
-
-        /// <summary>
-        /// The <see cref="VersionRange"/> that was inferred for the snippet.
-        /// </summary>
-        public VersionRange Version
-        {
-            get
-            {
-                ThrowIfIsInError();
-                return version;
-            }
-        }
-        VersionRange version;
 
         public string Value
         {
