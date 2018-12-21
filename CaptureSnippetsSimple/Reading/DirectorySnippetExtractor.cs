@@ -37,7 +37,7 @@ namespace CaptureSnippets
         public ReadComponents ReadComponents(string directory)
         {
             var shared = GetShared(directory);
-            var components = EnumerateComponents(directory, shared).ToList();
+            var components = EnumerateComponents(directory).ToList();
             return new ReadComponents(components, directory, shared);
         }
 
@@ -63,7 +63,7 @@ namespace CaptureSnippets
         public ReadPackages ReadPackages(string directory)
         {
             var componentShared = GetShared(directory);
-            var packages = EnumeratePackages(directory, null, new List<Snippet>(), componentShared).ToList();
+            var packages = EnumeratePackages(directory, null, componentShared).ToList();
             return new ReadPackages(packages, directory, componentShared);
         }
 
@@ -114,7 +114,7 @@ namespace CaptureSnippets
             });
         }
 
-        IEnumerable<Package> EnumeratePackages(string directory, string component, List<Snippet> globalShared, List<Snippet> componentShared)
+        IEnumerable<Package> EnumeratePackages(string directory, string component, List<Snippet> componentShared)
         {
             var packageDirectories = Directory.EnumerateDirectories(directory, "*_*")
                 .Where(s => !IsShared(s) &&
@@ -192,8 +192,7 @@ namespace CaptureSnippets
                         package: packageAndVersion.Package,
                         packageAlias: packageAndVersion.PackageAlias,
                         isCurrent: packageAndVersion.IsCurrent,
-                        componentShared: componentShared,
-                        globalShared: globalShared);
+                        componentShared: componentShared);
                     versions.Add(versionGroup);
                 }
                 yield return new Package(group.Key, versions);
@@ -218,23 +217,23 @@ namespace CaptureSnippets
             packageVersionList.First().IsCurrent = true;
         }
 
-        IEnumerable<Component> EnumerateComponents(string directory, List<Snippet> globalShared)
+        IEnumerable<Component> EnumerateComponents(string directory)
         {
             return Directory.EnumerateDirectories(directory)
                 .Where(s => !IsShared(s) && directoryFilter(s))
-                .Select(s => ReadComponent(s, globalShared));
+                .Select(s => ReadComponent(s));
         }
 
-        Component ReadComponent(string componentDirectory, List<Snippet> globalShared)
+        Component ReadComponent(string componentDirectory)
         {
             var name = Path.GetFileName(componentDirectory);
             var componentShared = GetShared(componentDirectory);
-            var packages = EnumeratePackages(componentDirectory, name, globalShared, componentShared).ToList();
+            var packages = EnumeratePackages(componentDirectory, name, componentShared).ToList();
             return new Component(
                 identifier: name,
                 packages: packages,
                 directory: componentDirectory,
-                shared: globalShared.Concat(componentShared).Distinct().ToList()
+                shared: componentShared.ToList()
             );
         }
 
@@ -244,15 +243,13 @@ namespace CaptureSnippets
             string package,
             string packageAlias,
             bool isCurrent,
-            IReadOnlyList<Snippet> componentShared,
-            List<Snippet> globalShared)
+            IReadOnlyList<Snippet> componentShared)
         {
             var snippetExtractor = FileSnippetExtractor.Build(version, package, isCurrent);
             return new VersionGroup(
                 version: version,
                 snippets: ReadSnippets(versionDirectory, snippetExtractor)
                     .Concat(componentShared)
-                    .Concat(globalShared)
                     .ToList(),
                 directory: versionDirectory,
                 isCurrent: isCurrent,

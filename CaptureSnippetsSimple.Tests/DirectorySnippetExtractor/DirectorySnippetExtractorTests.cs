@@ -30,10 +30,6 @@ public class DirectorySnippetExtractorTests : TestBase
 
     static void AssertCaseInsensitive(IReadOnlyDictionary<string, IReadOnlyList<Snippet>> dictionary)
     {
-        Assert.True(dictionary.ContainsKey("GlobalSharedSnippet"));
-        Assert.True(dictionary.ContainsKey("globalsharedSnippet"));
-        Assert.True(dictionary.ContainsKey("ComponentSharedSnippet"));
-        Assert.True(dictionary.ContainsKey("componentSharedSnippet"));
         Assert.True(dictionary.ContainsKey("Snippet"));
         Assert.True(dictionary.ContainsKey("snippet"));
     }

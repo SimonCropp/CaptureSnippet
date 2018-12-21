@@ -20,16 +20,5 @@
     "Error": null,
     "FileLocation": "root\\DirectorySnippetExtractor/Nested\componentx\Shared\nested\nested\code.txt(2-3)",
     "IsInError": false
-  },
-  {
-    "Key": "nestedglobalsnippet",
-    "Language": "txt",
-    "Package": null,
-    "Version": null,
-    "Value": "Some code",
-    "Includes": [],
-    "Error": null,
-    "FileLocation": "root\\DirectorySnippetExtractor/Nested\Shared\nested\nested\code.txt(2-3)",
-    "IsInError": false
   }
 ]

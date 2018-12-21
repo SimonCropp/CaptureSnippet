@@ -28,17 +28,6 @@
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
                 "IsInError": false
-              },
-              {
-                "Key": "globalsharedsnippet",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
-                "IsInError": false
               }
             ],
             [
@@ -62,17 +51,6 @@
                 "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-                "IsInError": false
-              },
-              {
-                "Key": "globalsharedsnippet",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
                 "IsInError": false
               }
             ]
@@ -98,17 +76,6 @@
               "Includes": [],
               "Error": null,
               "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-              "IsInError": false
-            },
-            {
-              "Key": "globalsharedsnippet",
-              "Language": "txt",
-              "Package": null,
-              "Version": null,
-              "Value": "Some code",
-              "Includes": [],
-              "Error": null,
-              "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
               "IsInError": false
             },
             {
@@ -145,19 +112,6 @@
                 "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-                "IsInError": false
-              }
-            ],
-            "globalsharedsnippet": [
-              {
-                "Key": "globalsharedsnippet",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
                 "IsInError": false
               }
             ],
@@ -202,17 +156,6 @@
           "IsInError": false
         },
         {
-          "Key": "globalsharedsnippet",
-          "Language": "txt",
-          "Package": null,
-          "Version": null,
-          "Value": "Some code",
-          "Includes": [],
-          "Error": null,
-          "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
-          "IsInError": false
-        },
-        {
           "Key": "snippet2",
           "Language": "txt",
           "Package": "packageA",
@@ -225,17 +168,6 @@
         }
       ],
       "Shared": [
-        {
-          "Key": "globalsharedsnippet",
-          "Language": "txt",
-          "Package": null,
-          "Version": null,
-          "Value": "Some code",
-          "Includes": [],
-          "Error": null,
-          "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
-          "IsInError": false
-        },
         {
           "Key": "snippet1",
           "Language": "txt",
@@ -271,17 +203,6 @@
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
             "IsInError": false
-          },
-          {
-            "Key": "globalsharedsnippet",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
-            "IsInError": false
           }
         ],
         [
@@ -305,17 +226,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-            "IsInError": false
-          },
-          {
-            "Key": "globalsharedsnippet",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ]
@@ -342,19 +252,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-            "IsInError": false
-          }
-        ],
-        "globalsharedsnippet": [
-          {
-            "Key": "globalsharedsnippet",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ],
@@ -401,17 +298,6 @@
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
                 "IsInError": false
-              },
-              {
-                "Key": "globalsharedsnippet",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
-                "IsInError": false
               }
             ],
             [
@@ -435,17 +321,6 @@
                 "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
-                "IsInError": false
-              },
-              {
-                "Key": "globalsharedsnippet",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
                 "IsInError": false
               }
             ]
@@ -471,17 +346,6 @@
               "Includes": [],
               "Error": null,
               "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
-              "IsInError": false
-            },
-            {
-              "Key": "globalsharedsnippet",
-              "Language": "txt",
-              "Package": null,
-              "Version": null,
-              "Value": "Some code",
-              "Includes": [],
-              "Error": null,
-              "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
               "IsInError": false
             },
             {
@@ -518,19 +382,6 @@
                 "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
-                "IsInError": false
-              }
-            ],
-            "globalsharedsnippet": [
-              {
-                "Key": "globalsharedsnippet",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
                 "IsInError": false
               }
             ],
@@ -575,17 +426,6 @@
           "IsInError": false
         },
         {
-          "Key": "globalsharedsnippet",
-          "Language": "txt",
-          "Package": null,
-          "Version": null,
-          "Value": "Some code",
-          "Includes": [],
-          "Error": null,
-          "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
-          "IsInError": false
-        },
-        {
           "Key": "snippet2",
           "Language": "txt",
           "Package": "packageA",
@@ -598,17 +438,6 @@
         }
       ],
       "Shared": [
-        {
-          "Key": "globalsharedsnippet",
-          "Language": "txt",
-          "Package": null,
-          "Version": null,
-          "Value": "Some code",
-          "Includes": [],
-          "Error": null,
-          "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
-          "IsInError": false
-        },
         {
           "Key": "snippet1",
           "Language": "txt",
@@ -644,17 +473,6 @@
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
             "IsInError": false
-          },
-          {
-            "Key": "globalsharedsnippet",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
-            "IsInError": false
           }
         ],
         [
@@ -678,17 +496,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
-            "IsInError": false
-          },
-          {
-            "Key": "globalsharedsnippet",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ]
@@ -715,19 +522,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
-            "IsInError": false
-          }
-        ],
-        "globalsharedsnippet": [
-          {
-            "Key": "globalsharedsnippet",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ],
@@ -769,17 +563,6 @@
       "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-      "IsInError": false
-    },
-    {
-      "Key": "globalsharedsnippet",
-      "Language": "txt",
-      "Package": null,
-      "Version": null,
-      "Value": "Some code",
-      "Includes": [],
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
       "IsInError": false
     },
     {
@@ -827,19 +610,7 @@
       "IsInError": false
     }
   ],
-  "Shared": [
-    {
-      "Key": "globalsharedsnippet",
-      "Language": "txt",
-      "Package": null,
-      "Version": null,
-      "Value": "Some code",
-      "Includes": [],
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
-      "IsInError": false
-    }
-  ],
+  "Shared": [],
   "SnippetsInError": [],
   "Lookup": {
     "snippet1": [
@@ -885,19 +656,6 @@
         "Includes": [],
         "Error": null,
         "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
-        "IsInError": false
-      }
-    ],
-    "globalsharedsnippet": [
-      {
-        "Key": "globalsharedsnippet",
-        "Language": "txt",
-        "Package": null,
-        "Version": null,
-        "Value": "Some code",
-        "Includes": [],
-        "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Simple\Shared\code.txt(2-3)",
         "IsInError": false
       }
     ],
