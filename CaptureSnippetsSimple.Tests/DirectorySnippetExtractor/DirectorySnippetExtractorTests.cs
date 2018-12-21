@@ -14,8 +14,7 @@ public class DirectorySnippetExtractorTests : TestBase
         var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Case");
         var extractor = new DirectorySnippetExtractor(
             directoryFilter: _ => true,
-            fileFilter: _ => true,
-            packageOrder: _ => new List<string>()
+            fileFilter: _ => true
         );
         var snippets = extractor.ReadSnippets(directory);
         AssertCaseInsensitive(snippets.Lookup);
@@ -34,8 +33,7 @@ public class DirectorySnippetExtractorTests : TestBase
         var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Nested");
         var extractor = new DirectorySnippetExtractor(
             directoryFilter: path => true,
-            fileFilter: path => true,
-            packageOrder: component => new List<string>()
+            fileFilter: path => true
         );
         var components = extractor.ReadSnippets(directory);
         ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
@@ -47,8 +45,7 @@ public class DirectorySnippetExtractorTests : TestBase
         var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Simple");
         var extractor = new DirectorySnippetExtractor(
             directoryFilter: path => true,
-            fileFilter: path => true,
-            packageOrder: component => new List<string>()
+            fileFilter: path => true
         );
         var components = extractor.ReadSnippets(directory);
         ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
@@ -80,8 +77,7 @@ public class DirectorySnippetExtractorTests : TestBase
                 };
                 files.Add(capture);
                 return true;
-            },
-            packageOrder: component => new List<string>()
+            }
         );
         extractor.ReadSnippets(targetDirectory);
         result.Files = files.OrderBy(file => file.Path).ToList();
