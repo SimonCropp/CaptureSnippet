@@ -96,7 +96,7 @@ using System.Xml.Linq;
 
     List<Snippet> FromText(string contents)
     {
-        var extractor = FileSnippetExtractor.Build("package", false);
+        var extractor = FileSnippetExtractor.Build("package");
         using (var stringReader = new StringReader(contents))
         {
             return extractor.AppendFromReader(stringReader, "path.cs").ToList();

@@ -46,7 +46,6 @@ some other text
             key: key,
             path: "thePath",
             package: package,
-            isCurrent: false,
             includes: null);
     }
 

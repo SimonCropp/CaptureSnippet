@@ -9,13 +9,12 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        public static FileSnippetExtractor Build(string package, bool isCurrent)
+        public static FileSnippetExtractor Build(string package)
         {
             Guard.AgainstNullAndEmpty(package, nameof(package));
             return new FileSnippetExtractor
             {
                 package = package,
-                isCurrent = isCurrent
             };
         }
 
@@ -154,13 +153,11 @@ namespace CaptureSnippets
                 path: path,
                 language: language.ToLowerInvariant(),
                 package: package,
-                isCurrent: isCurrent,
                 includes: loopStack.GetIncludes());
         }
 
         static char[] invalidCharacters = { '“', '”', '—' };
         string package;
         bool isShared;
-        bool isCurrent;
     }
 }
