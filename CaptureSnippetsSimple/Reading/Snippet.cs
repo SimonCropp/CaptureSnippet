@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 
 namespace CaptureSnippets
 {
@@ -31,7 +28,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="Snippet"/>.
         /// </summary>
-        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, ISet<string> includes)
+        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
@@ -46,8 +43,7 @@ namespace CaptureSnippets
                 value = value,
                 Key = key,
                 Language = language,
-                Path = path,
-                Includes = new ReadOnlyCollection<string>(includes?.OrderBy(x => x.ToLowerInvariant()).ToList() ?? new List<string>())
+                Path = path
             };
         }
 
@@ -84,11 +80,6 @@ namespace CaptureSnippets
         /// The <see cref="Path"/>, <see cref="StartLine"/> and <see cref="EndLine"/> concatenated.
         /// </summary>
         public string FileLocation => $"{Path}({StartLine}-{EndLine})";
-
-        /// <summary>
-        /// A string with all the includes in the snippets
-        /// </summary>
-        public IReadOnlyList<string> Includes { get; private set; }
 
         public string Value
         {

@@ -3,9 +3,6 @@
     "Key": "usingssection",
     "Language": "cs",
     "Value": "//using of System;\r\nusing System;",
-    "Includes": [
-      "System"
-    ],
     "Error": null,
     "FileLocation": "path.cs(3-5)",
     "IsInError": false

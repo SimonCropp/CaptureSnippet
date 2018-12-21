@@ -3,10 +3,6 @@
     "Key": "usingssection",
     "Language": "cs",
     "Value": "using System;\r\nusing System.Core;\r\nusing System;",
-    "Includes": [
-      "System",
-      "System.Core"
-    ],
     "Error": null,
     "FileLocation": "path.cs(3-6)",
     "IsInError": false

@@ -44,8 +44,7 @@ some other text
             endLine: 2,
             value: "Snippet",
             key: key,
-            path: "thePath",
-            includes: null);
+            path: "thePath");
     }
 
     static void Verify(string markdownContent, IReadOnlyDictionary<string, IReadOnlyList<Snippet>> availableSnippets)

@@ -3,7 +3,6 @@
     "Key": "codekey",
     "Language": "cs",
     "Value": "BeforeWhiteSpace\r\n\r\nAfterWhiteSpace",
-    "Includes": [],
     "Error": null,
     "FileLocation": "path.cs(3-8)",
     "IsInError": false

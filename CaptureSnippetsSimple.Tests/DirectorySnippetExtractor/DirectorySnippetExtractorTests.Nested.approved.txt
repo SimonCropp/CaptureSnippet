@@ -5,7 +5,6 @@
       "Key": "nestedsnippet",
       "Language": "txt",
       "Value": "Some code",
-      "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Nested\componentx\packageA_1\nested\nested\code.txt(2-3)",
       "IsInError": false
@@ -17,7 +16,6 @@
         "Key": "nestedsnippet",
         "Language": "txt",
         "Value": "Some code",
-        "Includes": [],
         "Error": null,
         "FileLocation": "root\\DirectorySnippetExtractor/Nested\componentx\packageA_1\nested\nested\code.txt(2-3)",
         "IsInError": false

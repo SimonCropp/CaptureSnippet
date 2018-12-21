@@ -11,8 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DirectoryDateFinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IncludeExtractors\CSharpUsingExtractor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IncludeExtractors\NoOpUsingExtractor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IndexReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InterpretErrors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processing\AppendSnippetGroupToMarkdown.cs" />

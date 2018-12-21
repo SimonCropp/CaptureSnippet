@@ -22,14 +22,6 @@ class SnippetConverter : JsonConverter
             serializer.Serialize(writer, snippet.Language);
             writer.WritePropertyName("Value");
             serializer.Serialize(writer, snippet.Value);
-
-            writer.WritePropertyName("Includes");
-            writer.WriteStartArray();
-            foreach(var inc in snippet.Includes)
-            {
-                serializer.Serialize(writer, inc);
-            }
-            writer.WriteEndArray();
         }
         writer.WritePropertyName("Error");
         serializer.Serialize(writer, snippet.Error);

@@ -35,10 +35,9 @@ namespace CaptureSnippets
             return extension?.TrimStart('.') ?? string.Empty;
         }
 
-        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path, Func<string, string> includeExtractor = null)
+        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path)
         {
             var language = GetLanguageFromPath(path);
-            var extractor = includeExtractor ?? GetIncludeExtractorFromLanguage(language);
             var loopStack = new LoopStack();
 
             while (true)
@@ -62,8 +61,6 @@ namespace CaptureSnippets
                     .Replace("  ", " ")
                     .ToLowerInvariant();
 
-                loopStack.ExtractIncludes(line, extractor);
-
                 if (StartEndTester.IsStart(trimmedLine, out var key, out var endFunc))
                 {
                     loopStack.Push(endFunc, key, stringReader.Index);
@@ -81,16 +78,6 @@ namespace CaptureSnippets
                     loopStack.Pop();
                 }
             }
-        }
-
-        Func<string, string> GetIncludeExtractorFromLanguage(string path)
-        {
-            if (path.Equals("cs", StringComparison.OrdinalIgnoreCase))
-            {
-                return CSharpUsingExtractor.Extract;
-            }
-
-            return NoOpUsingExtractor.Extract;
         }
 
         Snippet BuildSnippet(IndexReader stringReader, string path, LoopStack loopStack, string language)
@@ -115,8 +102,7 @@ namespace CaptureSnippets
                 key: loopState.Key,
                 value: value,
                 path: path,
-                language: language.ToLowerInvariant(),
-                includes: loopStack.GetIncludes()
+                language: language.ToLowerInvariant()
             );
         }
 

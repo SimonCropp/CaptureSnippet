@@ -9,17 +9,6 @@ class LoopStack
 
     public LoopState Current => stack.Peek();
 
-    public ISet<string> GetIncludes() => usings;
-
-    public void ExtractIncludes(string line, Func<string, string> includeExtractor)
-    {
-        var include = includeExtractor(line);
-        if (include != null)
-        {
-            usings.Add(include);
-        }
-    }
-
     public void AppendLine(string line)
     {
         foreach (var state in stack)

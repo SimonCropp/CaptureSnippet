@@ -3,11 +3,6 @@
     "Key": "testclass",
     "Language": "cs",
     "Value": "public class Test { }",
-    "Includes": [
-      "System",
-      "System.Core",
-      "System.Xml.Linq"
-    ],
     "Error": null,
     "FileLocation": "path.cs(7-8)",
     "IsInError": false

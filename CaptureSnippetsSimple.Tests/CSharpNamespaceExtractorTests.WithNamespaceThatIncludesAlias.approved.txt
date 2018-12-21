@@ -3,9 +3,6 @@
     "Key": "usingssection",
     "Language": "cs",
     "Value": "using Math = System.Math;",
-    "Includes": [
-      "System.Math"
-    ],
     "Error": null,
     "FileLocation": "path.cs(3-4)",
     "IsInError": false

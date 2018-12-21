@@ -5,7 +5,6 @@
       "Key": "snippet1",
       "Language": "cs",
       "Value": "Snippet",
-      "Includes": [],
       "Error": null,
       "FileLocation": "thePath(1-2)",
       "IsInError": false
@@ -14,7 +13,6 @@
       "Key": "snippet2",
       "Language": "cs",
       "Value": "Snippet",
-      "Includes": [],
       "Error": null,
       "FileLocation": "thePath(1-2)",
       "IsInError": false

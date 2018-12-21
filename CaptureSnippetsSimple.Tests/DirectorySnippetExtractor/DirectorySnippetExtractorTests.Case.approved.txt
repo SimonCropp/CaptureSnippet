@@ -5,7 +5,6 @@
       "Key": "snippet",
       "Language": "txt",
       "Value": "Some code",
-      "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
       "IsInError": false
@@ -14,7 +13,6 @@
       "Key": "snippet",
       "Language": "txt",
       "Value": "Some code",
-      "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
       "IsInError": false
@@ -26,7 +24,6 @@
         "Key": "snippet",
         "Language": "txt",
         "Value": "Some code",
-        "Includes": [],
         "Error": null,
         "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
         "IsInError": false
@@ -35,7 +32,6 @@
         "Key": "snippet",
         "Language": "txt",
         "Value": "Some code",
-        "Includes": [],
         "Error": null,
         "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
         "IsInError": false
