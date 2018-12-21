@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -58,45 +57,6 @@ public class DirectorySnippetExtractorTests : TestBase
         );
         var components = extractor.ReadComponents(directory);
         ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
-    }
-
-    [Fact]
-    public void Sorting()
-    {
-        var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Sorting");
-        var extractor = new DirectorySnippetExtractor(
-            directoryFilter: path => true,
-            fileFilter: path => true,
-            packageOrder: PackageOrder);
-        var components = extractor.ReadComponents(directory);
-        var snippets = components
-            .Components
-            .SelectMany(_ => _.Packages)
-            .SelectMany(_ => _.Snippets)
-            .Select(_ => $"{_.Package} {_.Version.SimplePrint()} {_.IsCurrent}");
-        ObjectApprover.VerifyWithJson(snippets, Scrubber.Scrub);
-    }
-
-    IEnumerable<string> PackageOrder(string component)
-    {
-        if (string.Equals(component, "componentA", StringComparison.OrdinalIgnoreCase))
-        {
-            yield return "packageC";
-            yield return "packageA";
-            yield return "packageB";
-        }
-
-        if (string.Equals(component, "componentB", StringComparison.OrdinalIgnoreCase))
-        {
-            yield return "packageE";
-            yield return "packageD";
-        }
-
-        if (string.Equals(component, "componentC", StringComparison.OrdinalIgnoreCase))
-        {
-            yield return "packageG";
-            yield return "packageF";
-        }
     }
 
     [Fact]
