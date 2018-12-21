@@ -115,14 +115,6 @@ namespace CaptureSnippets
             var loopState = loopStack.Current;
             var startRow = loopState.StartLine + 1;
 
-            if (isShared && loopState.Version != null)
-            {
-                return Snippet.BuildError(
-                    error: "Shared snippets cannot contain a version",
-                    path: path,
-                    lineNumberInError: startRow,
-                    key: loopState.Key);
-            }
             var value = loopState.GetLines();
             if (value.IndexOfAny(invalidCharacters) > -1)
             {

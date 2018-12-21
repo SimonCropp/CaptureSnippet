@@ -37,7 +37,6 @@ class LoopStack
     {
         var state = new LoopState
         {
-            Version = version,
             Key = key,
             EndFunc = endFunc,
             StartLine = startLine,

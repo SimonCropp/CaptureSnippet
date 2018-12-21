@@ -63,7 +63,6 @@ class LoopState
     char paddingChar;
     int paddingLength;
 
-    public string Version;
     public Func<string, bool> EndFunc;
     public int StartLine;
 }
