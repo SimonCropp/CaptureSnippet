@@ -2,7 +2,6 @@
   {
     "Key": "testclass",
     "Language": "cs",
-    "Package": "package",
     "Value": "public class Test { }",
     "Includes": [
       "System",

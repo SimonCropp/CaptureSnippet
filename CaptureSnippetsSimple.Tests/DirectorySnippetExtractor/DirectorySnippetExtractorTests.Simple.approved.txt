@@ -4,7 +4,6 @@
     {
       "Key": "snippet2",
       "Language": "txt",
-      "Package": null,
       "Value": "Some code",
       "Includes": [],
       "Error": null,
@@ -14,7 +13,6 @@
     {
       "Key": "snippet1",
       "Language": "txt",
-      "Package": null,
       "Value": "Some code",
       "Includes": [],
       "Error": null,
@@ -24,7 +22,6 @@
     {
       "Key": "snippet2",
       "Language": "txt",
-      "Package": null,
       "Value": "Some code",
       "Includes": [],
       "Error": null,
@@ -34,7 +31,6 @@
     {
       "Key": "snippet1",
       "Language": "txt",
-      "Package": null,
       "Value": "Some code",
       "Includes": [],
       "Error": null,
@@ -47,7 +43,6 @@
       {
         "Key": "snippet2",
         "Language": "txt",
-        "Package": null,
         "Value": "Some code",
         "Includes": [],
         "Error": null,
@@ -57,7 +52,6 @@
       {
         "Key": "snippet2",
         "Language": "txt",
-        "Package": null,
         "Value": "Some code",
         "Includes": [],
         "Error": null,
@@ -69,7 +63,6 @@
       {
         "Key": "snippet1",
         "Language": "txt",
-        "Package": null,
         "Value": "Some code",
         "Includes": [],
         "Error": null,
@@ -79,7 +72,6 @@
       {
         "Key": "snippet1",
         "Language": "txt",
-        "Package": null,
         "Value": "Some code",
         "Includes": [],
         "Error": null,

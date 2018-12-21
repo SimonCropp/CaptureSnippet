@@ -2,7 +2,6 @@
   {
     "Key": "codekey",
     "Language": "cs",
-    "Package": "package",
     "Value": "BeforeWhiteSpace\r\n\r\nAfterWhiteSpace",
     "Includes": [],
     "Error": null,

@@ -4,7 +4,6 @@
     {
       "Key": "snippet1",
       "Language": "cs",
-      "Package": "package1",
       "Value": "Snippet",
       "Includes": [],
       "Error": null,
@@ -14,7 +13,6 @@
     {
       "Key": "snippet2",
       "Language": "cs",
-      "Package": "package1",
       "Value": "Snippet",
       "Includes": [],
       "Error": null,
@@ -25,7 +23,6 @@
   "content": "
 <!-- snippet: snippet1 -->
 ### Key: 'snippet1'
-####  Package: package1
 ```cs
 Snippet
 ```
@@ -34,7 +31,6 @@ some text
 
 <!-- snippet: snippet2 -->
 ### Key: 'snippet2'
-####  Package: package1
 ```cs
 Snippet
 ```

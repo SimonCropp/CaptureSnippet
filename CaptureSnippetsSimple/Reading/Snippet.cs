@@ -31,32 +31,7 @@ namespace CaptureSnippets
         /// <summary>
         /// Initialise a new instance of <see cref="Snippet"/>.
         /// </summary>
-        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, string package, ISet<string> includes)
-        {
-            Guard.AgainstNullAndEmpty(key, nameof(key));
-            Guard.AgainstUpperCase(key, nameof(key));
-            Guard.AgainstNull(language, nameof(language));
-            Guard.AgainstUpperCase(language, nameof(language));
-            Guard.AgainstEmpty(package, nameof(package));
-            Guard.AgainstNegativeAndZero(startLine, nameof(startLine));
-            Guard.AgainstNegativeAndZero(endLine, nameof(endLine));
-            return new Snippet
-            {
-                package = package,
-                StartLine = startLine,
-                EndLine = endLine,
-                value = value,
-                Key = key,
-                Language = language,
-                Path = path,
-                Includes = new ReadOnlyCollection<string>(includes?.OrderBy(x => x.ToLowerInvariant()).ToList() ?? new List<string>())
-            };
-        }
-
-        /// <summary>
-        /// Initialise a new instance of <see cref="Snippet"/>.
-        /// </summary>
-        public static Snippet BuildShared(int startLine, int endLine, string value, string key, string language, string path, ISet<string> includes)
+        public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path, ISet<string> includes)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
             Guard.AgainstUpperCase(key, nameof(key));
@@ -66,7 +41,6 @@ namespace CaptureSnippets
             Guard.AgainstNegativeAndZero(endLine, nameof(endLine));
             return new Snippet
             {
-                IsShared = true,
                 StartLine = startLine,
                 EndLine = endLine,
                 value = value,
@@ -76,8 +50,6 @@ namespace CaptureSnippets
                 Includes = new ReadOnlyCollection<string>(includes?.OrderBy(x => x.ToLowerInvariant()).ToList() ?? new List<string>())
             };
         }
-
-        public bool IsShared { get; private set; }
 
         public string Error { get; private set; }
 
@@ -127,16 +99,6 @@ namespace CaptureSnippets
             }
         }
         string value;
-
-        public string Package
-        {
-            get
-            {
-                ThrowIfIsInError();
-                return package;
-            }
-        }
-        string package;
 
         void ThrowIfIsInError()
         {

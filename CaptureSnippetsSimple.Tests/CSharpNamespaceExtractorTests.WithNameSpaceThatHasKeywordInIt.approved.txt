@@ -2,7 +2,6 @@
   {
     "Key": "usingssection",
     "Language": "cs",
-    "Package": "package",
     "Value": "using LibraryUsingSystem;",
     "Includes": [
       "LibraryUsingSystem"

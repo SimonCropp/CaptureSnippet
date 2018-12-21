@@ -45,7 +45,6 @@ some other text
             value: "Snippet",
             key: key,
             path: "thePath",
-            package: package,
             includes: null);
     }
 

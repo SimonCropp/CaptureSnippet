@@ -4,7 +4,6 @@
     {
       "Key": "nestedsnippet",
       "Language": "txt",
-      "Package": null,
       "Value": "Some code",
       "Includes": [],
       "Error": null,
@@ -17,7 +16,6 @@
       {
         "Key": "nestedsnippet",
         "Language": "txt",
-        "Package": null,
         "Value": "Some code",
         "Includes": [],
         "Error": null,

@@ -2,7 +2,6 @@
   {
     "Key": "keychild",
     "Language": "cs",
-    "Package": "package",
     "Value": "b\r\nc",
     "Includes": [],
     "Error": null,

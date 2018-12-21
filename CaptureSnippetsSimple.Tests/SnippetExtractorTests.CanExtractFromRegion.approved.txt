@@ -2,7 +2,6 @@
   {
     "Key": "codekey",
     "Language": "cs",
-    "Package": "package",
     "Value": "The Code",
     "Includes": [],
     "Error": null,

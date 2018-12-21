@@ -9,23 +9,6 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
-        public static FileSnippetExtractor Build(string package)
-        {
-            Guard.AgainstNullAndEmpty(package, nameof(package));
-            return new FileSnippetExtractor
-            {
-                package = package,
-            };
-        }
-
-        public static FileSnippetExtractor BuildShared()
-        {
-            return new FileSnippetExtractor
-            {
-                isShared = true
-            };
-        }
-
         /// <summary>
         /// Read from a <see cref="TextReader"/>.
         /// </summary>
@@ -125,18 +108,7 @@ namespace CaptureSnippets
                     lineNumberInError: startRow,
                     key: loopState.Key);
             }
-            if (isShared)
-            {
-                return Snippet.BuildShared(
-                    startLine: startRow,
-                    endLine: stringReader.Index,
-                    key: loopState.Key,
-                    value: value,
-                    path: path,
-                    language: language.ToLowerInvariant(),
-                    includes: loopStack.GetIncludes()
-                );
-            }
+
             return Snippet.Build(
                 startLine: startRow,
                 endLine: stringReader.Index,
@@ -144,12 +116,10 @@ namespace CaptureSnippets
                 value: value,
                 path: path,
                 language: language.ToLowerInvariant(),
-                package: package,
-                includes: loopStack.GetIncludes());
+                includes: loopStack.GetIncludes()
+            );
         }
 
         static char[] invalidCharacters = { '“', '”', '—' };
-        string package;
-        bool isShared;
     }
 }

@@ -22,12 +22,6 @@ namespace CaptureSnippets
 
         static void WriteSnippet(TextWriter writer, Snippet snippet)
         {
-            if (snippet.IsShared)
-            {
-                writer.WriteLine("#### Shared");
-                return;
-            }
-            writer.WriteLine($"####  Package: {snippet.Package}");
             var format = $@"```{snippet.Language}
 {snippet.Value}
 ```";
