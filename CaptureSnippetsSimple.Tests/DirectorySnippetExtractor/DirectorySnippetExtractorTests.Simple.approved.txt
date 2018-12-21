@@ -17,17 +17,6 @@
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\packageA_2\code.txt(2-3)",
                 "IsInError": false
-              },
-              {
-                "Key": "snippet1",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-                "IsInError": false
               }
             ],
             [
@@ -40,17 +29,6 @@
                 "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\packageA_1\code.txt(2-3)",
-                "IsInError": false
-              },
-              {
-                "Key": "snippet1",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
                 "IsInError": false
               }
             ]
@@ -65,17 +43,6 @@
               "Includes": [],
               "Error": null,
               "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\packageA_2\code.txt(2-3)",
-              "IsInError": false
-            },
-            {
-              "Key": "snippet1",
-              "Language": "txt",
-              "Package": null,
-              "Version": null,
-              "Value": "Some code",
-              "Includes": [],
-              "Error": null,
-              "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
               "IsInError": false
             },
             {
@@ -101,17 +68,6 @@
                 "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\packageA_2\code.txt(2-3)",
-                "IsInError": false
-              },
-              {
-                "Key": "snippet1",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
                 "IsInError": false
               }
             ],
@@ -145,17 +101,6 @@
           "IsInError": false
         },
         {
-          "Key": "snippet1",
-          "Language": "txt",
-          "Package": null,
-          "Version": null,
-          "Value": "Some code",
-          "Includes": [],
-          "Error": null,
-          "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-          "IsInError": false
-        },
-        {
           "Key": "snippet2",
           "Language": "txt",
           "Package": "packageA",
@@ -167,19 +112,7 @@
           "IsInError": false
         }
       ],
-      "Shared": [
-        {
-          "Key": "snippet1",
-          "Language": "txt",
-          "Package": null,
-          "Version": null,
-          "Value": "Some code",
-          "Includes": [],
-          "Error": null,
-          "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-          "IsInError": false
-        }
-      ],
+      "Shared": [],
       "AllVersions": [
         [
           {
@@ -191,17 +124,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\packageA_2\code.txt(2-3)",
-            "IsInError": false
-          },
-          {
-            "Key": "snippet1",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ],
@@ -215,17 +137,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\packageA_1\code.txt(2-3)",
-            "IsInError": false
-          },
-          {
-            "Key": "snippet1",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ]
@@ -241,17 +152,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\packageA_2\code.txt(2-3)",
-            "IsInError": false
-          },
-          {
-            "Key": "snippet1",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ],
@@ -287,17 +187,6 @@
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\packageA_2\code.txt(2-3)",
                 "IsInError": false
-              },
-              {
-                "Key": "snippet1",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
-                "IsInError": false
               }
             ],
             [
@@ -310,17 +199,6 @@
                 "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\packageA_1\code.txt(2-3)",
-                "IsInError": false
-              },
-              {
-                "Key": "snippet1",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
                 "IsInError": false
               }
             ]
@@ -335,17 +213,6 @@
               "Includes": [],
               "Error": null,
               "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\packageA_2\code.txt(2-3)",
-              "IsInError": false
-            },
-            {
-              "Key": "snippet1",
-              "Language": "txt",
-              "Package": null,
-              "Version": null,
-              "Value": "Some code",
-              "Includes": [],
-              "Error": null,
-              "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
               "IsInError": false
             },
             {
@@ -371,17 +238,6 @@
                 "Includes": [],
                 "Error": null,
                 "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\packageA_2\code.txt(2-3)",
-                "IsInError": false
-              },
-              {
-                "Key": "snippet1",
-                "Language": "txt",
-                "Package": null,
-                "Version": null,
-                "Value": "Some code",
-                "Includes": [],
-                "Error": null,
-                "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
                 "IsInError": false
               }
             ],
@@ -415,17 +271,6 @@
           "IsInError": false
         },
         {
-          "Key": "snippet1",
-          "Language": "txt",
-          "Package": null,
-          "Version": null,
-          "Value": "Some code",
-          "Includes": [],
-          "Error": null,
-          "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
-          "IsInError": false
-        },
-        {
           "Key": "snippet2",
           "Language": "txt",
           "Package": "packageA",
@@ -437,19 +282,7 @@
           "IsInError": false
         }
       ],
-      "Shared": [
-        {
-          "Key": "snippet1",
-          "Language": "txt",
-          "Package": null,
-          "Version": null,
-          "Value": "Some code",
-          "Includes": [],
-          "Error": null,
-          "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
-          "IsInError": false
-        }
-      ],
+      "Shared": [],
       "AllVersions": [
         [
           {
@@ -461,17 +294,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\packageA_2\code.txt(2-3)",
-            "IsInError": false
-          },
-          {
-            "Key": "snippet1",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ],
@@ -485,17 +307,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\packageA_1\code.txt(2-3)",
-            "IsInError": false
-          },
-          {
-            "Key": "snippet1",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ]
@@ -511,17 +322,6 @@
             "Includes": [],
             "Error": null,
             "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\packageA_2\code.txt(2-3)",
-            "IsInError": false
-          },
-          {
-            "Key": "snippet1",
-            "Language": "txt",
-            "Package": null,
-            "Version": null,
-            "Value": "Some code",
-            "Includes": [],
-            "Error": null,
-            "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
             "IsInError": false
           }
         ],
@@ -555,17 +355,6 @@
       "IsInError": false
     },
     {
-      "Key": "snippet1",
-      "Language": "txt",
-      "Package": null,
-      "Version": null,
-      "Value": "Some code",
-      "Includes": [],
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-      "IsInError": false
-    },
-    {
       "Key": "snippet2",
       "Language": "txt",
       "Package": "packageA",
@@ -585,17 +374,6 @@
       "Includes": [],
       "Error": null,
       "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\packageA_2\code.txt(2-3)",
-      "IsInError": false
-    },
-    {
-      "Key": "snippet1",
-      "Language": "txt",
-      "Package": null,
-      "Version": null,
-      "Value": "Some code",
-      "Includes": [],
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
       "IsInError": false
     },
     {
@@ -628,34 +406,12 @@
       {
         "Key": "snippet1",
         "Language": "txt",
-        "Package": null,
-        "Version": null,
-        "Value": "Some code",
-        "Includes": [],
-        "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Simple\componentx\Shared\code.txt(2-3)",
-        "IsInError": false
-      },
-      {
-        "Key": "snippet1",
-        "Language": "txt",
         "Package": "packageA",
         "Version": ">= 2.0.0 && < 3.0.0",
         "Value": "Some code",
         "Includes": [],
         "Error": null,
         "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\packageA_2\code.txt(2-3)",
-        "IsInError": false
-      },
-      {
-        "Key": "snippet1",
-        "Language": "txt",
-        "Package": null,
-        "Version": null,
-        "Value": "Some code",
-        "Includes": [],
-        "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Simple\componenty\Shared\code.txt(2-3)",
         "IsInError": false
       }
     ],
