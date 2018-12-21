@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <LangVersion>latest</LangVersion>
-    <NoWarn>CS1591;NU5104;CS1573</NoWarn>
+    <NoWarn>CS1591;NU5104;CS1573;NU5125</NoWarn>
     <Version>7.0.0</Version>
     <AssemblyInformationalVersion>$(Version)</AssemblyInformationalVersion>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
