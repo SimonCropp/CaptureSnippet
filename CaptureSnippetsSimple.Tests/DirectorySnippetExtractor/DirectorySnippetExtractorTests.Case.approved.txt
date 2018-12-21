@@ -110,7 +110,6 @@
           "IsInError": false
         }
       ],
-      "Shared": [],
       "AllVersions": [
         [
           {
@@ -192,7 +191,6 @@
       "IsInError": false
     }
   ],
-  "Shared": [],
   "SnippetsInError": [],
   "Lookup": {
     "snippet": [

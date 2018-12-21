@@ -36,28 +36,8 @@ namespace CaptureSnippets
 
         public ReadComponents ReadComponents(string directory)
         {
-            var shared = GetShared(directory);
             var components = EnumerateComponents(directory).ToList();
-            return new ReadComponents(components, directory, shared);
-        }
-
-        List<Snippet> GetShared(string directory)
-        {
-            var sharedDirectory = Path.Combine(directory, "Shared");
-            if (Directory.Exists(sharedDirectory))
-            {
-                var snippetExtractor = FileSnippetExtractor.BuildShared();
-                return ReadSnippets(sharedDirectory, snippetExtractor).ToList();
-            }
-
-            var allPath = Path.Combine(directory,Path.GetFileName(directory)+"_All");
-            if (Directory.Exists(allPath))
-            {
-                var snippetExtractor = FileSnippetExtractor.BuildShared();
-                return ReadSnippets(allPath, snippetExtractor).ToList();
-            }
-
-            return new List<Snippet>();
+            return new ReadComponents(components, directory);
         }
 
         public ReadPackages ReadPackages(string directory)
@@ -225,13 +205,11 @@ namespace CaptureSnippets
         Component ReadComponent(string componentDirectory)
         {
             var name = Path.GetFileName(componentDirectory);
-            var componentShared = GetShared(componentDirectory);
             var packages = EnumeratePackages(componentDirectory, name).ToList();
             return new Component(
                 identifier: name,
                 packages: packages,
-                directory: componentDirectory,
-                shared: componentShared.ToList()
+                directory: componentDirectory
             );
         }
 
