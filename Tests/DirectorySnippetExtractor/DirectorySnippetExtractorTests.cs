@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -82,20 +83,20 @@ public class DirectorySnippetExtractorTests
 
     IEnumerable<string> PackageOrder(string component)
     {
-        if (component == "componentA")
+        if (string.Equals(component, "componentA", StringComparison.OrdinalIgnoreCase))
         {
             yield return "packageC";
             yield return "packageA";
             yield return "packageB";
         }
 
-        if (component == "componentB")
+        if (string.Equals(component, "componentB", StringComparison.OrdinalIgnoreCase))
         {
             yield return "packageE";
             yield return "packageD";
         }
 
-        if (component == "componentC")
+        if (string.Equals(component, "componentC", StringComparison.OrdinalIgnoreCase))
         {
             yield return "packageG";
             yield return "packageF";
