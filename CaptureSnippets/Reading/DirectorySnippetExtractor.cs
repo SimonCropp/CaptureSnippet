@@ -13,8 +13,11 @@ namespace CaptureSnippets
         GetPackageOrderForComponent packageOrder;
         TranslatePackage translatePackage;
 
-        public DirectorySnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter,
-            GetPackageOrderForComponent packageOrder, TranslatePackage translatePackage = null)
+        public DirectorySnippetExtractor(
+            DirectoryFilter directoryFilter,
+            FileFilter fileFilter,
+            GetPackageOrderForComponent packageOrder,
+            TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
