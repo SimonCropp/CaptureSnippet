@@ -33,6 +33,5 @@ class LoopStack
         stack.Push(state);
     }
 
-    HashSet<string> usings = new HashSet<string>();
     Stack<LoopState> stack = new Stack<LoopState>();
 }
