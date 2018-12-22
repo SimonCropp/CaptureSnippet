@@ -33,7 +33,7 @@ class LoopStack
         stack.Pop();
     }
 
-    public void Push(Func<string, bool> endFunc, string key, int startLine, string version=null)
+    public void Push(Func<string, bool> endFunc, string key, int startLine, string version)
     {
         var state = new LoopState
         {
