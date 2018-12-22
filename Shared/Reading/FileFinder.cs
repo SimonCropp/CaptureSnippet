@@ -19,7 +19,14 @@ class FileFinder
         return directoryFilter(directoryPath) && !directoryPath.EndsWith(".git");
     }
 
-    public void FindFiles(string directoryPath, List<string> files)
+    public List<string> FindFiles(string directoryPath)
+    {
+        var files = new List<string>();
+        FindFiles(directoryPath, files);
+        return files;
+    }
+
+    void FindFiles(string directoryPath, List<string> files)
     {
         foreach (var file in Directory.EnumerateFiles(directoryPath)
             .Where(s => fileFilter(s)))

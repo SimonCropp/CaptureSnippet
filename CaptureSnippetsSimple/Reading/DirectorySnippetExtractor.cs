@@ -26,9 +26,7 @@ namespace CaptureSnippets
 
         IEnumerable<Snippet> ReadSnippets(string directory, FileSnippetExtractor snippetExtractor)
         {
-            var files = new List<string>();
-            fileFinder.FindFiles(directory, files);
-            return files
+            return fileFinder.FindFiles(directory)
                 .SelectMany(file =>
                 {
                     using (var reader = File.OpenText(file))
