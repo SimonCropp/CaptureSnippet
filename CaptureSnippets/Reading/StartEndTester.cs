@@ -64,7 +64,7 @@ static class StartEndTester
             throw new Exception($"No Key could be derived. Line: '{line}'.");
         }
         key = split[0];
-        ValidateKeyDoesNotStartOrEndWithSymbol(key);
+        KeyValidator.ValidateKeyDoesNotStartOrEndWithSymbol(key);
         if (split.Length == 1)
         {
             version = null;
@@ -77,14 +77,5 @@ static class StartEndTester
         }
 
         throw new Exception($"Too many parts. Line: '{line}'.");
-    }
-
-    static void ValidateKeyDoesNotStartOrEndWithSymbol(string key)
-    {
-        if (char.IsLetterOrDigit(key, 0) && char.IsLetterOrDigit(key, key.Length - 1))
-        {
-            return;
-        }
-        throw new Exception($"Key should not start or end with symbols. Key: {key}");
     }
 }

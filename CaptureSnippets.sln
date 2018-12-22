@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple", "Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple.Tests", "CaptureSnippetsSimple.Tests\CaptureSnippetsSimple.Tests.csproj", "{99DE8782-5377-43AA-BB19-F3408CBC2C7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestShared", "TestShared\TestShared.csproj", "{4242C458-9D25-4785-8D73-6EBE3186DC02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestShared", "TestShared\TestShared.csproj", "{4242C458-9D25-4785-8D73-6EBE3186DC02}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

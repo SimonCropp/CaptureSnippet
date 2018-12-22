@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IndexReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InterpretErrors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processing\AppendSnippetGroupToMarkdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processing\MarkdownProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processing\MissingSnippet.cs" />
@@ -23,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Reading\FileFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reading\ReadSnippets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SnippetExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StartEndCommentTester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringBuilderCache.cs" />
   </ItemGroup>
 </Project>
