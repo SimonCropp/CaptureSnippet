@@ -6,8 +6,7 @@ namespace CaptureSnippets
 {
     public class DirectorySnippetExtractor
     {
-        DirectoryFilter directoryFilter;
-        FileFilter fileFilter;
+        FileFinder fileFinder;
 
         public DirectorySnippetExtractor(
             DirectoryFilter directoryFilter,
@@ -15,8 +14,7 @@ namespace CaptureSnippets
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
-            this.directoryFilter = directoryFilter;
-            this.fileFilter = fileFilter;
+            fileFinder = new FileFinder(directoryFilter, fileFilter);
         }
 
         public ReadSnippets ReadSnippets(string directory)
@@ -26,24 +24,10 @@ namespace CaptureSnippets
             return new ReadSnippets(directory, packages);
         }
 
-        void FindFiles(string directoryPath, List<string> files)
-        {
-            foreach (var file in Directory.EnumerateFiles(directoryPath)
-                .Where(s => fileFilter(s)))
-            {
-                files.Add(file);
-            }
-            foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
-                .Where(s => directoryFilter(s)))
-            {
-                FindFiles(subDirectory, files);
-            }
-        }
-
         IEnumerable<Snippet> ReadSnippets(string directory, FileSnippetExtractor snippetExtractor)
         {
             var files = new List<string>();
-            FindFiles(directory, files);
+            fileFinder.FindFiles(directory, files);
             return files
                 .SelectMany(file =>
                 {

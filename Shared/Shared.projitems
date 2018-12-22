@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processing\SnippetKeyReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reading\DirectoryFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Guard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reading\FileFinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reading\FileFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reading\LoopStack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reading\LoopState.cs" />
