@@ -20,7 +20,6 @@
   ],
   "content": "
 <!-- snippet: snippet1 -->
-### Key: 'snippet1'
 ```cs
 Snippet
 ```
@@ -28,7 +27,6 @@ Snippet
 some text
 
 <!-- snippet: snippet2 -->
-### Key: 'snippet2'
 ```cs
 Snippet
 ```

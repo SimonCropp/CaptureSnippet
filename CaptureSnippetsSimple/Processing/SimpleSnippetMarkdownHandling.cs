@@ -13,7 +13,6 @@ namespace CaptureSnippets
             Guard.AgainstNull(group, nameof(group));
             Guard.AgainstNull(writer, nameof(writer));
 
-            writer.WriteLine($"### Key: '{key}'");
             foreach (var snippet in group)
             {
                 WriteSnippet(writer, snippet);
