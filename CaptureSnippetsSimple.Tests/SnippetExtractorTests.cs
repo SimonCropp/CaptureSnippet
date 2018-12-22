@@ -142,9 +142,7 @@ public class SnippetExtractorTests : TestBase
 
     public List<Snippet> FromText(string contents)
     {
-        var extractor = new FileSnippetExtractor
-        {
-        };
+        var extractor = new FileSnippetExtractor();
         using (var stringReader = new StringReader(contents))
         {
             return extractor.AppendFromReader(stringReader, "path.cs").ToList();

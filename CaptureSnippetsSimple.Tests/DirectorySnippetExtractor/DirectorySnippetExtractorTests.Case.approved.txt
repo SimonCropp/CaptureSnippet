@@ -6,7 +6,7 @@
       "Language": "txt",
       "Value": "Some code",
       "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
+      "FileLocation": "root\\DirectorySnippetExtractor/Case\code1.txt(2-3)",
       "IsInError": false
     },
     {
@@ -14,7 +14,7 @@
       "Language": "txt",
       "Value": "Some code",
       "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
+      "FileLocation": "root\\DirectorySnippetExtractor/Case\code2.txt(2-3)",
       "IsInError": false
     }
   ],
@@ -25,7 +25,7 @@
         "Language": "txt",
         "Value": "Some code",
         "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\packageA_1\code.txt(2-3)",
+        "FileLocation": "root\\DirectorySnippetExtractor/Case\code1.txt(2-3)",
         "IsInError": false
       },
       {
@@ -33,7 +33,7 @@
         "Language": "txt",
         "Value": "Some code",
         "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Case\componenty\Packagea_2\code.txt(2-3)",
+        "FileLocation": "root\\DirectorySnippetExtractor/Case\code2.txt(2-3)",
         "IsInError": false
       }
     ]

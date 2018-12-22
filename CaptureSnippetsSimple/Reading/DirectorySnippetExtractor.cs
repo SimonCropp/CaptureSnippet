@@ -21,9 +21,7 @@ namespace CaptureSnippets
 
         public ReadSnippets ReadSnippets(string directory)
         {
-            var snippetExtractor = new FileSnippetExtractor
-            {
-            };
+            var snippetExtractor = new FileSnippetExtractor();
             var packages = ReadSnippets(directory, snippetExtractor).ToList();
             return new ReadSnippets(directory, packages);
         }

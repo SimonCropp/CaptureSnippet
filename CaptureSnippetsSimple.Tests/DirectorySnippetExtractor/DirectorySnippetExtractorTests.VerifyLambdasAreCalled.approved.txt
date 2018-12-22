@@ -21,16 +21,16 @@
   ],
   "Files": [
     {
-      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componentx\packageA_1\code.txt"
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\code1.txt"
     },
     {
-      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componentx\packageA_2\code.txt"
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\code2.txt"
     },
     {
-      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componenty\packageA_1\code.txt"
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\code3.txt"
     },
     {
-      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\componenty\packageA_2\code.txt"
+      "Path": "root\\DirectorySnippetExtractor/VerifyLambdasAreCalled\code4.txt"
     }
   ]
 }
