@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 
-[DebuggerDisplay("Key={Key}, Version={Version}")]
+[DebuggerDisplay("Key={Key}")]
 class LoopState
 {
     public string GetLines()
