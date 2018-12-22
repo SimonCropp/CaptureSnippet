@@ -22,9 +22,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Reading\DirectoryFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Guard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reading\FileFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reading\LoopStack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reading\LoopState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reading\ReadSnippets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SnippetExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)StartEndCommentTester.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reverter\StartEndCommentTester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringBuilderCache.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Reverter\" />
   </ItemGroup>
 </Project>

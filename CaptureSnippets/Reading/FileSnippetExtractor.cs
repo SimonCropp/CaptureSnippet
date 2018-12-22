@@ -87,7 +87,7 @@ namespace CaptureSnippets
 
                 if (StartEndTester.IsStart(trimmedLine, out var version, out var key, out var endFunc))
                 {
-                    loopStack.Push(endFunc, key, version, stringReader.Index);
+                    loopStack.Push(endFunc, key, stringReader.Index, version);
                     continue;
                 }
                 if (loopStack.IsInSnippet)
