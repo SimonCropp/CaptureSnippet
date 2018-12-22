@@ -23,6 +23,7 @@
 ```cs
 Snippet
 ```
+<!-- endsnippet -->
 
 some text
 
@@ -30,6 +31,7 @@ some text
 ```cs
 Snippet
 ```
+<!-- endsnippet -->
 
 some other text
 

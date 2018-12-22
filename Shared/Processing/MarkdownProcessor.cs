@@ -71,6 +71,7 @@ namespace CaptureSnippets
             }
 
             appendSnippetGroup(key, group, writer);
+            writer.WriteLine($"<!-- endsnippet -->");
             used.AddRange(group);
             return true;
         }
