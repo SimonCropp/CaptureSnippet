@@ -41,8 +41,8 @@ namespace CaptureSnippets
             Guard.AgainstNullAndEmpty(path, nameof(path));
             try
             {
-                var reader = new IndexReader(textReader);
-                return GetSnippets(reader, path);
+                var indexReader = new IndexReader(textReader);
+                return GetSnippets(indexReader, path);
             }
             catch (Exception exception)
             {

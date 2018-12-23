@@ -15,4 +15,9 @@ class IndexReader
         Index++;
         return textReader.ReadLine();
     }
+
+    public bool IsEnd()
+    {
+        return textReader.Peek() == -1;
+    }
 }
