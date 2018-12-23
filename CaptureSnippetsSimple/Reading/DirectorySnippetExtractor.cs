@@ -8,7 +8,7 @@ namespace CaptureSnippets
     {
         FileFinder fileFinder;
 
-        public DirectorySnippetExtractor() : this(path => true, path => true)
+        internal DirectorySnippetExtractor() : this(path => true, path => true)
         {
         }
 
