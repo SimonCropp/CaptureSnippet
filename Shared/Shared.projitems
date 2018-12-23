@@ -9,6 +9,7 @@
     <Import_RootNamespace>Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyLocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DirectoryDateFinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IndexReader.cs" />
@@ -27,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Reading\ReadSnippets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reverter\DirectorySnippetReverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reverter\FileSnippetReverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reverter\GirRepoDirectoryFinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SnippetExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reverter\StartEndCommentTester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringBuilderCache.cs" />
