@@ -2,7 +2,7 @@
 
 namespace CaptureSnippets
 {
-    public static class GirRepoDirectoryFinder
+    public static class GitRepoDirectoryFinder
     {
         public static bool TryFind(out string path)
         {

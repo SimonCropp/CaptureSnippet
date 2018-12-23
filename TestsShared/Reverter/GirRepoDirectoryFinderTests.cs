@@ -7,7 +7,7 @@ public class GirRepoDirectoryFinderTests
     [Fact]
     public void CanFindGirRepoDir()
     {
-        Assert.True(GirRepoDirectoryFinder.TryFind(out var path));
+        Assert.True(GitRepoDirectoryFinder.TryFind(out var path));
         Assert.True(Directory.Exists(path));
     }
 }
