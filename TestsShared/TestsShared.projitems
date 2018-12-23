@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileSnippetReverterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkdownProcessor_TryExtractKeyFromTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scrubber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SnippetVerifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StartEndCommentTesterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestConfig.cs" />
