@@ -14,36 +14,32 @@ public class StartEndTester_IsStartRegionTests : TestBase
     [Fact]
     public void ShouldThrowForKeyStartingWithSymbolAndVersion()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndTester.IsStartRegion("#region _key 6", out fake, out fake));
+            StartEndTester.IsStartRegion("#region _key 6", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
     [Fact]
     public void ShouldThrowForKeyEndingWithSymbolAndVersion()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndTester.IsStartRegion("#region key_ 6", out fake, out fake));
+            StartEndTester.IsStartRegion("#region key_ 6", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: key_", exception.Message);
     }
 
     [Fact]
     public void ShouldThrowForKeyStartingWithSymbol()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndTester.IsStartRegion("#region _key", out fake, out fake));
+            StartEndTester.IsStartRegion("#region _key", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
     [Fact]
     public void ShouldThrowForKeyEndingWithSymbol()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndTester.IsStartRegion("#region key_ ", out fake, out fake));
+            StartEndTester.IsStartRegion("#region key_ ", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: key_", exception.Message);
     }
 
@@ -51,9 +47,8 @@ public class StartEndTester_IsStartRegionTests : TestBase
     [Fact]
     public void ShouldIgnoreForNoKey()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndTester.IsStartRegion("#region ", out fake, out fake));
+            StartEndTester.IsStartRegion("#region ", out _, out _));
         Assert.Equal("No Key could be derived. Line: '#region '.", exception.Message);
     }
 

@@ -15,16 +15,14 @@ public class StartEndTester_IsStartCodeTests : TestBase
     [Fact]
     public void ShouldThrowForNoKey()
     {
-        string fake;
-        var exception = Assert.Throws<Exception>(() => StartEndTester.IsStartCode("<!-- startcode -->", out fake, out fake));
+        var exception = Assert.Throws<Exception>(() => StartEndTester.IsStartCode("<!-- startcode -->", out _, out _));
         Assert.Equal("No Key could be derived. Line: '<!-- startcode -->'.", exception.Message);
     }
 
     [Fact]
     public void ShouldNotThrowForNoKeyWithNoSpace()
     {
-        string fake;
-        StartEndTester.IsStartCode("<!--startcode-->", out fake, out fake);
+        StartEndTester.IsStartCode("<!--startcode-->", out _, out _);
     }
 
     [Fact]
@@ -129,36 +127,32 @@ public class StartEndTester_IsStartCodeTests : TestBase
     [Fact]
     public void ShouldThrowForKeyStartingWithSymbolAndVersion()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndTester.IsStartCode("<!-- startcode _key 6 -->", out fake, out fake));
+            StartEndTester.IsStartCode("<!-- startcode _key 6 -->", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
     [Fact]
     public void ShouldThrowForKeyEndingWithSymbolAndVersion()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndTester.IsStartCode("<!-- startcode key_ 6 -->", out fake, out fake));
+            StartEndTester.IsStartCode("<!-- startcode key_ 6 -->", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: key_", exception.Message);
     }
 
     [Fact]
     public void ShouldThrowForKeyStartingWithSymbol()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndTester.IsStartCode("<!-- startcode _key-->", out fake, out fake));
+            StartEndTester.IsStartCode("<!-- startcode _key-->", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
     [Fact]
     public void ShouldThrowForKeyEndingWithSymbol()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndTester.IsStartCode("<!-- startcode key_ -->", out fake, out fake));
+            StartEndTester.IsStartCode("<!-- startcode key_ -->", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: key_", exception.Message);
     }
 

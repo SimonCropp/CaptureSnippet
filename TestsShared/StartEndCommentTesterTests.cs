@@ -14,8 +14,7 @@ public class StartEndCommentTesterTests
     [Fact]
     public void ShouldThrowForNoKey()
     {
-        string fake;
-        var exception = Assert.Throws<Exception>(() => StartEndCommentTester.IsStart("<!-- snippet: -->", out fake));
+        var exception = Assert.Throws<Exception>(() => StartEndCommentTester.IsStart("<!-- snippet: -->", out _));
         Assert.Equal("No Key could be derived. Line: '<!-- snippet: -->'.", exception.Message);
     }
 
@@ -38,18 +37,16 @@ public class StartEndCommentTesterTests
     [Fact]
     public void ShouldThrowForKeyStartingWithSymbol()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndCommentTester.IsStart("<!-- snippet: _key -->", out fake));
+            StartEndCommentTester.IsStart("<!-- snippet: _key -->", out _));
         Assert.Equal("Key should not start or end with symbols. Key: _key", exception.Message);
     }
 
     [Fact]
     public void ShouldThrowForKeyEndingWithSymbol()
     {
-        string fake;
         var exception = Assert.Throws<Exception>(() =>
-            StartEndCommentTester.IsStart("<!-- snippet: key_ -->", out fake));
+            StartEndCommentTester.IsStart("<!-- snippet: key_ -->", out _));
         Assert.Equal("Key should not start or end with symbols. Key: key_", exception.Message);
     }
 }
