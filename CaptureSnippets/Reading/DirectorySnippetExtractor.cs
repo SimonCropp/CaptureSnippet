@@ -12,6 +12,11 @@ namespace CaptureSnippets
         GetPackageOrderForComponent packageOrder;
         TranslatePackage translatePackage;
 
+        public DirectorySnippetExtractor(GetPackageOrderForComponent packageOrder) :
+            this(path => true, path => true,packageOrder)
+        {
+        }
+
         public DirectorySnippetExtractor(
             DirectoryFilter directoryFilter,
             FileFilter fileFilter,

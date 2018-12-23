@@ -13,10 +13,7 @@ public class DirectorySnippetExtractorTests : TestBase
     public void Case()
     {
         var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Case");
-        var extractor = new DirectorySnippetExtractor(
-            directoryFilter: _ => true,
-            fileFilter: _ => true,
-            packageOrder: _ => new List<string>()
+        var extractor = new DirectorySnippetExtractor(packageOrder: _ => new List<string>()
         );
         var components = extractor.ReadComponents(directory);
         AssertCaseInsensitive(components.Lookup);
@@ -42,11 +39,7 @@ public class DirectorySnippetExtractorTests : TestBase
     public void Nested()
     {
         var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Nested");
-        var extractor = new DirectorySnippetExtractor(
-            directoryFilter: path => true,
-            fileFilter: path => true,
-            packageOrder: component => new List<string>()
-        );
+        var extractor = new DirectorySnippetExtractor(packageOrder: component => new List<string>());
         var components = extractor.ReadComponents(directory);
         ObjectApprover.VerifyWithJson(components.AllSnippets, Scrubber.Scrub);
     }
@@ -55,10 +48,7 @@ public class DirectorySnippetExtractorTests : TestBase
     public void Simple()
     {
         var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Simple");
-        var extractor = new DirectorySnippetExtractor(
-            directoryFilter: path => true,
-            fileFilter: path => true,
-            packageOrder: component => new List<string>()
+        var extractor = new DirectorySnippetExtractor(packageOrder: component => new List<string>()
         );
         var components = extractor.ReadComponents(directory);
         ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
@@ -68,10 +58,7 @@ public class DirectorySnippetExtractorTests : TestBase
     public void Sorting()
     {
         var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Sorting");
-        var extractor = new DirectorySnippetExtractor(
-            directoryFilter: path => true,
-            fileFilter: path => true,
-            packageOrder: PackageOrder);
+        var extractor = new DirectorySnippetExtractor(packageOrder: PackageOrder);
         var components = extractor.ReadComponents(directory);
         var snippets = components
             .Components

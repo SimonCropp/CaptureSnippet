@@ -8,9 +8,11 @@ namespace CaptureSnippets
     {
         FileFinder fileFinder;
 
-        public DirectorySnippetExtractor(
-            DirectoryFilter directoryFilter,
-            FileFilter fileFilter)
+        public DirectorySnippetExtractor() : this(path => true, path => true)
+        {
+        }
+
+        public DirectorySnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
