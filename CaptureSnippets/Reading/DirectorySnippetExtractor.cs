@@ -8,18 +8,24 @@ namespace CaptureSnippets
 {
     public class DirectorySnippetExtractor
     {
-        DirectoryFilter directoryFilter;
-        FileFilter fileFilter;
+        FileFinder fileFinder;
         GetPackageOrderForComponent packageOrder;
         TranslatePackage translatePackage;
 
-        public DirectorySnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter,
-            GetPackageOrderForComponent packageOrder, TranslatePackage translatePackage = null)
+        public DirectorySnippetExtractor(GetPackageOrderForComponent packageOrder) :
+            this(path => true, path => true,packageOrder)
+        {
+        }
+
+        public DirectorySnippetExtractor(
+            DirectoryFilter directoryFilter,
+            FileFilter fileFilter,
+            GetPackageOrderForComponent packageOrder,
+            TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
-            this.directoryFilter = directoryFilter;
-            this.fileFilter = fileFilter;
+            fileFinder = new FileFinder(directoryFilter, fileFilter);
             this.packageOrder = packageOrder;
             if (translatePackage == null)
             {
@@ -115,7 +121,7 @@ namespace CaptureSnippets
         {
             var packageDirectories = Directory.EnumerateDirectories(directory, "*_*")
                 .Where(s => !IsShared(s) &&
-                            directoryFilter(s));
+                            fileFinder.IncludeDirectory(s));
 
             var packageVersionList = new List<PackageVersionCurrent>();
             foreach (var packageAndVersionDirectory in packageDirectories)
@@ -218,7 +224,7 @@ namespace CaptureSnippets
         IEnumerable<Component> EnumerateComponents(string directory, List<Snippet> globalShared)
         {
             return Directory.EnumerateDirectories(directory)
-                .Where(s => !IsShared(s) && directoryFilter(s))
+                .Where(s => !IsShared(s) && fileFinder.IncludeDirectory(s))
                 .Select(s => ReadComponent(s, globalShared));
         }
 
@@ -257,25 +263,9 @@ namespace CaptureSnippets
                 packageAlias: packageAlias);
         }
 
-        void FindFiles(string directoryPath, List<string> files)
-        {
-            foreach (var file in Directory.EnumerateFiles(directoryPath)
-                .Where(s => fileFilter(s)))
-            {
-                files.Add(file);
-            }
-            foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath)
-                .Where(s => directoryFilter(s)))
-            {
-                FindFiles(subDirectory, files);
-            }
-        }
-
         IEnumerable<Snippet> ReadSnippets(string directory, FileSnippetExtractor snippetExtractor)
         {
-            var files = new List<string>();
-            FindFiles(directory, files);
-            return files
+            return fileFinder.FindFiles(directory)
                 .SelectMany(file =>
                 {
                     using (var reader = File.OpenText(file))

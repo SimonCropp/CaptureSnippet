@@ -9,17 +9,6 @@ class LoopStack
 
     public LoopState Current => stack.Peek();
 
-    public ISet<string> GetIncludes() => usings;
-
-    public void ExtractIncludes(string line, Func<string, string> includeExtractor)
-    {
-        var include = includeExtractor(line);
-        if (include != null)
-        {
-            usings.Add(include);
-        }
-    }
-
     public void AppendLine(string line)
     {
         foreach (var state in stack)
@@ -33,11 +22,10 @@ class LoopStack
         stack.Pop();
     }
 
-    public void Push(Func<string, bool> endFunc, string key, int startLine, string version)
+    public void Push(Func<string, bool> endFunc, string key, int startLine)
     {
         var state = new LoopState
         {
-            Version = version,
             Key = key,
             EndFunc = endFunc,
             StartLine = startLine,
@@ -45,6 +33,5 @@ class LoopStack
         stack.Push(state);
     }
 
-    HashSet<string> usings = new HashSet<string>();
     Stack<LoopState> stack = new Stack<LoopState>();
 }

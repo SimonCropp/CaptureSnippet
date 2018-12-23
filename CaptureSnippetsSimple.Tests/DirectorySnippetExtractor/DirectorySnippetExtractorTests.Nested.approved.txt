@@ -1,0 +1,26 @@
+﻿{
+  "Directory": "root\\DirectorySnippetExtractor/Nested",
+  "Snippets": [
+    {
+      "Key": "nestedsnippet",
+      "Language": "txt",
+      "Value": "Some code",
+      "Error": null,
+      "FileLocation": "root\\DirectorySnippetExtractor/Nested\nested\nested\code.txt(2-3)",
+      "IsInError": false
+    }
+  ],
+  "Lookup": {
+    "nestedsnippet": [
+      {
+        "Key": "nestedsnippet",
+        "Language": "txt",
+        "Value": "Some code",
+        "Error": null,
+        "FileLocation": "root\\DirectorySnippetExtractor/Nested\nested\nested\code.txt(2-3)",
+        "IsInError": false
+      }
+    ]
+  },
+  "SnippetsInError": []
+}

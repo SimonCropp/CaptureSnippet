@@ -41,8 +41,8 @@ namespace CaptureSnippets
             Guard.AgainstNullAndEmpty(path, nameof(path));
             try
             {
-                var reader = new IndexReader(textReader);
-                return GetSnippets(reader, path);
+                var indexReader = new IndexReader(textReader);
+                return GetSnippets(indexReader, path);
             }
             catch (Exception exception)
             {
@@ -87,7 +87,7 @@ namespace CaptureSnippets
 
                 if (StartEndTester.IsStart(trimmedLine, out var version, out var key, out var endFunc))
                 {
-                    loopStack.Push(endFunc, key, version, stringReader.Index);
+                    loopStack.Push(endFunc, key, stringReader.Index, version);
                     continue;
                 }
                 if (loopStack.IsInSnippet)
