@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple", "Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple.Tests", "CaptureSnippetsSimple.Tests\CaptureSnippetsSimple.Tests.csproj", "{99DE8782-5377-43AA-BB19-F3408CBC2C7C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestShared", "TestShared\TestShared.csproj", "{4242C458-9D25-4785-8D73-6EBE3186DC02}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestsShared", "TestsShared\TestsShared.shproj", "{7C74BA72-8157-41D9-9551-4787FBFF2F45}"
 EndProject
 Global
@@ -49,10 +47,6 @@ Global
 		{99DE8782-5377-43AA-BB19-F3408CBC2C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99DE8782-5377-43AA-BB19-F3408CBC2C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99DE8782-5377-43AA-BB19-F3408CBC2C7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4242C458-9D25-4785-8D73-6EBE3186DC02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4242C458-9D25-4785-8D73-6EBE3186DC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4242C458-9D25-4785-8D73-6EBE3186DC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4242C458-9D25-4785-8D73-6EBE3186DC02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

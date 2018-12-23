@@ -16,7 +16,6 @@
     <PackageReference Include="NuGet.Versioning" Version="4.9.2" />
     <Reference Include="Microsoft.CSharp" />
     <ProjectReference Include="..\CaptureSnippets\CaptureSnippets.csproj" />
-    <ProjectReference Include="..\TestShared\TestShared.csproj" />
     <Folder Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\Ignore\" />
     <None Include="badsnippets\code.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

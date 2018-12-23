@@ -15,7 +15,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <Reference Include="Microsoft.CSharp" />
     <ProjectReference Include="..\CaptureSnippetsSimple\CaptureSnippetsSimple.csproj" />
-    <ProjectReference Include="..\TestShared\TestShared.csproj" />
     <Folder Include="DirectorySnippetExtractor\VerifyLambdasAreCalled\Ignore\" />
     <None Include="badsnippets\code.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

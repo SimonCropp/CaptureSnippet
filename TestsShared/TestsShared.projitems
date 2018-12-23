@@ -9,9 +9,13 @@
     <Import_RootNamespace>TestsShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileSnippetReverterTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkdownProcessor_TryExtractKeyFromTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Scrubber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StartEndCommentTesterTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestConfig.cs" />
   </ItemGroup>
 </Project>
