@@ -1,10 +1,7 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using ApprovalTests;
 using CaptureSnippets;
-using ObjectApproval;
 using Xunit;
 
 public class DirectorySnippetReverterTests : TestBase

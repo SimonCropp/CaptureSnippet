@@ -5,7 +5,7 @@ using System.Text;
 namespace CaptureSnippets
 {
     /// <summary>
-    /// Revers <see cref="Snippet"/>s from a given input.
+    /// Reverts <see cref="Snippet"/>s from a given input.
     /// </summary>
     public static class FileSnippetReverter
     {
