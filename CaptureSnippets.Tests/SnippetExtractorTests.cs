@@ -358,6 +358,4 @@ public class SnippetExtractorTests : TestBase
         var snippets = FromText(input);
         ObjectApprover.VerifyWithJson(snippets);
     }
-
-
 }
