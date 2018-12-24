@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.Linq;
 using CaptureSnippets;
+using NuGet.Versioning;
 
 class Usage
 {
@@ -30,4 +32,21 @@ class Usage
         var usedSnippets = result.UsedSnippets;
         #endregion
     }
+    #region InferVersion
+    static VersionRange InferVersion(string path)
+    {
+        var directories = path.Split(Path.DirectorySeparatorChar)
+            .Reverse();
+        foreach (var directory in directories)
+        {
+            VersionRange version;
+            if (VersionRange.TryParse(directory.Split('_').Last(), out version))
+            {
+                return version;
+            }
+        }
+
+        return null;
+    }
+    #endregion
 }

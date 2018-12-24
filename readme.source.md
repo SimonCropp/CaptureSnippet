@@ -88,23 +88,7 @@ var snippetExtractor = new SnippetExtractor(InferVersion);
 
 And the convention method
 
-```csharp
-static VersionRange InferVersion(string path)
-{
-    var directories = path.Split(Path.DirectorySeparatorChar)
-        .Reverse();
-    foreach (var directory in directories)
-    {
-        VersionRange version;
-        if (VersionRange.TryParse(directory.Split('_').Last(), out version))
-        {
-            return version;
-        }
-    }
-
-    return null;
-}
-```
+snippet: InferVersion
 
 
 ### Using Snippets
