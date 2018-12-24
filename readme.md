@@ -111,9 +111,9 @@ static VersionRange InferVersion(string path)
 
 The keyed snippets can then be used in any documentation `.md` file by adding the text
 
-```
-snippet: KEY
-```
+&#96;&#96;&#96;
+snippet&colon; KEY
+&#96;&#96;&#96;
 
 Then snippets with the key (all versions) will be rendered in a tabbed manner. If there is only a single version then it will be rendered as a simple code block with no tabs.
 
@@ -124,7 +124,7 @@ For example
 &lt;!-- snippet MySnippetName --></code>
 </pre>
 
-The resulting markdown will be will be 
+The resulting markdown will be will be:
 
     Some blurb about the below snippet
     ```
@@ -134,9 +134,9 @@ The resulting markdown will be will be
 
 ### Code indentation
 
-The code snippets will do smart trimming of snippet indentation. 
+The code snippets will do smart trimming of snippet indentation.
 
-For example given this snippet. 
+For example given this snippet.
 
 <pre>
 &#8226;&#8226;#region MySnippetName
@@ -182,36 +182,32 @@ Note none of the tabs have been trimmed.
 
 ## Api Usage
 
-```csharp
-// get files containing snippets
-var filesToParse = Directory.EnumerateFiles(@"C:\path", "*.*", SearchOption.AllDirectories)
-    .Where(s => s.EndsWith(".vm") || s.EndsWith(".cs"));
-
+<!-- snippet: usage -->
+```cs
 // setup version convention and extract snippets from files
-var snippetExtractor = new SnippetExtractor(InferVersion);
-var readSnippets = snippetExtractor.FromFiles(filesToParse);
-
-// Grouping
-var snippetGroups = SnippetGrouper.Group(readSnippets)
-    .ToList();
+var directorySnippetExtractor = new DirectorySnippetExtractor(
+    directoryFilter: x => true,
+    fileFilter: s => s.EndsWith(".vm") || s.EndsWith(".cs"));
+var snippets = directorySnippetExtractor.ReadSnippets(@"C:\path");
 
 // Merge with some markdown text
-var markdownProcessor = new MarkdownProcessor();
+var markdownProcessor = new MarkdownProcessor(snippets.Lookup, SimpleSnippetMarkdownHandling.AppendGroup);
 
 //In this case the text will be extracted from a file path
 ProcessResult result;
 using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
 using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
 {
-    result = markdownProcessor.Apply(snippetGroups, reader, writer);
+    result = markdownProcessor.Apply(reader, writer);
 }
 
-// List of all snippets that the markdown file expected but did not exist in the input snippets 
-var missingSnippets = result.MissingSnippet;
+// List of all snippets that the markdown file expected but did not exist in the input snippets
+var missingSnippets = result.MissingSnippets;
 
 // List of all snippets that the markdown file used
 var usedSnippets = result.UsedSnippets;
 ```
+<!-- endsnippet -->
 
 
 ## Icon

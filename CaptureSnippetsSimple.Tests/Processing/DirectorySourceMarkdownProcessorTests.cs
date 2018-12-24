@@ -1,6 +1,7 @@
+using System.IO;
+using System.Linq;
 using CaptureSnippets;
 using Xunit;
-
 
 public class DirectorySourceMarkdownProcessorTests : TestBase
 {
@@ -8,6 +9,9 @@ public class DirectorySourceMarkdownProcessorTests : TestBase
     public void Run()
     {
         var root = GitRepoDirectoryFinder.Find();
-        //DirectorySourceMarkdownProcessor.Run(root,x=>);
+
+        var files = Directory.EnumerateFiles(Path.Combine(root, "CaptureSnippets.Tests/Snippets"), "*.cs")
+            .Concat(Directory.EnumerateFiles(Path.Combine(root, "CaptureSnippetsSimple.Tests/Snippets"), "*.cs"));
+        DirectorySourceMarkdownProcessor.Run(root,files);
     }
 }

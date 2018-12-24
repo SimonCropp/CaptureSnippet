@@ -10,19 +10,21 @@ namespace CaptureSnippets
         {
             Guard.AgainstNullAndEmpty(targetDirectory, nameof(targetDirectory));
             Guard.AgainstNull(snippetFiles, nameof(snippetFiles));
-            FileFilter sourceMdFileFilter = x => x.EndsWith(".source.md", StringComparison.OrdinalIgnoreCase);
-            var sourceMdFileFinder = new FileFinder(path => true, sourceMdFileFilter);
-            var extractor = new DirectorySnippetExtractor(snippetDirectoryFilter, snippetFileFilter);
-            var readSnippets = extractor.ReadSnippets(directory);
+            var sourceMdFileFinder = new FileFinder(path => true, IsSourceMd);
 
-            var snippets = readSnippets.Snippets.ToDictionary();
-            var markdownProcessor = new MarkdownProcessor(snippets, SimpleSnippetMarkdownHandling.AppendGroup);
-            foreach (var sourceFile in sourceMdFileFinder.FindFiles(directory))
+            var snippets = FileSnippetExtractor.Read(snippetFiles);
+            var markdownProcessor = new MarkdownProcessor(snippets.ToDictionary(), SimpleSnippetMarkdownHandling.AppendGroup);
+            foreach (var sourceFile in sourceMdFileFinder.FindFiles(targetDirectory))
             {
                 var target = sourceFile.Replace(".source.md", ".md");
                 var contents = markdownProcessor.Apply(File.ReadAllText(sourceFile));
                 File.WriteAllText(target, contents);
             }
+        }
+
+        static bool IsSourceMd(string path)
+        {
+            return path.EndsWith(".source.md", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
