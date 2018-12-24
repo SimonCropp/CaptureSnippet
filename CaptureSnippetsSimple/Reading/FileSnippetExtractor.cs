@@ -16,7 +16,10 @@ namespace CaptureSnippets
         public IEnumerable<Snippet> Read(string path)
         {
             Guard.AgainstNullAndEmpty(path, nameof(path));
-            return Read(File.OpenText(path), path);
+            using (var reader = File.OpenText(path))
+            {
+                return Read(reader, path);
+            }
         }
 
         /// <summary>
