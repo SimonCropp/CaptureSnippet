@@ -8,7 +8,7 @@ namespace CaptureSnippets
     {
         FileFinder fileFinder;
 
-        public DirectorySnippetExtractor() : this(path => true, path => true)
+        internal DirectorySnippetExtractor() : this(path => true, path => true)
         {
         }
 
@@ -21,19 +21,18 @@ namespace CaptureSnippets
 
         public ReadSnippets ReadSnippets(string directory)
         {
-            var snippetExtractor = new FileSnippetExtractor();
-            var packages = ReadSnippets(directory, snippetExtractor).ToList();
-            return new ReadSnippets(directory, packages);
+            var snippets = ReadSnippetsInner(directory).ToList();
+            return new ReadSnippets(directory, snippets);
         }
 
-        IEnumerable<Snippet> ReadSnippets(string directory, FileSnippetExtractor snippetExtractor)
+        IEnumerable<Snippet> ReadSnippetsInner(string directory)
         {
             return fileFinder.FindFiles(directory)
                 .SelectMany(file =>
                 {
                     using (var reader = File.OpenText(file))
                     {
-                        return snippetExtractor.AppendFromReader(reader, file).ToList();
+                        return FileSnippetExtractor.Read(reader, file).ToList();
                     }
                 });
         }

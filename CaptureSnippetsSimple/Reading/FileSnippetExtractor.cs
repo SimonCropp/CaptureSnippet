@@ -1,20 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace CaptureSnippets
 {
     /// <summary>
     /// Extracts <see cref="Snippet"/>s from a given input.
     /// </summary>
-    public class FileSnippetExtractor
+    public static class FileSnippetExtractor
     {
+        /// <summary>
+        /// Read from a paths.
+        /// </summary>
+        /// <param name="paths">The paths to extract <see cref="Snippet"/>s from.</param>
+        public static IEnumerable<Snippet> Read(IEnumerable<string> paths)
+        {
+            Guard.AgainstNull(paths, nameof(paths));
+            return paths.SelectMany(Read);
+        }
+
+        /// <summary>
+        /// Read from a path.
+        /// </summary>
+        /// <param name="path">The current path to extract <see cref="Snippet"/>s from.</param>
+        public static IEnumerable<Snippet> Read(string path)
+        {
+            Guard.AgainstNullAndEmpty(path, nameof(path));
+            using (var reader = File.OpenText(path))
+            {
+                return Read(reader, path).ToList();
+            }
+        }
+
         /// <summary>
         /// Read from a <see cref="TextReader"/>.
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
-        /// <param name="path">The current path so extract <see cref="Snippet"/>s from.</param>
-        public IEnumerable<Snippet> AppendFromReader(TextReader textReader, string path)
+        /// <param name="path">The current path being used to extract <see cref="Snippet"/>s from. Only used for logging purposes in this overload.</param>
+        public static IEnumerable<Snippet> Read(TextReader textReader, string path)
         {
             Guard.AgainstNull(textReader, nameof(textReader));
             Guard.AgainstNullAndEmpty(path, nameof(path));
@@ -35,7 +59,7 @@ namespace CaptureSnippets
             return extension?.TrimStart('.') ?? string.Empty;
         }
 
-        IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path)
+        static IEnumerable<Snippet> GetSnippets(IndexReader stringReader, string path)
         {
             var language = GetLanguageFromPath(path);
             var loopStack = new LoopStack();
@@ -80,7 +104,7 @@ namespace CaptureSnippets
             }
         }
 
-        Snippet BuildSnippet(IndexReader stringReader, string path, LoopStack loopStack, string language)
+        static Snippet BuildSnippet(IndexReader stringReader, string path, LoopStack loopStack, string language)
         {
             var loopState = loopStack.Current;
             var startRow = loopState.StartLine + 1;

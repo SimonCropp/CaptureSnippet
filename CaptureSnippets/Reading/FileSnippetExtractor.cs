@@ -31,11 +31,24 @@ namespace CaptureSnippets
         }
 
         /// <summary>
+        /// Read from a path.
+        /// </summary>
+        /// <param name="path">The current path to extract <see cref="Snippet"/>s from.</param>
+        public IEnumerable<Snippet> Read(string path)
+        {
+            Guard.AgainstNullAndEmpty(path, nameof(path));
+            using (var reader = File.OpenText(path))
+            {
+                return Read(reader, path);
+            }
+        }
+
+        /// <summary>
         /// Read from a <see cref="TextReader"/>.
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
-        /// <param name="path">The current path so extract <see cref="Snippet"/>s from.</param>
-        public IEnumerable<Snippet> AppendFromReader(TextReader textReader, string path)
+        /// <param name="path">The current path being used to extract <see cref="Snippet"/>s from. Only used for logging purposes in this overload.</param>
+        public IEnumerable<Snippet> Read(TextReader textReader, string path)
         {
             Guard.AgainstNull(textReader, nameof(textReader));
             Guard.AgainstNullAndEmpty(path, nameof(path));

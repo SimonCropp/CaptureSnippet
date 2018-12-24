@@ -1,9 +1,19 @@
 ﻿using System.IO;
+using System;
 
 namespace CaptureSnippets
 {
     public static class GitRepoDirectoryFinder
     {
+        public static string Find()
+        {
+            if (!TryFind(out var rootDirectory))
+            {
+                throw new Exception("Could not find root git directory");
+            }
+            return rootDirectory;
+        }
+
         public static bool TryFind(out string path)
         {
             var currentDirectory = AssemblyLocation.CurrentDirectory;
