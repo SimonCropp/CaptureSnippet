@@ -22,8 +22,8 @@ namespace CaptureSnippets
         public ReadSnippets ReadSnippets(string directory)
         {
             var snippetExtractor = new FileSnippetExtractor();
-            var packages = ReadSnippets(directory, snippetExtractor).ToList();
-            return new ReadSnippets(directory, packages);
+            var snippets = ReadSnippets(directory, snippetExtractor).ToList();
+            return new ReadSnippets(directory, snippets);
         }
 
         IEnumerable<Snippet> ReadSnippets(string directory, FileSnippetExtractor snippetExtractor)
@@ -33,7 +33,7 @@ namespace CaptureSnippets
                 {
                     using (var reader = File.OpenText(file))
                     {
-                        return snippetExtractor.AppendFromReader(reader, file).ToList();
+                        return snippetExtractor.Read(reader, file).ToList();
                     }
                 });
         }

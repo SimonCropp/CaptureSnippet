@@ -100,7 +100,7 @@ using System.Xml.Linq;
         var extractor = FileSnippetExtractor.Build(VersionRange.All, "package", false);
         using (var stringReader = new StringReader(contents))
         {
-            return extractor.AppendFromReader(stringReader, "path.cs").ToList();
+            return extractor.Read(stringReader, "path.cs").ToList();
         }
     }
 }

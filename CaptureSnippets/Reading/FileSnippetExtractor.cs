@@ -35,7 +35,7 @@ namespace CaptureSnippets
         /// </summary>
         /// <param name="textReader">The <see cref="TextReader"/> to read from.</param>
         /// <param name="path">The current path so extract <see cref="Snippet"/>s from.</param>
-        public IEnumerable<Snippet> AppendFromReader(TextReader textReader, string path)
+        public IEnumerable<Snippet> Read(TextReader textReader, string path)
         {
             Guard.AgainstNull(textReader, nameof(textReader));
             Guard.AgainstNullAndEmpty(path, nameof(path));

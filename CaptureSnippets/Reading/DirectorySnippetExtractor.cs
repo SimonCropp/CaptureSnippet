@@ -286,7 +286,7 @@ namespace CaptureSnippets
                 {
                     using (var reader = File.OpenText(file))
                     {
-                        return snippetExtractor.AppendFromReader(reader, file).ToList();
+                        return snippetExtractor.Read(reader, file).ToList();
                     }
                 });
         }

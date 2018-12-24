@@ -145,7 +145,7 @@ public class SnippetExtractorTests : TestBase
         var extractor = new FileSnippetExtractor();
         using (var stringReader = new StringReader(contents))
         {
-            return extractor.AppendFromReader(stringReader, "path.cs").ToList();
+            return extractor.Read(stringReader, "path.cs").ToList();
         }
     }
 
