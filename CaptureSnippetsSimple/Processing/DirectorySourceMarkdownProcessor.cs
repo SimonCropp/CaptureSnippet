@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace CaptureSnippets
 {
     public static class DirectorySourceMarkdownProcessor
     {
-        public static void Run(string directory, DirectoryFilter snippetDirectoryFilter, FileFilter snippetFileFilter)
+        public static void Run(string targetDirectory, IEnumerable<string> snippetFiles)
         {
-            Guard.AgainstNull(snippetDirectoryFilter, nameof(snippetDirectoryFilter));
-            Guard.AgainstNull(snippetFileFilter, nameof(snippetFileFilter));
+            Guard.AgainstNullAndEmpty(targetDirectory, nameof(targetDirectory));
+            Guard.AgainstNull(snippetFiles, nameof(snippetFiles));
             FileFilter sourceMdFileFilter = x => x.EndsWith(".source.md", StringComparison.OrdinalIgnoreCase);
             var sourceMdFileFinder = new FileFinder(path => true, sourceMdFileFilter);
             var extractor = new DirectorySnippetExtractor(snippetDirectoryFilter, snippetFileFilter);
