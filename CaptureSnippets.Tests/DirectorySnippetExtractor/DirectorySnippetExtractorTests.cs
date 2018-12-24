@@ -13,8 +13,7 @@ public class DirectorySnippetExtractorTests : TestBase
     public void Case()
     {
         var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Case");
-        var extractor = new DirectorySnippetExtractor(packageOrder: _ => new List<string>()
-        );
+        var extractor = new DirectorySnippetExtractor(packageOrder: _ => new List<string>());
         var components = extractor.ReadComponents(directory);
         AssertCaseInsensitive(components.Lookup);
         var component = components.GetComponent("ComponentY");

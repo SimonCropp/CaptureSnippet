@@ -1,6 +1,6 @@
 using System.IO;
 
-public static class AssemblyLocation
+static class AssemblyLocation
 {
     static AssemblyLocation()
     {

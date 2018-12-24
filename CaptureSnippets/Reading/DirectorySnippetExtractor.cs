@@ -12,21 +12,31 @@ namespace CaptureSnippets
         GetPackageOrderForComponent packageOrder;
         TranslatePackage translatePackage;
 
-        internal DirectorySnippetExtractor(GetPackageOrderForComponent packageOrder) :
-            this(path => true, path => true,packageOrder)
+        internal DirectorySnippetExtractor(
+            GetPackageOrderForComponent packageOrder = null,
+            TranslatePackage translatePackage = null) :
+            this(path => true, path => true, packageOrder, translatePackage)
         {
         }
 
         public DirectorySnippetExtractor(
             DirectoryFilter directoryFilter,
             FileFilter fileFilter,
-            GetPackageOrderForComponent packageOrder,
+            GetPackageOrderForComponent packageOrder = null,
             TranslatePackage translatePackage = null)
         {
             Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
             Guard.AgainstNull(fileFilter, nameof(fileFilter));
             fileFinder = new FileFinder(directoryFilter, fileFilter);
-            this.packageOrder = packageOrder;
+            if (packageOrder == null)
+            {
+                this.packageOrder = x => Enumerable.Empty<string>();
+            }
+            else
+            {
+                this.packageOrder = packageOrder;
+            }
+
             if (translatePackage == null)
             {
                 this.translatePackage = alias => alias;
@@ -53,7 +63,7 @@ namespace CaptureSnippets
                 return ReadSnippets(sharedDirectory, snippetExtractor).ToList();
             }
 
-            var allPath = Path.Combine(directory,Path.GetFileName(directory)+"_All");
+            var allPath = Path.Combine(directory, Path.GetFileName(directory) + "_All");
             if (Directory.Exists(allPath))
             {
                 var snippetExtractor = FileSnippetExtractor.BuildShared();
@@ -92,6 +102,7 @@ namespace CaptureSnippets
             {
                 return package.OrderBy(_ => _.Package);
             }
+
             List<string> result;
             try
             {
@@ -132,6 +143,7 @@ namespace CaptureSnippets
                 {
                     throw new Exception($"Expected the directory name '{name}' to be split by a '_'.");
                 }
+
                 var packageAlias = name.Substring(0, index);
                 var package = translatePackage(packageAlias);
                 var versionPart = name.Substring(index + 1, name.Length - index - 1);
@@ -152,6 +164,7 @@ namespace CaptureSnippets
             {
                 yield break;
             }
+
             packageVersionList = packageVersionList
                 .OrderByDescending(x => x.Version)
                 .ToList();
@@ -187,6 +200,7 @@ namespace CaptureSnippets
                             includeMaxVersion: false
                         );
                     }
+
                     previous = minVersion;
 
                     var versionGroup = ReadVersion(
@@ -199,6 +213,7 @@ namespace CaptureSnippets
                         globalShared: globalShared);
                     versions.Add(versionGroup);
                 }
+
                 yield return new Package(group.Key, versions);
             }
         }
@@ -207,7 +222,7 @@ namespace CaptureSnippets
         {
             var directorySuffix = Path.GetFileName(directory);
             return string.Equals(directorySuffix, "Shared", StringComparison.OrdinalIgnoreCase) ||
-                   directorySuffix.EndsWith("_All",StringComparison.OrdinalIgnoreCase);
+                   directorySuffix.EndsWith("_All", StringComparison.OrdinalIgnoreCase);
         }
 
         static void SetCurrent(List<PackageVersionCurrent> packageVersionList)
@@ -218,6 +233,7 @@ namespace CaptureSnippets
                 firstStable.IsCurrent = true;
                 return;
             }
+
             packageVersionList.First().IsCurrent = true;
         }
 

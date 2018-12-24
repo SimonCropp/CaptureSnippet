@@ -4,7 +4,7 @@ using System.Text;
 using CaptureSnippets;
 using ObjectApproval;
 
-internal static class SnippetVerifier
+static class SnippetVerifier
 {
     public static void Verify(string markdownContent, IReadOnlyDictionary<string, IReadOnlyList<Snippet>> availableSnippets)
     {

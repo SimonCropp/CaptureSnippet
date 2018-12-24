@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace CaptureSnippets
 {
@@ -20,6 +22,23 @@ namespace CaptureSnippets
             Guard.AgainstNull(appendSnippetGroup, nameof(appendSnippetGroup));
             this.snippets = snippets;
             this.appendSnippetGroup = appendSnippetGroup;
+        }
+
+        public string Apply(string input)
+        {
+            Guard.AgainstNull(input, nameof(input));
+            var builder = new StringBuilder();
+            using (var reader = new StringReader(input))
+            using (var writer = new StringWriter(builder))
+            {
+                var processResult = Apply(reader, writer);
+                if (processResult.MissingSnippets.Any())
+                {
+                    throw new Exception("Missing snippets." + string.Join(",", processResult.MissingSnippets.Select(x => x.Key)));
+                }
+            }
+
+            return builder.ToString();
         }
 
         /// <summary>

@@ -26,11 +26,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Reading\FileFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reading\LoopState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reading\ReadSnippets.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reverter\DirectorySnippetReverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reverter\FileSnippetReverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GitRepoDirectoryFinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SnippetExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reverter\StartEndCommentTester.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringBuilderCache.cs" />
   </ItemGroup>
 </Project>
