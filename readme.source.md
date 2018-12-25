@@ -131,7 +131,15 @@ https://nuget.org/packages/CaptureSnippets.Simple/
 
 ### Api Usage
 
-snippet: usageSimple
+
+#### Reading snippets from a directory structure
+
+snippet: ReadingDirectorySimple
+
+
+#### Full Usage
+
+snippet: markdownProcessingSimple
 
 
 ## CaptureSnippets
@@ -142,6 +150,19 @@ snippet: usageSimple
 https://nuget.org/packages/CaptureSnippets/
 
     PM> Install-Package CaptureSnippets
+
+
+### Api Usage
+
+
+#### Reading snippets from a directory structure
+
+snippet: ReadingDirectory
+
+
+#### Full Usage
+
+snippet: markdownProcessing
 
 
 ### Conventions
@@ -171,31 +192,6 @@ Or a version range
 My Snippet Code
 #endregion
 ```
-
-
-##### Inferred using conventions
-
-For example if your convention is:
-
-> Extract the version from the directory suffix where directories are named `MyDirectory_3.4`
-
-You would do the following
-
-Pass the convention into `SnippetExtractor`:
-
-```
-var snippetExtractor = new SnippetExtractor(InferVersion);
-```
-
-And the convention method
-
-snippet: InferVersion
-
-
-
-### Api Usage
-
-snippet: usage
 
 
 ## Icon

@@ -131,30 +131,45 @@ https://nuget.org/packages/CaptureSnippets.Simple/
 
 ### Api Usage
 
-<!-- snippet: usageSimple -->
+
+#### Reading snippets from a directory structure
+
+<!-- snippet: ReadingDirectorySimple -->
+```cs
+// extract snippets from files
+var snippetExtractor = new DirectorySnippetExtractor(
+    // all directories except bin and obj
+    directoryFilter: dirPath => !dirPath.EndsWith("bin") && !dirPath.EndsWith("obj"),
+    // all vm and cs files
+    fileFilter: filePath => filePath.EndsWith(".vm") || filePath.EndsWith(".cs"));
+var snippets = snippetExtractor.ReadSnippets(@"C:\path");
+```
+<!-- endsnippet -->
+
+
+#### Full Usage
+
+<!-- snippet: markdownProcessingSimple -->
 ```cs
 // setup version convention and extract snippets from files
-var directorySnippetExtractor = new DirectorySnippetExtractor(
+var snippetExtractor = new DirectorySnippetExtractor(
     directoryFilter: x => true,
     fileFilter: s => s.EndsWith(".vm") || s.EndsWith(".cs"));
-var snippets = directorySnippetExtractor.ReadSnippets(@"C:\path");
+var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 
 // Merge with some markdown text
 var markdownProcessor = new MarkdownProcessor(snippets.Lookup, SimpleSnippetMarkdownHandling.AppendGroup);
 
-//In this case the text will be extracted from a file path
-ProcessResult result;
-using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
-using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
+using (var reader = File.OpenText(@"C:\path\inputMarkdownFile.md"))
+using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
 {
-    result = markdownProcessor.Apply(reader, writer);
+    var result = markdownProcessor.Apply(reader, writer);
+    // snippets that the markdown file expected but did not exist in the input snippets
+    var missingSnippets = result.MissingSnippets;
+
+    // snippets that the markdown file used
+    var usedSnippets = result.UsedSnippets;
 }
-
-// List of all snippets that the markdown file expected but did not exist in the input snippets
-var missingSnippets = result.MissingSnippets;
-
-// List of all snippets that the markdown file used
-var usedSnippets = result.UsedSnippets;
 ```
 <!-- endsnippet -->
 
@@ -167,6 +182,81 @@ var usedSnippets = result.UsedSnippets;
 https://nuget.org/packages/CaptureSnippets/
 
     PM> Install-Package CaptureSnippets
+
+
+### Api Usage
+
+
+#### Reading snippets from a directory structure
+
+<!-- snippet: ReadingDirectory -->
+```cs
+IEnumerable<string> PackageOrder(string component)
+{
+    if (component == "component1")
+    {
+        return new List<string>
+        {
+            "package1",
+            "package2"
+        };
+    }
+
+    return Enumerable.Empty<string>();
+}
+
+string TranslatePackage(string packageAlias)
+{
+    if (packageAlias == "shortName")
+    {
+        return "theFullPackageName";
+    }
+
+    return packageAlias;
+}
+
+// setup version convention and extract snippets from files
+var snippetExtractor = new DirectorySnippetExtractor(
+    // all directories except bin and obj
+    directoryFilter: dirPath => !dirPath.EndsWith("bin") && !dirPath.EndsWith("obj"),
+    // all vm and cs files
+    fileFilter: filePath => filePath.EndsWith(".vm") || filePath.EndsWith(".cs"),
+    // package order is optional
+    packageOrder: PackageOrder,
+    // package translation is optional
+    translatePackage: TranslatePackage
+);
+var snippets = snippetExtractor.ReadSnippets(@"C:\path");
+```
+<!-- endsnippet -->
+
+
+#### Full Usage
+
+<!-- snippet: markdownProcessing -->
+```cs
+// setup version convention and extract snippets from files
+var snippetExtractor = new DirectorySnippetExtractor(
+    directoryFilter: x => true,
+    fileFilter: s => s.EndsWith(".vm") || s.EndsWith(".cs"));
+var snippets = snippetExtractor.ReadSnippets(@"C:\path");
+
+// Merge with some markdown text
+var markdownProcessor = new MarkdownProcessor(snippets.Lookup, SimpleSnippetMarkdownHandling.AppendGroup);
+
+using (var reader = File.OpenText(@"C:\path\inputMarkdownFile.md"))
+using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
+{
+    var result = markdownProcessor.Apply(reader, writer);
+
+    // snippets that the markdown file expected but did not exist in the input snippets
+    var missingSnippets = result.MissingSnippets;
+
+    // snippets that the markdown file used
+    var usedSnippets = result.UsedSnippets;
+}
+```
+<!-- endsnippet -->
 
 
 ### Conventions
@@ -196,74 +286,6 @@ Or a version range
 My Snippet Code
 #endregion
 ```
-
-
-##### Inferred using conventions
-
-For example if your convention is:
-
-> Extract the version from the directory suffix where directories are named `MyDirectory_3.4`
-
-You would do the following
-
-Pass the convention into `SnippetExtractor`:
-
-```
-var snippetExtractor = new SnippetExtractor(InferVersion);
-```
-
-And the convention method
-
-<!-- snippet: InferVersion -->
-```cs
-static VersionRange InferVersion(string path)
-{
-    var directories = path.Split(Path.DirectorySeparatorChar)
-        .Reverse();
-    foreach (var directory in directories)
-    {
-        VersionRange version;
-        if (VersionRange.TryParse(directory.Split('_').Last(), out version))
-        {
-            return version;
-        }
-    }
-
-    return null;
-}
-```
-<!-- endsnippet -->
-
-
-
-### Api Usage
-
-<!-- snippet: usage -->
-```cs
-// setup version convention and extract snippets from files
-var directorySnippetExtractor = new DirectorySnippetExtractor(
-    directoryFilter: x => true,
-    fileFilter: s => s.EndsWith(".vm") || s.EndsWith(".cs"));
-var snippets = directorySnippetExtractor.ReadSnippets(@"C:\path");
-
-// Merge with some markdown text
-var markdownProcessor = new MarkdownProcessor(snippets.Lookup, SimpleSnippetMarkdownHandling.AppendGroup);
-
-//In this case the text will be extracted from a file path
-ProcessResult result;
-using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
-using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
-{
-    result = markdownProcessor.Apply(reader, writer);
-}
-
-// List of all snippets that the markdown file expected but did not exist in the input snippets
-var missingSnippets = result.MissingSnippets;
-
-// List of all snippets that the markdown file used
-var usedSnippets = result.UsedSnippets;
-```
-<!-- endsnippet -->
 
 
 ## Icon

@@ -1,52 +1,79 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using CaptureSnippets;
-using NuGet.Versioning;
 
 class Usage
 {
+    void ReadingDirectory()
+    {
+        #region ReadingDirectory
+
+        IEnumerable<string> PackageOrder(string component)
+        {
+            if (component == "component1")
+            {
+                return new List<string>
+                {
+                    "package1",
+                    "package2"
+                };
+            }
+
+            return Enumerable.Empty<string>();
+        }
+
+        string TranslatePackage(string packageAlias)
+        {
+            if (packageAlias == "shortName")
+            {
+                return "theFullPackageName";
+            }
+
+            return packageAlias;
+        }
+
+        // setup version convention and extract snippets from files
+        var snippetExtractor = new DirectorySnippetExtractor(
+            // all directories except bin and obj
+            directoryFilter: dirPath => !dirPath.EndsWith("bin") && !dirPath.EndsWith("obj"),
+            // all vm and cs files
+            fileFilter: filePath => filePath.EndsWith(".vm") || filePath.EndsWith(".cs"),
+            // package order is optional
+            packageOrder: PackageOrder,
+            // package translation is optional
+            translatePackage: TranslatePackage
+        );
+        var snippets = snippetExtractor.ReadSnippets(@"C:\path");
+
+        #endregion
+    }
+
     void Basic()
     {
-        #region usage
+        #region markdownProcessing
+
         // setup version convention and extract snippets from files
-        var directorySnippetExtractor = new DirectorySnippetExtractor(
+        var snippetExtractor = new DirectorySnippetExtractor(
             directoryFilter: x => true,
             fileFilter: s => s.EndsWith(".vm") || s.EndsWith(".cs"));
-        var snippets = directorySnippetExtractor.ReadSnippets(@"C:\path");
+        var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 
         // Merge with some markdown text
         var markdownProcessor = new MarkdownProcessor(snippets.Lookup, SimpleSnippetMarkdownHandling.AppendGroup);
 
-        //In this case the text will be extracted from a file path
-        ProcessResult result;
-        using (var reader = File.OpenText(@"C:\path\myInputMarkdownFile.md"))
-        using (var writer = File.CreateText(@"C:\path\myOutputMarkdownFile.md"))
+        using (var reader = File.OpenText(@"C:\path\inputMarkdownFile.md"))
+        using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
         {
-            result = markdownProcessor.Apply(reader, writer);
+            var result = markdownProcessor.Apply(reader, writer);
+
+            // snippets that the markdown file expected but did not exist in the input snippets
+            var missingSnippets = result.MissingSnippets;
+
+            // snippets that the markdown file used
+            var usedSnippets = result.UsedSnippets;
         }
 
-        // List of all snippets that the markdown file expected but did not exist in the input snippets
-        var missingSnippets = result.MissingSnippets;
-
-        // List of all snippets that the markdown file used
-        var usedSnippets = result.UsedSnippets;
         #endregion
     }
-    #region InferVersion
-    static VersionRange InferVersion(string path)
-    {
-        var directories = path.Split(Path.DirectorySeparatorChar)
-            .Reverse();
-        foreach (var directory in directories)
-        {
-            VersionRange version;
-            if (VersionRange.TryParse(directory.Split('_').Last(), out version))
-            {
-                return version;
-            }
-        }
-
-        return null;
-    }
-    #endregion
 }
