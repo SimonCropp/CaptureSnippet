@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CaptureSnippets
 {
@@ -22,11 +24,17 @@ namespace CaptureSnippets
         public IReadOnlyList<Snippet> UsedSnippets { get; }
 
 
-        //TODO:throw
         /// <summary>
-        /// Enumerates through the <see cref="UsedSnippets" /> but will first throw an exception if there are any errors in <see cref="MissingSnippets" />.
+        /// Enumerates through the <see cref="UsedSnippets" /> but will first throw an exception if there are any <see cref="MissingSnippets" />.
         /// </summary>
-        public virtual IEnumerator<Snippet> GetEnumerator() => UsedSnippets.GetEnumerator();
+        public virtual IEnumerator<Snippet> GetEnumerator()
+        {
+            if (MissingSnippets.Any())
+            {
+                throw new Exception("Missing snippets: "+ string.Join(", ",MissingSnippets.Select(x=>x.Key)));
+            }
+            return UsedSnippets.GetEnumerator();
+        }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
