@@ -1,42 +1,18 @@
-﻿{
-  "Directory": "root\\DirectorySnippetExtractor/Case",
-  "Snippets": [
-    {
-      "Key": "snippet",
-      "Language": "txt",
-      "Value": "Some code",
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Case\code1.txt(2-3)",
-      "IsInError": false
-    },
-    {
-      "Key": "snippet",
-      "Language": "txt",
-      "Value": "Some code",
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Case\code2.txt(2-3)",
-      "IsInError": false
-    }
-  ],
-  "Lookup": {
-    "snippet": [
-      {
-        "Key": "snippet",
-        "Language": "txt",
-        "Value": "Some code",
-        "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Case\code1.txt(2-3)",
-        "IsInError": false
-      },
-      {
-        "Key": "snippet",
-        "Language": "txt",
-        "Value": "Some code",
-        "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Case\code2.txt(2-3)",
-        "IsInError": false
-      }
-    ]
+﻿[
+  {
+    "Key": "snippet",
+    "Language": "txt",
+    "Value": "Some code",
+    "Error": null,
+    "FileLocation": "root\\DirectorySnippetExtractor/Case\code1.txt(2-3)",
+    "IsInError": false
   },
-  "SnippetsInError": []
-}
+  {
+    "Key": "snippet",
+    "Language": "txt",
+    "Value": "Some code",
+    "Error": null,
+    "FileLocation": "root\\DirectorySnippetExtractor/Case\code2.txt(2-3)",
+    "IsInError": false
+  }
+]

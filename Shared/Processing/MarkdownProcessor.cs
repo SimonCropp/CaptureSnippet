@@ -24,6 +24,16 @@ namespace CaptureSnippets
             this.appendSnippetGroup = appendSnippetGroup;
         }
 
+        public MarkdownProcessor(
+            IEnumerable<Snippet> snippets,
+            AppendSnippetGroupToMarkdown appendSnippetGroup)
+        {
+            Guard.AgainstNull(snippets, nameof(snippets));
+            Guard.AgainstNull(appendSnippetGroup, nameof(appendSnippetGroup));
+            this.snippets = snippets.ToDictionary();
+            this.appendSnippetGroup = appendSnippetGroup;
+        }
+
         public string Apply(string input)
         {
             Guard.AgainstNull(input, nameof(input));
@@ -78,7 +88,7 @@ namespace CaptureSnippets
             }
             writer.WriteLine($"<!-- snippet: {key} -->");
 
-            if (!snippets.TryGetValue(key, out var @group))
+            if (!snippets.TryGetValue(key, out var group))
             {
                 var missing = new MissingSnippet(
                     key: key,

@@ -1,76 +1,34 @@
-﻿{
-  "Directory": "root\\DirectorySnippetExtractor/Simple",
-  "Snippets": [
-    {
-      "Key": "snippet2",
-      "Language": "txt",
-      "Value": "Some code",
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Simple\code1.txt(2-3)",
-      "IsInError": false
-    },
-    {
-      "Key": "snippet1",
-      "Language": "txt",
-      "Value": "Some code",
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Simple\code2.txt(2-3)",
-      "IsInError": false
-    },
-    {
-      "Key": "snippet2",
-      "Language": "txt",
-      "Value": "Some code",
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Simple\code3.txt(2-3)",
-      "IsInError": false
-    },
-    {
-      "Key": "snippet1",
-      "Language": "txt",
-      "Value": "Some code",
-      "Error": null,
-      "FileLocation": "root\\DirectorySnippetExtractor/Simple\code4.txt(2-3)",
-      "IsInError": false
-    }
-  ],
-  "Lookup": {
-    "snippet2": [
-      {
-        "Key": "snippet2",
-        "Language": "txt",
-        "Value": "Some code",
-        "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Simple\code1.txt(2-3)",
-        "IsInError": false
-      },
-      {
-        "Key": "snippet2",
-        "Language": "txt",
-        "Value": "Some code",
-        "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Simple\code3.txt(2-3)",
-        "IsInError": false
-      }
-    ],
-    "snippet1": [
-      {
-        "Key": "snippet1",
-        "Language": "txt",
-        "Value": "Some code",
-        "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Simple\code2.txt(2-3)",
-        "IsInError": false
-      },
-      {
-        "Key": "snippet1",
-        "Language": "txt",
-        "Value": "Some code",
-        "Error": null,
-        "FileLocation": "root\\DirectorySnippetExtractor/Simple\code4.txt(2-3)",
-        "IsInError": false
-      }
-    ]
+﻿[
+  {
+    "Key": "snippet2",
+    "Language": "txt",
+    "Value": "Some code",
+    "Error": null,
+    "FileLocation": "root\\DirectorySnippetExtractor/Simple\code1.txt(2-3)",
+    "IsInError": false
   },
-  "SnippetsInError": []
-}
+  {
+    "Key": "snippet1",
+    "Language": "txt",
+    "Value": "Some code",
+    "Error": null,
+    "FileLocation": "root\\DirectorySnippetExtractor/Simple\code2.txt(2-3)",
+    "IsInError": false
+  },
+  {
+    "Key": "snippet2",
+    "Language": "txt",
+    "Value": "Some code",
+    "Error": null,
+    "FileLocation": "root\\DirectorySnippetExtractor/Simple\code3.txt(2-3)",
+    "IsInError": false
+  },
+  {
+    "Key": "snippet1",
+    "Language": "txt",
+    "Value": "Some code",
+    "Error": null,
+    "FileLocation": "root\\DirectorySnippetExtractor/Simple\code4.txt(2-3)",
+    "IsInError": false
+  }
+]

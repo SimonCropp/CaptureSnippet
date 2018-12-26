@@ -165,17 +165,16 @@ snippet: ReadingDirectory
 snippet: markdownProcessing
 
 
-### Conventions
+### Versioning
 
-
-#### Snippets are versioned
+Snippets are versioned
 
 Version follows the [NuGet version range syntax](https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files).
 
 For more details on NuGet versioning see https://github.com/NuGet/NuGet.Versioning/.
 
 
-##### Version suffix on snippets
+#### Version suffix on snippets
 
 Appending a version to the end of a snippet definition as follows.
 
