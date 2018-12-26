@@ -7,7 +7,7 @@ using System.Linq;
 namespace CaptureSnippets
 {
     [DebuggerDisplay("Count={Snippets.Count}")]
-    public class ReadSnippets: IEnumerable<Snippet>
+    public class ReadSnippets : IEnumerable<Snippet>
     {
         public string Directory { get; }
         public IReadOnlyList<Snippet> Snippets { get; }
@@ -31,9 +31,10 @@ namespace CaptureSnippets
         {
             if (SnippetsInError.Any())
             {
-                throw new Exception("SnippetsInError: "+ string.Join(", ",SnippetsInError.Select(x=>x.Key)));
+                throw new Exception("SnippetsInError: " + string.Join(", ", SnippetsInError.Select(x => x.Key)));
             }
-            return SnippetsInError.GetEnumerator();
+
+            return Snippets.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
