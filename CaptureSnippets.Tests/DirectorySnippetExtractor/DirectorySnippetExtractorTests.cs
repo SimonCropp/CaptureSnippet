@@ -10,31 +10,6 @@ using Xunit;
 public class DirectorySnippetExtractorTests : TestBase
 {
     [Fact]
-    public void Case()
-    {
-        var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Case");
-        var extractor = new DirectorySnippetExtractor(packageOrder: _ => new List<string>());
-        var components = extractor.ReadComponents(directory);
-        AssertCaseInsensitive(components.Lookup);
-        var component = components.GetComponent("ComponentY");
-        AssertCaseInsensitive(component.Lookup);
-        var package = component.Packages.Single();
-        AssertCaseInsensitive(package.Lookup);
-        AssertCaseInsensitive(package.Versions.First().Lookup);
-        ObjectApprover.VerifyWithJson(components, Scrubber.Scrub);
-    }
-
-    static void AssertCaseInsensitive(IReadOnlyDictionary<string, IReadOnlyList<Snippet>> dictionary)
-    {
-        Assert.True(dictionary.ContainsKey("GlobalSharedSnippet"));
-        Assert.True(dictionary.ContainsKey("globalsharedSnippet"));
-        Assert.True(dictionary.ContainsKey("ComponentSharedSnippet"));
-        Assert.True(dictionary.ContainsKey("componentSharedSnippet"));
-        Assert.True(dictionary.ContainsKey("Snippet"));
-        Assert.True(dictionary.ContainsKey("snippet"));
-    }
-
-    [Fact]
     public void Nested()
     {
         var directory = Path.Combine(AssemblyLocation.CurrentDirectory, "DirectorySnippetExtractor/Nested");

@@ -88,7 +88,7 @@ namespace CaptureSnippets
             }
             writer.WriteLine($"<!-- snippet: {key} -->");
 
-            if (!snippets.TryGetValue(key, out var @group))
+            if (!snippets.TryGetValue(key, out var group))
             {
                 var missing = new MissingSnippet(
                     key: key,

@@ -23,7 +23,6 @@ namespace CaptureSnippets
         /// </summary>
         public IReadOnlyList<Snippet> UsedSnippets { get; }
 
-
         /// <summary>
         /// Enumerates through the <see cref="UsedSnippets" /> but will first throw an exception if there are any <see cref="MissingSnippets" />.
         /// </summary>
