@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NuGet.Versioning;
 
 namespace CaptureSnippets
@@ -10,6 +11,16 @@ namespace CaptureSnippets
     /// </summary>
     public class FileSnippetExtractor
     {
+        /// <summary>
+        /// Read from a paths.
+        /// </summary>
+        /// <param name="paths">The paths to extract <see cref="Snippet"/>s from.</param>
+        public IEnumerable<Snippet> Read(IEnumerable<string> paths)
+        {
+            Guard.AgainstNull(paths, nameof(paths));
+            return paths.SelectMany(Read);
+        }
+
         public static FileSnippetExtractor Build(VersionRange fileVersion, string package, bool isCurrent)
         {
             Guard.AgainstNull(fileVersion, nameof(fileVersion));

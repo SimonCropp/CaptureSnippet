@@ -2,9 +2,25 @@
 using System.IO;
 using System.Linq;
 using CaptureSnippets;
+using NuGet.Versioning;
 
 class Usage
 {
+    void ReadingFiles()
+    {
+        #region ReadingFiles
+
+        var files = Directory.EnumerateFiles(@"C:\path", "*.cs", SearchOption.AllDirectories);
+
+        var snippetExtractor = FileSnippetExtractor.Build(
+            fileVersion: VersionRange.Parse("[1.1,2.0)"),
+            package: "ThePackageName",
+            isCurrent: true);
+        var snippets = snippetExtractor.Read(files);
+
+        #endregion
+    }
+
     void ReadingDirectory()
     {
         #region ReadingDirectory

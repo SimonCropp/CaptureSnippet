@@ -132,6 +132,21 @@ https://nuget.org/packages/CaptureSnippets.Simple/
 ### Api Usage
 
 
+#### Reading snippets from files
+
+<!-- snippet: ReadingFiles -->
+```cs
+var files = Directory.EnumerateFiles(@"C:\path", "*.cs", SearchOption.AllDirectories);
+
+var snippetExtractor = FileSnippetExtractor.Build(
+    fileVersion: VersionRange.Parse("[1.1,2.0)"),
+    package: "ThePackageName",
+    isCurrent: true);
+var snippets = snippetExtractor.Read(files);
+```
+<!-- endsnippet -->
+
+
 #### Reading snippets from a directory structure
 
 <!-- snippet: ReadingDirectorySimple -->
@@ -185,6 +200,21 @@ https://nuget.org/packages/CaptureSnippets/
 
 
 ### Api Usage
+
+
+#### Reading snippets from files
+
+<!-- snippet: ReadingFiles -->
+```cs
+var files = Directory.EnumerateFiles(@"C:\path", "*.cs", SearchOption.AllDirectories);
+
+var snippetExtractor = FileSnippetExtractor.Build(
+    fileVersion: VersionRange.Parse("[1.1,2.0)"),
+    package: "ThePackageName",
+    isCurrent: true);
+var snippets = snippetExtractor.Read(files);
+```
+<!-- endsnippet -->
 
 
 #### Reading snippets from a directory structure
@@ -259,17 +289,16 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
 <!-- endsnippet -->
 
 
-### Conventions
+### Versioning
 
-
-#### Snippets are versioned
+Snippets are versioned
 
 Version follows the [NuGet version range syntax](https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files).
 
 For more details on NuGet versioning see https://github.com/NuGet/NuGet.Versioning/.
 
 
-##### Version suffix on snippets
+#### Version suffix on snippets
 
 Appending a version to the end of a snippet definition as follows.
 

@@ -3,6 +3,16 @@ using CaptureSnippets;
 
 class Usage
 {
+    void ReadingFiles()
+    {
+        #region ReadingFiles
+
+        var files = Directory.EnumerateFiles(@"C:\path", "*.cs", SearchOption.AllDirectories);
+
+        var snippets = FileSnippetExtractor.Read(files);
+
+        #endregion
+    }
     void ReadingDirectory()
     {
         #region ReadingDirectorySimple

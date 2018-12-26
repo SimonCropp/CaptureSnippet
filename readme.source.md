@@ -132,6 +132,11 @@ https://nuget.org/packages/CaptureSnippets.Simple/
 ### Api Usage
 
 
+#### Reading snippets from files
+
+snippet: ReadingFiles
+
+
 #### Reading snippets from a directory structure
 
 snippet: ReadingDirectorySimple
@@ -153,6 +158,11 @@ https://nuget.org/packages/CaptureSnippets/
 
 
 ### Api Usage
+
+
+#### Reading snippets from files
+
+snippet: ReadingFiles
 
 
 #### Reading snippets from a directory structure
