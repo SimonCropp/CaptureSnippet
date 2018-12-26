@@ -6,7 +6,7 @@ using ObjectApproval;
 
 static class SnippetVerifier
 {
-    public static void Verify(string markdownContent, IReadOnlyDictionary<string, IReadOnlyList<Snippet>> availableSnippets)
+    public static void Verify(string markdownContent, List<Snippet> availableSnippets)
     {
         var markdownProcessor = new MarkdownProcessor(
             snippets: availableSnippets,

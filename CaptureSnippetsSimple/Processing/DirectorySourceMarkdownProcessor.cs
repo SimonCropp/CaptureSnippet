@@ -13,7 +13,7 @@ namespace CaptureSnippets
             var sourceMdFileFinder = new FileFinder(path => true, IsSourceMd);
 
             var snippets = FileSnippetExtractor.Read(snippetFiles);
-            var markdownProcessor = new MarkdownProcessor(snippets.ToDictionary(), SimpleSnippetMarkdownHandling.AppendGroup);
+            var markdownProcessor = new MarkdownProcessor(snippets, SimpleSnippetMarkdownHandling.AppendGroup);
             foreach (var sourceFile in sourceMdFileFinder.FindFiles(targetDirectory))
             {
                 var target = sourceFile.Replace(".source.md", ".md");

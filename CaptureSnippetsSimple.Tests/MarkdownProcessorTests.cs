@@ -30,7 +30,7 @@ snippet: snippet2
 some other text
 
 ";
-        SnippetVerifier.Verify(markdownContent, availableSnippets.ToDictionary());
+        SnippetVerifier.Verify(markdownContent, availableSnippets);
     }
 
     Snippet SnippetBuild(string language, string key, string package)
