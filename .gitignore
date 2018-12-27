@@ -39,6 +39,6 @@ run-git.cmd
 
 *.jtconfig
 NugetBuild
-*.received
+*.received.txt
 
 .vs/

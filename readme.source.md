@@ -159,6 +159,8 @@ https://nuget.org/packages/CaptureSnippets/
 
 ### Data model
 
+
+
 Component -> Package -> VersionGroup -> Snippets
 
 The requirement for Component and Package is required due to Package being strongly tied to a deployment concept, where Component allows a logical concept. This enabled several scenarios:
@@ -167,22 +169,25 @@ The requirement for Component and Package is required due to Package being stron
  * Multiple Packages, that represent different parts of that same logical feature, to be grouped under a Component.
 
 
-### Api Usage
+### Directory Convention
 
+The directory convention follows the below structure:
 
-#### Reading snippets from files
+Root Dir -> Component Dirs -> Package Version Dirs -> Snippet Files
 
-snippet: ReadingFiles
+A `Shared` directory can exist at the Root and/or Component levels that contains snippet files that are shared either globally or for a Component respectively.
 
+So an example directory structure could be as follows:
 
-#### Reading snippets from a directory structure
-
-snippet: ReadingDirectory
-
-
-#### Full Usage
-
-snippet: markdownProcessing
+ * ComponentX
+   * PackageA_1
+   * PackageA_2
+   * PackageB_1
+   * Shared
+ * ComponentY
+   * PackageC_1
+   * PackageC_2
+ * Shared
 
 
 ### Versioning
@@ -192,6 +197,11 @@ Snippets are versioned
 Version follows the [NuGet version range syntax](https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files).
 
 For more details on NuGet versioning see https://github.com/NuGet/NuGet.Versioning/.
+
+
+#### Version suffix on package directory
+
+Package directories can be suffixed with a version delimited by an underscore `_`. For example `PackageA_2` contains all snippets for `PackageA` version 2. Version ranges are not supported as package suffixes.
 
 
 #### Version suffix on snippets
@@ -211,6 +221,26 @@ Or a version range
 My Snippet Code
 #endregion
 ```
+
+
+
+### Api Usage
+
+
+#### Reading snippets from files
+
+snippet: ReadingFiles
+
+
+#### Reading snippets from a directory structure
+
+snippet: ReadingDirectory
+
+
+#### Full Usage
+
+snippet: markdownProcessing
+
 
 
 ## Icon

@@ -197,12 +197,64 @@ https://nuget.org/packages/CaptureSnippets/
 
 ### Data model
 
+
+
 Component -> Package -> VersionGroup -> Snippets
 
 The requirement for Component and Package is required due to Package being strongly tied to a deployment concept, where Component allows a logical concept. This enabled several scenarios:
 
  * Packages to be renamed, but still tied to a single parent Component from a functionality perspective.
  * Multiple Packages, that represent different parts of that same logical feature, to be grouped under a Component.
+
+
+### Directory Convention
+
+The directory convention follows the below structure:
+
+Root Dir -> Component Dirs -> Package Version Dirs -> Snippet Files
+
+A `Shared` directory can exist at the Root and/or Component levels that contains snippet files that are shared either globally or for a Component respectively.
+
+So an example directory structure could be as follows:
+
+ * ComponentX
+   * PackageA_1
+   * PackageA_2
+   * PackageB_1
+   * Shared
+ * ComponentY
+   * PackageC_1
+   * PackageC_2
+ * Shared
+
+
+### Versioning
+
+Snippets are versioned
+
+Version follows the [NuGet version range syntax](https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files).
+
+For more details on NuGet versioning see https://github.com/NuGet/NuGet.Versioning/.
+
+
+#### Version suffix on snippets
+
+Appending a version to the end of a snippet definition as follows.
+
+```
+#region MySnippetName 4.5
+My Snippet Code
+#endregion
+```
+
+Or a version range
+
+```
+#region MySnippetName [1.0,2.0]
+My Snippet Code
+#endregion
+```
+
 
 
 ### Api Usage
@@ -306,33 +358,6 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
 ```
 <!-- endsnippet -->
 
-
-### Versioning
-
-Snippets are versioned
-
-Version follows the [NuGet version range syntax](https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files).
-
-For more details on NuGet versioning see https://github.com/NuGet/NuGet.Versioning/.
-
-
-#### Version suffix on snippets
-
-Appending a version to the end of a snippet definition as follows.
-
-```
-#region MySnippetName 4.5
-My Snippet Code
-#endregion
-```
-
-Or a version range
-
-```
-#region MySnippetName [1.0,2.0]
-My Snippet Code
-#endregion
-```
 
 
 ## Icon
