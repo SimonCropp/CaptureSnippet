@@ -18,7 +18,7 @@ This project produces two NuGet packages with different levels of features, and 
 
 ## Shared behavior
 
-The below behaviors are shared between both [CaptureSnippets.Simple](#CaptureSnippets.Simple) and[CaptureSnippets](#CaptureSnippets).
+The below behaviors are shared between both [CaptureSnippets.Simple](#CaptureSnippets.Simple) and [CaptureSnippets](#CaptureSnippets).
 
 
 ### Using Snippets
@@ -43,7 +43,7 @@ The resulting markdown will be will be:
     Some blurb about the below snippet
     ```
     My Snippet Code
-    ``` 
+    ```
 
 
 ### Code indentation
@@ -134,15 +134,11 @@ https://nuget.org/packages/CaptureSnippets.Simple/
 
 #### Reading snippets from files
 
-<!-- snippet: ReadingFiles -->
+<!-- snippet: ReadingFilesSimple -->
 ```cs
 var files = Directory.EnumerateFiles(@"C:\path", "*.cs", SearchOption.AllDirectories);
 
-var snippetExtractor = FileSnippetExtractor.Build(
-    fileVersion: VersionRange.Parse("[1.1,2.0)"),
-    package: "ThePackageName",
-    isCurrent: true);
-var snippets = snippetExtractor.Read(files);
+var snippets = FileSnippetExtractor.Read(files);
 ```
 <!-- endsnippet -->
 
@@ -197,6 +193,16 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
 https://nuget.org/packages/CaptureSnippets/
 
     PM> Install-Package CaptureSnippets
+
+
+### Data model
+
+Component -> Package -> VersionGroup -> Snippets
+
+The requirement for Component and Package is required due to Package being strongly tied to a deployment concept, where Component allows a logical concept. This enabled several scenarios:
+
+ * Packages to be renamed, but still tied to a single parent Component from a functionality perspective.
+ * Multiple Packages, that represent different parts of that same logical feature, to be grouped under a Component.
 
 
 ### Api Usage
@@ -256,6 +262,18 @@ var snippetExtractor = new DirectorySnippetExtractor(
     // package translation is optional
     translatePackage: TranslatePackage
 );
+var components = snippetExtractor.ReadComponents(@"C:\path");
+var component1 = components.GetComponent("Component1");
+var packagesForComponent1 = component1.Packages;
+var snippetsForComponent1 = component1.Snippets;
+
+var packages = snippetExtractor.ReadPackages(@"C:\path");
+var package1 = components.GetComponent("Package1");
+var snippetsForPackage1 = package1.Snippets;
+
+// The below snippets could also be accessed via
+//  * packages.Snippets
+//  * components.AllSnippets
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 ```
 <!-- endsnippet -->

@@ -5,7 +5,7 @@ class Usage
 {
     void ReadingFiles()
     {
-        #region ReadingFiles
+        #region ReadingFilesSimple
 
         var files = Directory.EnumerateFiles(@"C:\path", "*.cs", SearchOption.AllDirectories);
 
