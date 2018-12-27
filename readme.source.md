@@ -18,7 +18,7 @@ This project produces two NuGet packages with different levels of features, and 
 
 ## Shared behavior
 
-The below behaviors are shared between both [CaptureSnippets.Simple](#CaptureSnippets.Simple) and[CaptureSnippets](#CaptureSnippets).
+The below behaviors are shared between both [CaptureSnippets.Simple](#CaptureSnippets.Simple) and [CaptureSnippets](#CaptureSnippets).
 
 
 ### Using Snippets
@@ -43,7 +43,7 @@ The resulting markdown will be will be:
     Some blurb about the below snippet
     ```
     My Snippet Code
-    ``` 
+    ```
 
 
 ### Code indentation
@@ -134,7 +134,7 @@ https://nuget.org/packages/CaptureSnippets.Simple/
 
 #### Reading snippets from files
 
-snippet: ReadingFiles
+snippet: ReadingFilesSimple
 
 
 #### Reading snippets from a directory structure
@@ -155,6 +155,16 @@ snippet: markdownProcessingSimple
 https://nuget.org/packages/CaptureSnippets/
 
     PM> Install-Package CaptureSnippets
+
+
+### Data model
+
+Component -> Package -> VersionGroup -> Snippets
+
+The requirement for Component and Package is required due to Package being strongly tied to a deployment concept, where Component allows a logical concept. This enabled several scenarios:
+
+ * Packages to be renamed, but still tied to a single parent Component from a functionality perspective.
+ * Multiple Packages, that represent different parts of that same logical feature, to be grouped under a Component.
 
 
 ### Api Usage

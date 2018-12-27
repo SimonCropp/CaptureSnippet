@@ -60,6 +60,18 @@ class Usage
             // package translation is optional
             translatePackage: TranslatePackage
         );
+        var components = snippetExtractor.ReadComponents(@"C:\path");
+        var component1 = components.GetComponent("Component1");
+        var packagesForComponent1 = component1.Packages;
+        var snippetsForComponent1 = component1.Snippets;
+
+        var packages = snippetExtractor.ReadPackages(@"C:\path");
+        var package1 = components.GetComponent("Package1");
+        var snippetsForPackage1 = package1.Snippets;
+
+        // The below snippets could also be accessed via
+        //  * packages.Snippets
+        //  * components.AllSnippets
         var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 
         #endregion
