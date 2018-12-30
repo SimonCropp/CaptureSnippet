@@ -197,8 +197,6 @@ https://nuget.org/packages/CaptureSnippets/
 
 ### Data model
 
-
-
 Component -> Package -> VersionGroup -> Snippets
 
 The requirement for Component and Package is required due to Package being strongly tied to a deployment concept, where Component allows a logical concept. This enabled several scenarios:
@@ -230,11 +228,16 @@ So an example directory structure could be as follows:
 
 ### Versioning
 
-Snippets are versioned
+Snippets are versioned.
 
 Version follows the [NuGet version range syntax](https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files).
 
-For more details on NuGet versioning see https://github.com/NuGet/NuGet.Versioning/.
+For more details on NuGet versioning see https://www.nuget.org/packages/NuGet.Versioning/ and https://github.com/NuGet/NuGet.Client.
+
+
+#### Version suffix on package directory
+
+Package directories can be suffixed with a version delimited by an underscore `_`. For example `PackageA_2` contains all snippets for `PackageA` version 2. Version ranges are not supported as package suffixes.
 
 
 #### Version suffix on snippets

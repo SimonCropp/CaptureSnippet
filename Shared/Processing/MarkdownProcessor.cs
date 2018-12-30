@@ -44,7 +44,7 @@ namespace CaptureSnippets
                 var processResult = Apply(reader, writer);
                 if (processResult.MissingSnippets.Any())
                 {
-                    throw new Exception("Missing snippets." + string.Join(",", processResult.MissingSnippets.Select(x => x.Key)));
+                    throw new Exception("Missing snippets. '" + string.Join("', '", processResult.MissingSnippets.Select(x => x.Key)) + "'");
                 }
             }
 
