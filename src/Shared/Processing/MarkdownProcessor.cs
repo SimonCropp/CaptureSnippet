@@ -42,9 +42,10 @@ namespace CaptureSnippets
             using (var writer = new StringWriter(builder))
             {
                 var processResult = Apply(reader, writer);
-                if (processResult.MissingSnippets.Any())
+                var missing = processResult.MissingSnippets;
+                if (missing.Any())
                 {
-                    throw new Exception("Missing snippets. '" + string.Join("', '", processResult.MissingSnippets.Select(x => x.Key)) + "'");
+                    throw new Exception("Missing snippets. '" + string.Join("', '", missing.Select(x => x.Key)) + "'");
                 }
             }
 

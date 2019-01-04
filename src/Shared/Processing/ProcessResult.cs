@@ -19,7 +19,7 @@ namespace CaptureSnippets
         }
 
         /// <summary>
-        ///   List of all snippets that the markdown file used.
+        /// List of all snippets that the markdown file used.
         /// </summary>
         public IReadOnlyList<Snippet> UsedSnippets { get; }
 
@@ -39,7 +39,7 @@ namespace CaptureSnippets
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         /// <summary>
-        ///   List of all snippets that the markdown file expected but did not exist in the input snippets.
+        /// List of all snippets that the markdown file expected but did not exist in the input snippets.
         /// </summary>
         public IReadOnlyList<MissingSnippet> MissingSnippets { get; }
     }
