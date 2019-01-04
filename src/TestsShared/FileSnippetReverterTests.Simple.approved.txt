@@ -1,6 +1,0 @@
-﻿
-aaa
-
-snippet: snippet1
-
-bbb

@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{052C7024-C1F5-41D3-BEE2-5226A862F0F3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippets.Tests", "CaptureSnippets.Tests\CaptureSnippets.Tests.csproj", "{F15A48E4-A945-4FE4-96B2-76DC411A2FD3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple", "CaptureSnippetsSimple\CaptureSnippetsSimple.csproj", "{D791BD27-4C4F-4C6F-B159-537F3FB9820D}"
@@ -20,9 +18,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple.Tests", "CaptureSnippetsSimple.Tests\CaptureSnippetsSimple.Tests.csproj", "{99DE8782-5377-43AA-BB19-F3408CBC2C7C}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Shared\Shared.projitems*{052c7024-c1f5-41d3-bee2-5226a862f0f3}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

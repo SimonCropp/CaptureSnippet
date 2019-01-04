@@ -10,8 +10,8 @@ public class DirectorySourceMarkdownProcessorTests : TestBase
     {
         var root = GitRepoDirectoryFinder.Find();
 
-        var files = Directory.EnumerateFiles(Path.Combine(root, "CaptureSnippets.Tests/Snippets"), "*.cs")
-            .Concat(Directory.EnumerateFiles(Path.Combine(root, "CaptureSnippetsSimple.Tests/Snippets"), "*.cs"));
+        var files = Directory.EnumerateFiles(Path.Combine(root, "src/CaptureSnippets.Tests/Snippets"), "*.cs")
+            .Concat(Directory.EnumerateFiles(Path.Combine(root, "src/CaptureSnippetsSimple.Tests/Snippets"), "*.cs"));
         DirectorySourceMarkdownProcessor.Run(root,files);
     }
 }
