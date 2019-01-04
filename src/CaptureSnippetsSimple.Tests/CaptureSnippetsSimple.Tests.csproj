@@ -40,5 +40,4 @@
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </None>
   </ItemGroup>
-  <Import Project="..\TestsShared\TestsShared.projitems" Label="Shared" />
 </Project>

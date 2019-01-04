@@ -8,14 +8,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>TestsShared</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MarkdownProcessor_TryExtractKeyFromTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProcessResultConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GirRepoDirectoryFinderTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Scrubber.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SnippetVerifier.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)StringExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TestConfig.cs" />
-  </ItemGroup>
 </Project>

@@ -8,6 +8,9 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\CaptureSnippetsSimple.Tests\Shared\**\*.cs">
+      <Link>Shared\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
     <PackageReference Include="ApprovalTests" Version="3.0.18" />
     <PackageReference Include="ObjectApproval" Version="3.0.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
@@ -41,5 +44,4 @@
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </None>
   </ItemGroup>
-  <Import Project="..\TestsShared\TestsShared.projitems" Label="Shared" />
 </Project>

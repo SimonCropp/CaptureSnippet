@@ -19,12 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple", "Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple.Tests", "CaptureSnippetsSimple.Tests\CaptureSnippetsSimple.Tests.csproj", "{99DE8782-5377-43AA-BB19-F3408CBC2C7C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestsShared", "TestsShared\TestsShared.shproj", "{7C74BA72-8157-41D9-9551-4787FBFF2F45}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Shared\Shared.projitems*{052c7024-c1f5-41d3-bee2-5226a862f0f3}*SharedItemsImports = 13
-		TestsShared\TestsShared.projitems*{7c74ba72-8157-41d9-9551-4787fbff2f45}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
