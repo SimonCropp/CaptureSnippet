@@ -13,12 +13,12 @@ Loosely based on some code from  https://github.com/shiftkey/scribble
 
 ## Variants
 
-This project produces two NuGet packages with different levels of features, and associated complexity. [CaptureSnippets.Simple](#CaptureSnippets.Simple) which exposes the core features via a simplified API, and [CaptureSnippets](#CaptureSnippets) which has more features but also has a more complex API.
+This project produces two NuGet packages with different levels of features, and associated complexity. [CaptureSnippetsSimple](#CaptureSnippetsSimple) which exposes the core features via a simplified API, and [CaptureSnippets](#CaptureSnippets) which has more features but also has a more complex API.
 
 
 ## Shared behavior
 
-The below behaviors are shared between both [CaptureSnippets.Simple](#CaptureSnippets.Simple) and [CaptureSnippets](#CaptureSnippets).
+The below behaviors are shared between both [CaptureSnippetsSimple](#CaptureSnippetsSimple) and [CaptureSnippets](#CaptureSnippets).
 
 
 ### Using Snippets
@@ -119,14 +119,14 @@ My Snippet Code
 ```
 
 
-## CaptureSnippets.Simple
+## CaptureSnippetsSimple
 
 
-### The NuGet package [![NuGet Status](http://img.shields.io/nuget/v/CaptureSnippets.Simple.svg?style=flat)](https://www.nuget.org/packages/CaptureSnippets.Simple/)
+### The NuGet package [![NuGet Status](http://img.shields.io/nuget/v/CaptureSnippetsSimple.svg?style=flat)](https://www.nuget.org/packages/CaptureSnippetsSimple/)
 
-https://nuget.org/packages/CaptureSnippets.Simple/
+https://nuget.org/packages/CaptureSnippetsSimple/
 
-    PM> Install-Package CaptureSnippets.Simple
+    PM> Install-Package CaptureSnippetsSimple
 
 
 ### Api Usage
