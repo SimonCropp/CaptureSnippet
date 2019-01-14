@@ -16,7 +16,49 @@ class FileFinder
 
     public bool IncludeDirectory(string directoryPath)
     {
-        return directoryFilter(directoryPath) && !directoryPath.EndsWith(".git");
+        var fileName = Path.GetFileName(directoryPath);
+        if (fileName.StartsWith("."))
+        {
+            return false;
+        }
+
+        if (Exclusions.ShouldExcludeDirectory(fileName))
+        {
+            return false;
+        }
+
+        if (directoryFilter == null)
+        {
+            return true;
+        }
+
+        return directoryFilter(directoryPath);
+    }
+
+    bool IncludeFile(string path)
+    {
+        var fileName = Path.GetFileName(path);
+        if (fileName.StartsWith("."))
+        {
+            return false;
+        }
+        var extension = Path.GetExtension(fileName);
+        if (extension == string.Empty)
+        {
+            return false;
+        }
+
+        if (Exclusions.ShouldExcludeExtension(extension.Substring(1)))
+        {
+            return false;
+        }
+
+        if (fileFilter == null)
+        {
+            return true;
+        }
+
+        return fileFilter(path);
     }
 
     public List<string> FindFiles(string directoryPath)
@@ -29,7 +71,7 @@ class FileFinder
     void FindFiles(string directoryPath, List<string> files)
     {
         foreach (var file in Directory.EnumerateFiles(directoryPath)
-            .Where(s => fileFilter(s)))
+            .Where(IncludeFile))
         {
             files.Add(file);
         }
@@ -40,4 +82,5 @@ class FileFinder
             FindFiles(subDirectory, files);
         }
     }
+
 }

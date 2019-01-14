@@ -8,14 +8,8 @@ namespace CaptureSnippets
     {
         FileFinder fileFinder;
 
-        internal DirectorySnippetExtractor() : this(path => true, path => true)
+        public DirectorySnippetExtractor(DirectoryFilter directoryFilter = null, FileFilter fileFilter = null)
         {
-        }
-
-        public DirectorySnippetExtractor(DirectoryFilter directoryFilter, FileFilter fileFilter)
-        {
-            Guard.AgainstNull(directoryFilter, nameof(directoryFilter));
-            Guard.AgainstNull(fileFilter, nameof(fileFilter));
             fileFinder = new FileFinder(directoryFilter, fileFilter);
         }
 
