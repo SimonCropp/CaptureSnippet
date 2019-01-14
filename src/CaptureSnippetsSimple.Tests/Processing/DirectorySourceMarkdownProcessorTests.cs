@@ -12,6 +12,6 @@ public class DirectorySourceMarkdownProcessorTests : TestBase
 
         var files = Directory.EnumerateFiles(Path.Combine(root, "src/CaptureSnippets.Tests/Snippets"), "*.cs")
             .Concat(Directory.EnumerateFiles(Path.Combine(root, "src/CaptureSnippetsSimple.Tests/Snippets"), "*.cs"));
-        DirectorySourceMarkdownProcessor.Run(root,files);
+        DirectorySourceMarkdownProcessor.Run(root, files);
     }
 }

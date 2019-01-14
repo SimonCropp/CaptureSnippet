@@ -6,13 +6,20 @@ namespace CaptureSnippets
 {
     public static class DirectorySourceMarkdownProcessor
     {
-        public static void Run(string targetDirectory, IEnumerable<string> snippetFiles)
+        public static void Run(string targetDirectory)
+        {
+            var snippetFileFinder = new FileFinder();
+            var findFiles = snippetFileFinder.FindFiles(targetDirectory);
+            Guard.AgainstNullAndEmpty(targetDirectory, nameof(targetDirectory));
+            Run(targetDirectory, findFiles);
+        }
+
+        public static void Run(string targetDirectory, IEnumerable<string> findFiles)
         {
             Guard.AgainstNullAndEmpty(targetDirectory, nameof(targetDirectory));
-            Guard.AgainstNull(snippetFiles, nameof(snippetFiles));
+            Guard.AgainstNull(findFiles, nameof(findFiles));
             var sourceMdFileFinder = new FileFinder(path => true, IsSourceMd);
-
-            var snippets = FileSnippetExtractor.Read(snippetFiles);
+            var snippets = FileSnippetExtractor.Read(findFiles);
             var markdownProcessor = new MarkdownProcessor(snippets, SimpleSnippetMarkdownHandling.AppendGroup);
             foreach (var sourceFile in sourceMdFileFinder.FindFiles(targetDirectory))
             {

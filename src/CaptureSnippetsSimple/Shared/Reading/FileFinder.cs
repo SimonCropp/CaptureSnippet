@@ -8,7 +8,7 @@ class FileFinder
     DirectoryFilter directoryFilter;
     FileFilter fileFilter;
 
-    public FileFinder(DirectoryFilter directoryFilter, FileFilter fileFilter)
+    public FileFinder(DirectoryFilter directoryFilter=null, FileFilter fileFilter=null)
     {
         this.directoryFilter = directoryFilter;
         this.fileFilter = fileFilter;

@@ -22,9 +22,10 @@ namespace CaptureSnippets
             "obj"
         };
 
-        //from https://github.com/sindresorhus/binary-extensions/edit/master/binary-extensions.json
         public static List<string> ExcludedFileExtensions { get; set; }= new List<string>
         {
+            "md",
+            //from https://github.com/sindresorhus/binary-extensions/edit/master/binary-extensions.json
             "3dm",
             "3ds",
             "3g2",
