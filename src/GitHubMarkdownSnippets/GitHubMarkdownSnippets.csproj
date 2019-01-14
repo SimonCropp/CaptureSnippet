@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <ToolCommandName>mdsnippets</ToolCommandName>
     <AssemblyName>mdsnippets</AssemblyName>
-    <PackageId>dotnet-mdsnippets</PackageId>
+    <PackageId>GitHubMarkdownSnippets</PackageId>
     <PackAsTool>True</PackAsTool>
     <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     <Description>.NET Core Global Tool for applying snippets to GitHub markdown documents</Description>
