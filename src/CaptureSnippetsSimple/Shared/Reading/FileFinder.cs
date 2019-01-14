@@ -82,5 +82,4 @@ class FileFinder
             FindFiles(subDirectory, files);
         }
     }
-
 }
