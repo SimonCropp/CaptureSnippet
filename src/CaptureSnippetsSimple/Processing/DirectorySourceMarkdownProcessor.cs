@@ -8,9 +8,9 @@ namespace CaptureSnippets
     {
         public static void Run(string targetDirectory)
         {
+            Guard.AgainstNullAndEmpty(targetDirectory, nameof(targetDirectory));
             var snippetFileFinder = new FileFinder();
             var findFiles = snippetFileFinder.FindFiles(targetDirectory);
-            Guard.AgainstNullAndEmpty(targetDirectory, nameof(targetDirectory));
             Run(targetDirectory, findFiles);
         }
 

@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple", "Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple.Tests", "CaptureSnippetsSimple.Tests\CaptureSnippetsSimple.Tests.csproj", "{99DE8782-5377-43AA-BB19-F3408CBC2C7C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarkdownSnippets", "MarkdownSnippets\MarkdownSnippets.csproj", "{66EE57C0-939C-45F3-8C65-70724B6A2E93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubMarkdownSnippets", "GitHubMarkdownSnippets\GitHubMarkdownSnippets.csproj", "{66EE57C0-939C-45F3-8C65-70724B6A2E93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
