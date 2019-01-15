@@ -249,17 +249,24 @@ A [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/glo
 To install use:
 
 ```ps
-dotnet tool install -g GitHubMarkdownSnippets --version 8.0.0-beta.8
+dotnet tool install -g GitHubMarkdownSnippets --version 8.0.0-*
 ```
 
 To update use:
 
 ```ps
-dotnet tool update GitHubMarkdownSnippets 
+dotnet tool update -g GitHubMarkdownSnippets
 ```
+
+To uninstall use:
+
+```ps
+dotnet tool uninstall -g GitHubMarkdownSnippets
+```
+
 
 ## Icon
 
-Icon courtesy of [The Noun Project](http://thenounproject.com) and  is licensed under Creative Commons Attribution as: 
+Icon courtesy of [The Noun Project](http://thenounproject.com) and is licensed under Creative Commons Attribution as: 
 
 > "Net" by Stanislav Cherenkov from The Noun Project
