@@ -7,7 +7,7 @@
     <Version>8.0.0-beta.9</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)). All rights reserved</Copyright>
-    <PackageIconUrl>https://raw.github.com/SimonCropp/CaptureSnippets/master/Icons/package_icon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.github.com/SimonCropp/CaptureSnippets/master/src/icon.png</PackageIconUrl>
     <PackageProjectUrl>http://github.com/SimonCropp/CaptureSnippets</PackageProjectUrl>
     <Description>Extract code snippets from any language to be used when building documentation</Description>
     <PackageOutputPath>..\..\nugets</PackageOutputPath>

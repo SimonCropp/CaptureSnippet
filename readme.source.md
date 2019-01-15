@@ -1,8 +1,4 @@
-CaptureSnippet
-==============
-
-
-![Icon](https://raw.github.com/SimonCropp/CaptureSnippet/master/Icons/package_icon.png)
+# <img src="https://raw.github.com/SimonCropp/CaptureSnippet/master/src/icon.png" height="40px"> CaptureSnippet
 
 Extract code snippets from any language to be used when building documentation
 
@@ -46,7 +42,32 @@ The resulting markdown will be will be:
     ```
 
 
-### Code indentation
+
+### Defining Snippets
+
+
+#### Using comments
+
+Any code wrapped in a convention based comment will be picked up. The comment needs to start with `startcode` which is followed by the key. The snippet is then terminated by `endcode`.
+
+```
+// startcode MySnippetName
+My Snippet Code
+// endcode
+```
+
+
+#### Using regions
+
+Any code wrapped in a named C# region will be picked up. The name of the region is used as the key.
+
+```
+#region MySnippetName
+My Snippet Code
+#endregion
+```
+
+#### Code indentation
 
 The code snippets will do smart trimming of snippet indentation.
 
@@ -94,29 +115,15 @@ Line one of the snippet
 Note none of the tabs have been trimmed.
 
 
-### Defining Snippets
+#### Ignore paths
 
+When scanning for snippets the following are ignored:
 
-#### Using comments
+ * All directories and files starting with a period '.'
+ * All binary files as defined by https://github.com/sindresorhus/binary-extensions/
+ * Any of the following directory names: `bin`, `obj`
 
-Any code wrapped in a convention based comment will be picked up. The comment needs to start with `startcode` which is followed by the key. The snippet is then terminated by `endcode`.
-
-```
-// startcode MySnippetName
-My Snippet Code
-// endcode
-```
-
-
-#### Using regions
-
-Any code wrapped in a named C# region will be picked up. The name of the region is used as the key.
-
-```
-#region MySnippetName
-My Snippet Code
-#endregion
-```
+To change these conventions manipulate lists `CaptureSnippets.Exclusions.ExcludedDirectorySuffixes` and `CaptureSnippets.Exclusions.ExcludedFileExtensions`.
 
 
 ## CaptureSnippetsSimple
@@ -206,7 +213,7 @@ Package directories can be suffixed with a version delimited by an underscore `_
 
 Appending a version to the end of a snippet definition as follows.
 
-```
+```cs
 #region MySnippetName 4.5
 My Snippet Code
 #endregion
@@ -214,7 +221,7 @@ My Snippet Code
 
 Or a version range
 
-```
+```cs
 #region MySnippetName [1.0,2.0]
 My Snippet Code
 #endregion
@@ -243,6 +250,20 @@ snippet: markdownProcessing
 
 A [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) for merging snippets into GitHub markdown document.
 
+### Target directory
+
+The target directory can be defined via one of the following:
+
+ * Passed in as a single argument; or
+ * The current directory is used. Only if it exists with a git repository, that is a directory tree that contains a directory names `.git`.
+
+
+### Snippet scanning
+
+ * Scan the target directory for all [non ignored files] for snippets.
+ * Scan the target directory for all `*.source.md` files.
+ * Merge the snippets with the `.source.md` to produce `.md` files. So for example `readme.source.md` would be merged with snippets to produce `readme.md`.
+
 
 ### Installation
 
@@ -262,6 +283,20 @@ To uninstall use:
 
 ```ps
 dotnet tool uninstall -g GitHubMarkdownSnippets
+```
+
+### Usage
+
+For running in the current directory:
+
+```ps
+mdsnippets
+```
+
+For running against a target directory:
+
+```ps
+mdsnippets C:\Code\TheTargetDirectory
 ```
 
 

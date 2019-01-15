@@ -30,12 +30,11 @@ class Program
         }
 
         var currentDirectory = Environment.CurrentDirectory;
-        Console.WriteLine($"Trying to determine root repository path for the current directory: {currentDirectory}");
-        if (!GitRepoDirectoryFinder.TryFind(currentDirectory, out var path))
+        if (!GitRepoDirectoryFinder.IsInGitRepository(currentDirectory))
         {
-            Console.WriteLine("Could not find a root repository path that contains a .git directory");
+            Console.WriteLine($"The current directory does no exist with a .git repository. Pass in a target directory instead. Current directory: {currentDirectory}");
             Environment.Exit(1);
         }
-        return path;
+        return currentDirectory;
     }
 }

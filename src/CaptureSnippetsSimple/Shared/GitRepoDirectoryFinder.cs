@@ -18,6 +18,17 @@ namespace CaptureSnippets
             return rootDirectory;
         }
 
+        public static bool IsInGitRepository(string targetDirectory)
+        {
+            Guard.DirectoryExists(targetDirectory,nameof(targetDirectory));
+            if (TryFind(targetDirectory, out _))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool TryFind(string targetDirectory, out string path)
         {
             Guard.DirectoryExists(targetDirectory,nameof(targetDirectory));
