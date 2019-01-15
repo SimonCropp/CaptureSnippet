@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace CaptureSnippets
         {
             if (SnippetsInError.Any())
             {
-                throw new Exception("SnippetsInError: " + string.Join(", ", SnippetsInError.Select(x => x.Key)));
+                throw new SnippetReadingException($"SnippetsInError: {string.Join(", ", SnippetsInError.Select(x => x.Key))}");
             }
 
             return Snippets.GetEnumerator();

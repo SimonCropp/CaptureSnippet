@@ -110,22 +110,11 @@ namespace CaptureSnippets
             }
             catch (Exception exception)
             {
-                var errorMessage = $"Error getting package order. Component='{component}'.";
+                var errorMessage = $"Error getting package order from supplied GetPackageOrderForComponent. Component='{component}'.";
                 throw new Exception(errorMessage, exception);
             }
 
-            return package.OrderBy(_ =>
-            {
-                try
-                {
-                    return result.IndexOf(_.Package);
-                }
-                catch (Exception exception)
-                {
-                    var errorMessage = $"Error getting package index. Component='{component}', Package='{_.Package}'.";
-                    throw new Exception(errorMessage, exception);
-                }
-            });
+            return package.OrderBy(_ => result.IndexOf(_.Package));
         }
 
         IEnumerable<Package> EnumeratePackages(string directory, string component, List<Snippet> globalShared, List<Snippet> componentShared)
@@ -141,7 +130,7 @@ namespace CaptureSnippets
                 var index = name.IndexOf('_');
                 if (index < 1)
                 {
-                    throw new Exception($"Expected the directory name '{name}' to be split by a '_'.");
+                    throw new SnippetReadingException($"Expected the directory name '{name}' to be split by a '_'.");
                 }
 
                 var packageAlias = name.Substring(0, index);

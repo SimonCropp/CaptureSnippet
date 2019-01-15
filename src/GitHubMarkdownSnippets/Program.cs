@@ -7,7 +7,20 @@ class Program
     static void Main(string[] args)
     {
         var targetDirectory = GetTargetDirectory(args);
-        DirectorySourceMarkdownProcessor.Run(targetDirectory);
+        try
+        {
+            DirectorySourceMarkdownProcessor.Run(targetDirectory);
+        }
+        catch (SnippetReadingException snippetReadingException)
+        {
+            Console.WriteLine($"Failed to read snippets: {snippetReadingException.Message}");
+            Environment.Exit(1);
+        }
+        catch (MarkdownProcessingException markdownProcessingException)
+        {
+            Console.WriteLine($"Failed to process markdown files: {markdownProcessingException.Message}");
+            Environment.Exit(1);
+        }
     }
 
     static string GetTargetDirectory(string[] args)

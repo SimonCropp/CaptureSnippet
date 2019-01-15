@@ -1,4 +1,5 @@
 using System;
+using CaptureSnippets;
 
 static class SnippetKeyReader
 {
@@ -14,7 +15,7 @@ static class SnippetKeyReader
 
         if (!key.StartsWith(" "))
         {
-            throw new Exception($"Invalid syntax for the snippet '{key}': There must be a space before the start of the key.");
+            throw new MarkdownProcessingException($"Invalid syntax for the snippet '{key}': There must be a space before the start of the key.");
         }
 
         key = key.Trim();

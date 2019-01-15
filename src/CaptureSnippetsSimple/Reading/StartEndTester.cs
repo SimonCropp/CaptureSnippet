@@ -1,4 +1,5 @@
 ﻿using System;
+using CaptureSnippets;
 
 static class StartEndTester
 {
@@ -61,7 +62,7 @@ static class StartEndTester
         var split = substring.SplitBySpace();
         if (split.Length == 0)
         {
-            throw new Exception($"No Key could be derived. Line: '{line}'.");
+            throw new SnippetReadingException($"No Key could be derived. Line: '{line}'.");
         }
         key = split[0];
         KeyValidator.ValidateKeyDoesNotStartOrEndWithSymbol(key);
@@ -70,6 +71,6 @@ static class StartEndTester
             return true;
         }
 
-        throw new Exception($"Too many parts. Line: '{line}'.");
+        throw new SnippetReadingException($"Too many parts. Line: '{line}'.");
     }
 }

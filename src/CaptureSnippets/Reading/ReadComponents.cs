@@ -33,7 +33,7 @@ namespace CaptureSnippets
             var item = Components.SingleOrDefault(_ => string.Equals(_.Identifier, key, StringComparison.OrdinalIgnoreCase));
             if (item == null)
             {
-                throw new Exception($"Could not find Component for '{key}'");
+                throw new SnippetReadingException($"Could not find Component for '{key}'");
             }
             return item;
         }

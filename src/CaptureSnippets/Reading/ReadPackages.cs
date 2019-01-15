@@ -35,7 +35,7 @@ namespace CaptureSnippets
             var item = Packages.SingleOrDefault(package => string.Equals(package.Identifier, key, StringComparison.OrdinalIgnoreCase));
             if (item == null)
             {
-                throw new Exception($"Could not find Package for '{key}'");
+                throw new SnippetReadingException($"Could not find Package for '{key}'");
             }
             return item;
         }

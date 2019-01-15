@@ -41,7 +41,7 @@ namespace CaptureSnippets
                 var item = Snippets.Where(snippet => string.Equals(snippet.Key, key, StringComparison.OrdinalIgnoreCase)).ToList();
                 if (!item.Any())
                 {
-                    throw new Exception($"Could not find snippets for '{key}'");
+                    throw new SnippetReadingException($"Could not find snippets for '{key}'");
                 }
                 return item;
             }

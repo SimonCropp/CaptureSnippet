@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace CaptureSnippets
 {
@@ -95,7 +94,7 @@ namespace CaptureSnippets
         {
             if (IsInError)
             {
-                throw new Exception($"Cannot access when {nameof(IsInError)}. Key: {Key}. FileLocation: {FileLocation}. Error: {Error}");
+                throw new SnippetReadingException($"Cannot access when {nameof(IsInError)}. Key: {Key}. FileLocation: {FileLocation}. Error: {Error}");
             }
         }
 

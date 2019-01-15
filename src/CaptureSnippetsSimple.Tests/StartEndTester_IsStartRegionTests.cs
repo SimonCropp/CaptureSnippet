@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CaptureSnippets;
 using Xunit;
 
 public class StartEndTester_IsStartRegionTests : TestBase
@@ -13,7 +13,7 @@ public class StartEndTester_IsStartRegionTests : TestBase
     [Fact]
     public void ShouldThrowForKeyStartingWithSymbol()
     {
-        var exception = Assert.Throws<Exception>(() =>
+        var exception = Assert.Throws<SnippetReadingException>(() =>
             StartEndTester.IsStartRegion("#region _key", out _));
         Assert.Equal("Key should not start or end with symbols. Key: _key", exception.Message);
     }
@@ -21,7 +21,7 @@ public class StartEndTester_IsStartRegionTests : TestBase
     [Fact]
     public void ShouldThrowForKeyEndingWithSymbol()
     {
-        var exception = Assert.Throws<Exception>(() =>
+        var exception = Assert.Throws<SnippetReadingException>(() =>
             StartEndTester.IsStartRegion("#region key_ ", out _));
         Assert.Equal("Key should not start or end with symbols. Key: key_", exception.Message);
     }
@@ -30,7 +30,7 @@ public class StartEndTester_IsStartRegionTests : TestBase
     [Fact]
     public void ShouldIgnoreForNoKey()
     {
-        var exception = Assert.Throws<Exception>(() =>
+        var exception = Assert.Throws<SnippetReadingException>(() =>
             StartEndTester.IsStartRegion("#region ", out _));
         Assert.Equal("No Key could be derived. Line: '#region '.", exception.Message);
     }

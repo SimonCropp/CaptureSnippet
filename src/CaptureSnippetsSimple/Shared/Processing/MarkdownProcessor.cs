@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -45,7 +44,7 @@ namespace CaptureSnippets
                 var missing = processResult.MissingSnippets;
                 if (missing.Any())
                 {
-                    throw new Exception("Missing snippets. '" + string.Join("', '", missing.Select(x => x.Key)) + "'");
+                    throw new MarkdownProcessingException("Missing snippets. '" + string.Join("', '", missing.Select(x => x.Key)) + "'");
                 }
             }
 

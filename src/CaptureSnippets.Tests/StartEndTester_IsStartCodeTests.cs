@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CaptureSnippets;
 using Xunit;
 
 public class StartEndTester_IsStartCodeTests : TestBase
@@ -15,7 +15,7 @@ public class StartEndTester_IsStartCodeTests : TestBase
     [Fact]
     public void ShouldThrowForNoKey()
     {
-        var exception = Assert.Throws<Exception>(() => StartEndTester.IsStartCode("<!-- startcode -->", out _, out _));
+        var exception = Assert.Throws<SnippetReadingException>(() => StartEndTester.IsStartCode("<!-- startcode -->", out _, out _));
         Assert.Equal("No Key could be derived. Line: '<!-- startcode -->'.", exception.Message);
     }
 
@@ -127,7 +127,7 @@ public class StartEndTester_IsStartCodeTests : TestBase
     [Fact]
     public void ShouldThrowForKeyStartingWithSymbolAndVersion()
     {
-        var exception = Assert.Throws<Exception>(() =>
+        var exception = Assert.Throws<SnippetReadingException>(() =>
             StartEndTester.IsStartCode("<!-- startcode _key 6 -->", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: _key", exception.Message);
     }
@@ -135,7 +135,7 @@ public class StartEndTester_IsStartCodeTests : TestBase
     [Fact]
     public void ShouldThrowForKeyEndingWithSymbolAndVersion()
     {
-        var exception = Assert.Throws<Exception>(() =>
+        var exception = Assert.Throws<SnippetReadingException>(() =>
             StartEndTester.IsStartCode("<!-- startcode key_ 6 -->", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: key_", exception.Message);
     }
@@ -143,7 +143,7 @@ public class StartEndTester_IsStartCodeTests : TestBase
     [Fact]
     public void ShouldThrowForKeyStartingWithSymbol()
     {
-        var exception = Assert.Throws<Exception>(() =>
+        var exception = Assert.Throws<SnippetReadingException>(() =>
             StartEndTester.IsStartCode("<!-- startcode _key-->", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: _key", exception.Message);
     }
@@ -151,7 +151,7 @@ public class StartEndTester_IsStartCodeTests : TestBase
     [Fact]
     public void ShouldThrowForKeyEndingWithSymbol()
     {
-        var exception = Assert.Throws<Exception>(() =>
+        var exception = Assert.Throws<SnippetReadingException>(() =>
             StartEndTester.IsStartCode("<!-- startcode key_ -->", out _, out _));
         Assert.Equal("Key should not start or end with symbols. Key: key_", exception.Message);
     }
