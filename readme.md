@@ -380,11 +380,11 @@ The target directory can be defined via one of the following:
  * The current directory is used. Only if it exists with a git repository, that is a directory tree that contains a directory names `.git`.
 
 
-### Snippet scanning
+### Behavior
 
- * Scan the target directory for all [non ignored files] for snippets.
- * Scan the target directory for all `*.source.md` files.
- * Merge the snippets with the `.source.md` to produce `.md` files. So for example `readme.source.md` would be merged with snippets to produce `readme.md`.
+ * Scan the [target directory](#target-directory) for all non [ignored files](#ignore-paths) for snippets.
+ * Scan the [target directory](#target-directory) for all `*.source.md` files.
+ * Merge the snippets with the `.source.md` to produce `.md` files. So for example `readme.source.md` would be merged with snippets to produce `readme.md`. Note that this process will overwrite any existing `.md` files that have matching `.source.md` pairs.
 
 
 ### Installation
