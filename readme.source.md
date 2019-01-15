@@ -262,7 +262,7 @@ The target directory can be defined via one of the following:
 
  * Scan the target directory for all [non ignored files] for snippets.
  * Scan the target directory for all `*.source.md` files.
- * Merge the snippets with the `.source.md` to produce `.md` files. So for example `readme.source.md` would be merged with snippets to produce `readme.md`.
+ * Merge the snippets with the `.source.md` to produce `.md` files. So for example `readme.source.md` would be merged with snippets to produce `readme.md`. Note that this process will overwrite any existing `.md` files that have matching `.source.md` pairs.
 
 
 ### Installation
