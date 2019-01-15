@@ -382,8 +382,8 @@ The target directory can be defined via one of the following:
 
 ### Behavior
 
- * Scan the [target directory](#target-directory) for all non [ignored files](#ignore-paths) for snippets.
- * Scan the [target directory](#target-directory) for all `*.source.md` files.
+ * Recursively scan the [target directory](#target-directory) for alln on [ignored files](#ignore-paths) for snippets.
+ * Recursively scan the [target directory](#target-directory) for all `*.source.md` files.
  * Merge the snippets with the `.source.md` to produce `.md` files. So for example `readme.source.md` would be merged with snippets to produce `readme.md`. Note that this process will overwrite any existing `.md` files that have matching `.source.md` pairs.
 
 
