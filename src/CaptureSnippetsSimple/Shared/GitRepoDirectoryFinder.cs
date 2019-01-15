@@ -1,38 +1,43 @@
 ﻿using System.IO;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace CaptureSnippets
 {
     public static class GitRepoDirectoryFinder
     {
-        public static string Find()
+        public static string FindForFilePath([CallerFilePath] string sourceFilePath = "")
         {
-            if (!TryFind(out var rootDirectory))
+            Guard.FileExists(sourceFilePath, nameof(sourceFilePath));
+            var directory = Path.GetDirectoryName(sourceFilePath);
+            if (!TryFind(directory, out var rootDirectory))
             {
-                throw new Exception("Could not find root git directory");
+                throw new Exception("Could not find git repository directory");
             }
+
             return rootDirectory;
         }
 
-        public static bool TryFind(out string path)
+        public static bool TryFind(string targetDirectory, out string path)
         {
-            var currentDirectory = AssemblyLocation.CurrentDirectory;
+            Guard.DirectoryExists(targetDirectory,nameof(targetDirectory));
+
             do
             {
-                if (Directory.Exists(Path.Combine(currentDirectory, ".git")))
+                if (Directory.Exists(Path.Combine(targetDirectory, ".git")))
                 {
-                    path = currentDirectory;
+                    path = targetDirectory;
                     return true;
                 }
 
-                var parent = Directory.GetParent(currentDirectory);
+                var parent = Directory.GetParent(targetDirectory);
                 if (parent == null)
                 {
                     path = null;
                     return false;
                 }
 
-                currentDirectory = parent.FullName;
+                targetDirectory = parent.FullName;
             } while (true);
         }
     }

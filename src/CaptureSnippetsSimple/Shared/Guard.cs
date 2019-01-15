@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 
 static class Guard
@@ -41,6 +42,24 @@ static class Guard
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new ArgumentNullException(argumentName);
+        }
+    }
+
+    public static void DirectoryExists(string path, string argumentName)
+    {
+        AgainstNullAndEmpty(path,nameof(argumentName));
+        if (!Directory.Exists(path))
+        {
+            throw new ArgumentException($"Directory does not exist: {path}", nameof(argumentName));
+        }
+    }
+
+    public static void FileExists(string path, string argumentName)
+    {
+        AgainstNullAndEmpty(path,nameof(argumentName));
+        if (!File.Exists(path))
+        {
+            throw new ArgumentException($"File does not exist: {path}", nameof(argumentName));
         }
     }
 

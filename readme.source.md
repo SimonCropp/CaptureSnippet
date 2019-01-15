@@ -241,7 +241,22 @@ snippet: markdownProcessing
 
 ## GitHubMarkdownSnippets
 
+A [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) for merging snippets into GitHub markdown document.
 
+
+### Installation
+
+To install use:
+
+```ps
+dotnet tool install -g GitHubMarkdownSnippets --version 8.0.0-beta.8
+```
+
+To update use:
+
+```ps
+dotnet tool update GitHubMarkdownSnippets 
+```
 
 ## Icon
 

@@ -8,7 +8,7 @@ public class DirectorySourceMarkdownProcessorTests : TestBase
     [Fact]
     public void Run()
     {
-        var root = GitRepoDirectoryFinder.Find();
+        var root = GitRepoDirectoryFinder.FindForFilePath();
 
         var files = Directory.EnumerateFiles(Path.Combine(root, "src/CaptureSnippets.Tests/Snippets"), "*.cs")
             .Concat(Directory.EnumerateFiles(Path.Combine(root, "src/CaptureSnippetsSimple.Tests/Snippets"), "*.cs"));

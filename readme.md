@@ -13,7 +13,7 @@ Loosely based on some code from  https://github.com/shiftkey/scribble
 
 ## Variants
 
-This project produces two NuGet packages with different levels of features, and associated complexity. [CaptureSnippetsSimple](#CaptureSnippetsSimple) which exposes the core features via a simplified API, and [CaptureSnippets](#CaptureSnippets) which has more features but also has a more complex API.
+This project produces two NuGet packages with different levels of features, and associated complexity. [CaptureSnippetsSimple](#CaptureSnippetsSimple) which exposes the core features via a simplified API, and [CaptureSnippets](#CaptureSnippets) which has more features but also has a more complex API. There is also [GitHubMarkdownSnippets](#GitHubMarkdownSnippets), a [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) for merging snippets into GitHub markdown document.
 
 
 ## Shared behavior
@@ -259,7 +259,6 @@ My Snippet Code
 ```
 
 
-
 ### Api Usage
 
 
@@ -362,6 +361,24 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
 <!-- endsnippet -->
 
 
+## GitHubMarkdownSnippets
+
+A [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) for merging snippets into GitHub markdown document.
+
+
+### Installation
+
+To install use:
+
+```ps
+dotnet tool install -g GitHubMarkdownSnippets --version 8.0.0-beta.8
+```
+
+To update use:
+
+```ps
+dotnet tool update GitHubMarkdownSnippets 
+```
 
 ## Icon
 
