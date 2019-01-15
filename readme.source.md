@@ -258,7 +258,7 @@ The target directory can be defined via one of the following:
  * The current directory is used. Only if it exists with a git repository, that is a directory tree that contains a directory names `.git`.
 
 
-### Snippet scanning
+### Behavior
 
  * Scan the target directory for all [non ignored files] for snippets.
  * Scan the target directory for all `*.source.md` files.
