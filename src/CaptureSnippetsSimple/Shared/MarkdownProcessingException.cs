@@ -2,9 +2,11 @@ using System;
 
 namespace CaptureSnippets
 {
-    public class MarkdownProcessingException : Exception
+    public class MarkdownProcessingException :
+        Exception
     {
-        public MarkdownProcessingException(string message) : base(message)
+        public MarkdownProcessingException(string message) :
+            base(message)
         {
         }
     }

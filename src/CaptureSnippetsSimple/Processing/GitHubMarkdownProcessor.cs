@@ -4,7 +4,7 @@ using System.IO;
 
 namespace CaptureSnippets
 {
-    public static class DirectorySourceMarkdownProcessor
+    public static class GitHubMarkdownProcessor
     {
         public static void Run(string targetDirectory)
         {

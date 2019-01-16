@@ -9,7 +9,7 @@ class Program
         var targetDirectory = GetTargetDirectory(args);
         try
         {
-            DirectorySourceMarkdownProcessor.Run(targetDirectory);
+            GitHubMarkdownProcessor.Run(targetDirectory);
         }
         catch (SnippetReadingException exception)
         {
