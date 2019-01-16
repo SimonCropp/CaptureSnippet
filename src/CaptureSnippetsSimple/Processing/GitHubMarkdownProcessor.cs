@@ -43,11 +43,16 @@ namespace CaptureSnippets
             log($"Found {sourceFiles.Count} source.md files");
             foreach (var sourceFile in sourceFiles)
             {
-                log($"Processing {sourceFile}");
-                var target = sourceFile.Replace(".source.md", ".md");
-                var contents = markdownProcessor.Apply(File.ReadAllText(sourceFile));
-                File.WriteAllText(target, contents);
+                ProcessFile(sourceFile, markdownProcessor);
             }
+        }
+
+        static void ProcessFile(string sourceFile, MarkdownProcessor markdownProcessor)
+        {
+            log($"Processing {sourceFile}");
+            var target = sourceFile.Replace(".source.md", ".md");
+            var contents = markdownProcessor.Apply(File.ReadAllText(sourceFile));
+            File.WriteAllText(target, contents);
         }
 
         static bool IsSourceMd(string path)
