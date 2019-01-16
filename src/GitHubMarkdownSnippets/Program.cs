@@ -11,14 +11,14 @@ class Program
         {
             DirectorySourceMarkdownProcessor.Run(targetDirectory);
         }
-        catch (SnippetReadingException readingException)
+        catch (SnippetReadingException exception)
         {
-            Console.WriteLine($"Failed to read snippets: {readingException.Message}");
+            Console.WriteLine($"Failed to read snippets: {exception.Message}");
             Environment.Exit(1);
         }
-        catch (MarkdownProcessingException processingException)
+        catch (MarkdownProcessingException exception)
         {
-            Console.WriteLine($"Failed to process markdown files: {processingException.Message}");
+            Console.WriteLine($"Failed to process markdown files: {exception.Message}");
             Environment.Exit(1);
         }
     }
