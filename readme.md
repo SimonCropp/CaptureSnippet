@@ -1,4 +1,4 @@
-# <img src="https://raw.github.com/SimonCropp/CaptureSnippet/master/src/icon.png" height="40px"> CaptureSnippet
+# <img src="https://raw.github.com/SimonCropp/CaptureSnippet/master/src/icon.png" height="40px"> CaptureSnippets
 
 Extract code snippets from any language to be used when building documentation
 
@@ -119,7 +119,7 @@ Note none of the tabs have been trimmed.
 
 When scanning for snippets the following are ignored:
 
- * All directories and files starting with a period '.'
+ * All directories and files starting with a period `.`
  * All binary files as defined by https://github.com/sindresorhus/binary-extensions/
  * Any of the following directory names: `bin`, `obj`
 

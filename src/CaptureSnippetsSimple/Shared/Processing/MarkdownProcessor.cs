@@ -44,7 +44,7 @@ namespace CaptureSnippets
                 var missing = processResult.MissingSnippets;
                 if (missing.Any())
                 {
-                    throw new MarkdownProcessingException("Missing snippets. '" + string.Join("', '", missing.Select(x => x.Key)) + "'");
+                    throw new MissingSnippetsException(missing);
                 }
             }
 

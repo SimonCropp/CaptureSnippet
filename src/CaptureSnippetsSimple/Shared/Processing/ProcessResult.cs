@@ -29,7 +29,7 @@ namespace CaptureSnippets
         {
             if (MissingSnippets.Any())
             {
-                throw new MarkdownProcessingException($"Missing snippets: {string.Join(", ", MissingSnippets.Select(x => x.Key))}");
+                throw new MissingSnippetsException(MissingSnippets);
             }
 
             return UsedSnippets.GetEnumerator();

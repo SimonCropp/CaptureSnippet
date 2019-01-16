@@ -16,6 +16,11 @@ class Program
             Console.WriteLine($"Failed to read snippets: {exception.Message}");
             Environment.Exit(1);
         }
+        catch (MissingSnippetsException exception)
+        {
+            Console.WriteLine($"Failed to process markdown: {exception.Message}");
+            Environment.Exit(1);
+        }
         catch (MarkdownProcessingException exception)
         {
             Console.WriteLine($"Failed to process markdown files: {exception.Message}");
