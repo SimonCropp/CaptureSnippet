@@ -1,11 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace CaptureSnippets
 {
     public static class GitHubMarkdownProcessor
     {
+        static Action<string> log;
+
+        static  GitHubMarkdownProcessor()
+        {
+            log = s => { };
+        }
+
+        public static Action<string> Log
+        {
+            get => log;
+            set
+            {
+                Guard.AgainstNull(value, nameof(value));
+                log = value;
+            }
+        }
+
         public static void Run(string targetDirectory)
         {
             Guard.AgainstNullAndEmpty(targetDirectory, nameof(targetDirectory));
@@ -14,15 +32,16 @@ namespace CaptureSnippets
             Run(targetDirectory, findFiles);
         }
 
-        public static void Run(string targetDirectory, IEnumerable<string> findFiles)
+        internal static void Run(string targetDirectory, List<string> snippetSourceFiles)
         {
-            Guard.AgainstNullAndEmpty(targetDirectory, nameof(targetDirectory));
-            Guard.AgainstNull(findFiles, nameof(findFiles));
+            log($"Searching {snippetSourceFiles.Count} files for snippets");
             var sourceMdFileFinder = new FileFinder(path => true, IsSourceMd);
-            var snippets = FileSnippetExtractor.Read(findFiles);
+            var snippets = FileSnippetExtractor.Read(snippetSourceFiles).ToList();
+            log($"Found {snippets.Count} snippets");
             var markdownProcessor = new MarkdownProcessor(snippets, SimpleSnippetMarkdownHandling.AppendGroup);
             foreach (var sourceFile in sourceMdFileFinder.FindFiles(targetDirectory))
             {
+                log($"Processing {sourceFile}");
                 var target = sourceFile.Replace(".source.md", ".md");
                 var contents = markdownProcessor.Apply(File.ReadAllText(sourceFile));
                 File.WriteAllText(target, contents);
