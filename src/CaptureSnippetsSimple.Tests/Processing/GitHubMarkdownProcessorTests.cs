@@ -12,6 +12,6 @@ public class GitHubMarkdownProcessorTests : TestBase
 
         var files = Directory.EnumerateFiles(Path.Combine(root, "src/CaptureSnippets.Tests/Snippets"), "*.cs")
             .Concat(Directory.EnumerateFiles(Path.Combine(root, "src/CaptureSnippetsSimple.Tests/Snippets"), "*.cs"));
-        GitHubMarkdownProcessor.Run(root, files);
+        GitHubMarkdownProcessor.Run(root, files.ToList());
     }
 }

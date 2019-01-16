@@ -39,7 +39,9 @@ namespace CaptureSnippets
             var snippets = FileSnippetExtractor.Read(snippetSourceFiles).ToList();
             log($"Found {snippets.Count} snippets");
             var markdownProcessor = new MarkdownProcessor(snippets, SimpleSnippetMarkdownHandling.AppendGroup);
-            foreach (var sourceFile in sourceMdFileFinder.FindFiles(targetDirectory))
+            var sourceFiles = sourceMdFileFinder.FindFiles(targetDirectory);
+            log($"Found {sourceFiles.Count} source.md files");
+            foreach (var sourceFile in sourceFiles)
             {
                 log($"Processing {sourceFile}");
                 var target = sourceFile.Replace(".source.md", ".md");
