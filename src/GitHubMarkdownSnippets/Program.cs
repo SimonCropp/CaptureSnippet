@@ -6,6 +6,7 @@ class Program
 {
     static void Main(string[] args)
     {
+        GitHubMarkdownProcessor.Log = Console.WriteLine;
         var targetDirectory = GetTargetDirectory(args);
         try
         {

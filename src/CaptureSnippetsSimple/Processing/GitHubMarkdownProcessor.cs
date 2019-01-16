@@ -9,7 +9,7 @@ namespace CaptureSnippets
     {
         static Action<string> log;
 
-        static  GitHubMarkdownProcessor()
+        static GitHubMarkdownProcessor()
         {
             log = s => { };
         }
@@ -38,9 +38,10 @@ namespace CaptureSnippets
             var sourceMdFileFinder = new FileFinder(path => true, IsSourceMd);
             var snippets = FileSnippetExtractor.Read(snippetSourceFiles).ToList();
             log($"Found {snippets.Count} snippets");
-            var markdownProcessor = new MarkdownProcessor(snippets, SimpleSnippetMarkdownHandling.AppendGroup);
+            var markdownHandling = new GitHubSnippetMarkdownHandling(targetDirectory);
+            var markdownProcessor = new MarkdownProcessor(snippets, markdownHandling.AppendGroup);
             var sourceFiles = sourceMdFileFinder.FindFiles(targetDirectory);
-            log($"Found {sourceFiles.Count} source.md files");
+            log($"Found {sourceFiles.Count} .source.md files");
             foreach (var sourceFile in sourceFiles)
             {
                 ProcessFile(sourceFile, markdownProcessor);
@@ -51,8 +52,20 @@ namespace CaptureSnippets
         {
             log($"Processing {sourceFile}");
             var target = sourceFile.Replace(".source.md", ".md");
-            var contents = markdownProcessor.Apply(File.ReadAllText(sourceFile));
-            File.WriteAllText(target, contents);
+            if (File.Exists(target))
+            {
+                File.Delete(target);
+            }
+            using (var reader = File.OpenText(sourceFile))
+            using (var writer = File.CreateText(target))
+            {
+                var processResult = markdownProcessor.Apply(reader, writer);
+                var missing = processResult.MissingSnippets;
+                if (missing.Any())
+                {
+                    throw new MissingSnippetsException(missing);
+                }
+            }
         }
 
         static bool IsSourceMd(string path)

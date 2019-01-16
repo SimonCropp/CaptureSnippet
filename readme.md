@@ -147,6 +147,7 @@ var files = Directory.EnumerateFiles(@"C:\path", "*.cs", SearchOption.AllDirecto
 
 var snippets = FileSnippetExtractor.Read(files);
 ```
+[source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L9-L14)
 <!-- endsnippet -->
 
 
@@ -162,6 +163,7 @@ var snippetExtractor = new DirectorySnippetExtractor(
     fileFilter: filePath => filePath.EndsWith(".vm") || filePath.EndsWith(".cs"));
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 ```
+[source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L19-L28)
 <!-- endsnippet -->
 
 
@@ -189,6 +191,7 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
     var usedSnippets = result.UsedSnippets;
 }
 ```
+[source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L34-L55)
 <!-- endsnippet -->
 
 
@@ -281,6 +284,7 @@ var snippetExtractor = FileSnippetExtractor.Build(
     isCurrent: true);
 var snippets = snippetExtractor.Read(files);
 ```
+[source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L12-L21)
 <!-- endsnippet -->
 
 
@@ -337,6 +341,7 @@ var snippetsForPackage1 = package1.Snippets;
 //  * components.AllSnippets
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 ```
+[source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L27-L77)
 <!-- endsnippet -->
 
 
@@ -365,6 +370,7 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
     var usedSnippets = result.UsedSnippets;
 }
 ```
+[source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L83-L105)
 <!-- endsnippet -->
 
 
