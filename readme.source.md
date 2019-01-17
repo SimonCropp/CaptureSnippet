@@ -27,7 +27,7 @@ For example
 
 <pre>
 Some blurb about the below snippet
-snippet: MySnippetName
+snippet&#58; MySnippetName
 </pre>
 
 The resulting markdown will be will be:
