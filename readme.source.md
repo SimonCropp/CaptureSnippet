@@ -270,7 +270,7 @@ The target directory can be defined via one of the following:
 To install use:
 
 ```ps
-dotnet tool install -g GitHubMarkdownSnippets --version 8.0.0-*
+dotnet tool install -g GitHubMarkdownSnippets
 ```
 
 To update use:

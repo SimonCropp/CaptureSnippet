@@ -1,4 +1,3 @@
-version: 1.0.{build}
 image: Visual Studio 2019 Preview
 build_script:
 - ps: >-
