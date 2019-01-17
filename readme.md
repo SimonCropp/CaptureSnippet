@@ -147,7 +147,7 @@ var files = Directory.EnumerateFiles(@"C:\path", "*.cs", SearchOption.AllDirecto
 
 var snippets = FileSnippetExtractor.Read(files);
 ```
-<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L8-L14)</sup>
+<sup>snippet: [view](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L8-L14) | [edit](/edit/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L8)</sup>
 <!-- endsnippet -->
 
 
@@ -163,7 +163,7 @@ var snippetExtractor = new DirectorySnippetExtractor(
     fileFilter: filePath => filePath.EndsWith(".vm") || filePath.EndsWith(".cs"));
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 ```
-<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L18-L28)</sup>
+<sup>snippet: [view](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L18-L28) | [edit](/edit/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L18)</sup>
 <!-- endsnippet -->
 
 
@@ -191,7 +191,7 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
     var usedSnippets = result.UsedSnippets;
 }
 ```
-<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L33-L55)</sup>
+<sup>snippet: [view](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L33-L55) | [edit](/edit/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L33)</sup>
 <!-- endsnippet -->
 
 
@@ -284,7 +284,7 @@ var snippetExtractor = FileSnippetExtractor.Build(
     isCurrent: true);
 var snippets = snippetExtractor.Read(files);
 ```
-<sup>[snippet source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L11-L21)</sup>
+<sup>snippet: [view](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L11-L21) | [edit](/edit/src/CaptureSnippets.Tests/Snippets/Usage.cs#L11)</sup>
 <!-- endsnippet -->
 
 
@@ -341,7 +341,7 @@ var snippetsForPackage1 = package1.Snippets;
 //  * components.AllSnippets
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 ```
-<sup>[snippet source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L26-L77)</sup>
+<sup>snippet: [view](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L26-L77) | [edit](/edit/src/CaptureSnippets.Tests/Snippets/Usage.cs#L26)</sup>
 <!-- endsnippet -->
 
 
@@ -370,7 +370,7 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
     var usedSnippets = result.UsedSnippets;
 }
 ```
-<sup>[snippet source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L82-L105)</sup>
+<sup>snippet: [view](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L82-L105) | [edit](/edit/src/CaptureSnippets.Tests/Snippets/Usage.cs#L82)</sup>
 <!-- endsnippet -->
 
 
