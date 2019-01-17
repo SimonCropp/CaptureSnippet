@@ -4,7 +4,7 @@
     "Language": "cs",
     "Value": "b\r\nc",
     "Error": null,
-    "FileLocation": "path.cs(5-7)",
+    "FileLocation": "path.cs(4-7)",
     "IsInError": false
   },
   {

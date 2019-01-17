@@ -4,7 +4,7 @@
     "Language": "cs",
     "Value": "BeforeWhiteSpace\r\n\r\nAfterWhiteSpace",
     "Error": null,
-    "FileLocation": "path.cs(3-8)",
+    "FileLocation": "path.cs(2-8)",
     "IsInError": false
   }
 ]

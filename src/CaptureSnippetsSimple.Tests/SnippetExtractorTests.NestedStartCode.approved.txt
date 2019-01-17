@@ -4,7 +4,7 @@
     "Language": "cs",
     "Value": "b",
     "Error": null,
-    "FileLocation": "path.cs(5-6)",
+    "FileLocation": "path.cs(4-6)",
     "IsInError": false
   },
   {
@@ -12,7 +12,7 @@
     "Language": "cs",
     "Value": "a\r\nb\r\nc",
     "Error": null,
-    "FileLocation": "path.cs(3-8)",
+    "FileLocation": "path.cs(2-8)",
     "IsInError": false
   }
 ]

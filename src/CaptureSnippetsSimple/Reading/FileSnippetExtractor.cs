@@ -121,7 +121,7 @@ namespace CaptureSnippets
             }
 
             return Snippet.Build(
-                startLine: startRow,
+                startLine: loopState.StartLine,
                 endLine: stringReader.Index,
                 key: loopState.Key,
                 value: value,

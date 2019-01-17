@@ -147,7 +147,7 @@ var files = Directory.EnumerateFiles(@"C:\path", "*.cs", SearchOption.AllDirecto
 
 var snippets = FileSnippetExtractor.Read(files);
 ```
-<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L9-L14)</sup>
+<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L8-L14)</sup>
 <!-- endsnippet -->
 
 
@@ -163,7 +163,7 @@ var snippetExtractor = new DirectorySnippetExtractor(
     fileFilter: filePath => filePath.EndsWith(".vm") || filePath.EndsWith(".cs"));
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 ```
-<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L19-L28)</sup>
+<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L18-L28)</sup>
 <!-- endsnippet -->
 
 
@@ -191,7 +191,7 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
     var usedSnippets = result.UsedSnippets;
 }
 ```
-<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L34-L55)</sup>
+<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L33-L55)</sup>
 <!-- endsnippet -->
 
 
@@ -284,7 +284,7 @@ var snippetExtractor = FileSnippetExtractor.Build(
     isCurrent: true);
 var snippets = snippetExtractor.Read(files);
 ```
-<sup>[snippet source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L12-L21)</sup>
+<sup>[snippet source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L11-L21)</sup>
 <!-- endsnippet -->
 
 
@@ -341,7 +341,7 @@ var snippetsForPackage1 = package1.Snippets;
 //  * components.AllSnippets
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 ```
-<sup>[snippet source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L27-L77)</sup>
+<sup>[snippet source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L26-L77)</sup>
 <!-- endsnippet -->
 
 
@@ -370,7 +370,7 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
     var usedSnippets = result.UsedSnippets;
 }
 ```
-<sup>[snippet source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L83-L105)</sup>
+<sup>[snippet source](/src/CaptureSnippets.Tests/Snippets/Usage.cs#L82-L105)</sup>
 <!-- endsnippet -->
 
 
