@@ -26,8 +26,8 @@ Then snippets with the key (all versions) will be rendered in a tabbed manner. I
 For example
 
 <pre>
-<code>Some blurb about the below snippet
-&lt;!-- snippet MySnippetName --></code>
+Some blurb about the below snippet
+snippet: MySnippetName
 </pre>
 
 The resulting markdown will be will be:
