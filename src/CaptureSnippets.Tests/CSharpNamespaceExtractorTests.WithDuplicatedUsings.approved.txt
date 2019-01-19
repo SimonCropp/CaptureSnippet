@@ -1,16 +1,16 @@
 ﻿[
   {
-    "Key": "usingssection",
-    "Language": "cs",
-    "Package": "package",
-    "Version": "all",
-    "Value": "using System;\r\nusing System.Core;\r\nusing System;",
-    "Includes": [
-      "System",
-      "System.Core"
+    Key: 'usingssection',
+    Language: 'cs',
+    Package: 'package',
+    Version: 'all',
+    Value: 'using System;\r\nusing System.Core;\r\nusing System;',
+    Includes: [
+      'System',
+      'System.Core'
     ],
-    "Error": null,
-    "FileLocation": "path.cs(3-6)",
-    "IsInError": false
+    Error: null,
+    FileLocation: 'path.cs(3-6)',
+    IsInError: false
   }
 ]

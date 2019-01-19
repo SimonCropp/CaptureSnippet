@@ -1,24 +1,24 @@
 ﻿{
-  "MissingSnippets": [],
-  "UsedSnippets": [
+  MissingSnippets: [],
+  UsedSnippets: [
     {
-      "Key": "snippet1",
-      "Language": "cs",
-      "Value": "Snippet",
-      "Error": null,
-      "FileLocation": "thePath(1-2)",
-      "IsInError": false
+      Key: 'snippet1',
+      Language: 'cs',
+      Value: 'Snippet',
+      Error: null,
+      FileLocation: 'thePath(1-2)',
+      IsInError: false
     },
     {
-      "Key": "snippet2",
-      "Language": "cs",
-      "Value": "Snippet",
-      "Error": null,
-      "FileLocation": "thePath(1-2)",
-      "IsInError": false
+      Key: 'snippet2',
+      Language: 'cs',
+      Value: 'Snippet',
+      Error: null,
+      FileLocation: 'thePath(1-2)',
+      IsInError: false
     }
   ],
-  "content": "
+  content: '
 <!-- snippet: snippet1 -->
 ```cs
 Snippet
@@ -35,5 +35,5 @@ Snippet
 
 some other text
 
-"
+'
 }

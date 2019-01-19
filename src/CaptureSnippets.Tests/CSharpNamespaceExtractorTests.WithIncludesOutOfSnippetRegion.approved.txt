@@ -1,16 +1,16 @@
 ﻿[
   {
-    "Key": "testclass",
-    "Language": "cs",
-    "Package": "package",
-    "Version": "all",
-    "Value": "public class Test { }",
-    "Includes": [
-      "System",
-      "System.Core"
+    Key: 'testclass',
+    Language: 'cs',
+    Package: 'package',
+    Version: 'all',
+    Value: 'public class Test { }',
+    Includes: [
+      'System',
+      'System.Core'
     ],
-    "Error": null,
-    "FileLocation": "path.cs(6-7)",
-    "IsInError": false
+    Error: null,
+    FileLocation: 'path.cs(6-7)',
+    IsInError: false
   }
 ]

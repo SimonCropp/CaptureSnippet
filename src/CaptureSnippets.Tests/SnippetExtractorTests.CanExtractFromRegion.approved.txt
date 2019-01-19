@@ -1,13 +1,13 @@
 ﻿[
   {
-    "Key": "codekey",
-    "Language": "cs",
-    "Package": "package",
-    "Version": "all",
-    "Value": "The Code",
-    "Includes": [],
-    "Error": null,
-    "FileLocation": "path.cs(3-4)",
-    "IsInError": false
+    Key: 'codekey',
+    Language: 'cs',
+    Package: 'package',
+    Version: 'all',
+    Value: 'The Code',
+    Includes: [],
+    Error: null,
+    FileLocation: 'path.cs(3-4)',
+    IsInError: false
   }
 ]

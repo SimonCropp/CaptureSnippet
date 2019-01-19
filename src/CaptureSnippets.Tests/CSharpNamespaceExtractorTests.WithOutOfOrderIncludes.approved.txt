@@ -1,17 +1,17 @@
 ﻿[
   {
-    "Key": "testclass",
-    "Language": "cs",
-    "Package": "package",
-    "Version": "all",
-    "Value": "public class Test { }",
-    "Includes": [
-      "System",
-      "System.Core",
-      "System.Xml.Linq"
+    Key: 'testclass',
+    Language: 'cs',
+    Package: 'package',
+    Version: 'all',
+    Value: 'public class Test { }',
+    Includes: [
+      'System',
+      'System.Core',
+      'System.Xml.Linq'
     ],
-    "Error": null,
-    "FileLocation": "path.cs(7-8)",
-    "IsInError": false
+    Error: null,
+    FileLocation: 'path.cs(7-8)',
+    IsInError: false
   }
 ]
