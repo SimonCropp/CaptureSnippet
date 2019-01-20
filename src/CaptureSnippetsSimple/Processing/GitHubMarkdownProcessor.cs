@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace CaptureSnippets
 {
@@ -24,9 +25,16 @@ namespace CaptureSnippets
             }
         }
 
+        public static void RunForFilePath([CallerFilePath] string sourceFilePath = "")
+        {
+            Guard.FileExists(sourceFilePath, nameof(sourceFilePath));
+            var root = GitRepoDirectoryFinder.FindForFilePath(sourceFilePath);
+            Run(root);
+        }
+
         public static void Run(string targetDirectory)
         {
-            Guard.AgainstNullAndEmpty(targetDirectory, nameof(targetDirectory));
+            Guard.DirectoryExists(targetDirectory, nameof(targetDirectory));
             var snippetFileFinder = new FileFinder();
             var findFiles = snippetFileFinder.FindFiles(targetDirectory);
             Run(targetDirectory, findFiles);

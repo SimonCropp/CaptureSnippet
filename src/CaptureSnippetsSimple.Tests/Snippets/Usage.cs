@@ -13,6 +13,22 @@ class Usage
 
         #endregion
     }
+
+    void RunForFilePath()
+    {
+        #region GitHubMarkdownProcessorRunForFilePath
+
+        GitHubMarkdownProcessor.RunForFilePath();
+
+        #endregion
+
+        #region GitHubMarkdownProcessorRun
+
+        GitHubMarkdownProcessor.Run("targetDirectory");
+
+        #endregion
+    }
+
     void ReadingDirectory()
     {
         #region ReadingDirectorySimple

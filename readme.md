@@ -159,7 +159,7 @@ var snippetExtractor = new DirectorySnippetExtractor(
     fileFilter: filePath => filePath.EndsWith(".vm") || filePath.EndsWith(".cs"));
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 ```
-<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L18-L28)</sup>
+<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L34-L44)</sup>
 <!-- endsnippet -->
 
 
@@ -187,7 +187,7 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
     var usedSnippets = result.UsedSnippets;
 }
 ```
-<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L33-L55)</sup>
+<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L49-L71)</sup>
 <!-- endsnippet -->
 
 
@@ -374,6 +374,7 @@ using (var writer = File.CreateText(@"C:\path\outputMarkdownFile.md"))
 
 A [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) for merging snippets into GitHub markdown document.
 
+
 ### Target directory
 
 The target directory can be defined via one of the following:
@@ -409,6 +410,7 @@ To uninstall use:
 dotnet tool uninstall -g GitHubMarkdownSnippets
 ```
 
+
 ### Usage
 
 For running in the current directory:
@@ -422,6 +424,28 @@ For running against a target directory:
 ```ps
 mdsnippets C:\Code\TheTargetDirectory
 ```
+
+### Running as a unit test
+
+The above functionality can also be achieved via a unit test via using the [CaptureSnippetsSimple](#CaptureSnippetsSimple) nuget.
+
+For the git repository containing the unit test file:
+
+<!-- snippet: GitHubMarkdownProcessorRunForFilePath -->
+```cs
+GitHubMarkdownProcessor.RunForFilePath();
+```
+<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L19-L23)</sup>
+<!-- endsnippet -->
+
+For a specific directory:
+
+<!-- snippet: GitHubMarkdownProcessorRun -->
+```cs
+GitHubMarkdownProcessor.Run("targetDirectory");
+```
+<sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L25-L29)</sup>
+<!-- endsnippet -->
 
 
 ## Icon

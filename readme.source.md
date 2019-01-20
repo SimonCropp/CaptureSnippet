@@ -246,6 +246,7 @@ snippet: markdownProcessing
 
 A [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) for merging snippets into GitHub markdown document.
 
+
 ### Target directory
 
 The target directory can be defined via one of the following:
@@ -281,6 +282,7 @@ To uninstall use:
 dotnet tool uninstall -g GitHubMarkdownSnippets
 ```
 
+
 ### Usage
 
 For running in the current directory:
@@ -294,6 +296,18 @@ For running against a target directory:
 ```ps
 mdsnippets C:\Code\TheTargetDirectory
 ```
+
+### Running as a unit test
+
+The above functionality can also be achieved via a unit test via using the [CaptureSnippetsSimple](#CaptureSnippetsSimple) nuget.
+
+For the git repository containing the unit test file:
+
+snippet: GitHubMarkdownProcessorRunForFilePath
+
+For a specific directory:
+
+snippet: GitHubMarkdownProcessorRun
 
 
 ## Icon
