@@ -35,24 +35,24 @@ namespace CaptureSnippets
         public static void Run(string targetDirectory)
         {
             Guard.DirectoryExists(targetDirectory, nameof(targetDirectory));
-            var snippetFileFinder = new FileFinder();
-            var findFiles = snippetFileFinder.FindFiles(targetDirectory);
+            var finder = new FileFinder();
+            var findFiles = finder.FindFiles(targetDirectory);
             Run(targetDirectory, findFiles);
         }
 
         internal static void Run(string targetDirectory, List<string> snippetSourceFiles)
         {
             log($"Searching {snippetSourceFiles.Count} files for snippets");
-            var sourceMdFileFinder = new FileFinder(path => true, IsSourceMd);
+            var finder = new FileFinder(path => true, IsSourceMd);
             var snippets = FileSnippetExtractor.Read(snippetSourceFiles).ToList();
             log($"Found {snippets.Count} snippets");
-            var markdownHandling = new GitHubSnippetMarkdownHandling(targetDirectory);
-            var markdownProcessor = new MarkdownProcessor(snippets, markdownHandling.AppendGroup);
-            var sourceFiles = sourceMdFileFinder.FindFiles(targetDirectory);
+            var handling = new GitHubSnippetMarkdownHandling(targetDirectory);
+            var processor = new MarkdownProcessor(snippets, handling.AppendGroup);
+            var sourceFiles = finder.FindFiles(targetDirectory);
             log($"Found {sourceFiles.Count} .source.md files");
             foreach (var sourceFile in sourceFiles)
             {
-                ProcessFile(sourceFile, markdownProcessor);
+                ProcessFile(sourceFile, processor);
             }
         }
 
