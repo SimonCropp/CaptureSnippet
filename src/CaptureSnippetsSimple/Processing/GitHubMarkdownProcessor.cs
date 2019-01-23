@@ -43,14 +43,14 @@ namespace CaptureSnippets
         internal static void Run(string targetDirectory, List<string> snippetSourceFiles)
         {
             log($"Searching {snippetSourceFiles.Count} files for snippets");
-            var finder = new FileFinder(path => true, IsSourceMd);
+            var mdFinder = new FileFinder(path => true, IsSourceMd);
             var snippets = FileSnippetExtractor.Read(snippetSourceFiles).ToList();
             log($"Found {snippets.Count} snippets");
             var handling = new GitHubSnippetMarkdownHandling(targetDirectory);
             var processor = new MarkdownProcessor(snippets, handling.AppendGroup);
-            var sourceFiles = finder.FindFiles(targetDirectory);
-            log($"Found {sourceFiles.Count} .source.md files");
-            foreach (var sourceFile in sourceFiles)
+            var sourceMdFiles = mdFinder.FindFiles(targetDirectory);
+            log($"Found {sourceMdFiles.Count} .source.md files");
+            foreach (var sourceFile in sourceMdFiles)
             {
                 ProcessFile(sourceFile, processor);
             }
