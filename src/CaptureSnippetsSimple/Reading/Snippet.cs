@@ -51,7 +51,7 @@ namespace CaptureSnippets
         public bool IsInError { get; private set; }
 
         /// <summary>
-        /// The key used to identify the snippet
+        /// The key used to identify the snippet.
         /// </summary>
         public string Key { get; private set; }
 
@@ -76,7 +76,7 @@ namespace CaptureSnippets
         public int EndLine { get; private set; }
 
         /// <summary>
-        /// The <see cref="Path"/>, <see cref="StartLine"/> and <see cref="EndLine"/> concatenated.
+        /// The <see cref="Path"/>, <see cref="StartLine"/>, and <see cref="EndLine"/> concatenated.
         /// </summary>
         public string FileLocation => $"{Path}({StartLine}-{EndLine})";
 
