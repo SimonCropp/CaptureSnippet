@@ -128,6 +128,38 @@ public class SnippetExtractorTests : TestBase
     }
 
     [Fact]
+    public void RemoveDuplicateNewlines()
+    {
+        var input = @"
+
+
+  <!-- startcode KeyParent -->
+
+
+  a
+
+
+  <!-- startcode KeyChild -->
+
+
+  b
+
+
+  <!-- endcode -->
+
+
+  c
+
+
+  <!-- endcode -->
+
+
+";
+        var snippets = FromText(input);
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
+    [Fact]
     public void NestedStartCode()
     {
         var input = @"

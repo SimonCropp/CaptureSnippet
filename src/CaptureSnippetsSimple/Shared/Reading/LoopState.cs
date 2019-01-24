@@ -32,11 +32,22 @@ class LoopState
         }
         else
         {
-            builder.AppendLine();
+            if (newlineCount<2)
+            {
+                builder.AppendLine();
+            }
         }
         var paddingToRemove = line.LastIndexOfSequence(paddingChar, paddingLength);
 
         builder.Append(line, paddingToRemove, line.Length - paddingToRemove);
+        if (line.Length == 0)
+        {
+            newlineCount++;
+        }
+        else
+        {
+            newlineCount = 0;
+        }
     }
 
     void CheckWhiteSpace(string line, char whiteSpace)
@@ -66,4 +77,5 @@ class LoopState
     public string Version;
     public Func<string, bool> EndFunc;
     public int StartLine;
+    int newlineCount=0;
 }
