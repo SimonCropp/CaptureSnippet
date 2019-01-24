@@ -10,6 +10,21 @@ namespace CaptureSnippets
     /// </summary>
     public static class FileSnippetExtractor
     {
+        public static void AppendFileAsSnippet(this IList<Snippet> snippets, string filePath)
+        {
+            Guard.FileExists(filePath, nameof(filePath));
+            AppendFileAsSnippet(snippets, filePath, Path.GetFileName(filePath).ToLowerInvariant());
+        }
+
+        public static void AppendFileAsSnippet(ICollection<Snippet> snippets, string filePath, string key)
+        {
+            Guard.AgainstNull(snippets, nameof(snippets));
+            Guard.FileExists(filePath, nameof(filePath));
+            var text = File.ReadAllText(filePath);
+            var snippet = Snippet.Build(1, text.LineCount(), text, key, GetLanguageFromPath(filePath), filePath);
+            snippets.Add(snippet);
+        }
+
         /// <summary>
         /// Read from a paths.
         /// </summary>

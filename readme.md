@@ -155,8 +155,8 @@ var snippets = FileSnippetExtractor.Read(files);
 var snippetExtractor = new DirectorySnippetExtractor(
     // all directories except bin and obj
     directoryFilter: dirPath => !dirPath.EndsWith("bin") && !dirPath.EndsWith("obj"),
-    // all vm and cs files
-    fileFilter: filePath => filePath.EndsWith(".vm") || filePath.EndsWith(".cs"));
+    // all js and cs files
+    fileFilter: filePath => filePath.EndsWith(".js") || filePath.EndsWith(".cs"));
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 ```
 <sup>[snippet source](/src/CaptureSnippetsSimple.Tests/Snippets/Usage.cs#L34-L44)</sup>
@@ -170,7 +170,7 @@ var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 // setup version convention and extract snippets from files
 var snippetExtractor = new DirectorySnippetExtractor(
     directoryFilter: x => true,
-    fileFilter: s => s.EndsWith(".vm") || s.EndsWith(".cs"));
+    fileFilter: s => s.EndsWith(".js") || s.EndsWith(".cs"));
 var snippets = snippetExtractor.ReadSnippets(@"C:\path");
 
 // Merge with some markdown text

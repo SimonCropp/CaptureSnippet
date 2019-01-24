@@ -1,12 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CaptureSnippets;
+using Newtonsoft.Json;
 using ObjectApproval;
 using Xunit;
 
 public class SnippetExtractorTests : TestBase
 {
+    [Fact]
+    public void AddSnippetToCollection()
+    {
+        var temp = Path.GetTempFileName();
+        try
+        {
+            File.WriteAllText(temp, "Foo");
+            var serializeObject = JsonConvert.SerializeObject("/");
+            var snippets = new List<Snippet>();
+            snippets.AppendFileAsSnippet(temp);
+            ObjectApprover.VerifyWithJson(
+                snippets,
+                scrubber: x =>
+                {
+                    var nameWithoutExtension = Path.GetFileNameWithoutExtension(temp);
+                    return x
+                        .Replace(temp, "FilePath.txt")
+                        .Replace(nameWithoutExtension, "File", StringComparison.OrdinalIgnoreCase);
+                });
+        }
+        finally
+        {
+            File.Delete(temp);
+        }
+    }
+
     [Fact]
     public void WithDodgyEmDash()
     {
