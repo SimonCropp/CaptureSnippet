@@ -84,7 +84,7 @@ namespace CaptureSnippets
         {
             var snippetExtractor = FileSnippetExtractor.BuildShared();
             var packages = ReadSnippets(directory, snippetExtractor).ToList();
-            return new ReadSnippets(directory, packages);
+            return new ReadSnippets(packages);
         }
 
         class PackageVersionCurrent

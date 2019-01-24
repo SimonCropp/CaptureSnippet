@@ -15,20 +15,27 @@ namespace CaptureSnippets
 
         public ReadSnippets ReadSnippets(string directory)
         {
-            var snippets = ReadSnippetsInner(directory).ToList();
-            return new ReadSnippets(directory, snippets);
+            var snippets = fileFinder.FindFiles(directory)
+                .SelectMany(Read)
+                .ToList();
+            return new ReadSnippets(snippets);
         }
 
-        IEnumerable<Snippet> ReadSnippetsInner(string directory)
+        public ReadSnippets ReadSnippets(params string[] directories)
         {
-            return fileFinder.FindFiles(directory)
-                .SelectMany(file =>
-                {
-                    using (var reader = File.OpenText(file))
-                    {
-                        return FileSnippetExtractor.Read(reader, file).ToList();
-                    }
-                });
+            Guard.AgainstNull(directories, nameof(directories));
+            var snippets = fileFinder.FindFiles(directories)
+                .SelectMany(Read)
+                .ToList();
+            return new ReadSnippets(snippets);
+        }
+
+        private static IEnumerable<Snippet> Read(string file)
+        {
+            using (var reader = File.OpenText(file))
+            {
+                return FileSnippetExtractor.Read(reader, file).ToList();
+            }
         }
     }
 }
