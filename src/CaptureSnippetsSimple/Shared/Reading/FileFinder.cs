@@ -72,6 +72,19 @@ namespace CaptureSnippets
             return files;
         }
 
+        public List<string> FindFiles(params string[] directoryPaths)
+        {
+            Guard.AgainstNull(directoryPaths, nameof(directoryPaths));
+            var files = new List<string>();
+            foreach (var directoryPath in directoryPaths)
+            {
+                Guard.DirectoryExists(directoryPath, nameof(directoryPath));
+                FindFiles(directoryPath, files);
+            }
+
+            return files;
+        }
+
         void FindFiles(string directoryPath, List<string> files)
         {
             foreach (var file in Directory.EnumerateFiles(directoryPath)

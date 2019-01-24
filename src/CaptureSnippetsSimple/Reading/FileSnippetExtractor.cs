@@ -10,10 +10,19 @@ namespace CaptureSnippets
     /// </summary>
     public static class FileSnippetExtractor
     {
-        public static void AppendFileAsSnippet(this IList<Snippet> snippets, string filePath)
+        public static void AppendFileAsSnippet(this ICollection<Snippet> snippets, string filePath)
         {
             Guard.FileExists(filePath, nameof(filePath));
             AppendFileAsSnippet(snippets, filePath, Path.GetFileName(filePath).ToLowerInvariant());
+        }
+
+        public static void AppendFilesAsSnippets(this ICollection<Snippet> snippets, params string[] filePaths)
+        {
+            Guard.AgainstNull(filePaths, nameof(filePaths));
+            foreach (var filePath in filePaths)
+            {
+                AppendFileAsSnippet(snippets, filePath);
+            }
         }
 
         public static void AppendFileAsSnippet(ICollection<Snippet> snippets, string filePath, string key)
