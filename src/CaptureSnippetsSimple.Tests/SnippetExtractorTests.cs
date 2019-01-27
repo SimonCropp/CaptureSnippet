@@ -10,7 +10,7 @@ using Xunit;
 public class SnippetExtractorTests : TestBase
 {
     [Fact]
-    public void AddSnippetToCollection()
+    public void AppendFileAsSnippet()
     {
         var temp = Path.GetTempFileName();
         try
