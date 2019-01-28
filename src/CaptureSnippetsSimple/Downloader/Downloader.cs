@@ -28,7 +28,7 @@ static class Downloader
 
     public static async Task<string> DownloadFile(string requestUri)
     {
-        var path = Path.Combine(cache, FileNameFromURL.ConvertToFileName(requestUri));
+        var path = Path.Combine(cache, FileNameFromUrl.ConvertToFileName(requestUri));
 
         if (File.Exists(path))
         {
