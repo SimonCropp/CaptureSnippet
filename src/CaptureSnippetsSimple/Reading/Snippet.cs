@@ -79,7 +79,18 @@ namespace CaptureSnippets
         /// <summary>
         /// The <see cref="Path"/>, <see cref="StartLine"/>, and <see cref="EndLine"/> concatenated.
         /// </summary>
-        public string FileLocation => $"{Path}({StartLine}-{EndLine})";
+        public string FileLocation
+        {
+            get
+            {
+                if (Path != null)
+                {
+                    return $"{Path}({StartLine}-{EndLine})";
+                }
+
+                return null;
+            }
+        }
 
         public string Value
         {

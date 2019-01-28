@@ -31,7 +31,7 @@ namespace CaptureSnippets
             Guard.AgainstNull(snippets, nameof(snippets));
             Guard.AgainstNullAndEmpty(url, nameof(url));
             var text = await Downloader.DownloadFile(url).ConfigureAwait(false);
-            var snippet = Snippet.Build(1, text.LineCount(), text, key, GetLanguageFromPath(url), url);
+            var snippet = Snippet.Build(1, text.LineCount(), text, key, GetLanguageFromPath(url), null);
             snippets.Add(snippet);
         }
 
