@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using CaptureSnippets;
-using Newtonsoft.Json;
 using ObjectApproval;
 using Xunit;
 
 public class SnippetExtractorTests : TestBase
 {
+    [Fact]
+    public async Task AppendUrlAsSnippet()
+    {
+        var snippets = new List<Snippet>();
+        await snippets.AppendUrlAsSnippet("https://raw.githubusercontent.com/SimonCropp/CaptureSnippets/master/src/appveyor.yml");
+        ObjectApprover.VerifyWithJson(snippets);
+    }
+
     [Fact]
     public void AppendFileAsSnippet()
     {
@@ -16,7 +24,6 @@ public class SnippetExtractorTests : TestBase
         try
         {
             File.WriteAllText(temp, "Foo");
-            var serializeObject = JsonConvert.SerializeObject("/");
             var snippets = new List<Snippet>();
             snippets.AppendFileAsSnippet(temp);
             ObjectApprover.VerifyWithJson(

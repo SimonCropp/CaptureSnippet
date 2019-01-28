@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CaptureSnippets
 {
@@ -10,6 +11,30 @@ namespace CaptureSnippets
     /// </summary>
     public static class FileSnippetExtractor
     {
+        public static Task AppendUrlAsSnippet(this ICollection<Snippet> snippets, string url)
+        {
+            Guard.AgainstNullAndEmpty(url, nameof(url));
+            return AppendUrlAsSnippet(snippets, url, Path.GetFileName(url).ToLowerInvariant());
+        }
+
+        public static async Task AppendUrlsAsSnippets(this ICollection<Snippet> snippets, params string[] urls)
+        {
+            Guard.AgainstNull(urls, nameof(urls));
+            foreach (var url in urls)
+            {
+                await AppendUrlAsSnippet(snippets, url).ConfigureAwait(false);
+            }
+        }
+
+        public static async Task AppendUrlAsSnippet(ICollection<Snippet> snippets, string url, string key)
+        {
+            Guard.AgainstNull(snippets, nameof(snippets));
+            Guard.AgainstNullAndEmpty(url, nameof(url));
+            var text = await Downloader.DownloadFile(url).ConfigureAwait(false);
+            var snippet = Snippet.Build(1, text.LineCount(), text, key, GetLanguageFromPath(url), url);
+            snippets.Add(snippet);
+        }
+
         public static void AppendFileAsSnippet(this ICollection<Snippet> snippets, string filePath)
         {
             Guard.FileExists(filePath, nameof(filePath));

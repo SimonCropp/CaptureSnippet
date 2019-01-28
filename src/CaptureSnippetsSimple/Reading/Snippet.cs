@@ -30,6 +30,7 @@ namespace CaptureSnippets
         public static Snippet Build(int startLine, int endLine, string value, string key, string language, string path)
         {
             Guard.AgainstNullAndEmpty(key, nameof(key));
+            Guard.AgainstEmpty(path, nameof(path));
             Guard.AgainstUpperCase(key, nameof(key));
             Guard.AgainstNull(language, nameof(language));
             Guard.AgainstUpperCase(language, nameof(language));
@@ -42,7 +43,7 @@ namespace CaptureSnippets
                 value = value,
                 Key = key,
                 Language = language,
-                Path = path
+                Path = path,
             };
         }
 

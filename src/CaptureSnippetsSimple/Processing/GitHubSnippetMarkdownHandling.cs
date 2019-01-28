@@ -33,8 +33,12 @@ namespace CaptureSnippets
 {snippet.Value}
 ```";
             writer.WriteLine(format);
-            var path = snippet.Path.Replace(@"\", "/").ReplaceCaseless(repositoryRoot,"");
-            writer.WriteLine($"<sup>[snippet source]({path}#L{snippet.StartLine}-L{snippet.EndLine})</sup>");
+
+            if (snippet.Path != null)
+            {
+                var path = snippet.Path.Replace(@"\", "/").ReplaceCaseless(repositoryRoot,"");
+                writer.WriteLine($"<sup>[snippet source]({path}#L{snippet.StartLine}-L{snippet.EndLine})</sup>");
+            }
         }
     }
 }
