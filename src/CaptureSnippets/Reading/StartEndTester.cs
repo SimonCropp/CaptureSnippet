@@ -40,7 +40,7 @@ static class StartEndTester
             return false;
         }
         var substring = line.Substring(8);
-        return TryExtractParts(out key, out version, substring, line);
+        return TryExtractParts(out key, out version, substring, line, false);
     }
 
     internal static bool IsStartCode(string line, out string key, out string version)
@@ -54,10 +54,10 @@ static class StartEndTester
         var startIndex = startCodeIndex + 10;
         var substring = line
             .TrimBackCommentChars(startIndex);
-        return TryExtractParts(out key, out version, substring, line);
+        return TryExtractParts(out key, out version, substring, line, true);
     }
 
-    static bool TryExtractParts(out string key, out string version, string substring, string line)
+    static bool TryExtractParts(out string key, out string version, string substring, string line, bool throwForTooManyParts)
     {
         var split = substring.SplitBySpace();
         if (split.Length == 0)
@@ -77,6 +77,10 @@ static class StartEndTester
             return true;
         }
 
+        if (!throwForTooManyParts)
+        {
+            return false;
+        }
         throw new SnippetReadingException($"Too many parts. Line: '{line}'.");
     }
 }
