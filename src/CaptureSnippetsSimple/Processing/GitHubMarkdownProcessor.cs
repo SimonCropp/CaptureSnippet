@@ -52,11 +52,11 @@ namespace CaptureSnippets
             log($"Found {sourceMdFiles.Count} .source.md files");
             foreach (var sourceFile in sourceMdFiles)
             {
-                ProcessFile(sourceFile, processor);
+                ProcessFile(sourceFile, processor,targetDirectory);
             }
         }
 
-        static void ProcessFile(string sourceFile, MarkdownProcessor markdownProcessor)
+        static void ProcessFile(string sourceFile, MarkdownProcessor markdownProcessor, string targetDirectory)
         {
             log($"Processing {sourceFile}");
             var target = sourceFile.Replace(".source.md", ".md");
@@ -69,7 +69,7 @@ namespace CaptureSnippets
             {
                 writer.WriteLine($@"<!--
 This file was generate by the CaptureSnippets.
-Source File: {sourceFile}
+Source File: {sourceFile.ReplaceCaseless(targetDirectory,"")}
 To change this file edit the source file and then re-run the generation using either the dotnet global tool (https://github.com/SimonCropp/CaptureSnippets#githubmarkdownsnippets) or using the api (https://github.com/SimonCropp/CaptureSnippets#running-as-a-unit-test).
 -->
 ");
