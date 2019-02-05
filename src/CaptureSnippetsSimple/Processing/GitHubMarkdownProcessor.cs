@@ -52,7 +52,7 @@ namespace CaptureSnippets
             log($"Found {sourceMdFiles.Count} .source.md files");
             foreach (var sourceFile in sourceMdFiles)
             {
-                ProcessFile(sourceFile, processor,targetDirectory);
+                ProcessFile(sourceFile, processor, targetDirectory);
             }
         }
 
