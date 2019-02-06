@@ -2,8 +2,6 @@
 
 Extract code snippets from any language to be used when building documentation
 
-**This project is supported by the community via [Patreon sponsorship](https://www.patreon.com/join/simoncropp). If you are using this project to deliver business value or build commercial software it is expected that you will provide support [via Patreon](https://www.patreon.com/join/simoncropp).**
-
 Loosely based on some code from  https://github.com/shiftkey/scribble
 
 
