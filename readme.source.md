@@ -5,6 +5,7 @@ Extract code snippets from any language to be used when building documentation
 Loosely based on some code from  https://github.com/shiftkey/scribble
 
 
+## CaptureSnippetsSimple
 
 This repository previously contained a two variants. Both a complex (CaptureSnippets), and simplified (CaptureSnippetsSimple) variants. CaptureSnippetsSimple has since been moved and renamed to [MarkdownSnippets](https://github.com/SimonCropp/MarkdownSnippets).
 
