@@ -9,15 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		Directory.Build.props = Directory.Build.props
+		..\readme.source.md = ..\readme.source.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippets.Tests", "CaptureSnippets.Tests\CaptureSnippets.Tests.csproj", "{F15A48E4-A945-4FE4-96B2-76DC411A2FD3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple", "CaptureSnippetsSimple\CaptureSnippetsSimple.csproj", "{D791BD27-4C4F-4C6F-B159-537F3FB9820D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureSnippetsSimple.Tests", "CaptureSnippetsSimple.Tests\CaptureSnippetsSimple.Tests.csproj", "{99DE8782-5377-43AA-BB19-F3408CBC2C7C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubMarkdownSnippets", "GitHubMarkdownSnippets\GitHubMarkdownSnippets.csproj", "{66EE57C0-939C-45F3-8C65-70724B6A2E93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{F15A48E4-A945-4FE4-96B2-76DC411A2FD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,18 +28,6 @@ Global
 		{F15A48E4-A945-4FE4-96B2-76DC411A2FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F15A48E4-A945-4FE4-96B2-76DC411A2FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F15A48E4-A945-4FE4-96B2-76DC411A2FD3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D791BD27-4C4F-4C6F-B159-537F3FB9820D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D791BD27-4C4F-4C6F-B159-537F3FB9820D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D791BD27-4C4F-4C6F-B159-537F3FB9820D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D791BD27-4C4F-4C6F-B159-537F3FB9820D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99DE8782-5377-43AA-BB19-F3408CBC2C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99DE8782-5377-43AA-BB19-F3408CBC2C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99DE8782-5377-43AA-BB19-F3408CBC2C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99DE8782-5377-43AA-BB19-F3408CBC2C7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66EE57C0-939C-45F3-8C65-70724B6A2E93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66EE57C0-939C-45F3-8C65-70724B6A2E93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66EE57C0-939C-45F3-8C65-70724B6A2E93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66EE57C0-939C-45F3-8C65-70724B6A2E93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,3 +1,0 @@
-﻿startcode snipPet
-Some code
-endcode

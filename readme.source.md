@@ -5,17 +5,11 @@ Extract code snippets from any language to be used when building documentation
 Loosely based on some code from  https://github.com/shiftkey/scribble
 
 
-## Variants
 
-This project produces two NuGet packages with different levels of features, and associated complexity. [CaptureSnippetsSimple](#CaptureSnippetsSimple) which exposes the core features via a simplified API, and [CaptureSnippets](#CaptureSnippets) which has more features but also has a more complex API. There is also [GitHubMarkdownSnippets](#GitHubMarkdownSnippets), a [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) for merging snippets into GitHub markdown document.
-
-
-## Shared behavior
-
-The below behaviors are shared between both [CaptureSnippetsSimple](#CaptureSnippetsSimple) and [CaptureSnippets](#CaptureSnippets).
+This repository previously contained a two variants. Both a complex (CaptureSnippets), and simplified (CaptureSnippetsSimple) variants. CaptureSnippetsSimple has since been moved and renamed to [MarkdownSnippets](https://github.com/SimonCropp/MarkdownSnippets).
 
 
-### Using Snippets
+## Using Snippets
 
 The keyed snippets can then be used in any documentation `.md` file by adding the text `snippet: KEY`.
 
@@ -36,11 +30,10 @@ The resulting markdown will be will be:
     ```
 
 
+## Defining Snippets
 
-### Defining Snippets
 
-
-#### Using comments
+### Using comments
 
 Any code wrapped in a convention based comment will be picked up. The comment needs to start with `startcode` which is followed by the key. The snippet is then terminated by `endcode`.
 
@@ -51,7 +44,7 @@ My Snippet Code
 ```
 
 
-#### Using regions
+### Using regions
 
 Any code wrapped in a named C# region will be picked up. The name of the region is used as the key.
 
@@ -61,7 +54,8 @@ My Snippet Code
 #endregion
 ```
 
-#### Code indentation
+
+### Code indentation
 
 The code snippets will do smart trimming of snippet indentation.
 
@@ -84,7 +78,7 @@ Line one of the snippet
 The same behavior will apply to leading tabs.
 
 
-#### Do not mix tabs and spaces
+### Do not mix tabs and spaces
 
 If tabs and spaces are mixed there is no way for the snippets to work out what to trim.
 
@@ -109,7 +103,7 @@ Line one of the snippet
 Note none of the tabs have been trimmed.
 
 
-#### Ignore paths
+### Ignore paths
 
 When scanning for snippets the following are ignored:
 
@@ -120,45 +114,14 @@ When scanning for snippets the following are ignored:
 To change these conventions manipulate lists `CaptureSnippets.Exclusions.ExcludedDirectorySuffixes` and `CaptureSnippets.Exclusions.ExcludedFileExtensions`.
 
 
-## CaptureSnippetsSimple
-
-
-### The NuGet package [![NuGet Status](http://img.shields.io/nuget/v/CaptureSnippetsSimple.svg?style=flat)](https://www.nuget.org/packages/CaptureSnippetsSimple/)
-
-https://nuget.org/packages/CaptureSnippetsSimple/
-
-    PM> Install-Package CaptureSnippetsSimple
-
-
-### Api Usage
-
-
-#### Reading snippets from files
-
-snippet: ReadingFilesSimple
-
-
-#### Reading snippets from a directory structure
-
-snippet: ReadingDirectorySimple
-
-
-#### Full Usage
-
-snippet: markdownProcessingSimple
-
-
-## CaptureSnippets
-
-
-### The NuGet package [![NuGet Status](http://img.shields.io/nuget/v/CaptureSnippets.svg?style=flat)](https://www.nuget.org/packages/CaptureSnippets/)
+## The NuGet package [![NuGet Status](http://img.shields.io/nuget/v/CaptureSnippets.svg?style=flat)](https://www.nuget.org/packages/CaptureSnippets/)
 
 https://nuget.org/packages/CaptureSnippets/
 
     PM> Install-Package CaptureSnippets
 
 
-### Data model
+## Data model
 
 Component -> Package -> VersionGroup -> Snippets
 
@@ -168,7 +131,7 @@ The requirement for Component and Package is required due to Package being stron
  * Multiple Packages, that represent different parts of that same logical feature, to be grouped under a Component.
 
 
-### Directory Convention
+## Directory Convention
 
 The directory convention follows the below structure:
 
@@ -189,7 +152,7 @@ So an example directory structure could be as follows:
  * Shared
 
 
-### Versioning
+## Versioning
 
 Snippets are versioned.
 
@@ -198,12 +161,12 @@ Version follows the [NuGet version range syntax](https://docs.nuget.org/create/v
 For more details on NuGet versioning see https://www.nuget.org/packages/NuGet.Versioning/ and https://github.com/NuGet/NuGet.Client.
 
 
-#### Version suffix on package directory
+### Version suffix on package directory
 
 Package directories can be suffixed with a version delimited by an underscore `_`. For example `PackageA_2` contains all snippets for `PackageA` version 2. Version ranges are not supported as package suffixes.
 
 
-#### Version suffix on snippets
+### Version suffix on snippets
 
 Appending a version to the end of a snippet definition as follows.
 
@@ -222,90 +185,22 @@ My Snippet Code
 ```
 
 
-### Api Usage
+## Api Usage
 
 
-#### Reading snippets from files
+### Reading snippets from files
 
 snippet: ReadingFiles
 
 
-#### Reading snippets from a directory structure
+### Reading snippets from a directory structure
 
 snippet: ReadingDirectory
 
 
-#### Full Usage
+### Full Usage
 
 snippet: markdownProcessing
-
-
-## GitHubMarkdownSnippets
-
-A [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) for merging snippets into GitHub markdown document.
-
-
-### Target directory
-
-The target directory can be defined via one of the following:
-
- * Passed in as a single argument; or
- * The current directory is used. Only if it exists with a git repository, that is a directory tree that contains a directory names `.git`.
-
-
-### Behavior
-
- * Recursively scan the [target directory](#target-directory) for alln on [ignored files](#ignore-paths) for snippets.
- * Recursively scan the [target directory](#target-directory) for all `*.source.md` files.
- * Merge the snippets with the `.source.md` to produce `.md` files. So for example `readme.source.md` would be merged with snippets to produce `readme.md`. Note that this process will overwrite any existing `.md` files that have matching `.source.md` pairs.
-
-
-### Installation
-
-To install use:
-
-```ps
-dotnet tool install -g GitHubMarkdownSnippets
-```
-
-To update use:
-
-```ps
-dotnet tool update -g GitHubMarkdownSnippets
-```
-
-To uninstall use:
-
-```ps
-dotnet tool uninstall -g GitHubMarkdownSnippets
-```
-
-
-### Usage
-
-For running in the current directory:
-
-```ps
-mdsnippets
-```
-
-For running against a target directory:
-
-```ps
-mdsnippets C:\Code\TheTargetDirectory
-```
-
-### Running as a unit test
-
-The above functionality can also be achieved via a unit test via using the [CaptureSnippetsSimple](#CaptureSnippetsSimple) nuget.
-
-For the git repository containing the unit test file:
-
-snippet: GitHubMarkdownProcessorRunForFilePath
-
-For a specific directory:
-
-snippet: GitHubMarkdownProcessorRun
 
 
 ## Icon
