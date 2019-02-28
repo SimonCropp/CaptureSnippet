@@ -13,7 +13,7 @@
     <PackageReference Include="ObjectApproval" Version="6.0.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
     <PackageReference Include="Xunit" Version="2.4.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0" />
     <PackageReference Include="NuGet.Versioning" Version="4.9.3" />
     <Reference Include="Microsoft.CSharp" />
     <ProjectReference Include="..\CaptureSnippets\CaptureSnippets.csproj" />
